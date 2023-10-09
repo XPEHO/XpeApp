@@ -2,11 +2,14 @@ package com.xpeho.xpeapp.ui.presentation.page
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -15,12 +18,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xpeho.xpeapp.R
+import com.xpeho.xpeapp.data.DatastorePref
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.enums.InputTextFieldKeyboardType
 import com.xpeho.xpeapp.ui.presentation.componants.*
 import com.xpeho.xpeapp.ui.uiState.WordpressUiState
 import com.xpeho.xpeapp.ui.viewModel.WordpressViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Suppress("UnusedMaterial3ScaffoldPaddingParameter")
 fun LoginPage(
@@ -31,6 +36,9 @@ fun LoginPage(
     var passwordTextField by remember { mutableStateOf("") }
     var errorTextFieldUser by remember { mutableStateOf(false) }
     var errorTextFieldPassword by remember { mutableStateOf(false) }
+
+    val datastorePref = DatastorePref(LocalContext.current)
+
     Scaffold(
         content = {
             Column(
@@ -80,7 +88,8 @@ fun LoginPage(
                             username = usernameTextField,
                             password = passwordTextField,
                         )
-                        vm.onLogin()
+
+                        vm.onLogin(datastorePref)
                     } else {
                         if (usernameTextField.isEmpty()) {
                             errorTextFieldUser = true
@@ -91,7 +100,12 @@ fun LoginPage(
                     }
                 }
                 when (vm.wordpressState) {
-                    is WordpressUiState.LOADING -> AppLoader()
+                    // A comprendre pourquoi le apploader ne s'affiche pas
+                    is WordpressUiState.LOADING -> AlertDialog(
+                        onDismissRequest = { /*TODO*/ }
+                    ) {
+                        AppLoader()
+                    }
                     is WordpressUiState.SUCCESS -> onLoginSuccess()
                     is WordpressUiState.ERROR -> {
                         ErrorDialog(

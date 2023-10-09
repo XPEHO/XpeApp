@@ -12,6 +12,7 @@ _Feat_
 - [Issue #3](https://github.com/XPEHO/XpeApp/issues/3) Add the Wordpress authentification
 - [Issue #6](https://github.com/XPEHO/XpeApp/issues/6) Init the disconnection dialog
 - [Issue #35](https://github.com/XPEHO/XpeApp/issues/35) Add the Firebase authentification
+- [Issue #7](https://github.com/XPEHO/XpeApp/issues/7) Display notifications whe newsletter is created
 
 _Fix_
 

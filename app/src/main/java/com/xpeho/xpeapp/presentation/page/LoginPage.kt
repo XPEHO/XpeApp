@@ -3,8 +3,11 @@ package com.xpeho.xpeapp.presentation.page
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Scaffold
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,7 +21,10 @@ import com.xpeho.xpeapp.presentation.componants.InputTextField
 import com.xpeho.xpeapp.presentation.componants.InputTextFieldKeyboardType
 
 @Composable
-fun LoginPage() {
+fun LoginPage(
+    onClick: () -> Unit,
+) {
+
     Scaffold(
         content = {
             Column(
@@ -49,7 +55,7 @@ fun LoginPage() {
                     backgroundColor = colorResource(id = R.color.colorPrimary),
                     textColor = Color.Black,
                 ) {
-                    Log.d(TAG, "LoginPage: Button Clicked")
+                    onClick()
                 }
             }
         }

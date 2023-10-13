@@ -1,10 +1,10 @@
 package com.xpeho.xpeapp.presentation.componants
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,9 +23,9 @@ fun ButtonElevated(
     onPressed: () -> Unit,
 ) {
     Button(
-        onClick = {},
-        colors = androidx.compose.material.ButtonDefaults.buttonColors(
-            backgroundColor = backgroundColor,
+        onClick = onPressed,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = backgroundColor,
         ),
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -38,8 +38,7 @@ fun ButtonElevated(
             modifier = Modifier
                 .offset(x = 0.dp, y = 0.dp)
                 .height(52.dp)
-                .fillMaxWidth()
-                .padding(16.dp),
+                .fillMaxWidth(),
             contentAlignment = Alignment.Center,
             content = {
                 Text(

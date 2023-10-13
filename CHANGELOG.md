@@ -1,3 +1,10 @@
+## 0.1.0
+
+_Feat_
+
+- Upgrade Material version to Material 3
+- [Issue #4](https://github.com/XPEHO/XpeApp/issues/4) Add the home page
+
 ## 0.0.1
 
 _Feat_

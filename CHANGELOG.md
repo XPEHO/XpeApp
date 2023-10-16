@@ -9,6 +9,7 @@ _Feat_
 - [Issue #13](https://github.com/XPEHO/XpeApp/issues/13) Add the colleagues page
 - [Issue #18](https://github.com/XPEHO/XpeApp/issues/18) Add the feature flipping
 - [Issue #20](https://github.com/XPEHO/XpeApp/issues/20) Add the newsletter detail page
+- [Issue #3](https://github.com/XPEHO/XpeApp/issues/3) Add the Wordpress authentification
 
 _Fix_
 

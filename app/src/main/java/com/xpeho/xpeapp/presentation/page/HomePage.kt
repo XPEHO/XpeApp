@@ -39,11 +39,6 @@ fun HomePage(
                 .padding(32.dp),
             verticalArrangement = Arrangement.Center,
         ) {
-            Card(
-                imageResource = R.drawable.newsletters,
-                title = "Newsletters",
-                color = colorResource(id = R.color.xpeho_color)
-            )
             LazyVerticalGrid(
                 verticalArrangement = Arrangement.spacedBy(20.dp),
                 horizontalArrangement = Arrangement.spacedBy(20.dp),
@@ -53,11 +48,13 @@ fun HomePage(
                 ),
                 columns = GridCells.Fixed(2),
                 content = {
-                    items(Resources().listOfMenu.dropWhile { it.idImage == R.drawable.newsletters }) { resource ->
+                    items(Resources().listOfMenu) { resource ->
                         Card(
+                            mode = resource.mode,
                             imageResource = resource.idImage,
                             title = resource.title,
                             color = setColor(resource.idImage),
+                            subTitle = resource.subTitle,
                         )
                     }
                 }
@@ -67,9 +64,9 @@ fun HomePage(
 }
 
 @Composable
-private fun setColor(idImage: Int): Color? {
-    return if (idImage == R.drawable.expense_report || idImage == R.drawable.colleagues) {
-        colorResource(id = R.color.xpeho_color)
+private fun setColor(idImage: Int): ColorFilter? {
+    return if (idImage == R.drawable.expense_report || idImage == R.drawable.colleagues || idImage == R.drawable.newsletters) {
+        ColorFilter.tint(colorResource(id = R.color.xpeho_color))
     } else {
         null
     }

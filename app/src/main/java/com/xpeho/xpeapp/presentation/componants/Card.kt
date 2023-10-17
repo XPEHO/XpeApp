@@ -2,7 +2,6 @@ package com.xpeho.xpeapp.presentation.componants
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -11,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
@@ -25,11 +23,18 @@ import androidx.compose.ui.unit.sp
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.ui.theme.SfPro
 
+enum class CardMode {
+    ICON_AND_TITLE,
+    TITLE_AND_SUBTITLE,
+}
+
 @Composable
 fun Card(
-    imageResource: Int,
+    mode: CardMode,
+    imageResource: Int?,
     title: String,
-    color: Color?,
+    subTitle: String?,
+    color: ColorFilter?,
 ) {
     Box(
         modifier = Modifier
@@ -49,28 +54,56 @@ fun Card(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Image(
-                painter = painterResource(id = imageResource),
-                contentDescription = null,
-                modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp),
-                colorFilter = color?.let {
-                    ColorFilter.tint(it)
-                },
-            )
-            Text(
-                text = title,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.W400,
-                fontFamily = SfPro,
-                textAlign = TextAlign.Center,
-                fontStyle = FontStyle.Italic,
-                modifier = Modifier
-                    .padding(
-                        top = 16.dp,
-                    )
-            )
+            if(mode == CardMode.ICON_AND_TITLE && imageResource != null) {
+                Image(
+                    painter = painterResource(id = imageResource),
+                    contentDescription = null,
+                    colorFilter = color,
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(100.dp),
+                )
+            } else {
+                Text(
+                    text = title,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.W400,
+                    fontFamily = SfPro,
+                    textAlign = TextAlign.Center,
+                    fontStyle = FontStyle.Italic,
+                    modifier = Modifier
+                        .padding(
+                            top = 16.dp,
+                        )
+                )
+            }
+            if(mode == CardMode.TITLE_AND_SUBTITLE) {
+                Text(
+                    text = subTitle ?: "",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.W400,
+                    fontFamily = SfPro,
+                    textAlign = TextAlign.Center,
+                    fontStyle = FontStyle.Italic,
+                    modifier = Modifier
+                        .padding(
+                            top = 16.dp,
+                        )
+                )
+            } else {
+                Text(
+                    text = title,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.W400,
+                    fontFamily = SfPro,
+                    textAlign = TextAlign.Center,
+                    fontStyle = FontStyle.Italic,
+                    modifier = Modifier
+                        .padding(
+                            top = 16.dp,
+                        )
+                )
+            }
         }
     }
 }
@@ -79,8 +112,10 @@ fun Card(
 @Composable
 fun CardPreview() {
     Card(
+        mode = CardMode.ICON_AND_TITLE,
         imageResource = R.drawable.expense_report,
         title = "Newsletters",
-        color = colorResource(id = R.color.xpeho_color),
+        color = ColorFilter.tint(colorResource(id = R.color.xpeho_color)),
+        subTitle = null,
     )
 }

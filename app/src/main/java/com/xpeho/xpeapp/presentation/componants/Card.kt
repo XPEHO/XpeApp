@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
@@ -22,7 +23,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import com.xpeho.xpeapp.R
+import com.xpeho.xpeapp.presentation.Screens
 import com.xpeho.xpeapp.ui.theme.SfPro
 
 @Composable
@@ -30,6 +34,7 @@ fun Card(
     imageResource: Int,
     title: String,
     color: Color?,
+    redirection:  () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -40,7 +45,11 @@ fun Card(
             .shadow(
                 elevation = 5.dp,
                 spotColor = Color.Transparent,
-            ),
+            )
+            // on tap gesture
+            .pointerInput(Unit) {
+                redirection()
+            }
     ) {
         Column(
             modifier = Modifier
@@ -82,5 +91,6 @@ fun CardPreview() {
         imageResource = R.drawable.expense_report,
         title = "Newsletters",
         color = colorResource(id = R.color.xpeho_color),
+        redirection = {},
     )
 }

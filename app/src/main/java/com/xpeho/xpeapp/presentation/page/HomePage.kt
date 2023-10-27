@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.presentation.Resources
 import com.xpeho.xpeapp.presentation.componants.AppBar
@@ -23,11 +24,13 @@ import com.xpeho.xpeapp.presentation.componants.Card
 @Composable
 fun HomePage(
     onBackPressed: () -> Unit,
+    navigationController : NavController,
 ) {
     Scaffold(
         topBar = {
             AppBar(
-                imageVector = Icons.AutoMirrored.Filled.Logout
+                imageVector = Icons.AutoMirrored.Filled.Logout,
+                title = null,
             ) {
                 onBackPressed()
             }
@@ -42,7 +45,10 @@ fun HomePage(
             Card(
                 imageResource = R.drawable.newsletters,
                 title = "Newsletters",
-                color = colorResource(id = R.color.xpeho_color)
+                color = colorResource(id = R.color.xpeho_color),
+                redirection = {
+                    navigationController.navigate(route = "Newsletters")
+                },
             )
             LazyVerticalGrid(
                 verticalArrangement = Arrangement.spacedBy(20.dp),
@@ -58,6 +64,9 @@ fun HomePage(
                             imageResource = resource.idImage,
                             title = resource.title,
                             color = setColor(resource.idImage),
+                            redirection = {
+                                navigationController.navigate(route = resource.redirection)
+                            },
                         )
                     }
                 }

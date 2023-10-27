@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#FF936B</color>
     <color name="xpeho_color">#B2D237</color>
+    <color name="xpeho_background_color">#D9D9D9</color>
 </resources>

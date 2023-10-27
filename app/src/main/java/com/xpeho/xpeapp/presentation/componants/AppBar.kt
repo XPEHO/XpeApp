@@ -19,6 +19,7 @@ import com.xpeho.xpeapp.ui.theme.SfPro
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(
+    title: String?,
     imageVector: ImageVector?,
     onTapBack: () -> Unit,
 ) {
@@ -27,7 +28,7 @@ fun AppBar(
             .fillMaxWidth(),
         title = {
             Text(
-                text = stringResource(id = R.string.app_name),
+                text = title ?: stringResource(id = R.string.app_name),
                 textAlign = TextAlign.Center,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.W400,
@@ -53,6 +54,7 @@ fun AppBar(
 fun AppBarPreview() {
     AppBar(
         imageVector = null,
-        onTapBack = {}
+        onTapBack = {},
+        title = null,
     )
 }

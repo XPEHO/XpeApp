@@ -81,10 +81,8 @@ class WordpressViewModel : ViewModel() {
     }
 
     fun logout() {
-        viewModelScope.launch {
-            token = null
-            wordpressState = WordpressUiState.EMPTY
-        }
+        token = null
+        wordpressState = WordpressUiState.EMPTY
     }
 
     private fun getErrorMessage(error: String?): String {

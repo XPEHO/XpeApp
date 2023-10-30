@@ -10,6 +10,7 @@ _Feat_
 - [Issue #18](https://github.com/XPEHO/XpeApp/issues/18) Add the feature flipping
 - [Issue #20](https://github.com/XPEHO/XpeApp/issues/20) Add the newsletter detail page
 - [Issue #3](https://github.com/XPEHO/XpeApp/issues/3) Add the Wordpress authentification
+- [Issue #6](https://github.com/XPEHO/XpeApp/issues/6) Init the disconnection dialog
 
 _Fix_
 

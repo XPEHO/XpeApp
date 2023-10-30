@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.xpeho.xpeapp.presentation.componants.ButtonElevated
+import com.xpeho.xpeapp.presentation.page.ColleaguePage
 import com.xpeho.xpeapp.presentation.page.HomePage
 import com.xpeho.xpeapp.presentation.page.LoginPage
 import com.xpeho.xpeapp.presentation.page.NewsletterPage
@@ -29,6 +30,7 @@ enum class Screens {
     Newsletters,
     NewsletterDetail,
     Vacation,
+    Colleague,
 }
 
 @Composable
@@ -62,6 +64,7 @@ fun Home(
                     text = "Recharger la page",
                     backgroundColor = colorResource(id = com.xpeho.xpeapp.R.color.xpeho_color),
                     textColor = Color.White,
+                    icon = null,
                 ) {
                     viewModel.getFeatureFlipping()
                 }
@@ -105,6 +108,11 @@ fun Home(
                 }
                 composable(route = Screens.Vacation.name) {
                     VacationPage {
+                        navigationController.navigateUp()
+                    }
+                }
+                composable(route = Screens.Colleague.name) {
+                    ColleaguePage {
                         navigationController.navigateUp()
                     }
                 }

@@ -13,4 +13,9 @@
     <string name="newsletter_detail_title">Détail de la newsletter</string>
     <string name="newsletter_detail_summary_title">Sommaire de la newsletter</string>
     <string name="newsletter_detail_open_newsletter">Ouvrir la newsletter</string>
+    <string name="colleague_title">Mes collègues</string>
+    <string name="happy_birthday_to">Joyeux anniversaire %s !</string>
+    <string name="colleague_phone_book">Annuaire</string>
+    <string name="colleague_birthday_list">La liste des anniversaires</string>
+    <string name="colleague_vacation">Les personnes en congés</string>
 </resources>

@@ -38,7 +38,7 @@ class Resources {
             Menu(
                 idImage = R.drawable.colleagues,
                 title = "Mes collègues",
-                redirection = "",
+                redirection = Screens.Colleague.name,
                 featureFlippingId = FeatureFlippingEnum.colleagues,
             ),
         )

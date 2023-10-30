@@ -5,6 +5,8 @@ _Feat_
 - Upgrade Material version to Material 3
 - [Issue #4](https://github.com/XPEHO/XpeApp/issues/4) Add the home page
 - [Issue #16](https://github.com/XPEHO/XpeApp/issues/16) Add the newsletters page
+- [Issue #12](https://github.com/XPEHO/XpeApp/issues/12) Add the vacation page
+- [Issue #13](https://github.com/XPEHO/XpeApp/issues/13) Add the colleagues page
 
 ## 0.0.1
 

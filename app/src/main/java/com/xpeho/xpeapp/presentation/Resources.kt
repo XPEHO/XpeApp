@@ -13,7 +13,7 @@ class Resources {
             Menu(
                 idImage = R.drawable.newsletters,
                 title = "Newsletters",
-                redirection = ""
+                redirection = Screens.Newsletters.name,
             ),
             Menu(
                 idImage = R.drawable.cra,

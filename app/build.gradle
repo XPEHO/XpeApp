@@ -57,14 +57,15 @@ dependencies {
     implementation 'androidx.compose.material3:material3:1.1.2'
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout-compose:1.0.1'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.9.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
-    implementation "androidx.compose.material:material-icons-core:1.6.0-alpha07"
-    implementation "androidx.compose.material:material-icons-extended:1.6.0-alpha07"
+    implementation "androidx.compose.material:material-icons-core:1.6.0-alpha08"
+    implementation "androidx.compose.material:material-icons-extended:1.6.0-alpha08"
 
     // Import the BoM for the Firebase platform
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))

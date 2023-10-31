@@ -8,4 +8,6 @@
     <string name="vacation_title_app_bar">Congés payés</string>
     <string name="vacation_remaining_days">Jours restants : %s jour(s)</string>
     <string name="vacation_my_request_title">Mes demandes</string>
+    <string name="newsletters_page_title">Newsletters</string>
+    <string name="newsletter_card_date">Newsletter du %s</string>
 </resources>

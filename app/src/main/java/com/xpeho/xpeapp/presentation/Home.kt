@@ -6,11 +6,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.xpeho.xpeapp.presentation.page.HomePage
 import com.xpeho.xpeapp.presentation.page.LoginPage
+import com.xpeho.xpeapp.presentation.page.NewsletterPage
 import com.xpeho.xpeapp.presentation.page.VacationPage
 
 enum class Screens {
     Login,
     Home,
+    Newsletters,
     Vacation,
 }
 
@@ -34,6 +36,11 @@ fun Home() {
                     navigationController.navigateUp()
                 }
             )
+        }
+        composable(route = Screens.Newsletters.name) {
+            NewsletterPage {
+                navigationController.navigateUp()
+            }
         }
         composable(route = Screens.Vacation.name) {
             VacationPage {

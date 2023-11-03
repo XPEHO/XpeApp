@@ -1,6 +1,7 @@
 package com.xpeho.xpeapp.presentation
 
 import com.xpeho.xpeapp.R
+import com.xpeho.xpeapp.data.FeatureFlippingEnum
 import com.xpeho.xpeapp.data.model.RequestLeave
 import com.xpeho.xpeapp.data.model.RequestLeaveDetail
 import com.xpeho.xpeapp.data.model.RequestLeaveStatus
@@ -14,26 +15,31 @@ class Resources {
                 idImage = R.drawable.newsletters,
                 title = "Newsletters",
                 redirection = Screens.Newsletters.name,
+                featureFlippingId = FeatureFlippingEnum.newsletters,
             ),
             Menu(
                 idImage = R.drawable.cra,
                 title = "CRA",
-                redirection = ""
+                redirection = "",
+                featureFlippingId = FeatureFlippingEnum.cra,
             ),
             Menu(
                 idImage = R.drawable.vacation,
                 title = "Congés",
                 redirection = Screens.Vacation.name,
+                featureFlippingId = FeatureFlippingEnum.vacation,
             ),
             Menu(
                 idImage = R.drawable.expense_report,
                 title = "Note de frais",
-                redirection = ""
+                redirection = "",
+                featureFlippingId = FeatureFlippingEnum.expenseReport,
             ),
             Menu(
                 idImage = R.drawable.colleagues,
                 title = "Mes collègues",
-                redirection = ""
+                redirection = "",
+                featureFlippingId = FeatureFlippingEnum.colleagues,
             ),
         )
 
@@ -75,4 +81,5 @@ data class Menu(
     val idImage: Int,
     val title: String,
     val redirection: String,
+    val featureFlippingId : FeatureFlippingEnum,
 )

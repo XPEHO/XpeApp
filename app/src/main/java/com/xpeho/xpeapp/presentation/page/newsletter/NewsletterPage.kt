@@ -1,5 +1,7 @@
 package com.xpeho.xpeapp.presentation.page
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -15,13 +17,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.ActivityNavigatorExtras
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import com.xpeho.xpeapp.R
+import com.xpeho.xpeapp.presentation.Screens
 import com.xpeho.xpeapp.presentation.componants.AppBar
+import com.xpeho.xpeapp.presentation.componants.AppLoader
 import com.xpeho.xpeapp.presentation.componants.newsletter.NewsletterCard
-import com.xpeho.xpeapp.presentation.viewModel.NewsletterViewModel
+import com.xpeho.xpeapp.presentation.viewModel.newsletter.NewsletterViewModel
 
 @Composable
 fun NewsletterPage(
+    navigationController : NavController,
     newsletterViewModel: NewsletterViewModel = viewModel(),
     onBackPressed: () -> Unit,
 ) {
@@ -43,15 +51,22 @@ fun NewsletterPage(
                 .padding(it),
         ) {
             items(newsletters) { newsletter ->
-                NewsletterCard(newsletter = newsletter)
+                Box(
+                    modifier = Modifier
+                        .clickable {
+                            navigationController.navigate(
+                                route = Screens.NewsletterDetail.name + "/${newsletter.id}",
+                            )
+                        }
+                ) {
+                    NewsletterCard(
+                        newsletter = newsletter
+                    )
+                }
             }
         }
         if (loading.value) {
-            Text(text = "Loading")
-            /*CircularProgressIndicator(
-                modifier = Modifier
-                    .size(48.dp),
-            )*/
+            AppLoader()
         }
     }
 }

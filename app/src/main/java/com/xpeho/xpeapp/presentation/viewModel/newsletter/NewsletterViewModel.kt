@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.presentation.viewModel
+package com.xpeho.xpeapp.presentation.viewModel.newsletter
 
 import android.util.Log
 import androidx.compose.runtime.MutableState

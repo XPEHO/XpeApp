@@ -63,14 +63,19 @@ fun HomePage(
                 columns = GridCells.Fixed(2),
                 content = {
                     items(Resources().listOfMenu.dropWhile { it.idImage == R.drawable.newsletters }) { resource ->
-                        Card(
-                            imageResource = resource.idImage,
-                            title = resource.title,
-                            color = setColor(resource.idImage),
-                            redirection = {
-                                navigationController.navigate(route = resource.redirection)
-                            },
-                        )
+                        FeatureFlippingComposable(
+                            viewModel = featureFlippingViewModel,
+                            featureId = resource.featureFlippingId.name,
+                        ) {
+                            Card(
+                                imageResource = resource.idImage,
+                                title = resource.title,
+                                color = setColor(resource.idImage),
+                                redirection = {
+                                    navigationController.navigate(route = resource.redirection)
+                                },
+                            )
+                        }
                     }
                 }
             )

@@ -7,6 +7,16 @@ _Feat_
 - [Issue #16](https://github.com/XPEHO/XpeApp/issues/16) Add the newsletters page
 - [Issue #12](https://github.com/XPEHO/XpeApp/issues/12) Add the vacation page
 - [Issue #13](https://github.com/XPEHO/XpeApp/issues/13) Add the colleagues page
+- [Issue #18](https://github.com/XPEHO/XpeApp/issues/18) Add the feature flipping
+- [Issue #20](https://github.com/XPEHO/XpeApp/issues/20) Add the newsletter detail page
+
+_Fix_
+
+- Add the missing features flipping composables in home page
+
+_Chore_
+
+- Update changelog
 
 ## 0.0.1
 

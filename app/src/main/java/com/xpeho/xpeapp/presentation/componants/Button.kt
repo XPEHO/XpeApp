@@ -1,7 +1,14 @@
 package com.xpeho.xpeapp.presentation.componants
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cake
@@ -19,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xpeho.xpeapp.presentation.animation.pressClickEffect
+import com.xpeho.xpeapp.ui.theme.Orange80
 import com.xpeho.xpeapp.ui.theme.SfPro
 
 @Composable
@@ -47,14 +55,16 @@ fun ButtonElevated(
             modifier = Modifier
                 .fillMaxWidth(),
         ) {
-            if (icon != null) Icon(
-                modifier = Modifier
-                    .width(24.dp)
-                    .height(24.dp),
-                imageVector = icon,
-                contentDescription = null,
-                tint = textColor,
-            )
+            if (icon != null) {
+                Icon(
+                    modifier = Modifier
+                        .width(24.dp)
+                        .height(24.dp),
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = textColor,
+                )
+            }
             if (icon != null) Spacer(modifier = Modifier.width(8.dp))
             Box(
                 modifier = Modifier
@@ -78,8 +88,8 @@ fun ButtonElevated(
 @Composable
 fun ButtonElevatedPreview() {
     ButtonElevated(
-        text = "Annuaire",
-        backgroundColor = Color(0xFFFF9900),
+        text = "Button",
+        backgroundColor = Orange80,
         textColor = Color.Black,
         onPressed = {},
         icon = Icons.Outlined.Cake,

@@ -1,11 +1,18 @@
 package com.xpeho.xpeapp.presentation.page.newsletter.detail
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Icon
@@ -14,12 +21,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -70,7 +76,7 @@ fun NewsletterDetailComponent(newsletter: Newsletter) {
                 oldValue = ",",
                 newValue = "\n",
             ),
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+            textAlign = TextAlign.Center,
             style = androidx.compose.ui.text.TextStyle(
                 color = Color.Black,
                 fontSize = 16.sp,
@@ -90,12 +96,19 @@ fun NewsletterDetailComponent(newsletter: Newsletter) {
                 backgroundColor = colorResource(id = R.color.colorPrimary),
                 textColor = Color.Black,
             ) {
-                val uri = Uri.parse(newsletter.pdfUrl)
-                val intent = Intent(Intent.ACTION_VIEW, uri)
-                openUrlLauncher.launch(intent)
+                openNewsletter(openUrlLauncher, newsletter.pdfUrl)
             }
         }
     }
+}
+
+fun openNewsletter(
+    openUrlLauncher: ManagedActivityResultLauncher<Intent, ActivityResult>,
+    pdfUrl: String
+) {
+    val uri = Uri.parse(pdfUrl)
+    val intent = Intent(Intent.ACTION_VIEW, uri)
+    openUrlLauncher.launch(intent)
 }
 
 @Preview

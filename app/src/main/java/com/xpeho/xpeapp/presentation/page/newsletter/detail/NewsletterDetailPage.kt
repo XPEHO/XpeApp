@@ -14,7 +14,7 @@ import com.xpeho.xpeapp.presentation.viewModel.newsletter.detail.NewsletterDetai
 
 @Composable
 fun NewsletterDetailPage(
-    newsletterViewModel : NewsletterDetailViewModel = viewModel(),
+    newsletterViewModel: NewsletterDetailViewModel = viewModel(),
     newsletterId: String,
     onBackPressed: () -> Unit,
 ) {

@@ -1,21 +1,7 @@
 on: pull_request
+
 name: Control changelog update
 
 jobs:
-  build:
-    name: Check changelog update
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Check changelog has been update
-        id: changelogcheck
-        if: github.base_ref == 'main'
-        run: |
-          echo "base ref is main checking changelog..."
-          git fetch
-          if [ -z "$(git diff --name-only origin/main | grep CHANGELOG.md)" ]; then
-            echo "[FAIL] - Changelog has not been updated"
-            exit 1
-          else
-            echo "[SUCCESS] - Changelog has been updated"
-          fi
+  xpeho_workflows_changelog:
+    uses: XPEHO/Xpeho-Workflows/.github/workflows/changelog.yaml@main

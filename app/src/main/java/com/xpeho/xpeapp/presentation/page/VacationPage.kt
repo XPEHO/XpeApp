@@ -3,6 +3,7 @@ package com.xpeho.xpeapp.presentation.page
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
@@ -41,7 +42,7 @@ fun VacationPage(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {  },
+                onClick = {},
                 containerColor = Color.White,
             ) {
                 Icon(
@@ -53,7 +54,8 @@ fun VacationPage(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(it),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {

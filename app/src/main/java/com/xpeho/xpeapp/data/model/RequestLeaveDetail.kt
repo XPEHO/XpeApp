@@ -18,7 +18,25 @@ enum class RequestLeaveStatus {
 data class RequestLeave(
     val remainingDays: Int,
     val details: Array<RequestLeaveDetail>,
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as RequestLeave
+
+        if (remainingDays != other.remainingDays) return false
+        if (!details.contentEquals(other.details)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = remainingDays
+        result = 31 * result + details.contentHashCode()
+        return result
+    }
+}
 
 data class RequestLeaveDetail(
     val id: Int,

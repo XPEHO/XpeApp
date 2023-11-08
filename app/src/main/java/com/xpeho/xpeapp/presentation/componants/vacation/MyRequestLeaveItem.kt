@@ -1,11 +1,12 @@
 package com.xpeho.xpeapp.presentation.componants.vacation
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,14 +15,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xpeho.xpeapp.data.model.RequestLeaveDetail
 import com.xpeho.xpeapp.data.model.RequestLeaveType
-import com.xpeho.xpeapp.presentation.Resources
-import com.xpeho.xpeapp.ui.theme.SfPro
 import java.time.format.DateTimeFormatter
+
+const val FACTION_BOX_OF_DATE = 0.75f
 
 @Composable
 fun MyRequestLeaveItem(requestLeave: RequestLeaveDetail) {
@@ -49,7 +49,9 @@ fun MyRequestLeaveItem(requestLeave: RequestLeaveDetail) {
         )
         Box(
             modifier = Modifier
-                .fillMaxWidth(0.75f)
+                .fillMaxWidth(
+                    fraction = FACTION_BOX_OF_DATE,
+                )
         ) {
             Text(
                 text = "Du ${dateFormatter.format(requestLeave.startDate)} au ${
@@ -73,19 +75,5 @@ private fun getTitleWithType(type: RequestLeaveType): String {
         RequestLeaveType.UNPAID -> "Sans solde"
         RequestLeaveType.ANTICIPATE -> "Anticipé"
         RequestLeaveType.EXCEPTIONAL -> "Exceptionnel"
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview
-@Composable
-fun MyRequestLeaveItemPreview() {
-    Scaffold(
-        modifier = Modifier
-            .background(color = Color.White)
-    ) {
-        MyRequestLeaveItem(
-            requestLeave = Resources().listOfRequest.first()
-        )
     }
 }

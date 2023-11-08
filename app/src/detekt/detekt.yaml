@@ -1,0 +1,22 @@
+config:
+  excludes: "build/"
+  includes: "**/*.kt"
+
+complexity:
+  CyclomaticComplexMethod:
+    active: true
+    severity: ERROR
+    threshold: 15
+
+style:
+  MaxLineLength:
+    active: true
+    severity: ERROR
+    maxLineLength: 120
+  MagicNumber:
+    active: true
+    severity: ERROR
+
+naming:
+  FunctionNaming:
+    active: false

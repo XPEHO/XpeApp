@@ -1,7 +1,5 @@
 package com.xpeho.xpeapp.presentation.componants.vacation
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -18,7 +16,6 @@ import com.xpeho.xpeapp.data.model.RequestLeaveDetail
 import com.xpeho.xpeapp.presentation.Resources
 import com.xpeho.xpeapp.ui.theme.SfPro
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MyRequestLeaveList(list: Array<RequestLeaveDetail>) {
     Column(

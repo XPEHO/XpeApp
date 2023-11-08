@@ -1,0 +1,11 @@
+on: pull_request
+
+name: Kotlin analysis
+
+jobs:
+  xpeho_workflows_kotlin_analysis:
+    uses: XPEHO/Xpeho-Workflows/.github/workflows/kotlin_analysis.yaml@feat/ci
+    with:
+      JAVA_VERSION: '17'
+      DETEKT_RUN_FOLDER: 'app/src/main/java'
+      DETEKT_FOLDER: 'app/src/detekt'

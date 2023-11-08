@@ -13,10 +13,12 @@ _Feat_
 _Fix_
 
 - Add the missing features flipping composables in home page
+- Remove all problems and warnings from the project from Detekt
 
 _Chore_
 
 - Update changelog
+- [Issue #22](https://github.com/XPEHO/XpeApp/issues/22) Add the CI/CD of Xpeho Workflows
 
 ## 0.0.1
 

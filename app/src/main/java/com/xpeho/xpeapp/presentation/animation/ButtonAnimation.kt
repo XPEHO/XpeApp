@@ -13,12 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import com.xpeho.xpeapp.enums.ButtonState
 
-enum class ButtonState { Pressed, Idle }
+const val ELEVATION_BY_DEFAULT = -20f
 
 fun Modifier.pressClickEffect() = composed {
     var buttonState by remember { mutableStateOf(ButtonState.Idle) }
-    val ty by animateFloatAsState(if (buttonState == ButtonState.Pressed) 0f else -20f)
+    val ty by animateFloatAsState(if (buttonState == ButtonState.Pressed) 0f else ELEVATION_BY_DEFAULT)
 
     this
         .graphicsLayer {

@@ -2,7 +2,6 @@ package com.xpeho.xpeapp.presentation.viewModel
 
 import android.util.Log
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,7 +39,7 @@ class FeatureFlippingViewModel : ViewModel() {
 }
 
 // Get the list of features from Firebase
-suspend fun getFeatureFlippingFromFirebase() : List<FeatureFlipping> {
+suspend fun getFeatureFlippingFromFirebase(): List<FeatureFlipping> {
     try {
         val db = FirebaseFirestore.getInstance()
         val document = db.collection(FEATURE_FLIPPING_COLLECTION)
@@ -50,7 +49,7 @@ suspend fun getFeatureFlippingFromFirebase() : List<FeatureFlipping> {
         val featureFlippingList = mutableListOf<FeatureFlipping>()
         for (doc in document.documents) {
             val featureFlipping = doc.toFeatureFlipping()
-            if(!featureFlippingList.contains(featureFlipping)) {
+            if (!featureFlippingList.contains(featureFlipping)) {
                 featureFlippingList.add(featureFlipping)
             } else {
                 featureFlippingList[featureFlippingList.indexOf(featureFlipping)] = featureFlipping

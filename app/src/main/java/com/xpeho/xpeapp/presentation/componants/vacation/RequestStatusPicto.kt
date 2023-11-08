@@ -11,7 +11,7 @@ import com.xpeho.xpeapp.data.model.RequestLeaveStatus
 
 @Composable
 fun RequestStatusPicto(status: RequestLeaveStatus) {
-    val picto =  when (status) {
+    val picto = when (status) {
         RequestLeaveStatus.PENDING -> R.drawable.in_progress
         RequestLeaveStatus.ACCEPTED -> R.drawable.validated
         RequestLeaveStatus.REFUSED -> R.drawable.refused

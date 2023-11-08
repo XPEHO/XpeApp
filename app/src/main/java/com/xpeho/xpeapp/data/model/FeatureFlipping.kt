@@ -5,7 +5,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 data class FeatureFlipping(
     val id: String,
     val name: String,
-    val description : String,
+    val description: String,
     val enabled: Boolean,
 )
 

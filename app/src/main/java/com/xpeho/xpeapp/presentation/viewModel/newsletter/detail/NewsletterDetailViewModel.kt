@@ -1,5 +1,6 @@
 package com.xpeho.xpeapp.presentation.viewModel.newsletter.detail
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,6 +11,7 @@ import com.xpeho.xpeapp.data.NEWSLETTERS_COLLECTION
 import com.xpeho.xpeapp.data.model.Newsletter
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.io.IOException
 import java.time.ZoneId
 
 class NewsletterDetailViewModel : ViewModel() {
@@ -22,31 +24,42 @@ class NewsletterDetailViewModel : ViewModel() {
         viewModelScope.launch {
             uiState = try {
                 val result = getNewsletterDetailFromFirebase(newsletterId)
-                NewsletterDetailState.SUCCESS(result)
-            } catch (e: Exception) {
+                if (result != null) {
+                    NewsletterDetailState.SUCCESS(result)
+                } else {
+                    NewsletterDetailState.ERROR("Error")
+                }
+            } catch (e: IOException) {
                 NewsletterDetailState.ERROR(e.message ?: "Error")
             }
         }
     }
 }
 
-suspend fun getNewsletterDetailFromFirebase(newsletterId: String): Newsletter {
+suspend fun getNewsletterDetailFromFirebase(newsletterId: String): Newsletter? {
     try {
         val db = FirebaseFirestore.getInstance()
         val result = db.collection(NEWSLETTERS_COLLECTION)
             .document(newsletterId)
             .get()
             .await()
-        val dateTimestamp = (result.data?.get("date") as com.google.firebase.Timestamp).toDate().toInstant()
-        val publicationDateTime = (result.data?.get("publicationDate") as com.google.firebase.Timestamp).toDate().toInstant()
+        val defaultZone = ZoneId.systemDefault()
+        val dateTimestamp = result.data?.get("date") as com.google.firebase.Timestamp
+        val publicationDateTime = result.data?.get("publicationDate")
+            as com.google.firebase.Timestamp
+        val date = dateTimestamp.toDate().toInstant()
+        val publicationDate = publicationDateTime.toDate().toInstant()
         return Newsletter(
             id = result.id,
             summary = result.data?.get("summary").toString(),
-            date = dateTimestamp.atZone(ZoneId.systemDefault()).toLocalDate(),
-            publicationDate = publicationDateTime.atZone(ZoneId.systemDefault()).toLocalDate(),
+            date = date.atZone(defaultZone).toLocalDate(),
+            publicationDate = publicationDate.atZone(defaultZone).toLocalDate(),
             pdfUrl = result.data?.get("pdfUrl").toString(),
         )
-    } catch (e: Exception) {
+    } catch (e: IOException) {
         throw e
+    } catch (e: Exception) {
+        Log.e("getNewsletterDetailFromFirebase", e.message ?: "Error")
+        return null
     }
 }

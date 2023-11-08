@@ -5,7 +5,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cake
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,12 +15,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.ui.theme.SfPro
-
 
 @Composable
 fun HappyBirthdayComponent(
@@ -70,12 +67,3 @@ fun HappyBirthdayComponent(
     }
 }
 
-@Preview
-@Composable
-fun HappyBirthdayComponentPreview() {
-    Scaffold {
-        HappyBirthdayComponent(
-            userToBirthday = "John Doe",
-        )
-    }
-}

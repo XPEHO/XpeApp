@@ -1,6 +1,11 @@
 package com.xpeho.xpeapp.presentation.page
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.List
@@ -19,6 +24,9 @@ import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.presentation.componants.AppBar
 import com.xpeho.xpeapp.presentation.componants.ButtonElevated
 import com.xpeho.xpeapp.presentation.componants.colleague.HappyBirthdayComponent
+import com.xpeho.xpeapp.ui.theme.Blue80
+import com.xpeho.xpeapp.ui.theme.Gray80
+import com.xpeho.xpeapp.ui.theme.Orange80
 
 @Composable
 fun ColleaguePage(
@@ -33,11 +41,11 @@ fun ColleaguePage(
                 onBackPressed()
             }
         }
-    ) {
+    ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(padding),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
@@ -50,7 +58,7 @@ fun ColleaguePage(
             )
             ButtonElevated(
                 text = stringResource(id = R.string.colleague_phone_book),
-                backgroundColor = Color(0xFFFF9900),
+                backgroundColor = Orange80,
                 textColor = Color.Black,
                 onPressed = {},
                 icon = Icons.AutoMirrored.Filled.List
@@ -58,7 +66,7 @@ fun ColleaguePage(
             Spacer(modifier = Modifier.height(16.dp))
             ButtonElevated(
                 text = stringResource(id = R.string.colleague_birthday_list),
-                backgroundColor = Color(0xFF5AA6FF),
+                backgroundColor = Blue80,
                 textColor = Color.Black,
                 onPressed = {},
                 icon = Icons.Outlined.Cake
@@ -66,7 +74,7 @@ fun ColleaguePage(
             Spacer(modifier = Modifier.height(16.dp))
             ButtonElevated(
                 text = stringResource(id = R.string.colleague_vacation),
-                backgroundColor = Color(0xFF7D818C),
+                backgroundColor = Gray80,
                 textColor = Color.White,
                 onPressed = {},
                 icon = ImageVector.vectorResource(id = R.drawable.vacation)

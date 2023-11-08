@@ -18,4 +18,6 @@
     <string name="colleague_phone_book">Annuaire</string>
     <string name="colleague_birthday_list">La liste des anniversaires</string>
     <string name="colleague_vacation">Les personnes en congés</string>
+    <string name="home_page_error">Une erreur est survenue !</string>
+    <string name="home_page_reload">Recharger l\'application</string>
 </resources>

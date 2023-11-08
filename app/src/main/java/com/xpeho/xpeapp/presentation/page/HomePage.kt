@@ -1,7 +1,10 @@
 package com.xpeho.xpeapp.presentation.page
 
-import android.util.Log
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -24,7 +27,7 @@ import com.xpeho.xpeapp.presentation.viewModel.FeatureFlippingViewModel
 @Composable
 fun HomePage(
     onBackPressed: () -> Unit,
-    navigationController : NavController,
+    navigationController: NavController,
     featureFlippingViewModel: FeatureFlippingViewModel,
 ) {
     Column {
@@ -41,7 +44,7 @@ fun HomePage(
             verticalArrangement = Arrangement.Center,
         ) {
             FeatureFlippingComposable(
-                featureId = FeatureFlippingEnum.newsletters.name,
+                featureId = FeatureFlippingEnum.NEWSLETTERS.value,
                 viewModel = featureFlippingViewModel,
             ) {
                 Card(
@@ -65,7 +68,7 @@ fun HomePage(
                     items(Resources().listOfMenu.dropWhile { it.idImage == R.drawable.newsletters }) { resource ->
                         FeatureFlippingComposable(
                             viewModel = featureFlippingViewModel,
-                            featureId = resource.featureFlippingId.name,
+                            featureId = resource.featureFlippingId.value,
                         ) {
                             Card(
                                 imageResource = resource.idImage,

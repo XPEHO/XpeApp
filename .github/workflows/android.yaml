@@ -4,7 +4,7 @@ name: Android CI
 
 jobs:
   xpeho_workflows_android:
-    uses: XPEHO/Xpeho-Workflows/.github/workflows/android.yaml@feat/ci
+    uses: XPEHO/Xpeho-Workflows/.github/workflows/android.yaml@main
     with:
       JAVA_VERSION: '17'
     secrets:

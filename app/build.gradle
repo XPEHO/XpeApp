@@ -60,9 +60,12 @@ dependencies {
     implementation "androidx.compose.material:material-icons-core:1.6.0-alpha08"
     implementation "androidx.compose.material:material-icons-extended:1.6.0-alpha08"
     implementation "androidx.compose.animation:animation-core:$compose_ui_version"
+    implementation 'androidx.test.ext:junit-ktx:1.1.5'
 
     // Test
     testImplementation 'junit:junit:4.13.2'
+    testImplementation "io.mockk:mockk:1.12.0"
+    testImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
 
     // Android Test
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

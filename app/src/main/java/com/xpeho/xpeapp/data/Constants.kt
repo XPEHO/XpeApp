@@ -10,3 +10,5 @@ enum class FeatureFlippingEnum(val value: String) {
     EXPENSE_REPORT("expenseReport"),
     COLLEAGUES("colleagues"),
 }
+
+const val ALPHA_BOX = 0.5f

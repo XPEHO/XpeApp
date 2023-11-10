@@ -1,15 +1,25 @@
 package com.xpeho.xpeapp.presentation.viewModel
 
 import android.util.Log
-import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.xpeho.xpeapp.data.ALPHA_BOX
 import com.xpeho.xpeapp.data.FEATURE_FLIPPING_COLLECTION
 import com.xpeho.xpeapp.data.model.FeatureFlipping
 import com.xpeho.xpeapp.data.model.emptyFeatureFlipping
@@ -66,6 +76,7 @@ suspend fun getFeatureFlippingFromFirebase(): List<FeatureFlipping> {
 fun FeatureFlippingComposable(
     viewModel: FeatureFlippingViewModel,
     featureId: String,
+    redirection: () -> Unit,
     composableAuthorized: @Composable () -> Unit,
 ) {
     // Get the list of features
@@ -76,9 +87,35 @@ fun FeatureFlippingComposable(
 
     if (feature.enabled) {
         // Show the composable
-        composableAuthorized()
+        Box(
+            modifier = Modifier
+                .pointerInput(Unit) {
+                    redirection()
+                }
+        ) {
+            composableAuthorized()
+        }
     } else {
-        // Show a empty container
-        SelectionContainer {}
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Gray)
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(
+                    shape = RoundedCornerShape(16.dp),
+                )
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Gray)
+                    .alpha(ALPHA_BOX)
+            ) {
+                composableAuthorized()
+            }
+        }
     }
 }

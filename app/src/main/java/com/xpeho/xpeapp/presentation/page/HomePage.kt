@@ -46,14 +46,14 @@ fun HomePage(
             FeatureFlippingComposable(
                 featureId = FeatureFlippingEnum.NEWSLETTERS.value,
                 viewModel = featureFlippingViewModel,
+                redirection = {
+                    navigationController.navigate(route = "Newsletters")
+                },
             ) {
                 Card(
                     imageResource = R.drawable.newsletters,
                     title = "Newsletters",
                     color = colorResource(id = R.color.xpeho_color),
-                    redirection = {
-                        navigationController.navigate(route = "Newsletters")
-                    },
                 )
             }
             LazyVerticalGrid(
@@ -69,14 +69,14 @@ fun HomePage(
                         FeatureFlippingComposable(
                             viewModel = featureFlippingViewModel,
                             featureId = resource.featureFlippingId.value,
+                            redirection = {
+                                navigationController.navigate(route = resource.redirection)
+                            },
                         ) {
                             Card(
                                 imageResource = resource.idImage,
                                 title = resource.title,
                                 color = setColor(resource.idImage),
-                                redirection = {
-                                    navigationController.navigate(route = resource.redirection)
-                                },
                             )
                         }
                     }

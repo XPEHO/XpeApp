@@ -65,5 +65,5 @@ suspend fun getNewslettersFromFirebase(): List<Newsletter> {
         Log.d("getNewslettersFromFirebase", "Error getting documents: ", firebaseException)
     }
 
-    return newslettersList
+    return newslettersList.sortedByDescending { it.date }
 }

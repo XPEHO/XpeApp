@@ -15,6 +15,7 @@ _Fix_
 - Add the missing features flipping composables in home page
 - Remove all problems and warnings from the project from Detekt
 - Fix android and kotlin analysis cicd (branch `main`)
+- [Issue #28](https://github.com/XPEHO/XpeApp/issues/28) Fix design of multiples pages
 
 _Chore_
 

@@ -3,7 +3,7 @@
     <string name="xpeho_logo_content">Logo Xpeho</string>
     <string name="login_page_email">Adresse email</string>
     <string name="login_page_password">Mot de passe</string>
-    <string name="login_page_button">Se connecter</string>
+    <string name="login_page_button">SE CONNECTER</string>
     <string name="login_page_google_button">Se connecter avec Google</string>
     <string name="vacation_title_app_bar">Congés payés</string>
     <string name="vacation_remaining_days">Jours restants : %s jour(s)</string>

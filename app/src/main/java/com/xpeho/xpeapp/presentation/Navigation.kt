@@ -3,11 +3,14 @@ package com.xpeho.xpeapp.presentation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.xpeho.xpeapp.data.model.ExpenseReport
 import com.xpeho.xpeapp.enums.Screens
 import com.xpeho.xpeapp.presentation.page.ColleaguePage
 import com.xpeho.xpeapp.presentation.page.HomePage
 import com.xpeho.xpeapp.presentation.page.LoginPage
 import com.xpeho.xpeapp.presentation.page.VacationPage
+import com.xpeho.xpeapp.presentation.page.expenseReport.ExpenseReportDetailPage
+import com.xpeho.xpeapp.presentation.page.expenseReport.ExpenseReportPage
 import com.xpeho.xpeapp.presentation.page.newsletter.NewsletterPage
 import com.xpeho.xpeapp.presentation.page.newsletter.detail.NewsletterDetailPage
 import com.xpeho.xpeapp.presentation.viewModel.FeatureFlippingViewModel
@@ -52,6 +55,22 @@ fun NavGraphBuilder.navigationBuilder(
     }
     composable(route = Screens.Colleague.name) {
         ColleaguePage {
+            navigationController.navigateUp()
+        }
+    }
+    composable(route = Screens.ExpenseReport.name) {
+        ExpenseReportPage(
+            userId = "MqU0gHnEax7d01Iss6Z0",
+            navigator = navigationController,
+        ) {
+            navigationController.navigateUp()
+        }
+    }
+    composable(route = "${Screens.ExpenseReportDetail.name}/{expenseReportId}") {
+        val expenseReportId = it.arguments?.getString("expenseReportId") ?: ""
+        ExpenseReportDetailPage(
+            expenseReportId = expenseReportId,
+        ) {
             navigationController.navigateUp()
         }
     }

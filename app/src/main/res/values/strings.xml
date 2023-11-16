@@ -20,4 +20,9 @@
     <string name="colleague_vacation">Les personnes en congés</string>
     <string name="home_page_error">Une erreur est survenue !</string>
     <string name="home_page_reload">Recharger l\'application</string>
+    <string name="expense_report_title">Mes notes de frais</string>
+    <string name="expense_report_detail_title">Titre : %s</string>
+    <string name="expense_report_detail_proof">"Preuve: "</string>
+    <string name="expense_report_detail_total">Total TTC: %s</string>
+    <string name="expense_report_detail_status">Statut du remboursement :</string>
 </resources>

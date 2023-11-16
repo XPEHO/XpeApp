@@ -36,7 +36,7 @@ class Resources {
             Menu(
                 idImage = R.drawable.expense_report,
                 title = "Note de frais",
-                redirection = "",
+                redirection = Screens.ExpenseReport.name,
                 featureFlippingId = FeatureFlippingEnum.EXPENSE_REPORT,
             ),
             Menu(

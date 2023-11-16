@@ -2,6 +2,7 @@ package com.xpeho.xpeapp.data
 
 const val NEWSLETTERS_COLLECTION = "newsletters"
 const val FEATURE_FLIPPING_COLLECTION = "featureFlipping"
+const val EXPENSE_REPORT_COLLECTION = "expenseReport"
 
 enum class FeatureFlippingEnum(val value: String) {
     NEWSLETTERS("newsletters"),

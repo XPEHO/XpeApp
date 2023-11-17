@@ -11,6 +11,7 @@ _Feat_
 - [Issue #20](https://github.com/XPEHO/XpeApp/issues/20) Add the newsletter detail page
 - [Issue #3](https://github.com/XPEHO/XpeApp/issues/3) Add the Wordpress authentification
 - [Issue #6](https://github.com/XPEHO/XpeApp/issues/6) Init the disconnection dialog
+- [Issue #35](https://github.com/XPEHO/XpeApp/issues/35) Add the Firebase authentification
 
 _Fix_
 

@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
@@ -70,6 +71,7 @@ class WordpressViewModel : ViewModel() {
 
         for (user in users.documents) {
             if (user["email"] == username) {
+                FirebaseAuth.getInstance().signInAnonymously()
                 isAuthorized.value = true
                 break
             } else {
@@ -82,6 +84,7 @@ class WordpressViewModel : ViewModel() {
 
     fun logout() {
         token = null
+        FirebaseAuth.getInstance().signOut()
         wordpressState = WordpressUiState.EMPTY
     }
 

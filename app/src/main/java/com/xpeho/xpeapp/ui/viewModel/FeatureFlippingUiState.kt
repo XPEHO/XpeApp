@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.ui.presentation.viewModel
+package com.xpeho.xpeapp.ui.viewModel
 
 import com.xpeho.xpeapp.data.model.FeatureFlipping
 

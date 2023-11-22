@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.ui.presentation.viewModel
+package com.xpeho.xpeapp.ui.viewModel
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -117,3 +117,4 @@ fun FeatureFlippingComposable(
         }
     }
 }
+

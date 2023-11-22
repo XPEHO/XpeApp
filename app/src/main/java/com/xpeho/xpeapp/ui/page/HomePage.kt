@@ -30,8 +30,8 @@ import com.xpeho.xpeapp.ui.presentation.componants.ButtonElevated
 import com.xpeho.xpeapp.ui.presentation.Resources
 import com.xpeho.xpeapp.ui.presentation.componants.AppBar
 import com.xpeho.xpeapp.ui.presentation.componants.Card
-import com.xpeho.xpeapp.ui.presentation.viewModel.FeatureFlippingComposable
-import com.xpeho.xpeapp.ui.presentation.viewModel.FeatureFlippingViewModel
+import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingComposable
+import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
 import com.xpeho.xpeapp.ui.theme.SfPro
 import com.xpeho.xpeapp.ui.viewModel.WordpressViewModel
 

@@ -1,5 +1,6 @@
 package com.xpeho.xpeapp.ui.viewModel
 
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -15,10 +16,14 @@ import com.xpeho.xpeapp.data.model.WordpressToken
 import com.xpeho.xpeapp.data.service.ErrorResponse
 import com.xpeho.xpeapp.data.service.WordpressAPI
 import com.xpeho.xpeapp.ui.uiState.WordpressUiState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import okhttp3.internal.wait
 import retrofit2.HttpException
 import java.io.IOException
+import kotlin.system.exitProcess
+import kotlin.time.Duration.Companion.seconds
 
 class WordpressViewModel : ViewModel() {
 
@@ -30,6 +35,9 @@ class WordpressViewModel : ViewModel() {
     fun onLogin(datastorePref: DatastorePref) {
         viewModelScope.launch {
             body?.let { authent ->
+                // Show loader
+                wordpressState = WordpressUiState.LOADING
+
                 wordpressState = try {
                     // Connect to Wordpress API
                     val result = WordpressAPI.service.authentification(authent)
@@ -38,6 +46,7 @@ class WordpressViewModel : ViewModel() {
                     FirebaseAuth.getInstance().signInAnonymously().await()
                     // Save the connected boolean in Datastore
                     datastorePref.setIsConnectedLeastOneTime(true)
+
                     // Check if the user is authorized
                     if (checkUserAuthorization(authent.username)) {
                         WordpressUiState.SUCCESS(token = result)

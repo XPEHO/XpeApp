@@ -1,8 +1,7 @@
-package com.xpeho.xpeapp.ui.presentation.page
+package com.xpeho.xpeapp.ui.page
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,11 +21,10 @@ import com.xpeho.xpeapp.data.DatastorePref
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.enums.InputTextFieldKeyboardType
 import com.xpeho.xpeapp.ui.presentation.componants.*
-import com.xpeho.xpeapp.ui.presentation.viewModel.FeatureFlippingViewModel
 import com.xpeho.xpeapp.ui.uiState.WordpressUiState
+import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
 import com.xpeho.xpeapp.ui.viewModel.WordpressViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Suppress("UnusedMaterial3ScaffoldPaddingParameter")
 fun LoginPage(

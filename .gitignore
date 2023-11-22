@@ -307,3 +307,6 @@ Thumbs.db
 
 ### Firebase
 app/google-services.json
+
+### Configuration ###
+app/config

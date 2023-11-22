@@ -21,8 +21,8 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.xpeho.xpeapp.enums.Screens
 import com.xpeho.xpeapp.ui.presentation.componants.AppLoader
 import com.xpeho.xpeapp.ui.presentation.componants.ButtonElevated
-import com.xpeho.xpeapp.ui.presentation.viewModel.FeatureFlippingUiState
-import com.xpeho.xpeapp.ui.presentation.viewModel.FeatureFlippingViewModel
+import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingUiState
+import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
 
 @Composable
 fun Home(

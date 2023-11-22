@@ -18,7 +18,7 @@ import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.enums.Screens
 import com.xpeho.xpeapp.ui.presentation.componants.AppLoader
 import com.xpeho.xpeapp.ui.presentation.componants.newsletter.NewsletterCard
-import com.xpeho.xpeapp.ui.presentation.viewModel.newsletter.NewsletterViewModel
+import com.xpeho.xpeapp.ui.viewModel.newsletter.NewsletterViewModel
 import com.xpeho.xpeapp.ui.presentation.componants.AppBar
 
 @Composable

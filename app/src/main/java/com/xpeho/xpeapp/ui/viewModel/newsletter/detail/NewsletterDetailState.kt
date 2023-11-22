@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.ui.presentation.viewModel.newsletter.detail
+package com.xpeho.xpeapp.ui.viewModel.newsletter.detail
 
 import com.xpeho.xpeapp.data.model.Newsletter
 

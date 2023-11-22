@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.ui.presentation.viewModel.newsletter.detail
+package com.xpeho.xpeapp.ui.viewModel.newsletter.detail
 
 import android.util.Log
 import androidx.compose.runtime.getValue

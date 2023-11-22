@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xpeho.xpeapp.R
-import com.xpeho.xpeapp.ui.presentation.viewModel.newsletter.detail.NewsletterDetailState
-import com.xpeho.xpeapp.ui.presentation.viewModel.newsletter.detail.NewsletterDetailViewModel
+import com.xpeho.xpeapp.ui.viewModel.newsletter.detail.NewsletterDetailState
+import com.xpeho.xpeapp.ui.viewModel.newsletter.detail.NewsletterDetailViewModel
 import com.xpeho.xpeapp.ui.presentation.componants.AppLoader
 import com.xpeho.xpeapp.ui.presentation.componants.ScaffoldTemplate
 

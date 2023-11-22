@@ -35,10 +35,12 @@ fun ButtonElevated(
     backgroundColor: Color,
     textColor: Color,
     icon: ImageVector? = null,
+    isLoading: Boolean = false,
     onPressed: () -> Unit,
 ) {
     Button(
         onClick = onPressed,
+        enabled = !isLoading,
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor,
         ),
@@ -72,13 +74,17 @@ fun ButtonElevated(
                     .height(52.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = text,
-                    color = textColor,
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.W600,
-                    fontFamily = SfPro,
-                )
+                if (isLoading) {
+                    AppLoader()
+                } else {
+                    Text(
+                        text = text,
+                        color = textColor,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.W600,
+                        fontFamily = SfPro,
+                    )
+                }
             }
         }
     }

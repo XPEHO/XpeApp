@@ -20,6 +20,7 @@ _Fix_
 - Remove all problems and warnings from the project from Detekt
 - Fix android and kotlin analysis cicd (branch `main`)
 - [Issue #28](https://github.com/XPEHO/XpeApp/issues/28) Fix design of multiples pages
+- [Issue #38](https://github.com/XPEHO/XpeApp/issues/38) Fix loader which don't display
 
 _Chore_
 

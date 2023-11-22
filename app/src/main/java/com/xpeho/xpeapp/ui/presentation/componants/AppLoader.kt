@@ -7,7 +7,9 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import com.xpeho.xpeapp.R
 
 @Composable
 fun AppLoader() {
@@ -18,7 +20,8 @@ fun AppLoader() {
         CircularProgressIndicator(
             modifier = Modifier
                 .size(48.dp)
-                .align(Alignment.Center)
+                .align(Alignment.Center),
+            color = colorResource(id = R.color.colorPrimary)
         )
     }
 }

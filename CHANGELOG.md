@@ -26,6 +26,7 @@ _Chore_
 
 - Update changelog
 - [Issue #22](https://github.com/XPEHO/XpeApp/issues/22) Add the CI/CD of Xpeho Workflows
+- [Issue #40](https://github.com/XPEHO/XpeApp/issues/40) Update the icon of the app
 
 ## 0.0.1
 

@@ -1,6 +1,7 @@
 package com.xpeho.xpeapp.data.service
 
 import com.google.gson.GsonBuilder
+import com.xpeho.xpeapp.BuildConfig
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.data.model.WordpressToken
 import okhttp3.OkHttpClient
@@ -11,8 +12,7 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-private const val baseUrl = "http://yaki.uat.xpeho.fr:7830/wp-json/api/"
-//                           http://yaki.uat.xpeho.fr:7830/wp-json/api/v1/token
+private const val baseUrl = BuildConfig.BACKEND_URL
 
 private val gson = GsonBuilder()
     .setLenient()

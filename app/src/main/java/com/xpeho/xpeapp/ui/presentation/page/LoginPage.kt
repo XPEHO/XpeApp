@@ -80,6 +80,8 @@ fun LoginPage(
                     text = stringResource(id = R.string.login_page_button),
                     backgroundColor = colorResource(id = R.color.colorPrimary),
                     textColor = Color.Black,
+                    isLoading = vm.wordpressState is WordpressUiState.LOADING
+                            || vm.wordpressState is WordpressUiState.SUCCESS,
                 ) {
                     errorTextFieldUser = false
                     errorTextFieldPassword = false
@@ -100,12 +102,6 @@ fun LoginPage(
                     }
                 }
                 when (vm.wordpressState) {
-                    // A comprendre pourquoi le apploader ne s'affiche pas
-                    is WordpressUiState.LOADING -> AlertDialog(
-                        onDismissRequest = { /*TODO*/ }
-                    ) {
-                        AppLoader()
-                    }
                     is WordpressUiState.SUCCESS -> onLoginSuccess()
                     is WordpressUiState.ERROR -> {
                         ErrorDialog(

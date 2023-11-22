@@ -5,6 +5,20 @@ plugins {
     id "com.google.devtools.ksp"
 }
 
+def getPropertiesFile = { path ->
+    Properties properties = new Properties()
+    properties.load(new FileInputStream(file(path)))
+    return properties
+}
+
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+
+// Initialize a new Properties() object called keystoreProperties.
+val keystoreProperties = Properties()
+
+// Load your keystore.properties file into the keystoreProperties object.
+keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+
 android {
     namespace 'com.xpeho.xpeapp'
     compileSdk 34
@@ -23,9 +37,17 @@ android {
     }
 
     buildTypes {
+        debug {
+            getPropertiesFile('./config/uat.properties').each { p ->
+                buildConfigField 'String', p.key, p.value
+            }
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            getPropertiesFile('./config/prod.properties').each { p ->
+                buildConfigField 'String', p.key, p.value
+            }
         }
     }
     compileOptions {
@@ -44,6 +66,14 @@ android {
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+    signingConfigs {
+        create("config") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
         }
     }
 }

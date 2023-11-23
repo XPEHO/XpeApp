@@ -39,43 +39,11 @@ fun Home(
             Log.d("Home", "Token: $token")
         }
     val navigationController = rememberNavController()
-    viewModel.getFeatureFlipping()
 
-    when (viewModel.uiState) {
-        is FeatureFlippingUiState.LOADING -> AppLoader()
-        is FeatureFlippingUiState.ERROR -> HomeError()
-        is FeatureFlippingUiState.SUCCESS -> {
-            NavHost(
-                navController = navigationController,
-                startDestination = Screens.Login.name,
-            ) {
-                navigationBuilder(navigationController, viewModel)
-            }
-        }
-    }
-}
-
-@Composable
-fun HomeError(
-    viewModel: FeatureFlippingViewModel = viewModel(),
-) {
-    val error = (viewModel.uiState as FeatureFlippingUiState.ERROR).error
-    Log.e("Home", "Error: $error")
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+    NavHost(
+        navController = navigationController,
+        startDestination = Screens.Login.name,
     ) {
-        Text(text = stringResource(id = com.xpeho.xpeapp.R.string.home_page_error))
-        Box(modifier = Modifier.height(16.dp))
-        ButtonElevated(
-            text = stringResource(id = com.xpeho.xpeapp.R.string.home_page_reload),
-            backgroundColor = colorResource(id = com.xpeho.xpeapp.R.color.xpeho_color),
-            textColor = Color.White,
-            icon = null,
-        ) {
-            viewModel.getFeatureFlipping()
-        }
+        navigationBuilder(navigationController, viewModel)
     }
 }

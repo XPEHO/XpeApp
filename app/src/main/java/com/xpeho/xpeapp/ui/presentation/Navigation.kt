@@ -17,7 +17,9 @@ fun NavGraphBuilder.navigationBuilder(
     viewModel: FeatureFlippingViewModel
 ) {
     composable(route = Screens.Login.name) {
-        LoginPage {
+        LoginPage (
+            featureFlippingViewModel = viewModel,
+        ) {
             navigationController.navigate(route = Screens.Home.name)
         }
     }

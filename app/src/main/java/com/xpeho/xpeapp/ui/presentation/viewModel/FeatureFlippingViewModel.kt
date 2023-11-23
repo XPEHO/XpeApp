@@ -35,15 +35,13 @@ class FeatureFlippingViewModel : ViewModel() {
 
     val featuresState = mutableStateOf(listOfFeatureFlipping)
 
-    fun getFeatureFlipping() {
-        viewModelScope.launch {
-            uiState = try {
-                val result = getFeatureFlippingFromFirebase()
-                featuresState.value = result.toMutableList()
-                FeatureFlippingUiState.SUCCESS(result)
-            } catch (firebaseException: FirebaseException) {
-                FeatureFlippingUiState.ERROR(firebaseException.message ?: "")
-            }
+    suspend fun getFeatureFlipping() {
+        uiState = try {
+            val result = getFeatureFlippingFromFirebase()
+            featuresState.value = result.toMutableList()
+            FeatureFlippingUiState.SUCCESS(result)
+        } catch (firebaseException: FirebaseException) {
+            FeatureFlippingUiState.ERROR(firebaseException.message ?: "")
         }
     }
 }

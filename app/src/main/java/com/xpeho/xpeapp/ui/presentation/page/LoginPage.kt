@@ -22,6 +22,7 @@ import com.xpeho.xpeapp.data.DatastorePref
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.enums.InputTextFieldKeyboardType
 import com.xpeho.xpeapp.ui.presentation.componants.*
+import com.xpeho.xpeapp.ui.presentation.viewModel.FeatureFlippingViewModel
 import com.xpeho.xpeapp.ui.uiState.WordpressUiState
 import com.xpeho.xpeapp.ui.viewModel.WordpressViewModel
 
@@ -30,6 +31,7 @@ import com.xpeho.xpeapp.ui.viewModel.WordpressViewModel
 @Suppress("UnusedMaterial3ScaffoldPaddingParameter")
 fun LoginPage(
     vm: WordpressViewModel = viewModel(),
+    featureFlippingViewModel: FeatureFlippingViewModel,
     onLoginSuccess: () -> Unit,
 ) {
     var usernameTextField by remember { mutableStateOf("") }
@@ -91,7 +93,7 @@ fun LoginPage(
                             password = passwordTextField,
                         )
 
-                        vm.onLogin(datastorePref)
+                        vm.onLogin(datastorePref, featureFlippingViewModel)
                     } else {
                         if (usernameTextField.isEmpty()) {
                             errorTextFieldUser = true

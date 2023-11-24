@@ -1,14 +1,11 @@
 package com.xpeho.xpeapp.ui.viewModel
 
 import android.util.Log
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
@@ -18,14 +15,10 @@ import com.xpeho.xpeapp.data.model.WordpressToken
 import com.xpeho.xpeapp.data.service.ErrorResponse
 import com.xpeho.xpeapp.data.service.WordpressAPI
 import com.xpeho.xpeapp.ui.uiState.WordpressUiState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import okhttp3.internal.wait
 import retrofit2.HttpException
 import java.io.IOException
-import kotlin.system.exitProcess
-import kotlin.time.Duration.Companion.seconds
 
 class WordpressViewModel : ViewModel() {
 
@@ -64,7 +57,6 @@ class WordpressViewModel : ViewModel() {
                                 error = "Oups, il y a eu un problème dans le chargement des fonctionnalités"
                             )
                         }
-
                     } else {
                         wordpressState = WordpressUiState.ERROR(
                             error = "Vous n'avez pas les droits pour accéder à cette page"

@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.ui.presentation.page
+package com.xpeho.xpeapp.ui.page
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,9 +21,9 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.xpeho.xpeapp.R
-import com.xpeho.xpeapp.ui.presentation.componants.colleague.HappyBirthdayComponent
-import com.xpeho.xpeapp.ui.presentation.componants.AppBar
-import com.xpeho.xpeapp.ui.presentation.componants.ButtonElevated
+import com.xpeho.xpeapp.ui.componants.AppBar
+import com.xpeho.xpeapp.ui.componants.ButtonElevated
+import com.xpeho.xpeapp.ui.componants.colleague.HappyBirthdayComponent
 import com.xpeho.xpeapp.ui.theme.Blue80
 import com.xpeho.xpeapp.ui.theme.Gray80
 import com.xpeho.xpeapp.ui.theme.Orange80

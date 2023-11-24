@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.ui.presentation.page.newsletter.detail
+package com.xpeho.xpeapp.ui.page.newsletter.detail
 
 import android.content.Intent
 import android.net.Uri
@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.data.model.Newsletter
-import com.xpeho.xpeapp.ui.presentation.componants.ButtonElevated
+import com.xpeho.xpeapp.ui.componants.ButtonElevated
 import com.xpeho.xpeapp.ui.theme.SfPro
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

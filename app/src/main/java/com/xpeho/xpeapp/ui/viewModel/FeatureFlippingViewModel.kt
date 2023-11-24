@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.xpeho.xpeapp.data.ALPHA_BOX
@@ -24,7 +23,6 @@ import com.xpeho.xpeapp.data.FEATURE_FLIPPING_COLLECTION
 import com.xpeho.xpeapp.data.model.FeatureFlipping
 import com.xpeho.xpeapp.data.model.emptyFeatureFlipping
 import com.xpeho.xpeapp.data.model.toFeatureFlipping
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class FeatureFlippingViewModel : ViewModel() {
@@ -117,4 +115,3 @@ fun FeatureFlippingComposable(
         }
     }
 }
-

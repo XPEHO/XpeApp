@@ -1,12 +1,21 @@
-package com.xpeho.xpeapp.ui.presentation.page
+package com.xpeho.xpeapp.ui.page
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
-import androidx.compose.material3.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -26,13 +35,13 @@ import androidx.navigation.NavController
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.data.FeatureFlippingEnum
 import com.xpeho.xpeapp.enums.Screens
-import com.xpeho.xpeapp.ui.presentation.componants.ButtonElevated
-import com.xpeho.xpeapp.ui.presentation.Resources
-import com.xpeho.xpeapp.ui.presentation.componants.AppBar
-import com.xpeho.xpeapp.ui.presentation.componants.Card
+import com.xpeho.xpeapp.ui.Resources
+import com.xpeho.xpeapp.ui.componants.AppBar
+import com.xpeho.xpeapp.ui.componants.ButtonElevated
+import com.xpeho.xpeapp.ui.componants.Card
+import com.xpeho.xpeapp.ui.theme.SfPro
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingComposable
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
-import com.xpeho.xpeapp.ui.theme.SfPro
 import com.xpeho.xpeapp.ui.viewModel.WordpressViewModel
 
 @Composable
@@ -171,7 +180,6 @@ fun dialogDisconnection(showDialog: MutableState<Boolean>, onBackPressed: () -> 
         )
     }
 }
-
 
 @Composable
 private fun setColor(idImage: Int): Color? {

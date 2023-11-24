@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.ui.presentation.componants.vacation
+package com.xpeho.xpeapp.ui.componants.vacation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.data.model.RequestLeaveDetail
-import com.xpeho.xpeapp.ui.presentation.Resources
+import com.xpeho.xpeapp.ui.Resources
 import com.xpeho.xpeapp.ui.theme.SfPro
 
 @Composable

@@ -22,4 +22,6 @@
     <string name="home_page_reload">Recharger l\'application</string>
     <string name="login_page_error_title">Erreur de connexion</string>
     <string name="home_disconnection">Souhaitez-vous vraiment vous déconnecter ?</string>
+    <string name="login_page_enter_email_warning">Veuillez entrer votre email</string>
+    <string name="login_page_enter_password_warning">Veuillez entrer votre mot de passe</string>
 </resources>

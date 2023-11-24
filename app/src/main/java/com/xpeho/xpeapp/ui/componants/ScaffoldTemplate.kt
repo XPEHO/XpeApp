@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.ui.presentation.componants
+package com.xpeho.xpeapp.ui.componants
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding

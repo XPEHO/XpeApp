@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.presentation.page
+package com.xpeho.xpeapp.ui.page
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,9 +20,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.xpeho.xpeapp.R
-import com.xpeho.xpeapp.ui.presentation.Resources
-import com.xpeho.xpeapp.ui.presentation.componants.AppBar
-import com.xpeho.xpeapp.ui.presentation.componants.vacation.MyRequestLeaveList
+import com.xpeho.xpeapp.ui.Resources
+import com.xpeho.xpeapp.ui.componants.AppBar
+import com.xpeho.xpeapp.ui.componants.vacation.MyRequestLeaveList
 import com.xpeho.xpeapp.ui.theme.SfPro
 
 @Composable

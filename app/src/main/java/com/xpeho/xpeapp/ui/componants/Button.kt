@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.ui.presentation.componants
+package com.xpeho.xpeapp.ui.componants
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,8 +25,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.xpeho.xpeapp.ui.animation.pressClickEffect
 import com.xpeho.xpeapp.ui.theme.Orange80
-import com.xpeho.xpeapp.ui.presentation.animation.pressClickEffect
 import com.xpeho.xpeapp.ui.theme.SfPro
 
 @Composable

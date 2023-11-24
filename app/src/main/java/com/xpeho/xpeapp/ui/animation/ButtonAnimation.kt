@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.ui.presentation.animation
+package com.xpeho.xpeapp.ui.animation
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable

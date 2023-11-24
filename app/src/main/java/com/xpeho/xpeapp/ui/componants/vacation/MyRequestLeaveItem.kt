@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.ui.presentation.componants.vacation
+package com.xpeho.xpeapp.ui.componants.vacation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.ui.presentation.page.newsletter.detail
+package com.xpeho.xpeapp.ui.page.newsletter.detail
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -7,10 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xpeho.xpeapp.R
+import com.xpeho.xpeapp.ui.componants.AppLoader
+import com.xpeho.xpeapp.ui.componants.ScaffoldTemplate
 import com.xpeho.xpeapp.ui.viewModel.newsletter.detail.NewsletterDetailState
 import com.xpeho.xpeapp.ui.viewModel.newsletter.detail.NewsletterDetailViewModel
-import com.xpeho.xpeapp.ui.presentation.componants.AppLoader
-import com.xpeho.xpeapp.ui.presentation.componants.ScaffoldTemplate
 
 @Composable
 fun NewsletterDetailPage(

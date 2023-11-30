@@ -310,3 +310,5 @@ app/google-services.json
 
 ### Configuration ###
 app/config
+
+key.properties

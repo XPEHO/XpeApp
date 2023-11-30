@@ -3,6 +3,7 @@
 _Feat_
 
 - Upgrade Material version to Material 3
+- Open the app when the user click on a notification
 - [Issue #4](https://github.com/XPEHO/XpeApp/issues/4) Add the home page
 - [Issue #16](https://github.com/XPEHO/XpeApp/issues/16) Add the newsletters page
 - [Issue #12](https://github.com/XPEHO/XpeApp/issues/12) Add the vacation page
@@ -28,6 +29,7 @@ _Chore_
 - Update changelog
 - Add privacy policy
 - Reorganization of ui folder architecture
+- Add properties for release app bundle
 - [Issue #22](https://github.com/XPEHO/XpeApp/issues/22) Add the CI/CD of Xpeho Workflows
 - [Issue #40](https://github.com/XPEHO/XpeApp/issues/40) Update the icon of the app
 

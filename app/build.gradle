@@ -5,6 +5,12 @@ plugins {
     id "com.google.devtools.ksp"
 }
 
+def getPropertiesFile = { path ->
+    Properties properties = new Properties()
+    properties.load(new FileInputStream(file(path)))
+    return properties
+}
+
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
@@ -37,10 +43,18 @@ android {
     }
 
     buildTypes {
+        debug {
+            getPropertiesFile('./config/uat.properties').each { p ->
+                buildConfigField 'String', p.key, p.value
+            }
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            getPropertiesFile('./config/prod.properties').each { p ->
+                buildConfigField 'String', p.key, p.value
+            }
         }
     }
     compileOptions {

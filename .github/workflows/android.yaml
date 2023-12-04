@@ -4,8 +4,10 @@ name: Android CI
 
 jobs:
   xpeho_workflows_android:
-    uses: XPEHO/Xpeho-Workflows/.github/workflows/android.yaml@main
+    uses: XPEHO/Xpeho-Workflows/.github/workflows/android.yaml@fix/config_file
     with:
       JAVA_VERSION: '17'
+
     secrets:
       GOOGLE_SERVICE: ${{ secrets.GOOGLE_SERVICE_FILE }}
+      UAT_CONFIG_FILE: ${{ secrets.UAT_CONFIG_FILE }}

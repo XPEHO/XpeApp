@@ -30,6 +30,7 @@ _Chore_
 - Add privacy policy
 - Reorganization of ui folder architecture
 - Add properties for release app bundle
+- Add environment variables for build
 - [Issue #22](https://github.com/XPEHO/XpeApp/issues/22) Add the CI/CD of Xpeho Workflows
 - [Issue #40](https://github.com/XPEHO/XpeApp/issues/40) Update the icon of the app
 

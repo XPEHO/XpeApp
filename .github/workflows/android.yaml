@@ -4,7 +4,7 @@ name: Android CI
 
 jobs:
   xpeho_workflows_android:
-    uses: XPEHO/Xpeho-Workflows/.github/workflows/android.yaml@fix/config_file
+    uses: XPEHO/Xpeho-Workflows/.github/workflows/android.yaml@main
     with:
       JAVA_VERSION: '17'
 

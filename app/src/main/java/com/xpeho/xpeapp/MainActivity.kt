@@ -13,9 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.xpeho.xpeapp.ui.presentation.Home
+import com.xpeho.xpeapp.ui.Home
 import com.xpeho.xpeapp.ui.theme.XpeAppTheme
-import kotlinx.coroutines.flow.*
 
 class MainActivity : ComponentActivity() {
 

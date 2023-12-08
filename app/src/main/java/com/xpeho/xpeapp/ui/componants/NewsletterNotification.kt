@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.ui.presentation.componants
+package com.xpeho.xpeapp.ui.componants
 
 import android.annotation.SuppressLint
 import android.app.Notification
@@ -10,14 +10,12 @@ import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.util.Log
 import com.xpeho.xpeapp.MainActivity
-import com.xpeho.xpeapp.ui.presentation.page.newsletter.detail.NewsletterDetailPage
 import java.util.*
 
 class NewsletterNotification {
 
     @SuppressLint("UnspecifiedImmutableFlag")
     fun showNotification(context: Context, content: String) {
-
         Log.i("NewsletterNotification", "showNotification")
 
         val notificationChannel = NotificationChannel(

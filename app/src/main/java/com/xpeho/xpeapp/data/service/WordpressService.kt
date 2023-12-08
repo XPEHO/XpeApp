@@ -45,4 +45,3 @@ object WordpressAPI {
         retrofit.create(WordpressService::class.java)
     }
 }
-

@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.ui.presentation.page.newsletter
+package com.xpeho.xpeapp.ui.page.newsletter
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -16,10 +16,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.enums.Screens
-import com.xpeho.xpeapp.ui.presentation.componants.AppLoader
-import com.xpeho.xpeapp.ui.presentation.componants.newsletter.NewsletterCard
+import com.xpeho.xpeapp.ui.componants.AppBar
+import com.xpeho.xpeapp.ui.componants.AppLoader
+import com.xpeho.xpeapp.ui.componants.newsletter.NewsletterCard
 import com.xpeho.xpeapp.ui.viewModel.newsletter.NewsletterViewModel
-import com.xpeho.xpeapp.ui.presentation.componants.AppBar
 
 @Composable
 fun NewsletterPage(
@@ -64,4 +64,3 @@ fun NewsletterPage(
         }
     }
 }
-

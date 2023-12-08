@@ -4,7 +4,7 @@ import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.xpeho.xpeapp.data.DatastorePref
-import com.xpeho.xpeapp.ui.presentation.componants.NewsletterNotification
+import com.xpeho.xpeapp.ui.componants.NewsletterNotification
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.first

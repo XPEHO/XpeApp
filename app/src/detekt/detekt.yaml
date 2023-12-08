@@ -7,6 +7,12 @@ complexity:
     active: true
     severity: ERROR
     threshold: 15
+  LongParameterList:
+    active: false
+  LongMethod:
+    active: true
+    severity: WARNING
+    threshold: 100
 
 style:
   MaxLineLength:

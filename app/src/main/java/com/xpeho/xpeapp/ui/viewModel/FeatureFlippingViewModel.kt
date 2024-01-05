@@ -74,6 +74,7 @@ suspend fun getFeatureFlippingFromFirebase(): List<FeatureFlipping> {
 fun FeatureFlippingComposable(
     viewModel: FeatureFlippingViewModel,
     featureId: String,
+    showIfNotEnabled: Boolean = true,
     redirection: () -> Unit,
     composableAuthorized: @Composable () -> Unit,
 ) {
@@ -94,25 +95,27 @@ fun FeatureFlippingComposable(
             composableAuthorized()
         }
     } else {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Gray)
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .clip(
-                    shape = RoundedCornerShape(16.dp),
-                )
-        ) {
+        if(showIfNotEnabled) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.Gray)
-                    .alpha(ALPHA_BOX)
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(
+                        shape = RoundedCornerShape(16.dp),
+                    )
             ) {
-                composableAuthorized()
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Gray)
+                        .alpha(ALPHA_BOX)
+                ) {
+                    composableAuthorized()
+                }
             }
         }
     }

@@ -47,6 +47,12 @@ class WordpressViewModel : ViewModel() {
                         // Save the connected boolean in Datastore
                         viewModelScope.launch { datastorePref.setIsConnectedLeastOneTime(true) }
 
+                        // Get the user id from database
+                        val userId = WordpressAPI.service.getUserId(authent.username)
+
+                        // Save the user id in Datastore
+                        viewModelScope.launch { datastorePref.setUserId(userId) }
+
                         // Load feature flipping
                         featureFlippingViewModel.getFeatureFlipping()
                         wordpressState = if (featureFlippingViewModel.uiState is FeatureFlippingUiState.SUCCESS) {

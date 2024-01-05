@@ -10,6 +10,8 @@ import com.xpeho.xpeapp.ui.page.LoginPage
 import com.xpeho.xpeapp.ui.page.VacationPage
 import com.xpeho.xpeapp.ui.page.newsletter.NewsletterPage
 import com.xpeho.xpeapp.ui.page.newsletter.detail.NewsletterDetailPage
+import com.xpeho.xpeapp.ui.page.qvst.QvstCampaignDetailPage
+import com.xpeho.xpeapp.ui.page.qvst.QvstPage
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
 
 fun NavGraphBuilder.navigationBuilder(
@@ -51,6 +53,21 @@ fun NavGraphBuilder.navigationBuilder(
     }
     composable(route = Screens.Colleague.name) {
         ColleaguePage {
+            navigationController.navigateUp()
+        }
+    }
+    composable(route = Screens.Qvst.name) {
+        QvstPage(
+            navigationController = navigationController,
+        ) {
+            navigationController.navigateUp()
+        }
+    }
+    composable(route = "${Screens.Qvst.name}/{campaignId}") {
+        QvstCampaignDetailPage(
+            qvstCampaignId = it.arguments?.getString("campaignId") ?: "",
+            navController = navigationController,
+        ) {
             navigationController.navigateUp()
         }
     }

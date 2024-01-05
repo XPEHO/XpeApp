@@ -9,6 +9,7 @@ enum class FeatureFlippingEnum(val value: String) {
     CRA("cra"),
     EXPENSE_REPORT("expenseReport"),
     COLLEAGUES("colleagues"),
+    QVST("campaign"),
 }
 
 const val ALPHA_BOX = 0.5f

@@ -6,7 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun ErrorDialog(
+fun CustomDialog(
     title: String,
     message: String,
     closeDialog: () -> Unit,

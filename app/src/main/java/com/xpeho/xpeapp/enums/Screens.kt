@@ -7,4 +7,5 @@ enum class Screens {
     NewsletterDetail,
     Vacation,
     Colleague,
+    Qvst,
 }

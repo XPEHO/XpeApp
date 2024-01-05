@@ -1,5 +1,7 @@
 package com.xpeho.xpeapp.ui.presentation.page
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -12,8 +14,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -26,13 +30,13 @@ import androidx.navigation.NavController
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.data.FeatureFlippingEnum
 import com.xpeho.xpeapp.enums.Screens
-import com.xpeho.xpeapp.ui.presentation.componants.ButtonElevated
 import com.xpeho.xpeapp.ui.presentation.Resources
 import com.xpeho.xpeapp.ui.presentation.componants.AppBar
+import com.xpeho.xpeapp.ui.presentation.componants.ButtonElevated
 import com.xpeho.xpeapp.ui.presentation.componants.Card
+import com.xpeho.xpeapp.ui.theme.SfPro
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingComposable
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
-import com.xpeho.xpeapp.ui.theme.SfPro
 import com.xpeho.xpeapp.ui.viewModel.WordpressViewModel
 
 @Composable
@@ -43,11 +47,31 @@ fun HomePage(
     featureFlippingViewModel: FeatureFlippingViewModel,
 ) {
     val showDialog = remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             AppBar(
                 title = stringResource(id = R.string.app_name),
-                imageVector = Icons.AutoMirrored.Filled.Logout
+                imageVector = Icons.AutoMirrored.Filled.Logout,
+                actions = {
+                    FeatureFlippingComposable(
+                        featureId = FeatureFlippingEnum.QVST.value,
+                        viewModel = featureFlippingViewModel,
+                        showIfNotEnabled = false,
+                        redirection = {
+                            navigationController.navigate(route = "QVST")
+                        },
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.qvst),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(80.dp)
+                                .height(80.dp)
+                                .padding(16.dp)
+                        )
+                    }
+                },
             ) {
                 showDialog.value = true
             }
@@ -171,7 +195,6 @@ fun dialogDisconnection(showDialog: MutableState<Boolean>, onBackPressed: () -> 
         )
     }
 }
-
 
 @Composable
 private fun setColor(idImage: Int): Color? {

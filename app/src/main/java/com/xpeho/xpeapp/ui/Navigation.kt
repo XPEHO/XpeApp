@@ -8,6 +8,7 @@ import com.xpeho.xpeapp.presentation.page.VacationPage
 import com.xpeho.xpeapp.ui.presentation.page.ColleaguePage
 import com.xpeho.xpeapp.ui.presentation.page.HomePage
 import com.xpeho.xpeapp.ui.page.LoginPage
+import com.xpeho.xpeapp.ui.page.qvst.QvstPage
 import com.xpeho.xpeapp.ui.presentation.page.newsletter.NewsletterPage
 import com.xpeho.xpeapp.ui.presentation.page.newsletter.detail.NewsletterDetailPage
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
@@ -51,6 +52,11 @@ fun NavGraphBuilder.navigationBuilder(
     }
     composable(route = Screens.Colleague.name) {
         ColleaguePage {
+            navigationController.navigateUp()
+        }
+    }
+    composable(route = Screens.Qvst.name) {
+        QvstPage {
             navigationController.navigateUp()
         }
     }

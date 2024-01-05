@@ -32,8 +32,8 @@ fun LoginPage(
     featureFlippingViewModel: FeatureFlippingViewModel,
     onLoginSuccess: () -> Unit,
 ) {
-    var usernameTextField by remember { mutableStateOf("") }
-    var passwordTextField by remember { mutableStateOf("") }
+    var usernameTextField by remember { mutableStateOf("marchal.maxime@live.fr") }
+    var passwordTextField by remember { mutableStateOf("FEBFpyWdiPLCcWGWJo3Pb3Xg") }
     var errorTextFieldUser by remember { mutableStateOf(false) }
     var errorTextFieldPassword by remember { mutableStateOf(false) }
 

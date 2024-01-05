@@ -22,4 +22,5 @@
     <string name="home_page_reload">Recharger l\'application</string>
     <string name="login_page_error_title">Erreur de connexion</string>
     <string name="home_disconnection">Souhaitez-vous vraiment vous déconnecter ?</string>
+    <string name="qvst_title">QVST</string>
 </resources>

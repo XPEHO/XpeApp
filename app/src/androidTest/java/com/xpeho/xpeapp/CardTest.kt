@@ -5,7 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import com.xpeho.xpeapp.ui.presentation.componants.Card
+import com.xpeho.xpeapp.ui.componants.Card
 import junit.framework.TestCase.assertTrue
 import org.junit.Rule
 import org.junit.Test

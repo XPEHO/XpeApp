@@ -14,6 +14,7 @@ _Feat_
 - [Issue #6](https://github.com/XPEHO/XpeApp/issues/6) Init the disconnection dialog
 - [Issue #35](https://github.com/XPEHO/XpeApp/issues/35) Add the Firebase authentification
 - [Issue #7](https://github.com/XPEHO/XpeApp/issues/7) Display notifications whe newsletter is created
+- [Issue #54](https://github.com/XPEHO/XpeApp/issues/56) QVST Campaign feature
 
 _Fix_
 

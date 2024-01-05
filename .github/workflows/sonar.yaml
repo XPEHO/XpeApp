@@ -1,10 +1,6 @@
 name: SonarQube analysis
 
-on:
-  push:
-    branches:
-      - main
-      - fix/sonar
+on: push
 
 jobs:
   build:
@@ -41,4 +37,4 @@ jobs:
           echo ${{ secrets.GOOGLE_SERVICE_FILE }} | base64 -d > app/google-services.json
           mkdir -p app/config
           echo ${{ secrets.UAT_CONFIG_FILE }} | base64 -d > app/config/uat.properties
-          ./gradlew assembleDebug sonar --info
+          ./gradlew assembleDebug sonar

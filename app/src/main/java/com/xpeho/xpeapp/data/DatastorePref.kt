@@ -27,4 +27,15 @@ class DatastorePref(private val context: Context) {
             preference[CONNECT] = isConnected.toString()
         }
     }
+
+    suspend fun setUserId(userId: String) {
+        context.dataStore.edit { preference ->
+            preference[stringPreferencesKey("userId")] = userId
+        }
+    }
+
+    val userId: Flow<String> = context.dataStore.data
+        .map { preference ->
+            preference[stringPreferencesKey("userId")] ?: ""
+        }
 }

@@ -1,5 +1,6 @@
 package com.xpeho.xpeapp.ui.page
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -52,11 +54,31 @@ fun HomePage(
     featureFlippingViewModel: FeatureFlippingViewModel,
 ) {
     val showDialog = remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             AppBar(
                 title = stringResource(id = R.string.app_name),
-                imageVector = Icons.AutoMirrored.Filled.Logout
+                imageVector = Icons.AutoMirrored.Filled.Logout,
+                actions = {
+                    FeatureFlippingComposable(
+                        featureId = FeatureFlippingEnum.QVST.value,
+                        viewModel = featureFlippingViewModel,
+                        showIfNotEnabled = false,
+                        redirection = {
+                            navigationController.navigate(route = "QVST")
+                        },
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.qvst),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(80.dp)
+                                .height(80.dp)
+                                .padding(16.dp)
+                        )
+                    }
+                },
             ) {
                 showDialog.value = true
             }

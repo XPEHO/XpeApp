@@ -1,5 +1,6 @@
 package com.xpeho.xpeapp.ui.componants
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -13,19 +14,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.xpeho.xpeapp.R
+import com.xpeho.xpeapp.data.FeatureFlippingEnum
 import com.xpeho.xpeapp.ui.theme.SfPro
+import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingComposable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(
     title: String?,
     imageVector: ImageVector?,
+    actions:  @Composable() (RowScope.() -> Unit)? = null,
     onTapBack: () -> Unit,
 ) {
     CenterAlignedTopAppBar(
@@ -51,6 +56,7 @@ fun AppBar(
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             containerColor = Color.Transparent,
         ),
+        actions = (actions ?: {}),
     )
 }
 

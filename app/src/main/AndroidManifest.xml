@@ -18,6 +18,7 @@
         android:hardwareAccelerated="false"
         android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
         <activity

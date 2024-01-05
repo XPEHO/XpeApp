@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
     id "com.google.devtools.ksp"
+    id "org.sonarqube" version "4.2.1.3168"
 }
 
 def getPropertiesFile = { path ->
@@ -77,6 +78,13 @@ android {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
+    }
+}
+
+sonar {
+    properties {
+        property "sonar.projectKey", "XpeApp"
+        property "sonar.projectName", "XpeApp"
     }
 }
 

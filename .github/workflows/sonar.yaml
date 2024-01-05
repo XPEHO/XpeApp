@@ -1,0 +1,45 @@
+name: SonarQube analysis
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: SonarQube analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          - name: ☕ Set up JDK
+            uses: actions/setup-java@v3
+            with:
+              java-version: '17'
+              distribution: 'temurin'
+              cache: gradle
+      - name: Cache SonarQube packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Gradle packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          echo ${{ secrets.GOOGLE_SERVICE_FILE }} | base64 -d > app/google-services.json
+          if [ -n "${{ secrets.UAT_CONFIG_FILE }}" ]; then
+              mkdir -p app/config
+              echo ${{ secrets.UAT_CONFIG_FILE }} | base64 -d > app/config/uat.properties
+            fi
+          ./gradlew build sonar --info

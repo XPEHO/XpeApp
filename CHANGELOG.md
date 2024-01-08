@@ -34,6 +34,7 @@ _Chore_
 - [Issue #22](https://github.com/XPEHO/XpeApp/issues/22) Add the CI/CD of Xpeho Workflows
 - [Issue #40](https://github.com/XPEHO/XpeApp/issues/40) Update the icon of the app
 - [Issue #53](https://github.com/XPEHO/XpeApp/issues/53) Sonar CICD
+- Fix the CI/CD Sonar
 
 ## 0.0.1
 

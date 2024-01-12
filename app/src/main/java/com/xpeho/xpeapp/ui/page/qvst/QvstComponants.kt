@@ -61,7 +61,7 @@ fun QvstCampaignDetailContent(
     )
     if (questionsAnsweredSize == questionsSize) {
         Text(
-            text = "Vous avez répondu à toutes les questions",
+            text = stringResource(id = com.xpeho.xpeapp.R.string.qvst_campaign_detail_all_questions_answered),
             style = MaterialTheme.typography.bodyLarge.copy(
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
@@ -72,7 +72,11 @@ fun QvstCampaignDetailContent(
         )
     } else {
         Text(
-            text = "Vous avez répondu à $questionsAnsweredSize questions sur $questionsSize",
+            text = stringResource(
+                id = com.xpeho.xpeapp.R.string.qvst_campaign_detail_questions_answered,
+                questionsAnsweredSize,
+                questionsSize
+            ),
             style = MaterialTheme.typography.bodyLarge.copy(
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
@@ -103,7 +107,7 @@ fun QvstCampaignDetailContent(
     }
     if (questionsAnswered.isNotEmpty()) {
         QvstTitleHeaderComposable(
-            title = "Questions répondues",
+            title = stringResource(id = com.xpeho.xpeapp.R.string.qvst_campaign_detail_answered_questions),
         )
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -160,7 +164,10 @@ fun QvstQuestionComposable(
             )
             if (isAnswered && question.userAnswer != null) {
                 Text(
-                    text = "Réponse: ${question.userAnswer}",
+                    text = stringResource(
+                        id = com.xpeho.xpeapp.R.string.qvst_campaign_detail_answer,
+                        question.userAnswer.toString(),
+                    ),
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.W500,

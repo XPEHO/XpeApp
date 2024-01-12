@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -83,7 +84,10 @@ fun QvstCampaignItem(
                 )
                 Box(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Thème : ${campaign.theme.name}",
+                    text = stringResource(
+                        id = com.xpeho.xpeapp.R.string.qvst_campaign_detail_theme,
+                        campaign.theme.name
+                    ),
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
@@ -91,7 +95,10 @@ fun QvstCampaignItem(
                 )
             }
             Text(
-                text = "Fin le ${endDate.format(dateFormatter)}",
+                text = stringResource(
+                    id = com.xpeho.xpeapp.R.string.qvst_campaign_detail_end_date,
+                    endDate.format(dateFormatter)
+                ),
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,
@@ -114,18 +121,3 @@ fun QvstCampaignItem(
     }
 }
 
-@Preview
-@Composable
-fun QvstCampaignListPreview() {
-    QvstCampaignItem(
-        campaign = QvstCampaign(
-            id = "1",
-            name = "Campagne 1",
-            theme = QvstTheme(id = "1", name = "Thème 1"),
-            status = "OPEN",
-            start_date = "2021-09-01",
-            end_date = "2021-09-30",
-            participation_rate = "0"
-        ),
-    )
-}

@@ -8,11 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.gson.Gson
 import com.xpeho.xpeapp.data.DatastorePref
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.data.model.WordpressToken
-import com.xpeho.xpeapp.data.service.ErrorResponse
 import com.xpeho.xpeapp.data.service.WordpressAPI
 import com.xpeho.xpeapp.ui.uiState.WordpressUiState
 import kotlinx.coroutines.launch
@@ -69,23 +67,19 @@ class WordpressViewModel : ViewModel() {
                         )
                     }
                 } catch (httpException: HttpException) {
-                    val errorBody = httpException.response()?.errorBody()?.string()
-
-                    val gson = Gson()
-                    val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
-
-                    val errorDescription = getErrorMessage(
-                        errorResponse?.code,
+                    wordpressState = WordpressUiState.ERROR(
+                        error = getErrorMessage(
+                            error = httpException.code().toString()
+                        )
                     )
-
-                    WordpressUiState.ERROR(error = errorDescription)
                 } catch (ioException: IOException) {
-                    WordpressUiState.ERROR(
+                    wordpressState = WordpressUiState.ERROR(
                         error = ioException.message ?: "Une erreur est survenue ! Veuillez réessayer."
                     )
                 }
             }
         }
+        println("WordpressViewModel : $wordpressState")
     }
 
     private suspend fun checkUserAuthorization(username: String): Boolean {

@@ -1,6 +1,7 @@
 package com.xpeho.xpeapp.data.service
 
 import com.google.gson.GsonBuilder
+import com.xpeho.xpeapp.BuildConfig
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.data.entity.QvstAnswerBody
 import com.xpeho.xpeapp.data.model.WordpressToken
@@ -12,38 +13,32 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
-private const val BASE_URL = "http://10.0.2.2:8000/wp-json/"
-// private const val BASE_URL = BuildConfig.BACKEND_URL
+private const val BASE_URL = BuildConfig.BACKEND_URL
 
-private val gson = GsonBuilder()
-    .setLenient()
-    .create()
+private val gson = GsonBuilder().setLenient().create()
 
-val logging = HttpLoggingInterceptor().apply {
-    level = HttpLoggingInterceptor.Level.BODY
-}
+val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
-private val okHttpClient = OkHttpClient.Builder()
-    .addInterceptor(logging)
-    .build()
+private val okHttpClient = OkHttpClient.Builder().addInterceptor(logging).build()
 
-private val retrofit = Retrofit.Builder()
-    .client(okHttpClient)
-    .addConverterFactory(GsonConverterFactory.create(gson))
-    .baseUrl(BASE_URL)
-    .build()
+private val retrofit =
+        Retrofit.Builder()
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .baseUrl(BASE_URL)
+                .build()
 
 interface WordpressService {
     @Headers("Content-Type: application/json")
     @POST("api/v1/token")
     suspend fun authentification(
-        @Body body: AuthentificationBody,
+            @Body body: AuthentificationBody,
     ): WordpressToken
 
     @Headers("Content-Type: application/json")
     @GET("xpeho/v1/user")
     suspend fun getUserId(
-        @Header("email") username: String,
+            @Header("email") username: String,
     ): String
 
     @Headers("Content-Type: application/json")
@@ -53,21 +48,19 @@ interface WordpressService {
     @Headers("Content-Type: application/json")
     @GET("xpeho/v1/qvst/campaigns/{campaignId}/questions")
     suspend fun getQvstQuestionsByCampaignId(
-        @Path("campaignId") campaignId: String,
-        @Header("userId") userId: String
+            @Path("campaignId") campaignId: String,
+            @Header("userId") userId: String
     ): List<QvstQuestion>
 
     @Headers("Content-Type: application/json")
     @POST("xpeho/v1/qvst/campaigns/{campaignId}/questions:answer")
     suspend fun submitAnswers(
-        @Path("campaignId") campaignId: String,
-        @Header("userId") userId: String,
-        @Body answers: List<QvstAnswerBody>,
+            @Path("campaignId") campaignId: String,
+            @Header("userId") userId: String,
+            @Body answers: List<QvstAnswerBody>,
     ): Boolean
 }
 
 object WordpressAPI {
-    val service: WordpressService by lazy {
-        retrofit.create(WordpressService::class.java)
-    }
+    val service: WordpressService by lazy { retrofit.create(WordpressService::class.java) }
 }

@@ -1,11 +1,44 @@
 on: pull_request
 
-name: Kotlin analysis
+name: 🆔 Kotlin Detekt
 
 jobs:
-  xpeho_workflows_kotlin_analysis:
-    uses: XPEHO/Xpeho-Workflows/.github/workflows/kotlin_analysis.yaml@main
-    with:
-      JAVA_VERSION: '17'
-      DETEKT_RUN_FOLDER: 'app/src/main/java'
-      DETEKT_FOLDER: 'app/src/detekt'
+    detekt:
+      name: Run Detekt
+      runs-on: ubuntu-latest
+
+      env:
+        JAVA_VERSION: '17'
+        DETEKT_RUN_FOLDER: 'app/src/main/java'
+        DETEKT_FOLDER: 'app/src/detekt'
+  
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+  
+        - name: ☕ Set up JDK
+          uses: actions/setup-java@v3
+          with:
+            java-version: ${{ env.JAVA_VERSION }}
+            distribution: 'temurin'
+  
+        - name: Install Detekt and Run it
+          run: |
+            cd xpeapp_android
+            curl -sSLO https://github.com/detekt/detekt/releases/download/v1.23.3/detekt-cli-1.23.3-all.jar
+            mv detekt-cli-1.23.3-all.jar detekt.jar
+            chmod +x detekt.jar
+            java -jar detekt.jar --input ${{ env.DETEKT_RUN_FOLDER}} --config ${{ env.DETEKT_FOLDER }}/detekt.yaml --report html:${{ env.DETEKT_FOLDER }}/detekt-report.html
+          shell: bash
+
+        - name: Upload Detekt Report
+          run: |
+            git fetch --all
+            git config --global user.email "noreply@xpeho.com"
+            git config --global user.name "Xpeho"
+            git checkout chore/detekt_report
+            mkdir -p ${{ env.DETEKT_FOLDER }}/docs
+            mv xpeapp_android/app/src/detekt/detekt-report.html docs/index.html
+            git add .
+            git commit --amend -m "chore(detekt): Detekt report"
+            git push -f origin chore/detekt_report

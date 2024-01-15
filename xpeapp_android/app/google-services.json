@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1058182500070",
+    "project_id": "xpeapp-b0b97",
+    "storage_bucket": "xpeapp-b0b97.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1058182500070:android:960ea7bd75687de5ff7527",
+        "android_client_info": {
+          "package_name": "com.example.xpeapp_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8dDlYry_yJ6-cgsCOgHDbcHu-TKxdZqE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1058182500070:android:b32447b3cad653f8ff7527",
+        "android_client_info": {
+          "package_name": "com.xpeho.xpeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8dDlYry_yJ6-cgsCOgHDbcHu-TKxdZqE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

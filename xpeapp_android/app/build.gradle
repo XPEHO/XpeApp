@@ -6,6 +6,10 @@ plugins {
     id "org.sonarqube" version "4.2.1.3168"
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '7.4'
+}
+
 def getPropertiesFile = { path ->
     Properties properties = new Properties()
     def propertiesFile = rootProject.file(path)

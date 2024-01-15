@@ -6,6 +6,10 @@ jobs:
   build:
     name: SonarQube analysis
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: xpeapp_android
+
     steps:
       - uses: actions/checkout@v3
         with:

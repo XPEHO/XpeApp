@@ -38,6 +38,7 @@ _Chore_
 - [Issue #40](https://github.com/XPEHO/XpeApp/issues/40) Update the icon of the app
 - [Issue #53](https://github.com/XPEHO/XpeApp/issues/53) Sonar CICD
 - Fix the CI/CD Sonar
+- Add folder xpeapp_android for the android project
 
 ## 0.0.1
 

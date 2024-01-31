@@ -6,14 +6,16 @@ data class FeatureFlipping(
     val id: String,
     val name: String,
     val description: String,
-    val enabled: Boolean,
+    val uatEnabled: Boolean,
+    val prodEnabled: Boolean,
 )
 
 fun emptyFeatureFlipping() = FeatureFlipping(
     id = "",
     name = "",
     description = "",
-    enabled = false,
+    uatEnabled = false,
+    prodEnabled = false,
 )
 
 fun DocumentSnapshot?.toFeatureFlipping(): FeatureFlipping {
@@ -21,6 +23,7 @@ fun DocumentSnapshot?.toFeatureFlipping(): FeatureFlipping {
         id = this?.id ?: "",
         name = this?.getString("name") ?: "",
         description = this?.getString("description") ?: "",
-        enabled = this?.getBoolean("enabled") ?: false
+        uatEnabled = this?.getBoolean("uatEnabled") ?: false,
+        prodEnabled = this?.getBoolean("prodEnabled") ?: false,
     )
 }

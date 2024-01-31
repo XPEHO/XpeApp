@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.xpeho.xpeapp.BuildConfig
 import com.xpeho.xpeapp.data.ALPHA_BOX
 import com.xpeho.xpeapp.data.FEATURE_FLIPPING_COLLECTION
 import com.xpeho.xpeapp.data.model.FeatureFlipping
@@ -82,7 +83,14 @@ fun FeatureFlippingComposable(
     // Get the feature from the list
     val feature = featuresState.find { it.id == featureId } ?: emptyFeatureFlipping()
 
-    if (feature.enabled) {
+    // Get the environment from the feature
+    val featureEnabled = if(BuildConfig.ENVIRONMENT == "prod") {
+        feature.prodEnabled
+    } else {
+        feature.uatEnabled
+    }
+
+    if (featureEnabled) {
         // Show the composable
         Box(
             modifier = Modifier

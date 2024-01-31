@@ -15,6 +15,7 @@ _Feat_
 - [Issue #35](https://github.com/XPEHO/XpeApp/issues/35) Add the Firebase authentification
 - [Issue #7](https://github.com/XPEHO/XpeApp/issues/7) Display notifications whe newsletter is created
 - [Issue #54](https://github.com/XPEHO/XpeApp/issues/56) QVST Campaign feature
+- [Issue #75](https://github.com/XPEHO/XpeApp/pull/75) Add environment variable Firebase 
 
 _Fix_
 

@@ -1,4 +1,14 @@
-## 0.1.0
+## 1.1.1
+
+_Fix_
+
+- Update version in build gradle
+
+_Chore_
+
+- Update changelog
+
+## 1.1.0
 
 _Feat_
 

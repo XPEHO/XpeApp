@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -41,6 +42,7 @@ import com.xpeho.xpeapp.ui.Resources
 import com.xpeho.xpeapp.ui.componants.AppBar
 import com.xpeho.xpeapp.ui.componants.ButtonElevated
 import com.xpeho.xpeapp.ui.componants.Card
+import com.xpeho.xpeapp.ui.componants.qvst.QvstBreadcrumb
 import com.xpeho.xpeapp.ui.theme.SfPro
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingComposable
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
@@ -103,6 +105,11 @@ fun HomePage(
                     }
                 }
             }
+            QvstBreadcrumb(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 22.dp, bottom = 12.dp),
+            )
             FeatureFlippingComposable(
                 featureId = FeatureFlippingEnum.NEWSLETTERS.value,
                 viewModel = featureFlippingViewModel,

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -41,6 +42,7 @@ import com.xpeho.xpeapp.ui.Resources
 import com.xpeho.xpeapp.ui.componants.AppBar
 import com.xpeho.xpeapp.ui.componants.ButtonElevated
 import com.xpeho.xpeapp.ui.componants.Card
+import com.xpeho.xpeapp.ui.componants.qvst.QvstBreadcrumb
 import com.xpeho.xpeapp.ui.theme.SfPro
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingComposable
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
@@ -57,37 +59,53 @@ fun HomePage(
 
     Scaffold(
         topBar = {
-            AppBar(
-                title = stringResource(id = R.string.app_name),
-                imageVector = Icons.AutoMirrored.Filled.Logout,
-                actions = {
-                    FeatureFlippingComposable(
-                        featureId = FeatureFlippingEnum.QVST.value,
-                        viewModel = featureFlippingViewModel,
-                        showIfNotEnabled = false,
-                        redirection = {
-                            navigationController.navigate(route = "QVST")
-                        },
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.qvst),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .width(80.dp)
-                                .height(80.dp)
-                                .padding(16.dp)
-                        )
-                    }
-                },
-            ) {
-                showDialog.value = true
+            Column {
+                AppBar(
+                    title = stringResource(id = R.string.app_name),
+                    imageVector = Icons.AutoMirrored.Filled.Logout,
+                    actions = {
+                        FeatureFlippingComposable(
+                            featureId = FeatureFlippingEnum.QVST.value,
+                            viewModel = featureFlippingViewModel,
+                            showIfNotEnabled = false,
+                            redirection = {
+                                navigationController.navigate(route = "QVST")
+                            },
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.qvst),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .width(80.dp)
+                                    .height(80.dp)
+                                    .padding(16.dp)
+                            )
+                        }
+                    },
+                ) {
+                    showDialog.value = true
+                }
+                FeatureFlippingComposable(
+                    featureId = FeatureFlippingEnum.QVST.value,
+                    viewModel = featureFlippingViewModel,
+                    redirection = {
+                        navigationController.navigate(route = "QVST")
+                    },
+                    showIfNotEnabled = false
+                ) {
+                    QvstBreadcrumb(modifier = Modifier.fillMaxWidth())
+                }
             }
         }
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(32.dp),
+                .padding(
+                    top = it.calculateTopPadding(),
+                    start = 32.dp,
+                    end = 32.dp,
+                    bottom = 0.dp),
             verticalArrangement = Arrangement.Center,
         ) {
             dialogDisconnection(

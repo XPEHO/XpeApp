@@ -102,13 +102,30 @@ fun ErrorQvstBreadcrumb(uiState: QvstBreadcrumbUiState.ERROR, modifier: Modifier
     )
 }
 
+private const val CAMPAIGN_C_NAME = "Campagne C"
+private const val CAMPAIGN_C_DAYS = 20L
+
+private const val CAMPAIGN_B_NAME = "Campagne B"
+private const val CAMPAIGN_B_DAYS = 10L
+
+private const val CAMPAIGN_A_NAME = "Campagne A"
+private const val CAMPAIGN_A_DAYS = 5L
+
 // Previews
 
 @Preview
 @Composable
+fun PreviewQvstBreadcrumb20d() {
+    val uiState = QvstBreadcrumbUiState.SUCCESS(CAMPAIGN_C_NAME, CAMPAIGN_C_DAYS)
+    XpeAppTheme {
+        QvstBreadcrumb(uiState)
+    }
+}
+
+@Preview
+@Composable
 fun PreviewQvstBreadcrumb10d() {
-    val days = 10L
-    val uiState = QvstBreadcrumbUiState.SUCCESS("Campagne C", days)
+    val uiState = QvstBreadcrumbUiState.SUCCESS(CAMPAIGN_B_NAME, CAMPAIGN_B_DAYS)
     XpeAppTheme {
         QvstBreadcrumb(uiState)
     }
@@ -116,19 +133,8 @@ fun PreviewQvstBreadcrumb10d() {
 
 @Preview
 @Composable
-fun PreviewQvstBreadcrumb5d() {
-    val days = 5L
-    val uiState = QvstBreadcrumbUiState.SUCCESS("Campagne B", days)
-    XpeAppTheme {
-        QvstBreadcrumb(uiState)
-    }
-}
-
-@Preview
-@Composable
-fun PreviewQvstBreadcrum20d() {
-    val days = 20L
-    val uiState = QvstBreadcrumbUiState.SUCCESS("Campagne A", days)
+fun PreviewQvstBreadcrum5d() {
+    val uiState = QvstBreadcrumbUiState.SUCCESS(CAMPAIGN_A_NAME, CAMPAIGN_A_DAYS)
     XpeAppTheme {
         QvstBreadcrumb(uiState)
     }

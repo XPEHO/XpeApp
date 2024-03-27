@@ -60,25 +60,51 @@ fun LoadingQvstBreadcrumb(modifier: Modifier = Modifier) {
     )
 }
 
+private enum class DayRange {
+    UNTIL_7,
+    UNTIL_14,
+    MORE_THAN_14;
+
+    @Composable
+    fun backgroundColor(): Color {
+        return when (this) {
+            UNTIL_7 -> Color.Red
+            UNTIL_14 -> Color.Yellow
+            MORE_THAN_14 -> MaterialTheme.colorScheme.primary
+        }
+    }
+
+    @Composable
+    fun textColor(): Color {
+        return when (this) {
+            UNTIL_7 -> Color.Black
+            UNTIL_14 -> Color.Black
+            MORE_THAN_14 -> MaterialTheme.colorScheme.onPrimary
+        }
+    }
+}
+
+private fun Long.toDayRange(): DayRange {
+    return when {
+        this <= 7 -> DayRange.UNTIL_7
+        this <= 14 -> DayRange.UNTIL_14
+        else -> DayRange.MORE_THAN_14
+    }
+}
+
 @Composable
 fun SuccessQvstBreadcrumb(uiState: QvstBreadcrumbUiState.SUCCESS, modifier: Modifier = Modifier) {
     val remainingDays = uiState.remainingDays
     val campaignName = uiState.campaignName
-    val backgroundColor: Color = when (remainingDays) {
-        in 0..7 -> Color.Red
-        in 7..14 -> Color.Yellow
-        else -> MaterialTheme.colorScheme.primary
-    }
-    val textColor: Color = when (remainingDays) {
-        in 0..7 -> Color.Black
-        in 7..14 -> Color.Black
-        else -> MaterialTheme.colorScheme.onPrimary
-    }
+    val range = remainingDays.toDayRange()
+    val backgroundColor: Color = range.backgroundColor()
+    val textColor: Color = range.textColor()
+    val breadcrumbPadding = 2.dp
     Text(
         text = stringResource(R.string.jours_restants, campaignName, remainingDays.toString()),
         modifier = modifier
             .background(backgroundColor, shape = MaterialTheme.shapes.small)
-            .padding(2.dp),
+            .padding(breadcrumbPadding),
         textAlign = TextAlign.Center,
         color = textColor
     )

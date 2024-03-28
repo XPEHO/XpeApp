@@ -42,4 +42,7 @@
     <string name="qvst_campaign_detail_theme">Thème : %s</string>
     <string name="qvst_campaign_detail_question">Question : %s</string>
     <string name="qvst_campaign_detail_end_date">Date de fin : %s</string>
+    <string name="chargement">Chargement...</string>
+    <string name="erreur_jours_campagne">Erreur jours campagne : %1$s</string>
+    <string name="jours_restants">%1$s > %2$s jours restants</string>
 </resources>

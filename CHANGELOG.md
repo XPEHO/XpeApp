@@ -26,6 +26,7 @@ _Feat_
 - [Issue #7](https://github.com/XPEHO/XpeApp/issues/7) Display notifications whe newsletter is created
 - [Issue #54](https://github.com/XPEHO/XpeApp/issues/56) QVST Campaign feature
 - [Issue #75](https://github.com/XPEHO/XpeApp/pull/75) Add environment variable Firebase 
+- [Issue #77](https://github.com/XPEHO/XpeApp/issues/77) Add QVST remaining days banner
 
 _Fix_
 

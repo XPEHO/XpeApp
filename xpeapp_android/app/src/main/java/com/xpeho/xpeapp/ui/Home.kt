@@ -2,17 +2,13 @@ package com.xpeho.xpeapp.ui
 
 import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.messaging.FirebaseMessaging
 import com.xpeho.xpeapp.enums.Screens
-import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
 
 @Composable
-fun Home(
-    viewModel: FeatureFlippingViewModel = viewModel(),
-) {
+fun Home() {
     FirebaseMessaging.getInstance().subscribeToTopic("newsletter")
     FirebaseMessaging.getInstance()
         .token.addOnCompleteListener { task ->
@@ -29,6 +25,6 @@ fun Home(
         navController = navigationController,
         startDestination = Screens.Login.name,
     ) {
-        navigationBuilder(navigationController, viewModel)
+        navigationBuilder(navigationController)
     }
 }

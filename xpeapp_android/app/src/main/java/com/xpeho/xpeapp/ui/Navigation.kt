@@ -12,23 +12,28 @@ import com.xpeho.xpeapp.ui.page.newsletter.NewsletterPage
 import com.xpeho.xpeapp.ui.page.newsletter.detail.NewsletterDetailPage
 import com.xpeho.xpeapp.ui.page.qvst.QvstCampaignDetailPage
 import com.xpeho.xpeapp.ui.page.qvst.QvstPage
-import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
 
 fun NavGraphBuilder.navigationBuilder(
     navigationController: NavHostController,
-    viewModel: FeatureFlippingViewModel
 ) {
     composable(route = Screens.Login.name) {
         LoginPage(
-            featureFlippingViewModel = viewModel,
-        ) {
-            navigationController.navigate(route = Screens.Home.name)
-        }
+            onLoginSuccess = {
+                navigationController.navigate(route = Screens.Home.name) {
+                    popUpTo(Screens.Login.name) { inclusive = true }
+                }
+            }
+        )
     }
     composable(route = Screens.Home.name) {
         HomePage(
             navigationController = navigationController,
-            featureFlippingViewModel = viewModel,
+            onDisconnectPressed = {
+                // Return to login page and clear the backstack
+                navigationController.navigate(route = Screens.Login.name) {
+                    popUpTo(Screens.Home.name) { inclusive = true }
+                }
+            }
         )
     }
     composable(route = Screens.Newsletters.name) {

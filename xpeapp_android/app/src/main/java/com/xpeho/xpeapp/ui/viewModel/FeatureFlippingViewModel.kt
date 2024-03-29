@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.xpeho.xpeapp.BuildConfig
@@ -24,20 +25,27 @@ import com.xpeho.xpeapp.data.FEATURE_FLIPPING_COLLECTION
 import com.xpeho.xpeapp.data.model.FeatureFlipping
 import com.xpeho.xpeapp.data.model.emptyFeatureFlipping
 import com.xpeho.xpeapp.data.model.toFeatureFlipping
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import okhttp3.internal.immutableListOf
+import okhttp3.internal.toImmutableList
 
 class FeatureFlippingViewModel : ViewModel() {
 
     var uiState: FeatureFlippingUiState by mutableStateOf(FeatureFlippingUiState.LOADING)
 
-    private val listOfFeatureFlipping = mutableListOf<FeatureFlipping>()
+    val featuresState = mutableStateOf(immutableListOf<FeatureFlipping>())
 
-    val featuresState = mutableStateOf(listOfFeatureFlipping)
+    init {
+        viewModelScope.launch {
+            getFeatureFlipping()
+        }
+    }
 
-    suspend fun getFeatureFlipping() {
+    private suspend fun getFeatureFlipping() {
         uiState = try {
             val result = getFeatureFlippingFromFirebase()
-            featuresState.value = result.toMutableList()
+            featuresState.value = result.toImmutableList()
             FeatureFlippingUiState.SUCCESS(result)
         } catch (firebaseException: FirebaseException) {
             FeatureFlippingUiState.ERROR(firebaseException.message ?: "")

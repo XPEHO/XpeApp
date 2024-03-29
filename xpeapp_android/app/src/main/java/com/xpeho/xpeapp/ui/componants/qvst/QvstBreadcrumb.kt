@@ -54,7 +54,7 @@ fun QvstBreadcrumb(uiState: QvstBreadcrumbUiState, modifier: Modifier = Modifier
 @Composable
 fun LoadingQvstBreadcrumb(modifier: Modifier = Modifier) {
     Text(
-        text = stringResource(R.string.chargement),
+        text = stringResource(R.string.loading),
         modifier = modifier,
         textAlign = TextAlign.Center
     )
@@ -83,7 +83,7 @@ fun SuccessQvstBreadcrumb(uiState: QvstBreadcrumbUiState.SUCCESS, modifier: Modi
     }
 
     Text(
-        text = stringResource(R.string.jours_restants, campaignName, remainingDays.toString()),
+        text = stringResource(R.string.remaining_days_campaign, campaignName, remainingDays.toString()),
         modifier = modifier
             .background(backgroundColor, shape = MaterialTheme.shapes.small)
             .padding(2.dp),
@@ -96,7 +96,7 @@ fun SuccessQvstBreadcrumb(uiState: QvstBreadcrumbUiState.SUCCESS, modifier: Modi
 fun ErrorQvstBreadcrumb(uiState: QvstBreadcrumbUiState.ERROR, modifier: Modifier = Modifier) {
     val errMessage = uiState.message
     Text(
-        text = stringResource(R.string.erreur_jours_campagne, errMessage),
+        text = stringResource(R.string.campaign_days_error, errMessage),
         modifier = modifier,
         textAlign = TextAlign.Center
     )

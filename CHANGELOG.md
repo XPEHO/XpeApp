@@ -3,6 +3,7 @@
 _Fix_
 
 - Update version in build gradle
+- [Issue #86](https://github.com/XPEHO/XpeApp/issues/86) Fix multiple back button presses
 
 _Chore_
 

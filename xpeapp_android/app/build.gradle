@@ -105,6 +105,7 @@ dependencies {
 
     // Test
     implementation 'com.google.firebase:firebase-firestore-ktx:24.9.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.7.0'
     testImplementation 'junit:junit:4.13.2'
 
     // Android Test

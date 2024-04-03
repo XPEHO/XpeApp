@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -36,8 +37,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.xpeho.xpeapp.R
+import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.data.FeatureFlippingEnum
-import com.xpeho.xpeapp.enums.Screens
 import com.xpeho.xpeapp.ui.Resources
 import com.xpeho.xpeapp.ui.componants.AppBar
 import com.xpeho.xpeapp.ui.componants.ButtonElevated
@@ -46,15 +47,15 @@ import com.xpeho.xpeapp.ui.componants.qvst.QvstBreadcrumb
 import com.xpeho.xpeapp.ui.theme.SfPro
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingComposable
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
-import com.xpeho.xpeapp.ui.viewModel.WordpressViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 @Suppress("UnusedMaterial3ScaffoldPaddingParameter")
 fun HomePage(
-    vm: WordpressViewModel = viewModel(),
+    onDisconnectPressed : () -> Unit,
     navigationController: NavController,
-    featureFlippingViewModel: FeatureFlippingViewModel,
 ) {
+    val featureFlippingViewModel = viewModel<FeatureFlippingViewModel>()
     val showDialog = remember { mutableStateOf(false) }
 
     Scaffold(
@@ -72,17 +73,13 @@ fun HomePage(
                     bottom = 0.dp),
             verticalArrangement = Arrangement.Center,
         ) {
+            val coroutineScope = rememberCoroutineScope()
             dialogDisconnection(
                 showDialog,
             ) {
-                vm.logout()
-                // Return to login page and clear the backstack
-                navigationController.navigate(
-                    route = Screens.Login.name,
-                ) {
-                    popUpTo(Screens.Login.name) {
-                        inclusive = true
-                    }
+                coroutineScope.launch {
+                    XpeApp.appModule.authenticationManager.logout()
+                    onDisconnectPressed()
                 }
             }
             PageGrid(featureFlippingViewModel, navigationController)

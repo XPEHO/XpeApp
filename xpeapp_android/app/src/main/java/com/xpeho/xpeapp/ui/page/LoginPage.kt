@@ -7,44 +7,117 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xpeho.xpeapp.R
-import com.xpeho.xpeapp.data.DatastorePref
+import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
+import com.xpeho.xpeapp.domain.AuthState
 import com.xpeho.xpeapp.enums.InputTextFieldKeyboardType
 import com.xpeho.xpeapp.ui.componants.ButtonElevated
 import com.xpeho.xpeapp.ui.componants.CustomDialog
 import com.xpeho.xpeapp.ui.componants.InputTextField
 import com.xpeho.xpeapp.ui.uiState.WordpressUiState
-import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
 import com.xpeho.xpeapp.ui.viewModel.WordpressViewModel
+import com.xpeho.xpeapp.ui.viewModel.viewModelFactory
+
+/**
+ * Login page with loading animation for saved authentication
+ * @param onLoginSuccess: Callback when login is successful
+ */
+@Composable
+fun LoginPage(onLoginSuccess: () -> Unit) {
+    val authState = XpeApp.appModule.authenticationManager.authState.collectAsStateWithLifecycle().value
+    // If auth state switches to Authenticated, notify of login success
+    LaunchedEffect(authState) {
+        if (authState is AuthState.Authenticated) {
+            onLoginSuccess()
+        }
+    }
+    when(authState) {
+        is AuthState.Unauthenticated -> LoginPageForm(onLoginSuccess)
+        is AuthState.Loading -> Loading()
+        is AuthState.Authenticated -> {}
+    }
+}
+
+/**
+ * Full screen loading icon
+ */
+@Composable
+private fun Loading() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+/**
+ * Login page
+ * @param onLoginSuccess: Callback when login is successful
+ */
+@Composable
+private fun LoginPageForm(onLoginSuccess: () -> Unit) {
+    val wordpressViewModel = viewModel<WordpressViewModel>(
+        factory = viewModelFactory {
+            WordpressViewModel(XpeApp.appModule.authenticationManager)
+        }
+    )
+
+    // If login is successful, notify of login success
+    LaunchedEffect(wordpressViewModel.wordpressState) {
+        if (wordpressViewModel.wordpressState is WordpressUiState.SUCCESS) {
+            onLoginSuccess()
+        }
+    }
+
+    // If login fails, show error dialog
+    if (wordpressViewModel.wordpressState is WordpressUiState.ERROR) {
+        CustomDialog(
+            title = stringResource(id = R.string.login_page_error_title),
+            message = (wordpressViewModel.wordpressState as WordpressUiState.ERROR).error,
+            closeDialog = { wordpressViewModel.wordpressState = WordpressUiState.EMPTY })
+    }
+
+    LoginPageContent(
+        wordpressState = wordpressViewModel.wordpressState,
+        onLoginPressed = { username, password ->
+            wordpressViewModel.body = AuthentificationBody(username, password)
+            wordpressViewModel.onLogin()
+        })
+}
 
 @Composable
 @Suppress("UnusedMaterial3ScaffoldPaddingParameter")
-fun LoginPage(
-    vm: WordpressViewModel = viewModel(),
-    featureFlippingViewModel: FeatureFlippingViewModel,
-    onLoginSuccess: () -> Unit,
+private fun LoginPageContent(
+    wordpressState: WordpressUiState,
+    onLoginPressed: (username: String, password: String) -> Unit,
 ) {
-    var usernameTextField by remember { mutableStateOf("") }
-    var passwordTextField by remember { mutableStateOf("") }
-    var errorTextFieldUser by remember { mutableStateOf(false) }
-    var errorTextFieldPassword by remember { mutableStateOf(false) }
-    val datastorePref = DatastorePref(LocalContext.current)
+    var usernameTextField by rememberSaveable { mutableStateOf("") }
+    var passwordTextField by rememberSaveable { mutableStateOf("") }
+    var errorTextFieldUser by rememberSaveable { mutableStateOf(false) }
+    var errorTextFieldPassword by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         content = {
@@ -68,7 +141,7 @@ fun LoginPage(
                     value = usernameTextField,
                     onValueChange = { usernameTextField = it },
                 )
-                checkInputField(errorTextFieldUser, R.string.login_page_enter_email_warning)
+                CheckInputField(errorTextFieldUser, R.string.login_page_enter_email_warning)
                 Spacer(modifier = Modifier.height(16.dp))
                 InputTextField(
                     keyboardType = InputTextFieldKeyboardType.PASSWORD,
@@ -76,36 +149,31 @@ fun LoginPage(
                     value = passwordTextField,
                     onValueChange = { passwordTextField = it },
                 )
-                checkInputField(errorTextFieldPassword, R.string.login_page_enter_password_warning)
+                CheckInputField(errorTextFieldPassword, R.string.login_page_enter_password_warning)
                 Spacer(modifier = Modifier.height(16.dp))
                 ButtonElevated(
                     text = stringResource(id = R.string.login_page_button),
                     backgroundColor = colorResource(id = R.color.colorPrimary),
                     textColor = Color.Black,
-                    isLoading = vm.wordpressState is WordpressUiState.LOADING ||
-                        vm.wordpressState is WordpressUiState.SUCCESS,
+                    isLoading = wordpressState is WordpressUiState.LOADING ||
+                        wordpressState is WordpressUiState.SUCCESS,
                 ) {
                     errorTextFieldUser = false
                     errorTextFieldPassword = false
                     if (usernameTextField.isNotEmpty() && passwordTextField.isNotEmpty()) {
-                        vm.body = AuthentificationBody(
-                            username = usernameTextField,
-                            password = passwordTextField,
-                        )
-                        vm.onLogin(datastorePref, featureFlippingViewModel)
+                        onLoginPressed(usernameTextField, passwordTextField)
                     } else {
                         if (usernameTextField.isEmpty()) errorTextFieldUser = true
                         if (passwordTextField.isEmpty()) errorTextFieldPassword = true
                     }
                 }
-                uiRedirect(vm, onLoginSuccess)
             }
         }
     )
 }
 
 @Composable
-private fun checkInputField(
+private fun CheckInputField(
     errorTextFieldUser: Boolean,
     stringId: Int,
 ) {
@@ -113,24 +181,6 @@ private fun checkInputField(
         ErrorTextMessage(
             message = stringResource(id = stringId)
         )
-    }
-}
-
-@Composable
-private fun uiRedirect(
-    vm: WordpressViewModel,
-    onLoginSuccess: () -> Unit
-) {
-    when (vm.wordpressState) {
-        is WordpressUiState.SUCCESS -> onLoginSuccess()
-        is WordpressUiState.ERROR -> {
-            CustomDialog(
-                title = stringResource(id = R.string.login_page_error_title),
-                message = (vm.wordpressState as WordpressUiState.ERROR).error,
-            ) {
-                vm.wordpressState = WordpressUiState.EMPTY
-            }
-        }
     }
 }
 

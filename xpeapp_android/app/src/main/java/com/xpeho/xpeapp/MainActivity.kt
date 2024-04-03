@@ -13,8 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.xpeho.xpeapp.ui.Home
 import com.xpeho.xpeapp.ui.theme.XpeAppTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
@@ -22,6 +24,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         checkPermission()
+        lifecycleScope.launch {
+            // Initialize the authentication manager on Activity creation
+            XpeApp.appModule.authenticationManager.initialize()
+        }
         setContent {
             XpeAppTheme {
                 // A surface container using the 'background' color from the theme

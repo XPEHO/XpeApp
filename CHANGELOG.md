@@ -1,5 +1,9 @@
 ## 1.1.1
 
+_Feat_
+
+- Skip login screen when user logged in previously
+
 _Fix_
 
 - Update version in build gradle

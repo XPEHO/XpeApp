@@ -36,6 +36,12 @@ interface WordpressService {
     ): WordpressToken
 
     @Headers("Content-Type: application/json")
+    @GET("api/v1/token-validate")
+    suspend fun validateToken(
+            @Header("Authorization") token: String,
+    )
+
+    @Headers("Content-Type: application/json")
     @GET("xpeho/v1/user")
     suspend fun getUserId(
             @Header("email") username: String,

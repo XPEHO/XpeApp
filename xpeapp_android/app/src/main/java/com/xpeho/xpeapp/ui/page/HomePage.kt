@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -41,6 +42,7 @@ import com.xpeho.xpeapp.ui.Resources
 import com.xpeho.xpeapp.ui.componants.AppBar
 import com.xpeho.xpeapp.ui.componants.ButtonElevated
 import com.xpeho.xpeapp.ui.componants.Card
+import com.xpeho.xpeapp.ui.componants.qvst.QvstBreadcrumb
 import com.xpeho.xpeapp.ui.theme.SfPro
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingComposable
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
@@ -57,37 +59,17 @@ fun HomePage(
 
     Scaffold(
         topBar = {
-            AppBar(
-                title = stringResource(id = R.string.app_name),
-                imageVector = Icons.AutoMirrored.Filled.Logout,
-                actions = {
-                    FeatureFlippingComposable(
-                        featureId = FeatureFlippingEnum.QVST.value,
-                        viewModel = featureFlippingViewModel,
-                        showIfNotEnabled = false,
-                        redirection = {
-                            navigationController.navigate(route = "QVST")
-                        },
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.qvst),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .width(80.dp)
-                                .height(80.dp)
-                                .padding(16.dp)
-                        )
-                    }
-                },
-            ) {
-                showDialog.value = true
-            }
+            TopBarContent(featureFlippingViewModel, navigationController, showDialog)
         }
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(32.dp),
+                .padding(
+                    top = it.calculateTopPadding(),
+                    start = 32.dp,
+                    end = 32.dp,
+                    bottom = 0.dp),
             verticalArrangement = Arrangement.Center,
         ) {
             dialogDisconnection(
@@ -103,45 +85,98 @@ fun HomePage(
                     }
                 }
             }
-            FeatureFlippingComposable(
-                featureId = FeatureFlippingEnum.NEWSLETTERS.value,
-                viewModel = featureFlippingViewModel,
-                redirection = {
-                    navigationController.navigate(route = "Newsletters")
-                },
-            ) {
-                Card(
-                    imageResource = R.drawable.newsletters,
-                    title = "Newsletters",
-                    color = colorResource(id = R.color.xpeho_color),
-                )
-            }
-            LazyVerticalGrid(
-                verticalArrangement = Arrangement.spacedBy(20.dp),
-                horizontalArrangement = Arrangement.spacedBy(20.dp),
-                contentPadding = PaddingValues(
-                    top = 20.dp,
-                    bottom = 20.dp,
-                ),
-                columns = GridCells.Fixed(2),
-                content = {
-                    items(Resources().listOfMenu.dropWhile { it.idImage == R.drawable.newsletters }) { resource ->
-                        FeatureFlippingComposable(
-                            viewModel = featureFlippingViewModel,
-                            featureId = resource.featureFlippingId.value,
-                            redirection = {
-                                navigationController.navigate(route = resource.redirection)
-                            },
-                        ) {
-                            Card(
-                                imageResource = resource.idImage,
-                                title = resource.title,
-                                color = setColor(resource.idImage),
-                            )
-                        }
-                    }
+            PageGrid(featureFlippingViewModel, navigationController)
+        }
+    }
+}
+
+@Composable
+private fun PageGrid(
+    featureFlippingViewModel: FeatureFlippingViewModel,
+    navigationController: NavController
+) {
+    FeatureFlippingComposable(
+        featureId = FeatureFlippingEnum.NEWSLETTERS.value,
+        viewModel = featureFlippingViewModel,
+        redirection = {
+            navigationController.navigate(route = "Newsletters")
+        },
+    ) {
+        Card(
+            imageResource = R.drawable.newsletters,
+            title = "Newsletters",
+            color = colorResource(id = R.color.xpeho_color),
+        )
+    }
+    LazyVerticalGrid(
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+        horizontalArrangement = Arrangement.spacedBy(20.dp),
+        contentPadding = PaddingValues(
+            top = 20.dp,
+            bottom = 20.dp,
+        ),
+        columns = GridCells.Fixed(2),
+        content = {
+            items(Resources().listOfMenu.dropWhile { it.idImage == R.drawable.newsletters }) { resource ->
+                FeatureFlippingComposable(
+                    viewModel = featureFlippingViewModel,
+                    featureId = resource.featureFlippingId.value,
+                    redirection = {
+                        navigationController.navigate(route = resource.redirection)
+                    },
+                ) {
+                    Card(
+                        imageResource = resource.idImage,
+                        title = resource.title,
+                        color = setColor(resource.idImage),
+                    )
                 }
-            )
+            }
+        }
+    )
+}
+
+@Composable
+private fun TopBarContent(
+    featureFlippingViewModel: FeatureFlippingViewModel,
+    navigationController: NavController,
+    showDialog: MutableState<Boolean>
+) {
+    Column {
+        AppBar(
+            title = stringResource(id = R.string.app_name),
+            imageVector = Icons.AutoMirrored.Filled.Logout,
+            actions = {
+                FeatureFlippingComposable(
+                    featureId = FeatureFlippingEnum.QVST.value,
+                    viewModel = featureFlippingViewModel,
+                    showIfNotEnabled = false,
+                    redirection = {
+                        navigationController.navigate(route = "QVST")
+                    },
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.qvst),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(80.dp)
+                            .height(80.dp)
+                            .padding(16.dp)
+                    )
+                }
+            },
+        ) {
+            showDialog.value = true
+        }
+        FeatureFlippingComposable(
+            featureId = FeatureFlippingEnum.QVST.value,
+            viewModel = featureFlippingViewModel,
+            redirection = {
+                navigationController.navigate(route = "QVST")
+            },
+            showIfNotEnabled = false
+        ) {
+            QvstBreadcrumb(modifier = Modifier.fillMaxWidth())
         }
     }
 }

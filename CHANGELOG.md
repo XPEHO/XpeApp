@@ -12,6 +12,7 @@ _Fix_
 _Chore_
 
 - Update changelog
+- [Issue #83](https://github.com/XPEHO/XpeApp/issues/83) Add authorization header to WordpressAPI requests
 
 ## 1.1.0
 

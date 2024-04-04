@@ -1,0 +1,34 @@
+package com.xpeho.xpeapp.data.service.interceptor
+
+import android.util.Log
+import com.xpeho.xpeapp.domain.AuthState
+import com.xpeho.xpeapp.domain.AuthenticationManager
+import okhttp3.Interceptor
+import okhttp3.Response
+
+class AuthorizationHeaderInterceptor(
+    private val authenticationManager: AuthenticationManager
+) : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val authState = authenticationManager.authState.value
+        return when(authState) {
+            AuthState.Loading -> identityResponse(chain)
+            AuthState.Unauthenticated -> identityResponse(chain)
+            is AuthState.Authenticated ->
+                authorizedResponse(chain, "Bearer ${authState.authData.token.jwt_token}")
+        }
+    }
+
+    private fun authorizedResponse(chain: Interceptor.Chain, token: String): Response {
+        Log.i("AuthorizationHeaderInterceptor", "Request was sent with bearer token $token")
+        val request = chain.request().newBuilder()
+            .addHeader("Authorization", token)
+            .build()
+        return chain.proceed(request)
+    }
+
+    private fun identityResponse(chain: Interceptor.Chain): Response {
+        Log.i("AuthorizationHeaderInterceptor", "Request was sent witout a bearer token")
+        return chain.proceed(chain.request())
+    }
+}

@@ -8,6 +8,7 @@ _Fix_
 
 - Update version in build gradle
 - [Issue #86](https://github.com/XPEHO/XpeApp/issues/86) Fix multiple back button presses
+- [Issue #85](https://github.com/XPEHO/XpeApp/issues/85) Fix Feature Flipping overlay going out of bounds
 
 _Chore_
 

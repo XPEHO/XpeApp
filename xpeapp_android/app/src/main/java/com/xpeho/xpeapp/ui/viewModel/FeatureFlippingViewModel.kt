@@ -3,14 +3,17 @@ package com.xpeho.xpeapp.ui.viewModel
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
@@ -83,7 +86,41 @@ fun FeatureFlippingComposable(
     featureId: String,
     showIfNotEnabled: Boolean = true,
     redirection: () -> Unit,
+    composableAuthorized: @Composable () -> Unit
+) {
+    val uiState = viewModel.uiState
+    when (uiState) {
+        is FeatureFlippingUiState.LOADING -> {
+            FeatureFlippingOverlay(
+                overlayColor = Color.Gray.copy(alpha = ALPHA_BOX),
+                centeredItem = { CircularProgressIndicator() }
+            ) {
+                composableAuthorized()
+            }
+        }
+        is FeatureFlippingUiState.ERROR -> {
+            FeatureFlippingOverlay(
+                overlayColor = Color.Red.copy(alpha = ALPHA_BOX),
+                centeredItem = { Text(uiState.error) }
+            ) {
+                composableAuthorized()
+            }
+        }
+        is FeatureFlippingUiState.SUCCESS -> {
+            FeatureFlippingComposableLoaded(viewModel, featureId, redirection, composableAuthorized, showIfNotEnabled)
+        }
+    }
+}
+
+
+
+@Composable
+private fun FeatureFlippingComposableLoaded(
+    viewModel: FeatureFlippingViewModel,
+    featureId: String,
+    redirection: () -> Unit,
     composableAuthorized: @Composable () -> Unit,
+    showIfNotEnabled: Boolean
 ) {
     // Get the list of features
     val featuresState = viewModel.featuresState.value
@@ -92,7 +129,7 @@ fun FeatureFlippingComposable(
     val feature = featuresState.find { it.id == featureId } ?: emptyFeatureFlipping()
 
     // Get the environment from the feature
-    val featureEnabled = if(BuildConfig.ENVIRONMENT == "prod") {
+    val featureEnabled = if (BuildConfig.ENVIRONMENT == "prod") {
         feature.prodEnabled
     } else {
         feature.uatEnabled
@@ -108,29 +145,38 @@ fun FeatureFlippingComposable(
         ) {
             composableAuthorized()
         }
-    } else {
-        if(showIfNotEnabled) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Gray)
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(
-                        shape = RoundedCornerShape(16.dp),
-                    )
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Gray)
-                        .alpha(ALPHA_BOX)
-                ) {
-                    composableAuthorized()
-                }
-            }
+    } else if (showIfNotEnabled) {
+        // Show the composable with a gray overlay
+        FeatureFlippingOverlay(overlayColor = Color.Gray.copy(alpha = ALPHA_BOX)) {
+            composableAuthorized()
         }
     }
+}
+
+@Composable
+private fun FeatureFlippingOverlay(
+    modifier: Modifier = Modifier,
+    overlayColor: Color,
+    centeredItem: @Composable BoxScope.() -> Unit = {},
+    content: @Composable BoxScope.() -> Unit,
+) {
+    Box(modifier = modifier
+        .clip(RoundedCornerShape(Constants.CARD_CORNER_RADIUS.dp))) {
+        val overlayModifier = Modifier
+            .matchParentSize()
+            .background(overlayColor)
+
+        this.content()
+        Box(overlayModifier) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+                content = centeredItem
+            )
+        }
+    }
+}
+
+private object Constants {
+    const val CARD_CORNER_RADIUS = 16
 }

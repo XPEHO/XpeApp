@@ -10,6 +10,7 @@ _Fix_
 - [Issue #86](https://github.com/XPEHO/XpeApp/issues/86) Fix multiple back button presses
 - [Issue #85](https://github.com/XPEHO/XpeApp/issues/85) Fix Feature Flipping overlay going out of bounds
 - Include start and end day in qvstBreadcrumb `_isCurrent` check
+- [Issue #93](https://github.com/XPEHO/XpeApp/issues/93) Fix bug where 2 bearer token are sent, crashing the app
 
 _Chore_
 

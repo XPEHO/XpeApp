@@ -11,6 +11,10 @@ class AuthorizationHeaderInterceptor(
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val authState = authenticationManager.authState.value
+        val hasAuthorizationHeader = chain.request().headers("Authorization").isNotEmpty()
+        if (hasAuthorizationHeader) {
+            return identityResponse(chain)
+        }
         return when(authState) {
             AuthState.Loading -> identityResponse(chain)
             AuthState.Unauthenticated -> identityResponse(chain)
@@ -20,7 +24,7 @@ class AuthorizationHeaderInterceptor(
     }
 
     private fun authorizedResponse(chain: Interceptor.Chain, token: String): Response {
-        Log.i("AuthorizationHeaderInterceptor", "Request was sent with bearer token $token")
+        Log.i("AuthorizationHeaderInterceptor", "Request was sent with the added bearer token $token")
         val request = chain.request().newBuilder()
             .addHeader("Authorization", token)
             .build()
@@ -28,7 +32,7 @@ class AuthorizationHeaderInterceptor(
     }
 
     private fun identityResponse(chain: Interceptor.Chain): Response {
-        Log.i("AuthorizationHeaderInterceptor", "Request was sent witout a bearer token")
+        Log.i("AuthorizationHeaderInterceptor", "Request was sent witout an added bearer token")
         return chain.proceed(chain.request())
     }
 }

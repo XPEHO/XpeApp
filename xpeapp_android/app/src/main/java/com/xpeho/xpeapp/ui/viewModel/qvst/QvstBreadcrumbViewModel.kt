@@ -1,5 +1,6 @@
 package com.xpeho.xpeapp.ui.viewModel.qvst
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xpeho.xpeapp.data.model.qvst.QvstCampaign
@@ -30,12 +31,22 @@ class QvstBreadcrumbViewModel : ViewModel() {
 
             var currentCampaign: QvstCampaign? = campaigns.firstOrNull { _isCurrent(it) }
 
+            for (campaign in campaigns) {
+                if(_isCurrent(campaign)) {
+                    currentCampaign = campaign
+                    break
+                }
+            }
+
+            Log.d("breadcrumb", "currentCampaign: $currentCampaign")
+
             if (currentCampaign == null) {
                 _uiState.value = QvstBreadcrumbUiState.NO_CURRENT_CAMPAIGN
                 return@launch
             }
 
-            _uiState.value = QvstBreadcrumbUiState.SUCCESS(currentCampaign.name, _remainingDays(currentCampaign))
+            _uiState.value = QvstBreadcrumbUiState.SUCCESS(currentCampaign.name,
+                _remainingDays(currentCampaign))
         }
 
     }
@@ -47,7 +58,8 @@ class QvstBreadcrumbViewModel : ViewModel() {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val startDate= LocalDate.parse(startDateString, formatter)
         val endDate = LocalDate.parse(endDateString, formatter)
-        return currentDate.isAfter(startDate) && currentDate.isBefore(endDate)
+        return (currentDate.isAfter(startDate) && currentDate.isBefore(endDate))
+                || currentDate.isEqual(startDate) || currentDate.isEqual(endDate)
     }
 
     private fun _remainingDays(campaign: QvstCampaign): Long {

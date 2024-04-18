@@ -1,6 +1,10 @@
 package com.xpeho.xpeapp.ui.page
 
+import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,12 +23,15 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -37,30 +44,32 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.xpeho.xpeapp.R
-import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.data.FeatureFlippingEnum
 import com.xpeho.xpeapp.ui.Resources
 import com.xpeho.xpeapp.ui.componants.AppBar
 import com.xpeho.xpeapp.ui.componants.ButtonElevated
 import com.xpeho.xpeapp.ui.componants.Card
 import com.xpeho.xpeapp.ui.componants.qvst.QvstBreadcrumb
+import com.xpeho.xpeapp.ui.modifier.greyScale
 import com.xpeho.xpeapp.ui.theme.SfPro
-import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingComposable
+import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingUiState
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
-import kotlinx.coroutines.launch
 
 @Composable
 @Suppress("UnusedMaterial3ScaffoldPaddingParameter")
-fun HomePage(
-    onDisconnectPressed : () -> Unit,
-    navigationController: NavController,
-) {
-    val featureFlippingViewModel = viewModel<FeatureFlippingViewModel>()
+fun HomePage(onDisconnectPressed : () -> Unit, navigationController: NavController) {
+    val ffViewModel = viewModel<FeatureFlippingViewModel>()
+    val context = LocalContext.current
+    LaunchedEffect(ffViewModel.uiState){
+        (ffViewModel.uiState as? FeatureFlippingUiState.ERROR)?.let {
+            Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
+        }
+    }
     val showDialog = remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
-            TopBarContent(featureFlippingViewModel, navigationController, showDialog)
+            TopBarContent(ffViewModel.uiState ,navigationController, showDialog)
         }
     ) {
         Column(
@@ -70,41 +79,53 @@ fun HomePage(
                     top = it.calculateTopPadding(),
                     start = 32.dp,
                     end = 32.dp,
-                    bottom = 0.dp),
+                    bottom = 0.dp
+                ),
             verticalArrangement = Arrangement.Center,
         ) {
-            val coroutineScope = rememberCoroutineScope()
             dialogDisconnection(
                 showDialog,
-            ) {
-                coroutineScope.launch {
-                    XpeApp.appModule.authenticationManager.logout()
-                    onDisconnectPressed()
-                }
-            }
-            PageGrid(featureFlippingViewModel, navigationController)
+                onDisconnectPressed
+            )
+            PageGrid(ffViewModel.uiState, navigationController)
         }
     }
 }
 
+private const val DISABLED_ALPHA = 0.4f
+private const val ENABLED_ALPHA = 1f
+private const val DISABLED_SATURATION = 0f
+private const val ENABLED_SATURATION = 1f
 @Composable
-private fun PageGrid(
-    featureFlippingViewModel: FeatureFlippingViewModel,
-    navigationController: NavController
-) {
-    FeatureFlippingComposable(
-        featureId = FeatureFlippingEnum.NEWSLETTERS.value,
-        viewModel = featureFlippingViewModel,
-        redirection = {
-            navigationController.navigate(route = "Newsletters")
-        },
-    ) {
-        Card(
-            imageResource = R.drawable.newsletters,
-            title = "Newsletters",
-            color = colorResource(id = R.color.xpeho_color),
-        )
-    }
+private fun ToggleableCard(title: String, imageResource: Int, color: Color?, isEnabled: Boolean,
+    onClick: () -> Unit) {
+    val alpha by animateFloatAsState(if (isEnabled) ENABLED_ALPHA else DISABLED_ALPHA,
+        label="alpha")
+    val saturation by animateFloatAsState(if (isEnabled) ENABLED_SATURATION else DISABLED_SATURATION,
+        label="saturation")
+    Card(
+        modifier = Modifier
+            .greyScale(saturation)
+            .alpha(alpha)
+            .clickable {
+                if (isEnabled)
+                    onClick()
+            },
+        imageResource = imageResource,
+        title = title,
+        color = color,
+    )
+}
+
+@Composable
+private fun PageGrid(uiState: FeatureFlippingUiState, navigationController: NavController) {
+    ToggleableCard(
+        title = "Newsletters",
+        imageResource = R.drawable.newsletters,
+        color = colorResource(id = R.color.xpeho_color),
+        isEnabled = isEnabled(FeatureFlippingEnum.NEWSLETTERS, uiState),
+        onClick = { navigationController.navigate(route = "Newsletters") }
+    )
     LazyVerticalGrid(
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalArrangement = Arrangement.spacedBy(20.dp),
@@ -114,44 +135,29 @@ private fun PageGrid(
         ),
         columns = GridCells.Fixed(2),
         content = {
-            items(Resources().listOfMenu.dropWhile { it.idImage == R.drawable.newsletters }) { resource ->
-                FeatureFlippingComposable(
-                    viewModel = featureFlippingViewModel,
-                    featureId = resource.featureFlippingId.value,
-                    redirection = {
-                        navigationController.navigate(route = resource.redirection)
-                    },
-                ) {
-                    Card(
-                        imageResource = resource.idImage,
-                        title = resource.title,
-                        color = setColor(resource.idImage),
-                    )
-                }
+            items(Resources().listOfMenu.dropWhile { it.idImage == R.drawable.newsletters }) {
+                ToggleableCard(
+                    title = it.title,
+                    imageResource = it.idImage,
+                    color = setColor(it.idImage),
+                    isEnabled = isEnabled(it.featureFlippingId, uiState),
+                    onClick = { navigationController.navigate(route = it.redirection) }
+                )
             }
         }
     )
 }
 
 @Composable
-private fun TopBarContent(
-    featureFlippingViewModel: FeatureFlippingViewModel,
-    navigationController: NavController,
-    showDialog: MutableState<Boolean>
-) {
-    Column {
+private fun TopBarContent(uiState: FeatureFlippingUiState, navigationController: NavController,
+    showDialog: MutableState<Boolean>) {
+    Column{
         AppBar(
             title = stringResource(id = R.string.app_name),
             imageVector = Icons.AutoMirrored.Filled.Logout,
             actions = {
-                FeatureFlippingComposable(
-                    featureId = FeatureFlippingEnum.QVST.value,
-                    viewModel = featureFlippingViewModel,
-                    showIfNotEnabled = false,
-                    redirection = {
-                        navigationController.navigate(route = "QVST")
-                    },
-                ) {
+                val isEnabled = isEnabled(FeatureFlippingEnum.QVST, uiState)
+                AnimatedVisibility(isEnabled) {
                     Image(
                         painter = painterResource(id = R.drawable.qvst),
                         contentDescription = null,
@@ -159,21 +165,25 @@ private fun TopBarContent(
                             .width(80.dp)
                             .height(80.dp)
                             .padding(16.dp)
+                            .clickable {
+                                if (isEnabled)
+                                    navigationController.navigate(route = "QVST")
+                            }
                     )
                 }
             },
         ) {
             showDialog.value = true
         }
-        FeatureFlippingComposable(
-            featureId = FeatureFlippingEnum.QVST.value,
-            viewModel = featureFlippingViewModel,
-            redirection = {
-                navigationController.navigate(route = "QVST")
-            },
-            showIfNotEnabled = false
-        ) {
-            QvstBreadcrumb(modifier = Modifier.fillMaxWidth())
+        val isEnabled = isEnabled(FeatureFlippingEnum.QVST, uiState)
+        AnimatedVisibility(isEnabled) {
+            QvstBreadcrumb(modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    if (isEnabled) navigationController.navigate(route = "QVST")
+                }
+                .padding(horizontal = 16.dp)
+            )
         }
     }
 }
@@ -243,3 +253,6 @@ private fun setColor(idImage: Int): Color? {
         null
     }
 }
+
+private fun isEnabled(feature: FeatureFlippingEnum, uiState: FeatureFlippingUiState): Boolean =
+    uiState is FeatureFlippingUiState.SUCCESS && uiState.featureEnabled[feature] ?: false

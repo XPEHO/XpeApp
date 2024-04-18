@@ -3,6 +3,7 @@ package com.xpeho.xpeapp.ui
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.enums.Screens
 import com.xpeho.xpeapp.ui.page.ColleaguePage
 import com.xpeho.xpeapp.ui.page.HomePage
@@ -12,6 +13,9 @@ import com.xpeho.xpeapp.ui.page.newsletter.NewsletterPage
 import com.xpeho.xpeapp.ui.page.newsletter.detail.NewsletterDetailPage
 import com.xpeho.xpeapp.ui.page.qvst.QvstCampaignDetailPage
 import com.xpeho.xpeapp.ui.page.qvst.QvstPage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 fun NavGraphBuilder.navigationBuilder(
     navigationController: NavHostController,
@@ -29,6 +33,9 @@ fun NavGraphBuilder.navigationBuilder(
         HomePage(
             navigationController = navigationController,
             onDisconnectPressed = {
+                CoroutineScope(Dispatchers.IO).launch {
+                    XpeApp.appModule.authenticationManager.logout()
+                }
                 // Return to login page and clear the backstack
                 navigationController.navigate(route = Screens.Login.name) {
                     popUpTo(Screens.Home.name) { inclusive = true }

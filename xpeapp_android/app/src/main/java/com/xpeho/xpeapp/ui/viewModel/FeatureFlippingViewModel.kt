@@ -1,63 +1,56 @@
 package com.xpeho.xpeapp.ui.viewModel
 
 import android.util.Log
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.xpeho.xpeapp.BuildConfig
-import com.xpeho.xpeapp.data.ALPHA_BOX
 import com.xpeho.xpeapp.data.FEATURE_FLIPPING_COLLECTION
+import com.xpeho.xpeapp.data.FeatureFlippingEnum
 import com.xpeho.xpeapp.data.model.FeatureFlipping
-import com.xpeho.xpeapp.data.model.emptyFeatureFlipping
 import com.xpeho.xpeapp.data.model.toFeatureFlipping
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import okhttp3.internal.immutableListOf
-import okhttp3.internal.toImmutableList
+import okhttp3.internal.toImmutableMap
 
 class FeatureFlippingViewModel : ViewModel() {
-
     var uiState: FeatureFlippingUiState by mutableStateOf(FeatureFlippingUiState.LOADING)
-
-    val featuresState = mutableStateOf(immutableListOf<FeatureFlipping>())
+        private set
 
     init {
         viewModelScope.launch {
-            getFeatureFlipping()
+            fetchData()
         }
     }
 
-    private suspend fun getFeatureFlipping() {
-        uiState = try {
-            val result = getFeatureFlippingFromFirebase()
-            featuresState.value = result.toImmutableList()
-            FeatureFlippingUiState.SUCCESS(result)
-        } catch (firebaseException: FirebaseException) {
-            FeatureFlippingUiState.ERROR(firebaseException.message ?: "")
+    private suspend fun fetchData() {
+        val featureFlippingList = try {
+            getFeatureFlippingFromFirebase()
+        } catch (e: Exception) {
+            uiState = FeatureFlippingUiState.ERROR("Error: ${e.message}")
+            return
         }
+        val featureEnabled = mutableMapOf<FeatureFlippingEnum, Boolean>()
+        for(feature in featureFlippingList) {
+            val enumOfFeature = FeatureFlippingEnum.values().find { it.value == feature.id }
+            if (enumOfFeature == null) {
+                uiState = FeatureFlippingUiState.ERROR(
+                    "Error: A feature is not found in the FeatureFlippingEnum.")
+                return
+            }
+            featureEnabled[enumOfFeature] =
+                if(BuildConfig.ENVIRONMENT == "prod") feature.prodEnabled else feature.uatEnabled
+        }
+        uiState = FeatureFlippingUiState.SUCCESS(featureEnabled.toImmutableMap())
     }
 }
 
 // Get the list of features from Firebase
-suspend fun getFeatureFlippingFromFirebase(): List<FeatureFlipping> {
+private suspend fun getFeatureFlippingFromFirebase(): List<FeatureFlipping> {
     try {
         val db = FirebaseFirestore.getInstance()
         val document = db.collection(FEATURE_FLIPPING_COLLECTION)
@@ -78,105 +71,4 @@ suspend fun getFeatureFlippingFromFirebase(): List<FeatureFlipping> {
         Log.e("getFeatureFlippingFromFirebase", "Error getting documents: $firebaseException")
         return emptyList()
     }
-}
-
-@Composable
-fun FeatureFlippingComposable(
-    viewModel: FeatureFlippingViewModel,
-    featureId: String,
-    showIfNotEnabled: Boolean = true,
-    redirection: () -> Unit,
-    composableAuthorized: @Composable () -> Unit
-) {
-    val uiState = viewModel.uiState
-    when (uiState) {
-        is FeatureFlippingUiState.LOADING -> {
-            FeatureFlippingOverlay(
-                overlayColor = Color.Gray.copy(alpha = ALPHA_BOX),
-                centeredItem = { CircularProgressIndicator() }
-            ) {
-                composableAuthorized()
-            }
-        }
-        is FeatureFlippingUiState.ERROR -> {
-            FeatureFlippingOverlay(
-                overlayColor = Color.Red.copy(alpha = ALPHA_BOX),
-                centeredItem = { Text(uiState.error) }
-            ) {
-                composableAuthorized()
-            }
-        }
-        is FeatureFlippingUiState.SUCCESS -> {
-            FeatureFlippingComposableLoaded(viewModel, featureId, redirection, composableAuthorized, showIfNotEnabled)
-        }
-    }
-}
-
-
-
-@Composable
-private fun FeatureFlippingComposableLoaded(
-    viewModel: FeatureFlippingViewModel,
-    featureId: String,
-    redirection: () -> Unit,
-    composableAuthorized: @Composable () -> Unit,
-    showIfNotEnabled: Boolean
-) {
-    // Get the list of features
-    val featuresState = viewModel.featuresState.value
-
-    // Get the feature from the list
-    val feature = featuresState.find { it.id == featureId } ?: emptyFeatureFlipping()
-
-    // Get the environment from the feature
-    val featureEnabled = if (BuildConfig.ENVIRONMENT == "prod") {
-        feature.prodEnabled
-    } else {
-        feature.uatEnabled
-    }
-
-    if (featureEnabled) {
-        // Show the composable
-        Box(
-            modifier = Modifier
-                .pointerInput(Unit) {
-                    redirection()
-                }
-        ) {
-            composableAuthorized()
-        }
-    } else if (showIfNotEnabled) {
-        // Show the composable with a gray overlay
-        FeatureFlippingOverlay(overlayColor = Color.Gray.copy(alpha = ALPHA_BOX)) {
-            composableAuthorized()
-        }
-    }
-}
-
-@Composable
-private fun FeatureFlippingOverlay(
-    modifier: Modifier = Modifier,
-    overlayColor: Color,
-    centeredItem: @Composable BoxScope.() -> Unit = {},
-    content: @Composable BoxScope.() -> Unit,
-) {
-    Box(modifier = modifier
-        .clip(RoundedCornerShape(Constants.CARD_CORNER_RADIUS.dp))) {
-        val overlayModifier = Modifier
-            .matchParentSize()
-            .background(overlayColor)
-
-        this.content()
-        Box(overlayModifier) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
-                content = centeredItem
-            )
-        }
-    }
-}
-
-private object Constants {
-    const val CARD_CORNER_RADIUS = 16
 }

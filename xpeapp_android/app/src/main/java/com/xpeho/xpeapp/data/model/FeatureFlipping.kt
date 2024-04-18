@@ -10,14 +10,6 @@ data class FeatureFlipping(
     val prodEnabled: Boolean,
 )
 
-fun emptyFeatureFlipping() = FeatureFlipping(
-    id = "",
-    name = "",
-    description = "",
-    uatEnabled = false,
-    prodEnabled = false,
-)
-
 fun DocumentSnapshot?.toFeatureFlipping(): FeatureFlipping {
     return FeatureFlipping(
         id = this?.id ?: "",

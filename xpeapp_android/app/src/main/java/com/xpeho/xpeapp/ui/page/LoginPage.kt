@@ -7,10 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -24,12 +21,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
-import com.xpeho.xpeapp.domain.AuthState
 import com.xpeho.xpeapp.enums.InputTextFieldKeyboardType
 import com.xpeho.xpeapp.ui.componants.ButtonElevated
 import com.xpeho.xpeapp.ui.componants.CustomDialog
@@ -39,46 +34,11 @@ import com.xpeho.xpeapp.ui.viewModel.WordpressViewModel
 import com.xpeho.xpeapp.ui.viewModel.viewModelFactory
 
 /**
- * Login page with loading animation for saved authentication
- * @param onLoginSuccess: Callback when login is successful
- */
-@Composable
-fun LoginPage(onLoginSuccess: () -> Unit) {
-    val authState = XpeApp.appModule.authenticationManager.authState.collectAsStateWithLifecycle().value
-    // If auth state switches to Authenticated, notify of login success
-    LaunchedEffect(authState) {
-        if (authState is AuthState.Authenticated) {
-            onLoginSuccess()
-        }
-    }
-    when(authState) {
-        is AuthState.Unauthenticated -> LoginPageForm(onLoginSuccess)
-        is AuthState.Loading -> Loading()
-        is AuthState.Authenticated -> {}
-    }
-}
-
-/**
- * Full screen loading icon
- */
-@Composable
-private fun Loading() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-/**
  * Login page
  * @param onLoginSuccess: Callback when login is successful
  */
 @Composable
-private fun LoginPageForm(onLoginSuccess: () -> Unit) {
+fun LoginPage(onLoginSuccess: () -> Unit) {
     val wordpressViewModel = viewModel<WordpressViewModel>(
         factory = viewModelFactory {
             WordpressViewModel(XpeApp.appModule.authenticationManager)

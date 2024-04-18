@@ -13,10 +13,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.xpeho.xpeapp.enums.Screens
 import com.xpeho.xpeapp.ui.Home
 import com.xpeho.xpeapp.ui.theme.XpeAppTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class MainActivity : ComponentActivity() {
 
@@ -24,10 +30,27 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         checkPermission()
-        lifecycleScope.launch {
-            // Initialize the authentication manager on Activity creation
-            XpeApp.appModule.authenticationManager.initialize()
+
+        // This is done to skip to the Home screen faster,
+        // thus not forcing the user to wait for authentication.
+        val connectedLastTime = runBlocking {
+            XpeApp.appModule.datastorePref.getWasConnectedLastTime()
         }
+        val startScreenFlow: MutableStateFlow<Screens> =
+            MutableStateFlow(if(connectedLastTime) Screens.Home else Screens.Login)
+
+        if (connectedLastTime) {
+            CoroutineScope(Dispatchers.IO).launch {
+                XpeApp.appModule.authenticationManager.restoreAuthStateFromStorage()
+                if (!XpeApp.appModule.authenticationManager.isAuthValid()) {
+                    XpeApp.appModule.authenticationManager.logout()
+                    withContext(Dispatchers.Main) {
+                        startScreenFlow.value = Screens.Login
+                    }
+                }
+            }
+        }
+
         setContent {
             XpeAppTheme {
                 // A surface container using the 'background' color from the theme
@@ -36,7 +59,8 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize(),
                     color = colorResource(id = R.color.xpeho_background_color)
                 ) {
-                    Home()
+                    val startScreen = startScreenFlow.collectAsStateWithLifecycle()
+                    Home(startScreen.value)
                 }
             }
         }

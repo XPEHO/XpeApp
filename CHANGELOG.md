@@ -4,6 +4,7 @@ _Feat_
 
 - Skip login screen when user logged in previously
 - [Issue #99](https://github.com/XPEHO/XpeApp/issues/99) Enabled Hardware Acceleration
+- [Issue #97](https://github.com/XPEHO/XpeApp/issues/97) Shortened navigation animations
 
 _Fix_
 

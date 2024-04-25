@@ -21,6 +21,10 @@ _Chore_
 - Update changelog
 - [Issue #83](https://github.com/XPEHO/XpeApp/issues/83) Add authorization header to WordpressAPI requests
 
+_Doc_
+
+- [Issue #79](https://github.com/XPEHO/XpeApp/issues/79) Add the PUML diagram of the project
+
 ## 1.1.0
 
 _Feat_

@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
+import com.xpeho.xpeapp.domain.AuthData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -18,6 +19,7 @@ class DatastorePref(private val context: Context) {
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = PREF_NAME)
         val CONNECT = stringPreferencesKey("isConnectedLeastOneTime")
         val AUTH_DATA = stringPreferencesKey("authData")
+        val WAS_CONNECTED_LAST_TIME = stringPreferencesKey("wasConnectedLastTime")
     }
 
     val isConnectedLeastOneTime: Flow<Boolean> = context.dataStore.data
@@ -63,4 +65,19 @@ class DatastorePref(private val context: Context) {
             preference.remove(AUTH_DATA)
         }
     }
+
+    // wasConnectedLastTime datastore
+
+    suspend fun setWasConnectedLastTime(wasConnected: Boolean) {
+        context.dataStore.edit { preference ->
+            preference[WAS_CONNECTED_LAST_TIME] = wasConnected.toString()
+        }
+    }
+
+    suspend fun getWasConnectedLastTime(): Boolean {
+        return context.dataStore.data.map { preferences ->
+            preferences[WAS_CONNECTED_LAST_TIME]?.toBoolean() ?: false
+        }.first()
+    }
 }
+

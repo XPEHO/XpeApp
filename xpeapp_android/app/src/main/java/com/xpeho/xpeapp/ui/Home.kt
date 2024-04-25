@@ -16,7 +16,7 @@ import com.xpeho.xpeapp.enums.Screens
 private const val NAV_ANIM_DURATION_MILLIS = 300
 
 @Composable
-fun Home() {
+fun Home(startScreen: Screens) {
     FirebaseMessaging.getInstance().subscribeToTopic("newsletter")
     FirebaseMessaging.getInstance()
         .token.addOnCompleteListener { task ->
@@ -31,7 +31,7 @@ fun Home() {
 
     NavHost(
         navController = navigationController,
-        startDestination = Screens.Login.name,
+        startDestination = startScreen.name,
         enterTransition = {fadeIn(animationSpec = tween(NAV_ANIM_DURATION_MILLIS))},
         exitTransition = {fadeOut(animationSpec = tween(NAV_ANIM_DURATION_MILLIS))}
     ) {

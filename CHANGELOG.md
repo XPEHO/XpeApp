@@ -2,7 +2,7 @@
 
 _Feat_
 
-- Skip login screen when user logged in previously
+- [Issue #98](https://github.com/XPEHO/XpeApp/issues/98) Skip login screen when user logged in previously, gracefully display UI before login is complete
 - [Issue #99](https://github.com/XPEHO/XpeApp/issues/99) Enabled Hardware Acceleration
 - [Issue #97](https://github.com/XPEHO/XpeApp/issues/97) Shortened navigation animations
 
@@ -13,6 +13,7 @@ _Fix_
 - [Issue #85](https://github.com/XPEHO/XpeApp/issues/85) Fix Feature Flipping overlay going out of bounds
 - Include start and end day in qvstBreadcrumb `_isCurrent` check
 - [Issue #93](https://github.com/XPEHO/XpeApp/issues/93) Fix bug where 2 bearer token are sent, crashing the app
+- [Issue #96](https://github.com/XPEHO/XpeApp/issues/96) Fix bug where QVST Campaigns list was flashing because of a refetch on redraws
 
 _Chore_
 

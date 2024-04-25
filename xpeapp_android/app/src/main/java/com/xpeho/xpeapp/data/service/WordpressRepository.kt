@@ -66,8 +66,8 @@ class WordpressRepository {
     }
 }
 
-sealed class AuthResult<out T> {
-    data class Success<out T>(val data: T): AuthResult<T>()
-    object Unauthorized: AuthResult<Nothing>()
-    object NetworkError: AuthResult<Nothing>()
+sealed interface AuthResult<out T> {
+    object Unauthorized: AuthResult<Nothing>
+    object NetworkError: AuthResult<Nothing>
+    data class Success<out T>(val data: T): AuthResult<T>
 }

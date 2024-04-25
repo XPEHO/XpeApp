@@ -31,12 +31,13 @@ import com.xpeho.xpeapp.ui.theme.SfPro
 
 @Composable
 fun Card(
+    modifier: Modifier = Modifier,
     imageResource: Int,
     title: String,
     color: Color?,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .clip(
                 shape = RoundedCornerShape(16.dp),
             )

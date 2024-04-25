@@ -8,7 +8,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.xpeho.xpeapp.enums.Screens
 
 @Composable
-fun Home() {
+fun Home(startScreen: Screens) {
     FirebaseMessaging.getInstance().subscribeToTopic("newsletter")
     FirebaseMessaging.getInstance()
         .token.addOnCompleteListener { task ->
@@ -23,7 +23,7 @@ fun Home() {
 
     NavHost(
         navController = navigationController,
-        startDestination = Screens.Login.name,
+        startDestination = startScreen.name,
     ) {
         navigationBuilder(navigationController)
     }

@@ -2,7 +2,7 @@
 
 _Feat_
 
-- Skip login screen when user logged in previously
+- [Issue #98](https://github.com/XPEHO/XpeApp/issues/98) Skip login screen when user logged in previously, gracefully display UI before login is complete
 - [Issue #99](https://github.com/XPEHO/XpeApp/issues/99) Enabled Hardware Acceleration
 
 _Fix_

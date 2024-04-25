@@ -12,6 +12,7 @@ _Fix_
 - [Issue #85](https://github.com/XPEHO/XpeApp/issues/85) Fix Feature Flipping overlay going out of bounds
 - Include start and end day in qvstBreadcrumb `_isCurrent` check
 - [Issue #93](https://github.com/XPEHO/XpeApp/issues/93) Fix bug where 2 bearer token are sent, crashing the app
+- [Issue #96](https://github.com/XPEHO/XpeApp/issues/96) Fix bug where QVST Campaigns list was flashing because of a refetch on redraws
 
 _Chore_
 

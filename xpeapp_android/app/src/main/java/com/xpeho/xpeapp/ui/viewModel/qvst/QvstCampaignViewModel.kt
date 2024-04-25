@@ -13,7 +13,11 @@ class QvstCampaignViewModel : ViewModel() {
 
     var state: QvstUiState by mutableStateOf(QvstUiState.EMPTY)
 
-    fun getActiveCampaign() {
+    init {
+        getActiveCampaign()
+    }
+
+    private fun getActiveCampaign() {
         state = QvstUiState.LOADING
         viewModelScope.launch {
             state = try {

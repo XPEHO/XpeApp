@@ -44,6 +44,7 @@ fun QvstCampaignList(
             ) {
                 onCampaignClick(campaigns[index])
             }
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

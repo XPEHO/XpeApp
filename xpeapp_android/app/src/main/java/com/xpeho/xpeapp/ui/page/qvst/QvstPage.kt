@@ -29,7 +29,6 @@ fun QvstPage(
     navigationController: NavController,
     onBackPressed: () -> Unit,
 ) {
-    campaignViewModel.getActiveCampaign()
     Scaffold(
         topBar = {
             AppBar(

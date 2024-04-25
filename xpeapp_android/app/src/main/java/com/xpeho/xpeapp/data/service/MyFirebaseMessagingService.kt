@@ -1,6 +1,7 @@
 package com.xpeho.xpeapp.data.service
 
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.xpeho.xpeapp.data.DatastorePref
@@ -26,10 +27,16 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     context = context
                 ).isConnectedLeastOneTime
                 if (isConnected.first()) {
-                    NewsletterNotification().showNotification(
-                        context = context,
-                        content = it.body.toString(),
-                    )
+                    try {
+                        NewsletterNotification().showNotification(
+                            context = context,
+                            content = it.body.toString(),
+                        )
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Error while showing notification", e)
+                        Toast.makeText(context, "Error while showing notification: ${e.message}",
+                            Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }

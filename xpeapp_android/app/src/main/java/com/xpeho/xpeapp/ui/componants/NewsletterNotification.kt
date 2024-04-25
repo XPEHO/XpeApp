@@ -34,7 +34,10 @@ class NewsletterNotification {
             context,
             0,
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT,
+            // Note(loucas): Not using FLAG_IMMUTABLE causes a crash on Android 12 and above
+            // see: https://developer.android.com/about/versions/12/behavior-changes-12#pending-intent-mutability
+            // see: https://github.com/XPEHO/XpeApp/issues/95
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
         val notification = Notification.Builder(

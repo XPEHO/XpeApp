@@ -20,6 +20,7 @@ _Chore_
 
 - Update changelog
 - [Issue #83](https://github.com/XPEHO/XpeApp/issues/83) Add authorization header to WordpressAPI requests
+- [Issue #78](https://github.com/XPEHO/XpeApp/issues/78) Create CI pipelines to automate release builds
 
 ## 1.1.0
 

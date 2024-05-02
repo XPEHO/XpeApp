@@ -1,5 +1,6 @@
 package com.xpeho.xpeapp.ui.page
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,6 +10,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,7 +33,8 @@ fun VacationPage(
 ) {
     val vacationRequestLeave = Resources().request
     Scaffold(
-        containerColor = colorResource(id = R.color.xpeho_background_color),
+        containerColor = if(isSystemInDarkTheme()) MaterialTheme.colorScheme.surface
+            else colorResource(id = R.color.xpeho_background_color),
         topBar = {
             AppBar(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -43,7 +46,8 @@ fun VacationPage(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {},
-                containerColor = Color.White,
+                containerColor = if(isSystemInDarkTheme()) MaterialTheme.colorScheme.primary
+                    else Color.White,
             ) {
                 Icon(
                     Icons.Filled.Add,

@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -60,12 +61,13 @@ fun NewsletterDetailComponent(newsletter: Newsletter) {
                 fontFamily = SfPro,
                 fontStyle = FontStyle.Italic,
                 fontSize = 24.sp,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
         Text(
             text = stringResource(id = R.string.newsletter_detail_summary_title),
             style = androidx.compose.ui.text.TextStyle(
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 24.sp,
                 fontFamily = SfPro,
                 fontWeight = FontWeight.Bold,
@@ -78,7 +80,7 @@ fun NewsletterDetailComponent(newsletter: Newsletter) {
             ),
             textAlign = TextAlign.Center,
             style = androidx.compose.ui.text.TextStyle(
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 16.sp,
                 fontFamily = SfPro,
                 fontStyle = FontStyle.Italic,

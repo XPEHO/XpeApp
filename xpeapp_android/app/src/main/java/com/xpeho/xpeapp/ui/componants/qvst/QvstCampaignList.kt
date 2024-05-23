@@ -3,16 +3,19 @@ package com.xpeho.xpeapp.ui.componants.qvst
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowRight
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -60,7 +63,8 @@ fun QvstCampaignItem(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = androidx.compose.ui.graphics.Color.White,
+                color = if (isSystemInDarkTheme())
+                    MaterialTheme.colorScheme.surfaceVariant else Color.White,
                 shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp)
             )
             .padding(16.dp)
@@ -81,6 +85,7 @@ fun QvstCampaignItem(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 15.sp,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 )
                 Box(modifier = Modifier.height(8.dp))
@@ -92,6 +97,7 @@ fun QvstCampaignItem(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 )
             }
@@ -103,6 +109,7 @@ fun QvstCampaignItem(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             )
             Image(

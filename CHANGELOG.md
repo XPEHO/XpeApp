@@ -5,6 +5,7 @@ _Feat_
 - [Issue #98](https://github.com/XPEHO/XpeApp/issues/98) Skip login screen when user logged in previously, gracefully display UI before login is complete
 - [Issue #99](https://github.com/XPEHO/XpeApp/issues/99) Enabled Hardware Acceleration
 - [Issue #97](https://github.com/XPEHO/XpeApp/issues/97) Shortened navigation animations
+- [Issue #108](https://github.com/XPEHO/XpeApp/issues/108) Make the app's dark theme readable
 
 _Fix_
 

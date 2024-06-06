@@ -6,6 +6,8 @@ _Feat_
 - [Issue #99](https://github.com/XPEHO/XpeApp/issues/99) Enabled Hardware Acceleration
 - [Issue #97](https://github.com/XPEHO/XpeApp/issues/97) Shortened navigation animations
 - [Issue #108](https://github.com/XPEHO/XpeApp/issues/108) Make the app's dark theme readable
+- [Issue #64](https://github.com/XPEHO/XpeApp/issues/64) Add iOS newsletters list
+- [Issue #66](https://github.com/XPEHO/XpeApp/issues/66) Add iOS newsletter detail
 
 _Fix_
 
@@ -22,6 +24,8 @@ _Chore_
 - Update changelog
 - [Issue #83](https://github.com/XPEHO/XpeApp/issues/83) Add authorization header to WordpressAPI requests
 - [Issue #78](https://github.com/XPEHO/XpeApp/issues/78) Create CI pipelines to automate release builds
+- [Issue #62](https://github.com/XPEHO/XpeApp/issues/62) Create iOS folder structure
+- [Issue #67](https://github.com/XPEHO/XpeApp/issues/67) Add firebase to the iOS app
 
 ## 1.1.0
 

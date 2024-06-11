@@ -27,6 +27,8 @@ struct XpeAppApp: App {
 
 // Note(Loucas): This app delegate is used as part
 // of the default Firebase SDK setup code
+// Note(Loucas): Firebase method swizzling has been disabled. If it becomes necessary in the future,
+// we can enable it through setting the FirebaseAppDelegateProxyEnabled boolean to 'NO' in Info.plist
 class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
     func application(
         _ application: UIApplication,

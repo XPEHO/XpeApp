@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		BD83CCB52C183C9300152559 /* XpeApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BD83CCB32C183C9300152559 /* XpeApp.xcdatamodeld */; };
+		BD83CCB82C1853C300152559 /* QvstCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83CCB72C1853C300152559 /* QvstCampaign.swift */; };
+		BD83CCBA2C1853ED00152559 /* QvstCampaignsPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83CCB92C1853ED00152559 /* QvstCampaignsPageView.swift */; };
 		BDACECDF2C109309007B5262 /* XpeAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECDE2C109309007B5262 /* XpeAppApp.swift */; };
 		BDACECE12C109309007B5262 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECE02C109309007B5262 /* ContentView.swift */; };
 		BDACECE52C10930C007B5262 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDACECE42C10930C007B5262 /* Assets.xcassets */; };
@@ -45,6 +47,8 @@
 
 /* Begin PBXFileReference section */
 		BD83CCB42C183C9300152559 /* XpeApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = XpeApp.xcdatamodel; sourceTree = "<group>"; };
+		BD83CCB72C1853C300152559 /* QvstCampaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QvstCampaign.swift; sourceTree = "<group>"; };
+		BD83CCB92C1853ED00152559 /* QvstCampaignsPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QvstCampaignsPageView.swift; sourceTree = "<group>"; };
 		BDACECDB2C109309007B5262 /* XpeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XpeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDACECDE2C109309007B5262 /* XpeAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XpeAppApp.swift; sourceTree = "<group>"; };
 		BDACECE02C109309007B5262 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -57,6 +61,7 @@
 		BDACECFD2C10930C007B5262 /* XpeAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XpeAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		BDACED0A2C10A690007B5262 /* NewsletterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsletterPageView.swift; sourceTree = "<group>"; };
 		BDACED0C2C10B68F007B5262 /* DeclarationMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclarationMenuView.swift; sourceTree = "<group>"; };
+		BDC8A4242C18765A00D14C35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BDE1B5152C183AE200E8513F /* DebugPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPageView.swift; sourceTree = "<group>"; };
 		BDE1B5172C183B1600E8513F /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		BDFB9FF82C11A72300F8A35F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -91,6 +96,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BD83CCB62C1853B200152559 /* QvstCampaigns */ = {
+			isa = PBXGroup;
+			children = (
+				BD83CCB72C1853C300152559 /* QvstCampaign.swift */,
+				BD83CCB92C1853ED00152559 /* QvstCampaignsPageView.swift */,
+			);
+			path = QvstCampaigns;
+			sourceTree = "<group>";
+		};
 		BDACECD22C109309007B5262 = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +128,8 @@
 		BDACECDD2C109309007B5262 /* XpeApp */ = {
 			isa = PBXGroup;
 			children = (
+				BDC8A4242C18765A00D14C35 /* Info.plist */,
+				BD83CCB62C1853B200152559 /* QvstCampaigns */,
 				BD83CCB32C183C9300152559 /* XpeApp.xcdatamodeld */,
 				BDFB9FFA2C11AC6200F8A35F /* Newsletter */,
 				BDFB9FF82C11A72300F8A35F /* GoogleService-Info.plist */,
@@ -308,7 +324,9 @@
 				BDACECE12C109309007B5262 /* ContentView.swift in Sources */,
 				BDACECDF2C109309007B5262 /* XpeAppApp.swift in Sources */,
 				BDACED0D2C10B68F007B5262 /* DeclarationMenuView.swift in Sources */,
+				BD83CCB82C1853C300152559 /* QvstCampaign.swift in Sources */,
 				BDACED0B2C10A690007B5262 /* NewsletterPageView.swift in Sources */,
+				BD83CCBA2C1853ED00152559 /* QvstCampaignsPageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,6 +492,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"XpeApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = XpeApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -502,6 +521,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"XpeApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = XpeApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

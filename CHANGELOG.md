@@ -8,6 +8,8 @@ _Feat_
 - [Issue #108](https://github.com/XPEHO/XpeApp/issues/108) Make the app's dark theme readable
 - [Issue #64](https://github.com/XPEHO/XpeApp/issues/64) Add iOS newsletters list
 - [Issue #66](https://github.com/XPEHO/XpeApp/issues/66) Add iOS newsletter detail
+- [Issue #113](https://github.com/XPEHO/XpeApp/issues/113) Store Newsletters using CoreData for instant loading
+- [Issue #69](https://github.com/XPEHO/XpeApp/issues/69) Add basic list of qvst campaigns
 
 _Fix_
 

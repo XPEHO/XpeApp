@@ -6,11 +6,9 @@
 //
 
 import Foundation
-import FirebaseFirestore
-import FirebaseAuth
 
 struct Newsletter: Codable {
-    @DocumentID var id: String?
+    var id: String?
     let date: Date
     let pdfUrl: String
     let publicationDate: Date
@@ -25,28 +23,32 @@ struct Newsletter: Codable {
     }
 }
 
-// Note(Loucas): This is to allow fetching newsletters from firebase
-// Todo(Loucas): Ensure that having a Firestore.firestore() call per class
-// doesn't recreate connections each time.
+import FirebaseFirestore
+
 extension Newsletter {
-    init?(document: DocumentSnapshot) {
-        do {
-            let data = try document.data(as: Newsletter.self)
-            self = data
-        } catch {
-            print("Error initializing newsletter: \(error.localizedDescription)")
-            return nil
-        }
-    }
-    
-    static private let db = Firestore.firestore()
-    static private let collectionName = "newsletters"
     static func fetchAll() async -> [Newsletter]? {
+        let collectionName = "newsletters"
+        
+        let querySnapshot: QuerySnapshot
         do {
-            let querySnapshot = try await db.collection(collectionName).getDocuments()
-            return querySnapshot.documents.map { doc in Newsletter(document: doc)! }
+            querySnapshot = try await XpeAppApp.firestore.collection(collectionName).getDocuments()
         } catch {
             print("Error fetching newsletters: \(error.localizedDescription)")
+            return nil
+        }
+        
+        do {
+            return try querySnapshot.documents.map { doc in
+                let d = try doc.data(as: Newsletter.self)
+                return Newsletter(
+                    id: doc.documentID ,
+                    date: d.date,
+                    pdfUrl: d.pdfUrl,
+                    publicationDate: d.publicationDate,
+                    summary: d.summary)
+            }
+        } catch {
+            print("Error parsing newsletters: \(error.localizedDescription)")
             return nil
         }
     }

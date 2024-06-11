@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var qvstCampaigns: [QvstCampaign] = []
     
     var body: some View {
         TabView {
@@ -23,13 +24,32 @@ struct ContentView: View {
                 .tabItem {
                     Label("Contacts", systemImage: "person.crop.circle.fill")
                 }
+            QvstCampaignsPageView(campaigns: qvstCampaigns)
+                .tabItem {
+                    Label("QVST Temp", systemImage: "questionmark")
+                }
             //Note(Loucas): This is a convenience menu for development purposes
             #if DEBUG && true
-            Text("Debug menu placeholder")
+            DebugPageView()
                 .tabItem {
                     Label("Debug", systemImage: "wrench.fill")
                 }
             #endif
+        }
+        .onAppear {
+            if qvstCampaigns.isEmpty {
+                updateCampaigns()
+            }
+        }
+    }
+    
+    private func updateCampaigns() {
+        Task {
+            guard let cs = await QvstCampaign.fetchActive() else { return }
+            // Note: We have to do UI updates on the main thread to prevent crashes
+            DispatchQueue.main.async {
+                qvstCampaigns = cs
+            }
         }
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BD83CCB52C183C9300152559 /* XpeApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BD83CCB32C183C9300152559 /* XpeApp.xcdatamodeld */; };
 		BDACECDF2C109309007B5262 /* XpeAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECDE2C109309007B5262 /* XpeAppApp.swift */; };
 		BDACECE12C109309007B5262 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECE02C109309007B5262 /* ContentView.swift */; };
 		BDACECE52C10930C007B5262 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDACECE42C10930C007B5262 /* Assets.xcassets */; };
@@ -19,6 +20,8 @@
 		BDACED122C10BB78007B5262 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED112C10BB78007B5262 /* FirebaseAuth */; };
 		BDACED142C10BB78007B5262 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED132C10BB78007B5262 /* FirebaseFirestore */; };
 		BDACED162C10BB78007B5262 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED152C10BB78007B5262 /* FirebaseMessaging */; };
+		BDE1B5162C183AE200E8513F /* DebugPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE1B5152C183AE200E8513F /* DebugPageView.swift */; };
+		BDE1B5182C183B1600E8513F /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE1B5172C183B1600E8513F /* DataController.swift */; };
 		BDFB9FF92C11A72300F8A35F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDFB9FF82C11A72300F8A35F /* GoogleService-Info.plist */; };
 		BDFB9FFC2C11AC7F00F8A35F /* Newsletter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFB9FFB2C11AC7F00F8A35F /* Newsletter.swift */; };
 /* End PBXBuildFile section */
@@ -41,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BD83CCB42C183C9300152559 /* XpeApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = XpeApp.xcdatamodel; sourceTree = "<group>"; };
 		BDACECDB2C109309007B5262 /* XpeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XpeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDACECDE2C109309007B5262 /* XpeAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XpeAppApp.swift; sourceTree = "<group>"; };
 		BDACECE02C109309007B5262 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,6 +57,8 @@
 		BDACECFD2C10930C007B5262 /* XpeAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XpeAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		BDACED0A2C10A690007B5262 /* NewsletterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsletterPageView.swift; sourceTree = "<group>"; };
 		BDACED0C2C10B68F007B5262 /* DeclarationMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclarationMenuView.swift; sourceTree = "<group>"; };
+		BDE1B5152C183AE200E8513F /* DebugPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPageView.swift; sourceTree = "<group>"; };
+		BDE1B5172C183B1600E8513F /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		BDFB9FF82C11A72300F8A35F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BDFB9FFB2C11AC7F00F8A35F /* Newsletter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Newsletter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -108,6 +114,7 @@
 		BDACECDD2C109309007B5262 /* XpeApp */ = {
 			isa = PBXGroup;
 			children = (
+				BD83CCB32C183C9300152559 /* XpeApp.xcdatamodeld */,
 				BDFB9FFA2C11AC6200F8A35F /* Newsletter */,
 				BDFB9FF82C11A72300F8A35F /* GoogleService-Info.plist */,
 				BDACECE02C109309007B5262 /* ContentView.swift */,
@@ -115,6 +122,8 @@
 				BDACECDE2C109309007B5262 /* XpeAppApp.swift */,
 				BDACECE42C10930C007B5262 /* Assets.xcassets */,
 				BDACECE62C10930C007B5262 /* Preview Content */,
+				BDE1B5152C183AE200E8513F /* DebugPageView.swift */,
+				BDE1B5172C183B1600E8513F /* DataController.swift */,
 			);
 			path = XpeApp;
 			sourceTree = "<group>";
@@ -292,7 +301,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDE1B5182C183B1600E8513F /* DataController.swift in Sources */,
+				BD83CCB52C183C9300152559 /* XpeApp.xcdatamodeld in Sources */,
 				BDFB9FFC2C11AC7F00F8A35F /* Newsletter.swift in Sources */,
+				BDE1B5162C183AE200E8513F /* DebugPageView.swift in Sources */,
 				BDACECE12C109309007B5262 /* ContentView.swift in Sources */,
 				BDACECDF2C109309007B5262 /* XpeAppApp.swift in Sources */,
 				BDACED0D2C10B68F007B5262 /* DeclarationMenuView.swift in Sources */,
@@ -649,6 +661,20 @@
 			productName = FirebaseMessaging;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		BD83CCB32C183C9300152559 /* XpeApp.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BD83CCB42C183C9300152559 /* XpeApp.xcdatamodel */,
+			);
+			currentVersion = BD83CCB42C183C9300152559 /* XpeApp.xcdatamodel */;
+			name = XpeApp.xcdatamodeld;
+			path = /Users/lcubeddu/dev/XpeApp/xpeapp_ios/XpeApp/XpeApp/XpeApp.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = BDACECD32C109309007B5262 /* Project object */;
 }

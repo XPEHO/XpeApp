@@ -9,20 +9,23 @@ import SwiftUI
 import SwiftData
 import FirebaseCore
 import FirebaseAuth
+import FirebaseFirestore
 
 @main
 struct XpeAppApp: App {
-    // Note(Loucas): This is the recommended setup code for the Firebase SDK
     @UIApplicationDelegateAdaptor(XpeAppAppDelegate.self) var delegate
-    
+    @StateObject private var dataController = DataController()
+    public static var firestore: Firestore = Firestore.firestore()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(\.managedObjectContext, dataController.container.viewContext)
         }
     }
 }
 
-// Note(Loucas): This app delegate is used as part 
+// Note(Loucas): This app delegate is used as part
 // of the default Firebase SDK setup code
 class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
     func application(

@@ -25,7 +25,7 @@ struct ContentView: View {
                 }
             //Note(Loucas): This is a convenience menu for development purposes
             #if DEBUG && true
-            Text("Debug menu placeholder")
+            DebugPageView()
                 .tabItem {
                     Label("Debug", systemImage: "wrench.fill")
                 }

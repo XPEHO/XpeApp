@@ -26,7 +26,7 @@ struct QvstCampaignsPageView: View {
         
         var body: some View {
             NavigationLink {
-                
+                QvstCampaignFormView(campaign: campaign)
             } label: {
                 HStack {
                     VStack(alignment: .leading) {

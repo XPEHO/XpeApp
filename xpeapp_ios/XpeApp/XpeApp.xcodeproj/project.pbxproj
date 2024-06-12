@@ -22,6 +22,7 @@
 		BDACED122C10BB78007B5262 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED112C10BB78007B5262 /* FirebaseAuth */; };
 		BDACED142C10BB78007B5262 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED132C10BB78007B5262 /* FirebaseFirestore */; };
 		BDACED162C10BB78007B5262 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED152C10BB78007B5262 /* FirebaseMessaging */; };
+		BDC8A4282C18903E00D14C35 /* QvstCampaignFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC8A4272C18903E00D14C35 /* QvstCampaignFormView.swift */; };
 		BDE1B5162C183AE200E8513F /* DebugPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE1B5152C183AE200E8513F /* DebugPageView.swift */; };
 		BDE1B5182C183B1600E8513F /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE1B5172C183B1600E8513F /* DataController.swift */; };
 		BDFB9FF92C11A72300F8A35F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDFB9FF82C11A72300F8A35F /* GoogleService-Info.plist */; };
@@ -62,6 +63,7 @@
 		BDACED0A2C10A690007B5262 /* NewsletterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsletterPageView.swift; sourceTree = "<group>"; };
 		BDACED0C2C10B68F007B5262 /* DeclarationMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclarationMenuView.swift; sourceTree = "<group>"; };
 		BDC8A4242C18765A00D14C35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		BDC8A4272C18903E00D14C35 /* QvstCampaignFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QvstCampaignFormView.swift; sourceTree = "<group>"; };
 		BDE1B5152C183AE200E8513F /* DebugPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPageView.swift; sourceTree = "<group>"; };
 		BDE1B5172C183B1600E8513F /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		BDFB9FF82C11A72300F8A35F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			children = (
 				BD83CCB72C1853C300152559 /* QvstCampaign.swift */,
 				BD83CCB92C1853ED00152559 /* QvstCampaignsPageView.swift */,
+				BDC8A4272C18903E00D14C35 /* QvstCampaignFormView.swift */,
 			);
 			path = QvstCampaigns;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 			files = (
 				BDE1B5182C183B1600E8513F /* DataController.swift in Sources */,
 				BD83CCB52C183C9300152559 /* XpeApp.xcdatamodeld in Sources */,
+				BDC8A4282C18903E00D14C35 /* QvstCampaignFormView.swift in Sources */,
 				BDFB9FFC2C11AC7F00F8A35F /* Newsletter.swift in Sources */,
 				BDE1B5162C183AE200E8513F /* DebugPageView.swift in Sources */,
 				BDACECE12C109309007B5262 /* ContentView.swift in Sources */,

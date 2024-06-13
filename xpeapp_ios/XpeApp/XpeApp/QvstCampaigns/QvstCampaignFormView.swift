@@ -13,8 +13,11 @@ struct QvstCampaignFormView: View {
     
     var body: some View {
         VStack {
-            Stateless(questions) { responses in
-                print("Button pressed: \(responses)")
+            if !questions.isEmpty {
+                Stateless(questions) { responses in
+                    print("Button pressed: \(responses)")
+                    // Todo dismiss doesnt work
+                }
             }
         }
         .onAppear(perform: onAppear)
@@ -79,40 +82,59 @@ struct QvstCampaignFormView: View {
     struct Stateless: View {
         var questions: [QvstQuestion]
         var onSend: ([QvstFormResponse]) -> Void
-        
         init(_ questions: [QvstQuestion], onSend: @escaping ([QvstFormResponse]) -> Void) {
             self.questions = questions
             self.onSend = onSend
         }
         
-        @State var responses: [QvstQuestion: QvstAnswer] = [:]
+        @State var answers: [QvstAnswer] = []
         
         var body: some View {
             VStack {
-                ScrollView {
-                    ForEach(questions) { question in
-                        Text(question.question)
-                        Text("You answered : \(question.userAnswer ?? "")")
-                        ForEach(question.answers) { answer in
-                            Button(answer.answer) {
-                                responses[question] = answer
+                Form {
+                    ForEach(0..<questions.count, id: \.self) { questionOffset in
+                        let question = questions[questionOffset]
+                        if !answers.isEmpty {
+                            Picker(question.question, selection: $answers[questionOffset]) {
+                                ForEach(0..<question.answers.count, id: \.self) { answerOffset in
+                                    let answer = question.answers[answerOffset]
+                                    Text(answer.answer).tag(answer)
+                                }
                             }
-                            .tint(.blue)
+                            .pickerStyle(.inline)
+                        }
+                    }
+                    Section("Répondre") {
+                        HStack {
+                            Spacer()
+                            Button("Envoyer") {
+//                                onSend(
+//                                    answers.map {
+//                                        QvstFormResponse(questionId: $0.key.id, answerId: $0.value.id)
+//                                    }
+//                                )
+                                print(answers)
+                            }
                         }
                     }
                 }
-                Spacer()
-                Button("Send") {
-                    onSend(
-                        responses.map {
-                            QvstFormResponse(questionId: $0.key.id, answerId: $0.value.id)
-                        }
-                    )
-                }
-                .buttonStyle(BorderedButtonStyle())
-                .padding()
+            }
+            .onAppear {
+                populateDefaultAnswers()
             }
         }
+        
+        private func populateDefaultAnswers(){
+            answers = []
+            for question in questions {
+                guard let answer = question.answers.first else {
+                    print("Error: Question of id: \(question.id) does not have Answers")
+                    return
+                }
+                answers.append(answer)
+            }
+        }
+        
     }
 }
 
@@ -126,10 +148,18 @@ struct QvstFormResponse: Codable, Hashable {
     }
 }
 
-struct QvstAnswer: Codable, Identifiable {
+struct QvstAnswer: Codable, Identifiable, Hashable {
     let id: String
     let answer: String
     let value: String
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
+    static func == (lhs: QvstAnswer, rhs: QvstAnswer) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 struct QvstQuestion: Codable, Identifiable, Hashable {
@@ -157,5 +187,8 @@ struct QvstQuestion: Codable, Identifiable, Hashable {
 }
 
 #Preview {
-    QvstCampaignFormView.Stateless([]) { _ in }
+    {
+        let q = [XpeApp.QvstQuestion(id: "1", question: "Dans votre établissement, estimez-vous que vous avez la possibilité de développer vos compétences (par la formation, la VAE, l’échange sur les pratiques…) ?", hasAnswered: true, answers: [XpeApp.QvstAnswer(id: "6", answer: "Très souvent", value: "5"), XpeApp.QvstAnswer(id: "7", answer: "Assez souvent", value: "4"), XpeApp.QvstAnswer(id: "8", answer: "Occasionnellement", value: "3"), XpeApp.QvstAnswer(id: "9", answer: "Rarement", value: "2"), XpeApp.QvstAnswer(id: "10", answer: "Jamais", value: "1")], userAnswer: nil), XpeApp.QvstQuestion(id: "70", question: "A quel point êtes vous satisfaits de l\'organisation ?", hasAnswered: true, answers: [XpeApp.QvstAnswer(id: "16", answer: "Complétement", value: "5"), XpeApp.QvstAnswer(id: "17", answer: "Suffisamment", value: "4"), XpeApp.QvstAnswer(id: "18", answer: "Cela dépend", value: "3"), XpeApp.QvstAnswer(id: "19", answer: "Un peu", value: "2"), XpeApp.QvstAnswer(id: "20", answer: "Pas du tout", value: "1")], userAnswer: nil)]
+        return QvstCampaignFormView.Stateless(q) { _ in }
+    }()
 }

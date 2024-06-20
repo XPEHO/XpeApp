@@ -1,0 +1,14 @@
+@startuml XpeAppAdmin
+!includeurl https://raw.githubusercontent.com/gnodux/C4-PlantUML/master/C4_Container.puml
+
+Person(xpeapp_admin, "XpeApp", "The Xpeho app")
+
+System_Boundary(app, "Mobile application") {
+    Container(appNewsletters, "Newsletters", "See newsletters")
+    Container(answerQvst, "QVST", "Answer to the campaign of QVST")
+}
+
+Rel(xpeapp_admin, appNewsletters, "REST API", "HTTPS")
+Rel(xpeapp_admin, answerQvst, "REST API", "HTTPS")
+
+@enduml

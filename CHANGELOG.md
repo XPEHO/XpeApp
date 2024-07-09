@@ -29,6 +29,10 @@ _Chore_
 - [Issue #62](https://github.com/XPEHO/XpeApp/issues/62) Create iOS folder structure
 - [Issue #67](https://github.com/XPEHO/XpeApp/issues/67) Add firebase to the iOS app
 
+_Doc_
+
+- [Issue #79](https://github.com/XPEHO/XpeApp/issues/79) Add the PUML diagram of the project
+
 ## 1.1.0
 
 _Feat_

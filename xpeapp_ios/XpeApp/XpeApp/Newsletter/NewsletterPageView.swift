@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import xpeho_ui
 
 struct NewsletterPageView: View {
     @Environment(\.managedObjectContext) var moc
@@ -22,65 +23,52 @@ struct NewsletterPageView: View {
     }()
     
     var body: some View {
-        NavigationStack {
-            List {
-                ForEach(newsletters, id: \.id) { newsletter in
-                    NavigationLink {
-                        NewsletterDetailsView(newsletter: newsletter)
-                    } label: {
-                        HStack {
-                            Image(systemName: "newspaper")
-                            Text("Newsletter du \(NewsletterPageView.formatter.string(from: newsletter.date))")
-                        }
+        ScrollView {
+            VStack(spacing: 10) {
+                ForEach(Array(newsletters.enumerated()), id: \.element.id) { index, newsletter in
+                    if index == 0 {
+                        NewsletterCard(newsletter: newsletter, isOpen: true)
+                    } else {
+                        NewsletterCard(newsletter: newsletter)
                     }
                 }
             }
-            .navigationTitle("Newsletters")
-        }
-        .onAppear {
-            // Note: This check is done in order not to refetch if state was kept
-            if newsletters.isEmpty {
-                onAppear()
+            .onAppear {
+                // Note: This check is done in order not to refetch if state was kept
+                if newsletters.isEmpty {
+                    onAppear()
+                }
             }
+            .alert("Could not fetch newsletters", isPresented: $newsletterError) {}
         }
-        .alert("Could not fetch newsletters", isPresented: $newsletterError) {}
     }
     
-    struct NewsletterDetailsView: View {
+    struct NewsletterCard: View {
         @State var newsletter: Newsletter
         @State var incorrectURL = false
         
         @Environment(\.openURL) var openURL
-
-        var body: some View  {
-            VStack {
-                HStack {
-                    Spacer()
-                    Label(NewsletterPageView.formatter.string(from: newsletter.date), systemImage: "calendar")
-                        .font(.title)
-                        .padding()
-                }
-                Spacer()
-                Text("Sommaire de la newsletter")
-                    .font(.title)
-                Text(newsletter.summary.replacingOccurrences(of: ",", with: "\n"))
-                    .padding()
-                Spacer()
-                Button {
+        
+        var isOpen: Bool = false
+        
+        var body: some View {
+            CollapsableCard(
+                label: "Newsletter",
+                headTag: NewsletterPageView.formatter.string(from: newsletter.date),
+                tags: newsletter.summary.split(separator: ",").map({String($0)}),
+                importantTags: [],
+                buttonLabel: "Ouvrir",
+                icon: Assets.loadImage(named: "Newsletter"),
+                isDefaultOpen: isOpen,
+                onPressButton: {
                     if let url = URL(string: newsletter.pdfUrl)  {
                         openURL(url)
                     } else {
                         incorrectURL = true
                     }
-                } label: { Text("Ouvrir la newsletter") }
-                    .buttonStyle(BorderedProminentButtonStyle())
-                    .padding()
-            }
-            .navigationTitle("Détail de la newsletter")
-            .navigationBarTitleDisplayMode(.inline)
-            .alert("Incorrect newsletter URL", isPresented: $incorrectURL) {
-                
-            }
+                }
+            )
+            .alert("Incorrect newsletter URL", isPresented: $incorrectURL) {}
         }
     }
     

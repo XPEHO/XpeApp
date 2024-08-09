@@ -10,6 +10,7 @@ _Feat_
 - [Issue #66](https://github.com/XPEHO/XpeApp/issues/66) Add iOS newsletter detail
 - [Issue #113](https://github.com/XPEHO/XpeApp/issues/113) Store Newsletters using CoreData for instant loading
 - [Issue #69](https://github.com/XPEHO/XpeApp/issues/69) Add basic list of qvst campaigns
+- [Issue #130](https://github.com/XPEHO/XpeApp/issues/130) Import and apply new design to ios part existing content and create sidebar and header of the layout
 
 _Fix_
 
@@ -50,7 +51,7 @@ _Feat_
 - [Issue #35](https://github.com/XPEHO/XpeApp/issues/35) Add the Firebase authentification
 - [Issue #7](https://github.com/XPEHO/XpeApp/issues/7) Display notifications whe newsletter is created
 - [Issue #54](https://github.com/XPEHO/XpeApp/issues/56) QVST Campaign feature
-- [Issue #75](https://github.com/XPEHO/XpeApp/pull/75) Add environment variable Firebase 
+- [Issue #75](https://github.com/XPEHO/XpeApp/pull/75) Add environment variable Firebase
 - [Issue #77](https://github.com/XPEHO/XpeApp/issues/77) Add QVST remaining days banner
 
 _Fix_

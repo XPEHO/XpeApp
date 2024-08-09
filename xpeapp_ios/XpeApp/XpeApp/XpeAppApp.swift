@@ -10,12 +10,18 @@ import SwiftData
 import FirebaseCore
 import FirebaseAuth
 import FirebaseFirestore
+import xpeho_ui
 
 @main
 struct XpeAppApp: App {
     @UIApplicationDelegateAdaptor(XpeAppAppDelegate.self) var delegate
     @StateObject private var dataController = DataController()
     public static var firestore: Firestore = Firestore.firestore()
+    
+    init() {
+        // Load XpehoUI fonts
+        Fonts.registerFonts()
+    }
 
     var body: some Scene {
         WindowGroup {

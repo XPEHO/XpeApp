@@ -1,5 +1,5 @@
 {
-  "originHash" : "a1569f9895aa2be8e24832f98525d5da4eb90b5d158a82691c15b47eb72a13d7",
+  "originHash" : "63dd7427d7552d27c0c5c628f5a3fedb704ace90a5acaa3ff6c3169a2e52018a",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -116,6 +116,15 @@
       "state" : {
         "revision" : "9f0c76544701845ad98716f3f6a774a892152bcb",
         "version" : "1.26.0"
+      }
+    },
+    {
+      "identity" : "xpeho_ui_swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/XPEHO/xpeho_ui_swift",
+      "state" : {
+        "revision" : "f23417469795d4d7754bc1403de0aa0b154d59fc",
+        "version" : "1.0.0"
       }
     }
   ],

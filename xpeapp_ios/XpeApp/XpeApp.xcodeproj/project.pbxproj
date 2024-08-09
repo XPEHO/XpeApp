@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BD83CCB52C183C9300152559 /* XpeApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BD83CCB32C183C9300152559 /* XpeApp.xcdatamodeld */; };
+		0E155E632C64EE6500649EBC /* xpeho_ui in Frameworks */ = {isa = PBXBuildFile; productRef = 0E155E622C64EE6500649EBC /* xpeho_ui */; };
+		0E155E652C64F97100649EBC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E155E642C64F97100649EBC /* LaunchScreen.storyboard */; };
+		0E450BBE2C621A3700EA49B0 /* XpeApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E450BBC2C621A3700EA49B0 /* XpeApp.xcdatamodeld */; };
+		0E87AC2F2C660DBB0079877D /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E87AC2E2C660DBB0079877D /* Header.swift */; };
+		0E87AC332C660DDF0079877D /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E87AC322C660DDF0079877D /* Sidebar.swift */; };
 		BD83CCB82C1853C300152559 /* QvstCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83CCB72C1853C300152559 /* QvstCampaign.swift */; };
 		BD83CCBA2C1853ED00152559 /* QvstCampaignsPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83CCB92C1853ED00152559 /* QvstCampaignsPageView.swift */; };
 		BDACECDF2C109309007B5262 /* XpeAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECDE2C109309007B5262 /* XpeAppApp.swift */; };
@@ -18,7 +22,6 @@
 		BDACECFC2C10930C007B5262 /* XpeAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECFB2C10930C007B5262 /* XpeAppUITests.swift */; };
 		BDACECFE2C10930C007B5262 /* XpeAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECFD2C10930C007B5262 /* XpeAppUITestsLaunchTests.swift */; };
 		BDACED0B2C10A690007B5262 /* NewsletterPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACED0A2C10A690007B5262 /* NewsletterPageView.swift */; };
-		BDACED0D2C10B68F007B5262 /* DeclarationMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACED0C2C10B68F007B5262 /* DeclarationMenuView.swift */; };
 		BDACED122C10BB78007B5262 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED112C10BB78007B5262 /* FirebaseAuth */; };
 		BDACED142C10BB78007B5262 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED132C10BB78007B5262 /* FirebaseFirestore */; };
 		BDACED162C10BB78007B5262 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED152C10BB78007B5262 /* FirebaseMessaging */; };
@@ -46,7 +49,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BD83CCB42C183C9300152559 /* XpeApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = XpeApp.xcdatamodel; sourceTree = "<group>"; };
+		0E155E642C64F97100649EBC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0E450BBD2C621A3700EA49B0 /* XpeApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = XpeApp.xcdatamodel; sourceTree = "<group>"; };
+		0E87AC2E2C660DBB0079877D /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
+		0E87AC322C660DDF0079877D /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
 		BD83CCB72C1853C300152559 /* QvstCampaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QvstCampaign.swift; sourceTree = "<group>"; };
 		BD83CCB92C1853ED00152559 /* QvstCampaignsPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QvstCampaignsPageView.swift; sourceTree = "<group>"; };
 		BDACECDB2C109309007B5262 /* XpeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XpeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,7 +66,6 @@
 		BDACECFB2C10930C007B5262 /* XpeAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XpeAppUITests.swift; sourceTree = "<group>"; };
 		BDACECFD2C10930C007B5262 /* XpeAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XpeAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		BDACED0A2C10A690007B5262 /* NewsletterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsletterPageView.swift; sourceTree = "<group>"; };
-		BDACED0C2C10B68F007B5262 /* DeclarationMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclarationMenuView.swift; sourceTree = "<group>"; };
 		BDC8A4242C18765A00D14C35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BDE1B5152C183AE200E8513F /* DebugPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPageView.swift; sourceTree = "<group>"; };
 		BDE1B5172C183B1600E8513F /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
@@ -74,6 +79,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDACED162C10BB78007B5262 /* FirebaseMessaging in Frameworks */,
+				0E155E632C64EE6500649EBC /* xpeho_ui in Frameworks */,
 				BDACED122C10BB78007B5262 /* FirebaseAuth in Frameworks */,
 				BDACED142C10BB78007B5262 /* FirebaseFirestore in Frameworks */,
 			);
@@ -96,6 +102,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E87AC292C6607B50079877D /* CRA */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CRA;
+			sourceTree = "<group>";
+		};
+		0E87AC2A2C6607C10079877D /* Vacation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Vacation;
+			sourceTree = "<group>";
+		};
+		0E87AC2B2C6608190079877D /* ExpenseReport */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ExpenseReport;
+			sourceTree = "<group>";
+		};
+		0E87AC2D2C660DA50079877D /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				0E87AC2E2C660DBB0079877D /* Header.swift */,
+				0E87AC322C660DDF0079877D /* Sidebar.swift */,
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
 		BD83CCB62C1853B200152559 /* QvstCampaigns */ = {
 			isa = PBXGroup;
 			children = (
@@ -129,17 +165,21 @@
 			isa = PBXGroup;
 			children = (
 				BDC8A4242C18765A00D14C35 /* Info.plist */,
+				0E450BBC2C621A3700EA49B0 /* XpeApp.xcdatamodeld */,
 				BD83CCB62C1853B200152559 /* QvstCampaigns */,
-				BD83CCB32C183C9300152559 /* XpeApp.xcdatamodeld */,
 				BDFB9FFA2C11AC6200F8A35F /* Newsletter */,
 				BDFB9FF82C11A72300F8A35F /* GoogleService-Info.plist */,
+				0E87AC2B2C6608190079877D /* ExpenseReport */,
+				0E87AC2A2C6607C10079877D /* Vacation */,
+				0E87AC292C6607B50079877D /* CRA */,
 				BDACECE02C109309007B5262 /* ContentView.swift */,
-				BDACED0C2C10B68F007B5262 /* DeclarationMenuView.swift */,
+				0E87AC2D2C660DA50079877D /* Layout */,
 				BDACECDE2C109309007B5262 /* XpeAppApp.swift */,
 				BDACECE42C10930C007B5262 /* Assets.xcassets */,
 				BDACECE62C10930C007B5262 /* Preview Content */,
 				BDE1B5152C183AE200E8513F /* DebugPageView.swift */,
 				BDE1B5172C183B1600E8513F /* DataController.swift */,
+				0E155E642C64F97100649EBC /* LaunchScreen.storyboard */,
 			);
 			path = XpeApp;
 			sourceTree = "<group>";
@@ -198,6 +238,7 @@
 				BDACED112C10BB78007B5262 /* FirebaseAuth */,
 				BDACED132C10BB78007B5262 /* FirebaseFirestore */,
 				BDACED152C10BB78007B5262 /* FirebaseMessaging */,
+				0E155E622C64EE6500649EBC /* xpeho_ui */,
 			);
 			productName = XpeApp;
 			productReference = BDACECDB2C109309007B5262 /* XpeApp.app */;
@@ -273,6 +314,7 @@
 			mainGroup = BDACECD22C109309007B5262;
 			packageReferences = (
 				BDACED102C10BB78007B5262 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				0E155E612C64EE6500649EBC /* XCRemoteSwiftPackageReference "xpeho_ui_swift" */,
 			);
 			productRefGroup = BDACECDC2C109309007B5262 /* Products */;
 			projectDirPath = "";
@@ -291,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDACECE82C10930C007B5262 /* Preview Assets.xcassets in Resources */,
+				0E155E652C64F97100649EBC /* LaunchScreen.storyboard in Resources */,
 				BDACECE52C10930C007B5262 /* Assets.xcassets in Resources */,
 				BDFB9FF92C11A72300F8A35F /* GoogleService-Info.plist in Resources */,
 			);
@@ -317,15 +360,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E450BBE2C621A3700EA49B0 /* XpeApp.xcdatamodeld in Sources */,
 				BDE1B5182C183B1600E8513F /* DataController.swift in Sources */,
-				BD83CCB52C183C9300152559 /* XpeApp.xcdatamodeld in Sources */,
 				BDFB9FFC2C11AC7F00F8A35F /* Newsletter.swift in Sources */,
 				BDE1B5162C183AE200E8513F /* DebugPageView.swift in Sources */,
 				BDACECE12C109309007B5262 /* ContentView.swift in Sources */,
+				0E87AC2F2C660DBB0079877D /* Header.swift in Sources */,
 				BDACECDF2C109309007B5262 /* XpeAppApp.swift in Sources */,
-				BDACED0D2C10B68F007B5262 /* DeclarationMenuView.swift in Sources */,
 				BD83CCB82C1853C300152559 /* QvstCampaign.swift in Sources */,
 				BDACED0B2C10A690007B5262 /* NewsletterPageView.swift in Sources */,
+				0E87AC332C660DDF0079877D /* Sidebar.swift in Sources */,
 				BD83CCBA2C1853ED00152559 /* QvstCampaignsPageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -415,7 +459,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -472,7 +516,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -496,6 +540,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -525,6 +570,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -654,6 +700,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0E155E612C64EE6500649EBC /* XCRemoteSwiftPackageReference "xpeho_ui_swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/XPEHO/xpeho_ui_swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		BDACED102C10BB78007B5262 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -665,6 +719,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0E155E622C64EE6500649EBC /* xpeho_ui */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0E155E612C64EE6500649EBC /* XCRemoteSwiftPackageReference "xpeho_ui_swift" */;
+			productName = xpeho_ui;
+		};
 		BDACED112C10BB78007B5262 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BDACED102C10BB78007B5262 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -683,14 +742,13 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		BD83CCB32C183C9300152559 /* XpeApp.xcdatamodeld */ = {
+		0E450BBC2C621A3700EA49B0 /* XpeApp.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				BD83CCB42C183C9300152559 /* XpeApp.xcdatamodel */,
+				0E450BBD2C621A3700EA49B0 /* XpeApp.xcdatamodel */,
 			);
-			currentVersion = BD83CCB42C183C9300152559 /* XpeApp.xcdatamodel */;
-			name = XpeApp.xcdatamodeld;
-			path = /Users/lcubeddu/dev/XpeApp/xpeapp_ios/XpeApp/XpeApp/XpeApp.xcdatamodeld;
+			currentVersion = 0E450BBD2C621A3700EA49B0 /* XpeApp.xcdatamodel */;
+			path = XpeApp.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

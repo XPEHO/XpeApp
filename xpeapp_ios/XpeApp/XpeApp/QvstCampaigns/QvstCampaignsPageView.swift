@@ -11,13 +11,12 @@ struct QvstCampaignsPageView: View {
     var campaigns: [QvstCampaign] = []
     
     var body: some View {
-        NavigationStack {
-            List {
+        ScrollView {
+            VStack(spacing: 10) {
                 ForEach(campaigns) {
                     QvstCampaignsPageView.RowView(campaign: $0)
                 }
             }
-            .navigationTitle("Qualité de vie au travail")
         }
     }
     

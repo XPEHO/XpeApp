@@ -25,6 +25,7 @@ struct Header: View {
                     .foregroundStyle(XPEHO_THEME.XPEHO_COLOR)
                     .frame(height: 31)
             }
+            .accessibilityIdentifier("BurgerButton")
             Spacer()
             Image("AppIconWithoutBg")
                 .renderingMode(.template)

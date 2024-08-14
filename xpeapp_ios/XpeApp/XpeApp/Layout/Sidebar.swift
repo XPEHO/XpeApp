@@ -29,6 +29,7 @@ struct Sidebar: View {
                             .foregroundStyle(.white)
                             .frame(height: 50)
                     }
+                    .accessibility(identifier: "Sidebar_CloseButton")
                     Spacer()
                 }
                 .padding(.leading, 14)
@@ -79,6 +80,8 @@ struct Sidebar: View {
                     #endif
                 }
                 .padding(.horizontal, 20)
+                .accessibilityElement(children: .contain)
+                .accessibilityIdentifier("Sidebar")
                 
                 Spacer()
             }
@@ -117,5 +120,6 @@ struct SidebarItem: View {
         }
         .font(.raleway(.bold, size: 20))
         .foregroundStyle(.white)
+        .accessibility(identifier:"Sidebar_\(label)")
     }
 }

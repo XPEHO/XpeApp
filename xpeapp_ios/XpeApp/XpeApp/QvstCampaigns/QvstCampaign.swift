@@ -63,7 +63,7 @@ extension QvstCampaign{
     
     
     static func fetchActive() async -> [QvstCampaign]? {
-        let endpointUrl = "http://yaki.uat.xpeho.fr:7830/wp-json/xpeho/v1/qvst/campaigns:active"
+        let endpointUrl = "http://yaki.uat.xpeho.fr:7830/wp-json/xpeho/v1/qvst/campaigns"
         guard let url = URL(string: endpointUrl) else {
             print("Malformed url \(endpointUrl)")
             return nil
@@ -75,6 +75,7 @@ extension QvstCampaign{
             print("Error trying to retrieve list of qvst: \(error)")
             return nil
         }
+
         let decode: [QvstCampaign]
         do {
             decode = try JSONDecoder().decode([QvstCampaign].self, from: data)
@@ -84,5 +85,28 @@ extension QvstCampaign{
         }
         
         return decode
+    }
+    
+    // Classify campaigns by year and status
+    static func classifyCampaigns (campaigns : [QvstCampaign]) -> [String: [QvstCampaign]] {
+        var classifiedCampaigns: [String: [QvstCampaign]] = [:]
+        for campaign in campaigns {
+            if campaign.status == "OPEN" {
+                if classifiedCampaigns["open"] == nil {
+                    classifiedCampaigns["open"] = []
+                }
+                classifiedCampaigns["open"]?.append(campaign)
+                continue
+            }
+            
+            let year = Calendar.current.component(.year, from: campaign.startDate)
+            let yearKey = "\(year)"
+            if classifiedCampaigns[yearKey] == nil {
+                classifiedCampaigns[yearKey] = []
+            }
+            classifiedCampaigns[yearKey]?.append(campaign)
+        }
+        
+        return classifiedCampaigns
     }
 }

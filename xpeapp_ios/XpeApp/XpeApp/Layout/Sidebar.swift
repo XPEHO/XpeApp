@@ -10,8 +10,12 @@ import xpeho_ui
 
 struct Sidebar: View {
     @Binding var isSidebarVisible: Bool
-    @Binding var selectedView: NavigationItem?
+    
     var geometry: GeometryProxy
+    
+    // Global Management
+    @Binding var routerManager: RouterManager
+    
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -37,46 +41,46 @@ struct Sidebar: View {
                 
                 VStack(alignment: .leading, spacing: 20) {
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                selectedView: $selectedView,
                                 navigationItem: .home,
                                 icon: Image("Home"),
-                                label: "Accueil")
+                                label: "Accueil",
+                                routerManager: $routerManager)
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                selectedView: $selectedView,
                                 navigationItem: .newsletter,
                                 icon: Assets.loadImage(named: "Newsletter"),
-                                label: "Newsletters")
+                                label: "Newsletters",
+                                routerManager: $routerManager)
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                selectedView: $selectedView,
                                 navigationItem: .qvstTemp,
                                 icon: Assets.loadImage(named: "QVST"),
-                                label: "QVST")
+                                label: "QVST",
+                                routerManager: $routerManager)
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                selectedView: $selectedView,
                                 navigationItem: .cra,
                                 icon: Assets.loadImage(named: "Briefcase"),
-                                label: "CRA")
+                                label: "CRA",
+                                routerManager: $routerManager)
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                selectedView: $selectedView,
                                 navigationItem: .vacation,
                                 icon: Assets.loadImage(named: "PlaneDeparture"),
-                                label: "Congés")
+                                label: "Congés",
+                                routerManager: $routerManager)
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                selectedView: $selectedView,
                                 navigationItem: .expenseReport,
                                 icon: Assets.loadImage(named: "Receipt"),
-                                label: "Notes de frais")
+                                label: "Notes de frais",
+                                routerManager: $routerManager)
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                selectedView: $selectedView,
                                 navigationItem: .contacts,
                                 icon: Assets.loadImage(named: "ContactFill"),
-                                label: "Contacts")
+                                label: "Contacts",
+                                routerManager: $routerManager)
                     #if DEBUG && true
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                selectedView: $selectedView,
                                 navigationItem: .debug,
                                 icon: Image("Bug"),
-                                label: "Debug")
+                                label: "Debug",
+                                routerManager: $routerManager)
                     #endif
                 }
                 .padding(.horizontal, 20)
@@ -96,15 +100,17 @@ struct Sidebar: View {
 
 struct SidebarItem: View {
     @Binding var isSidebarVisible: Bool
-    @Binding var selectedView: NavigationItem?
     
-    var navigationItem: NavigationItem
+    var navigationItem: RouterItem
     var icon: Image
     var label: String
     
+    // Global Management
+    @Binding var routerManager: RouterManager
+    
     var body: some View {
         Button(action: {
-            self.selectedView = navigationItem
+            routerManager.goTo(item: navigationItem)
             withAnimation {
                 self.isSidebarVisible = false
             }

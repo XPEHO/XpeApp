@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "8DA39F59-225B-40F9-AF02-AEDF78A8DA12",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:XpeApp.xcodeproj",
+      "identifier" : "BDACECDA2C109309007B5262",
+      "name" : "XpeApp"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:XpeApp.xcodeproj",
+        "identifier" : "BDACECEC2C10930C007B5262",
+        "name" : "XpeAppTests"
+      }
+    }
+  ],
+  "version" : 1
+}

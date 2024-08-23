@@ -15,7 +15,6 @@ import xpeho_ui
 @main
 struct XpeAppApp: App {
     @UIApplicationDelegateAdaptor(XpeAppAppDelegate.self) var delegate
-    @StateObject private var dataController = DataController()
     public static var firestore: Firestore = Firestore.firestore()
     
     init() {
@@ -26,7 +25,6 @@ struct XpeAppApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, dataController.container.viewContext)
         }
     }
 }

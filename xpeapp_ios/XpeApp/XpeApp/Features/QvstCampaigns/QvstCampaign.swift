@@ -7,11 +7,6 @@
 
 import Foundation
 
-struct QvstTheme: Codable {
-    let id: String
-    let name: String
-}
-
 struct QvstCampaign: Codable, Identifiable {
     let id: String
     let name: String
@@ -29,6 +24,37 @@ struct QvstCampaign: Codable, Identifiable {
         case startDate = "start_date"
         case endDate = "end_date"
         case participationRate = "participation_rate"
+    }
+    
+    // Find the progress associated to the campaign in the progress base
+    func findAssociatedProgress(in progressBase: [QvstProgress]) -> QvstProgress? {
+        for progress in progressBase {
+            if progress.campaignId == self.id {
+                return progress
+            }
+        }
+        return nil
+    }
+    
+    // Know if the campaign has ended
+    func isOver() -> Bool {
+        return getDaysUntilEnd() <= 0
+    }
+    
+    // Get the number of days until the end of the campaign
+    func getDaysUntilEnd() -> Int {
+        if let res = countDaysBetween(Date(), and: endDate) {
+            return res
+        } else {
+            return 0
+        }
+    }
+    
+    // Util function to count days between two dates
+    private func countDaysBetween(_ from: Date, and to: Date) -> Int? {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.day], from: from, to: to)
+        return components.day
     }
 }
 
@@ -61,9 +87,33 @@ extension QvstCampaign{
         self.endDate = endDate
     }
     
+    static func fetchAll() async -> [QvstCampaign]? {
+        let endpointUrl = "http://yaki.uat.xpeho.fr:7830/wp-json/xpeho/v1workaround/qvst/campaigns"
+        guard let url = URL(string: endpointUrl) else {
+            print("Malformed url \(endpointUrl)")
+            return nil
+        }
+        let data: Data
+        do {
+            data = try await URLSession.shared.data(from: url).0
+        } catch {
+            print("Error trying to retrieve list of qvst: \(error)")
+            return nil
+        }
+
+        let decode: [QvstCampaign]
+        do {
+            decode = try JSONDecoder().decode([QvstCampaign].self, from: data)
+        } catch {
+            print("Error parsing json: \(error)")
+            return nil
+        }
+        
+        return decode
+    }
     
     static func fetchActive() async -> [QvstCampaign]? {
-        let endpointUrl = "http://yaki.uat.xpeho.fr:7830/wp-json/xpeho/v1/qvst/campaigns"
+        let endpointUrl = "http://yaki.uat.xpeho.fr:7830/wp-json/xpeho/v1workaround/qvst/campaigns:active"
         guard let url = URL(string: endpointUrl) else {
             print("Malformed url \(endpointUrl)")
             return nil

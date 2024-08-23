@@ -9,13 +9,16 @@ import XCTest
 @testable import XpeApp
 
 final class XpeAppTests: XCTestCase {
+    var newsletterService: NewsletterService!
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    override func setUp() {
+        super.setUp()
+        newsletterService = NewsletterService()
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        newsletterService = nil
+        super.tearDown()
     }
 
     func testExample() throws {
@@ -35,14 +38,14 @@ final class XpeAppTests: XCTestCase {
     
     func testFirebaseFirestoreConnected() throws {
         Task {
-            let ns = await Newsletter.fetchAll()
+            let ns = await newsletterService.fetchNewsletters()
             XCTAssertNotNil(ns)
         }
     }
     
     func testFirebaseNewsletterCollectionNotEmpty() throws {
         Task {
-            let ns = await Newsletter.fetchAll()
+            let ns = await newsletterService.fetchNewsletters()
             XCTAssertNotNil(ns)
             XCTAssertGreaterThan(ns!.count, 0)
         }

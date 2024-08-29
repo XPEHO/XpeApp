@@ -60,11 +60,13 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Create firebase config file
+      if: ${{ matrix.language == java-kotlin }}
       run: |
-        echo "${{ secrets.GOOGLE_SERVICE_FILE }}" | base64 -d > app/google-services.json
+        ls -lrt
+        echo "${{ secrets.GOOGLE_SERVICE_FILE }}" | base64 -d > xpeapp_android/app/google-services.json
         if [ -n "${{ secrets.UAT_CONFIG_FILE }}" ]; then
           mkdir -p app/config
-          echo "${{ secrets.UAT_CONFIG_FILE }}" | base64 -d > app/config/uat.properties
+          echo "${{ secrets.UAT_CONFIG_FILE }}" | base64 -d > xpeapp_android/app/config/uat.properties
         fi
 
     # Initializes the CodeQL tools for scanning.

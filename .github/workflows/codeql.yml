@@ -46,7 +46,7 @@ jobs:
         - language: java-kotlin
           build-mode: manual
         - language: swift
-          build-mode: none
+          build-mode: manual
         # CodeQL supports the following values keywords for 'language': 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'swift'
         # Use `c-cpp` to analyze code written in C, C++ or both
         # Use 'java-kotlin' to analyze code written in Java, Kotlin or both
@@ -102,6 +102,10 @@ jobs:
         cd xpeapp_android
         chmod +x ./gradlew
         ./gradlew bundleDebug
+    - if: matrix.build-mode == 'manual' && matrix.language == 'swift'
+      shell: bash
+      run: |
+        xcodebuild build -project xpeapp_ios/XpeApp/XpeApp.xcodeproj -target XpeApp CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3

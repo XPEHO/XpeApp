@@ -67,6 +67,7 @@ jobs:
         if [ -n "${{ secrets.UAT_CONFIG_FILE }}" ]; then
           mkdir -p xpeapp_android/app/config
           echo "${{ secrets.UAT_CONFIG_FILE }}" | base64 -d > xpeapp_android/app/config/uat.properties
+          echo "${{ secrets.UAT_CONFIG_FILE }}" | base64 -d > xpeapp_android/app/config/prod.properties
         fi
 
     # Initializes the CodeQL tools for scanning.

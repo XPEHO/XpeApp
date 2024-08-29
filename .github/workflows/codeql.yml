@@ -44,9 +44,9 @@ jobs:
       matrix:
         include:
         - language: java-kotlin
-          build-mode: none
+          build-mode: manual
         - language: swift
-          build-mode: none
+          build-mode: autobuild
         # CodeQL supports the following values keywords for 'language': 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'swift'
         # Use `c-cpp` to analyze code written in C, C++ or both
         # Use 'java-kotlin' to analyze code written in Java, Kotlin or both
@@ -72,21 +72,36 @@ jobs:
         # For more details on CodeQL's query packs, refer to: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         # queries: security-extended,security-and-quality
 
+    - name: Set up JDK 17
+      if: matrix.language == 'java-kotlin'
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Create firebase config file
+      if: matrix.language == 'java-kotlin'
+      run: |
+        cd xpeapp_android
+        echo "${{ secrets.GOOGLE_SERVICE_FILE }}" | base64 -d > app/google-services.json
+        if [ -n "${{ secrets.UAT_CONFIG_FILE }}" ]; then
+          mkdir -p app/config
+          echo "${{ secrets.UAT_CONFIG_FILE }}" | base64 -d > app/config/uat.properties
+        fi
+
     # If the analyze step fails for one of the languages you are analyzing with
     # "We were unable to automatically build your code", modify the matrix above
     # to set the build mode to "manual" for that language. Then modify this step
     # to build your code.
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
-    - if: matrix.build-mode == 'manual'
+    - if: matrix.build-mode == 'manual' && matrix.language == 'java-kotlin'
       shell: bash
       run: |
-        echo 'If you are using a "manual" build mode for one or more of the' \
-          'languages you are analyzing, replace this with the commands to build' \
-          'your code, for example:'
-        echo '  make bootstrap'
-        echo '  make release'
-        exit 1
+        cd xpeapp_android
+        chmod +x ./gradlew
+        ./gradlew bundleDebug
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3

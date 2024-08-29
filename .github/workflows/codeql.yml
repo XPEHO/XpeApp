@@ -65,7 +65,7 @@ jobs:
         ls -lrt
         echo "${{ secrets.GOOGLE_SERVICE_FILE }}" | base64 -d > xpeapp_android/app/google-services.json
         if [ -n "${{ secrets.UAT_CONFIG_FILE }}" ]; then
-          mkdir -p app/config
+          mkdir -p xpeapp_android/app/config
           echo "${{ secrets.UAT_CONFIG_FILE }}" | base64 -d > xpeapp_android/app/config/uat.properties
         fi
 

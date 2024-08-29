@@ -105,7 +105,8 @@ jobs:
     - if: matrix.build-mode == 'manual' && matrix.language == 'swift'
       shell: bash
       run: |
-        xcodebuild build -project xpeapp_ios/XpeApp/XpeApp.xcodeproj -target XpeApp CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+        cd xpeapp_ios
+        xcodebuild build -project XpeApp/XpeApp.xcodeproj -target XpeApp CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3

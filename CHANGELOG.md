@@ -24,6 +24,7 @@ _Fix_
 - [Issue #93](https://github.com/XPEHO/XpeApp/issues/93) Fix bug where 2 bearer token are sent, crashing the app
 - [Issue #96](https://github.com/XPEHO/XpeApp/issues/96) Fix bug where QVST Campaigns list was flashing because of a refetch on redraws
 - [Issue #95](https://github.com/XPEHO/XpeApp/issues/95) Fix bug where app crashed upon calling showNotification on devices of API 31 or above
+- [Issue #139](https://github.com/XPEHO/XpeApp/issues/139) Add injection dependency for state management
 
 _Chore_
 

@@ -20,9 +20,9 @@ struct QvstCampaignFormView: View {
     @State private var isSending: Bool = false
     
     // Global management
-    @Binding var routerManager: RouterManager
-    @ObservedObject var dataManager: DataManager
-    @Binding var toastManager: ToastManager
+    @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var routerManager: RouterManager
+    @EnvironmentObject var toastManager: ToastManager
     
     var body: some View {
         VStack {

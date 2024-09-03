@@ -11,8 +11,8 @@ import xpeho_ui
 
 struct NewsletterPageView: View {
     // Global Management
-    @ObservedObject var dataManager: DataManager
-    @Binding var toastManager: ToastManager
+    @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var toastManager: ToastManager
     
     var body: some View {
         ScrollView {
@@ -24,9 +24,9 @@ struct NewsletterPageView: View {
                 VStack(spacing: 10) {
                     ForEach(Array(dataManager.newsletters.enumerated()), id: \.element.id) { index, newsletter in
                         if index == 0 {
-                            NewsletterCard(newsletter: newsletter, isOpen: true, toastManager: $toastManager)
+                            NewsletterCard(newsletter: newsletter, isOpen: true)
                         } else {
-                            NewsletterCard(newsletter: newsletter, toastManager: $toastManager)
+                            NewsletterCard(newsletter: newsletter)
                         }
                     }
                 }
@@ -43,7 +43,7 @@ struct NewsletterPageView: View {
         var isOpen: Bool = false
         
         // Global management
-        @Binding var toastManager: ToastManager
+        @EnvironmentObject var toastManager: ToastManager
         
         var body: some View {
             CollapsableCard(

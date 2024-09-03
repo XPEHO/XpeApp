@@ -11,7 +11,7 @@ class DataManager: ObservableObject {
     // Newsletters
     @Published var newsletters: [Newsletter] = []
     
-    private let newsletterService = NewsletterService()
+    private var newsletterService: NewsletterService?
     
     // QVST
     @Published var qvstCampaigns: [QvstCampaign] = []
@@ -19,20 +19,36 @@ class DataManager: ObservableObject {
     @Published var qvstCampaignsProgress: [QvstProgress] = []
     @Published var classifiedCampaigns: [String: [QvstCampaign]] = [:]
     
-    private let qvstService = QvstService()
+    private var qvstService: QvstService?
     
     // Loading state
     @Published var isDataLoaded: Bool = false
     
     // Classification for QVST
     func classifyCampaigns() {
+        guard let qvstService = self.qvstService else {
+            return
+        }
+        
         DispatchQueue.main.async {
-            self.classifiedCampaigns = self.qvstService.classifyCampaigns(campaigns: self.qvstCampaigns)
+            self.classifiedCampaigns = qvstService.classifyCampaigns(campaigns: self.qvstCampaigns)
         }
     }
     
     // Global initialisation
     func initData() async {
+        
+        // Initialise services 
+        // (need to be done here to make sure FirebaseApp.configure() has enough time to be called)
+        if newsletterService == nil {
+            newsletterService = NewsletterService()
+        }
+        
+        if qvstService == nil {
+            qvstService = QvstService()
+        }
+
+        // Initialise data
         if self.newsletters.isEmpty {
             await initNewsletters()
         }
@@ -46,6 +62,7 @@ class DataManager: ObservableObject {
             await initQvstCampaignsProgress()
         }
 
+        // Notify that data is loaded
         DispatchQueue.main.async {
             self.isDataLoaded = true
         }
@@ -53,6 +70,10 @@ class DataManager: ObservableObject {
     
     // Initialisation parts
     private func initNewsletters() async {
+        guard let newsletterService = self.newsletterService else {
+            return
+        }
+        
         // Fetch newsletters
         guard let newsletters = await newsletterService.fetchNewsletters() else {
             print("Failed to fetch newsletters")
@@ -66,6 +87,10 @@ class DataManager: ObservableObject {
     }
     
     private func initQvstCampaigns() async {
+        guard let qvstService = self.qvstService else {
+            return
+        }
+        
         // Fetch qvst campaigns
         do {
             guard let campaigns = try await qvstService.fetchAllCampaigns() else {
@@ -83,6 +108,10 @@ class DataManager: ObservableObject {
     }
     
     private func initActiveQvstCampaigns() async {
+        guard let qvstService = self.qvstService else {
+            return
+        }
+        
         // Fetch active qvst campaigns
         do {
             guard let campaigns = try await qvstService.fetchActiveCampaigns() else {
@@ -101,6 +130,10 @@ class DataManager: ObservableObject {
         // Get user id for the request
         guard let userId = await fetchUserId(email: EMAIL) else {
             print("Failed to fetch user ID")
+            return
+        }
+        
+        guard let qvstService = self.qvstService else {
             return
         }
         

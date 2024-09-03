@@ -8,22 +8,22 @@
 import SwiftUI
 import xpeho_ui
 
-struct ToastManager {
-    var message: String = ""
-    var duration: Double = 2.0
-    var action: () -> Void = {}
+class ToastManager: ObservableObject {
+    @Published var message: String = ""
+    @Published var duration: Double = 2.0
+    @Published var action: () -> Void = {}
     
-    var isError: Bool = false
+    @Published var isError: Bool = false
     
-    var isShowned: Bool = false
+    @Published var isShowned: Bool = false
     
-    mutating func show() {
+    func show() {
         withAnimation{
             isShowned = true
         }
     }
     
-    mutating func reset() {
+    func reset() {
         message = ""
         duration = 2.0
         action = {}
@@ -48,25 +48,25 @@ struct Toast: View {
 
 // Extension pour afficher le Toast
 extension View {
-    func toast(manager: Binding<ToastManager>) -> some View {
+    func toast(manager: ToastManager) -> some View {
         ZStack {
             self
-            if manager.wrappedValue.isShowned {
+            if manager.isShowned {
                 VStack {
                     Spacer()
                     Toast(
-                        message: manager.wrappedValue.message,
-                        isError: manager.wrappedValue.isError
+                        message: manager.message,
+                        isError: manager.isError
                     )
                 }
                 .transition(.push(from: .leading))
                 .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + manager.wrappedValue.duration) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + manager.duration) {
                         withAnimation {
-                            manager.wrappedValue.isShowned = false
+                            manager.isShowned = false
                         }
-                        manager.wrappedValue.action()
-                        manager.wrappedValue.reset()
+                        manager.action()
+                        manager.reset()
                     }
                 }
             }

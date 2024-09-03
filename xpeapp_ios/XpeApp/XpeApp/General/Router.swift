@@ -11,37 +11,30 @@ enum RouterItem {
     case home, newsletter, cra, vacation, expenseReport, contacts, qvstTemp, qvstDetail, debug
 }
 
-struct RouterManager {
-    var selectedView: RouterItem = .home
+class RouterManager: ObservableObject {
+    @Published var selectedView: RouterItem = .home
     
     // View Parameters
-    var selectedCampaign: QvstCampaign? = nil
+    @Published var selectedCampaign: QvstCampaign? = nil
     
-    mutating func goTo(item: RouterItem) {
+    func goTo(item: RouterItem) {
         selectedView = item
     }
 }
 
 struct Router: View {
     // Global Management
-    @Binding var routerManager: RouterManager
-    @ObservedObject var dataManager: DataManager
-    @Binding var toastManager: ToastManager
+    @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var routerManager: RouterManager
+    @EnvironmentObject var toastManager: ToastManager
     
     var body: some View {
         Group {
             switch routerManager.selectedView {
                 case .home:
-                    HomePageView(
-                        routerManager: $routerManager,
-                        dataManager: dataManager,
-                        toastManager: $toastManager
-                    )
+                    HomePageView()
                 case .newsletter:
-                    NewsletterPageView(
-                        dataManager: dataManager,
-                        toastManager: $toastManager
-                    )
+                    NewsletterPageView()
                 case .cra:
                     Text("CRA page placeholder")
                 case .vacation:
@@ -51,16 +44,9 @@ struct Router: View {
                 case .contacts:
                     Text("Contacts page placeholder")
                 case .qvstTemp:
-                    QvstCampaignsPageView(
-                        routerManager: $routerManager,
-                        dataManager: dataManager
-                    )
+                    QvstCampaignsPageView()
                 case .qvstDetail:
-                    QvstCampaignFormView(
-                        routerManager: $routerManager,
-                        dataManager: dataManager,
-                        toastManager: $toastManager
-                    )
+                    QvstCampaignFormView()
                 case .debug:
                     DebugPageView()
             }

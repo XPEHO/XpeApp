@@ -10,9 +10,9 @@ import xpeho_ui
 
 struct HomePageView: View {
     // Global Management
-    @Binding var routerManager: RouterManager
-    @ObservedObject var dataManager: DataManager
-    @Binding var toastManager: ToastManager
+    @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var routerManager: RouterManager
+    @EnvironmentObject var toastManager: ToastManager
     
     var body: some View {
         ScrollView {
@@ -20,8 +20,7 @@ struct HomePageView: View {
                 if let lastNewsletter = dataManager.newsletters.first {
                     Title(text: "Dernière publication", isFirstPageElement: true)
                     NewsletterPreview(
-                        newsletter: lastNewsletter,
-                        toastManager: $toastManager
+                        newsletter: lastNewsletter
                     )
                 }
                 if !dataManager.activeQvstCampaigns.isEmpty {
@@ -29,8 +28,7 @@ struct HomePageView: View {
                     ForEach(dataManager.activeQvstCampaigns, id: \.id) { campaign in
                         QvstCampaignCard(
                             campaign: campaign,
-                            campaignProgress: campaign.findAssociatedProgress(in: dataManager.qvstCampaignsProgress),
-                            routerManager: $routerManager
+                            campaignProgress: campaign.findAssociatedProgress(in: dataManager.qvstCampaignsProgress)
                         )
                     }
                 }
@@ -45,7 +43,7 @@ struct HomePageView: View {
         @Environment(\.openURL) var openURL
         
         // Global Management
-        @Binding var toastManager: ToastManager
+        @EnvironmentObject var toastManager: ToastManager
         
         var body: some View {
             FilePreviewButton (
@@ -74,7 +72,7 @@ struct HomePageView: View {
         @State private var tagsList: [String] = []
         
         // Global Management
-        @Binding var routerManager: RouterManager
+        @EnvironmentObject var routerManager: RouterManager
         
         var body: some View {
             CollapsableCard(

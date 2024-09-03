@@ -17,6 +17,10 @@ struct XpeAppApp: App {
     @UIApplicationDelegateAdaptor(XpeAppAppDelegate.self) var delegate
     public static var firestore: Firestore = Firestore.firestore()
     
+    var routerManager: RouterManager = RouterManager()
+    var dataManager: DataManager = DataManager()
+    var toastManager: ToastManager = ToastManager()
+    
     init() {
         // Load XpehoUI fonts
         Fonts.registerFonts()
@@ -25,6 +29,9 @@ struct XpeAppApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(routerManager)
+                .environmentObject(dataManager)
+                .environmentObject(toastManager)
         }
     }
 }

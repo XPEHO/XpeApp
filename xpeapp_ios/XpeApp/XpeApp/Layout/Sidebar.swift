@@ -14,8 +14,7 @@ struct Sidebar: View {
     var geometry: GeometryProxy
     
     // Global Management
-    @Binding var routerManager: RouterManager
-    
+    @EnvironmentObject var routerManager: RouterManager
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -43,44 +42,36 @@ struct Sidebar: View {
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
                                 navigationItem: .home,
                                 icon: Image("Home"),
-                                label: "Accueil",
-                                routerManager: $routerManager)
+                                label: "Accueil")
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
                                 navigationItem: .newsletter,
                                 icon: Assets.loadImage(named: "Newsletter"),
-                                label: "Newsletters",
-                                routerManager: $routerManager)
+                                label: "Newsletters")
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
                                 navigationItem: .qvstTemp,
                                 icon: Assets.loadImage(named: "QVST"),
-                                label: "QVST",
-                                routerManager: $routerManager)
+                                label: "QVST")
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
                                 navigationItem: .cra,
                                 icon: Assets.loadImage(named: "Briefcase"),
-                                label: "CRA",
-                                routerManager: $routerManager)
+                                label: "CRA")
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
                                 navigationItem: .vacation,
                                 icon: Assets.loadImage(named: "PlaneDeparture"),
-                                label: "Congés",
-                                routerManager: $routerManager)
+                                label: "Congés")
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
                                 navigationItem: .expenseReport,
                                 icon: Assets.loadImage(named: "Receipt"),
-                                label: "Notes de frais",
-                                routerManager: $routerManager)
+                                label: "Notes de frais")
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
                                 navigationItem: .contacts,
                                 icon: Assets.loadImage(named: "ContactFill"),
-                                label: "Contacts",
-                                routerManager: $routerManager)
+                                label: "Contacts")
                     #if DEBUG && true
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
                                 navigationItem: .debug,
                                 icon: Image("Bug"),
-                                label: "Debug",
-                                routerManager: $routerManager)
+                                label: "Debug")
                     #endif
                 }
                 .padding(.horizontal, 20)
@@ -106,7 +97,7 @@ struct SidebarItem: View {
     var label: String
     
     // Global Management
-    @Binding var routerManager: RouterManager
+    @EnvironmentObject var routerManager: RouterManager
     
     var body: some View {
         Button(action: {

@@ -13,9 +13,9 @@ struct ContentView: View {
     @State private var isSidebarVisible: Bool = false
     
     // Global Management
-    @State private var routerManager: RouterManager = RouterManager()
-    @StateObject private var dataManager: DataManager = DataManager()
-    @State private var toastManager: ToastManager = ToastManager()
+    @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var routerManager: RouterManager
+    @EnvironmentObject var toastManager: ToastManager
     
     var body: some View {
         GeometryReader { geometry in
@@ -23,11 +23,7 @@ struct ContentView: View {
                 VStack {
                     Header(isSidebarVisible: $isSidebarVisible)
                     if dataManager.isDataLoaded {
-                        Router(
-                            routerManager: $routerManager,
-                            dataManager: dataManager,
-                            toastManager: $toastManager
-                        )
+                        Router()
                         .padding(.horizontal, 24)
                     } else {
                         ProgressView("Chargement des données...")
@@ -40,7 +36,7 @@ struct ContentView: View {
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .disabled(self.isSidebarVisible ? true : false)
                 // Toast
-                .toast(manager: $toastManager)
+                .toast(manager: toastManager)
                 
                 // Make the app content darker and unusable while using sidebar, add also a close effect on click
                 if isSidebarVisible {
@@ -53,8 +49,7 @@ struct ContentView: View {
                 
                 Sidebar(
                     isSidebarVisible: $isSidebarVisible,
-                    geometry: geometry,
-                    routerManager: $routerManager
+                    geometry: geometry
                 )
             }
         }

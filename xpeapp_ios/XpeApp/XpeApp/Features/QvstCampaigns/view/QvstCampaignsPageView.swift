@@ -14,8 +14,8 @@ struct QvstCampaignsPageView: View {
     @State private var showClosedCampaigns: Bool = false
     
     // Global Management
-    @Binding var routerManager: RouterManager
-    @ObservedObject var dataManager: DataManager
+    @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var routerManager: RouterManager
     
     var body: some View {
         ScrollView {
@@ -32,8 +32,7 @@ struct QvstCampaignsPageView: View {
                             QVSTCard(
                                 campaign: campaign,
                                 campaignProgress: campaign.findAssociatedProgress(in: dataManager.qvstCampaignsProgress),
-                                isOpen: true,
-                                routerManager: $routerManager
+                                isOpen: true
                             )
                         }
                     }
@@ -47,8 +46,7 @@ struct QvstCampaignsPageView: View {
                                     Title(text: "Campagnes pour \(key.capitalized)")
                                     ForEach(campaigns, id: \.id) { campaign in
                                         QVSTCard(
-                                            campaign: campaign,
-                                            routerManager: $routerManager
+                                            campaign: campaign
                                         )
                                     }
                                 }
@@ -85,7 +83,7 @@ struct QvstCampaignsPageView: View {
         var isOpen: Bool = false
         
         // Global management
-        @Binding var routerManager: RouterManager
+        @EnvironmentObject var routerManager: RouterManager
         
         var body: some View {
             CollapsableCard(

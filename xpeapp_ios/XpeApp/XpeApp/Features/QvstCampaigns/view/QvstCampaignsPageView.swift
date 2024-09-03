@@ -112,7 +112,7 @@ struct QvstCampaignsPageView: View {
                 isDefaultOpen: isOpen,
                 onPressButton: {
                     routerManager.selectedCampaign = campaign
-                    routerManager.goTo(item: .qvstDetail)
+                    routerManager.goTo(item: .campaignForm)
                 }
             )
             .onAppear{

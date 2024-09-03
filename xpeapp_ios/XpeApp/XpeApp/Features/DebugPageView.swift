@@ -9,9 +9,11 @@ import SwiftUI
 
 
 struct DebugPageView: View {
+    private let featureService = FeatureService()
     private let newsletterService = NewsletterService()
     private let qvstService = QvstService()
     
+    @State var featureFetch = ""
     @State var newsletterFetch = ""
     @State var qvstFetch = ""
     @State var qvstActiveFetch = ""
@@ -19,6 +21,16 @@ struct DebugPageView: View {
     var body: some View {
         ScrollView {
             VStack {
+                SectionView(
+                    title: "FeatureService : fetchFeatures",
+                    codeBlock: featureFetch)
+                .onTapGesture {
+                    Task  {
+                        if let ns = await featureService.fetchFeatures(){
+                            featureFetch = String(describing: ns)
+                        }
+                    }
+                }
                 SectionView(
                     title: "NewsletterService : fetchNewsletters",
                     codeBlock: newsletterFetch)

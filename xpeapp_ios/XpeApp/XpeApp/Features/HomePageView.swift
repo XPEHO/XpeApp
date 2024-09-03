@@ -17,20 +17,35 @@ struct HomePageView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
-                if let lastNewsletter = dataManager.newsletters.first {
-                    Title(text: "Dernière publication", isFirstPageElement: true)
-                    NewsletterPreview(
-                        newsletter: lastNewsletter
-                    )
-                }
-                if !dataManager.activeQvstCampaigns.isEmpty {
-                    Title(text: "À ne pas manquer !")
-                    ForEach(dataManager.activeQvstCampaigns, id: \.id) { campaign in
-                        QvstCampaignCard(
-                            campaign: campaign,
-                            campaignProgress: campaign.findAssociatedProgress(in: dataManager.qvstCampaignsProgress)
+                if routerManager.isEnabled(.newsletters){
+                    if let lastNewsletter = dataManager.newsletters.first {
+                        Title(text: "Dernière publication", isFirstPageElement: true)
+                        NewsletterPreview(
+                            newsletter: lastNewsletter
                         )
                     }
+                }
+                if !dataManager.activeQvstCampaigns.isEmpty {
+                    if routerManager.isEnabled(.campaign){
+                        if !routerManager.isEnabled(.newsletters){
+                            Title(text: "À ne pas manquer !", isFirstPageElement: true)
+                        } else {
+                            Title(text: "À ne pas manquer !")
+                        }
+                    }
+                    
+                    if routerManager.isEnabled(.campaign){
+                        ForEach(dataManager.activeQvstCampaigns, id: \.id) { campaign in
+                            QvstCampaignCard(
+                                campaign: campaign,
+                                campaignProgress: campaign.findAssociatedProgress(in: dataManager.qvstCampaignsProgress)
+                            )
+                        }
+                    }
+                }
+                if !routerManager.isEnabled(.newsletters)
+                    && !routerManager.isEnabled(.campaign) {
+                    Title(text: "Rien à l'horizon !", isFirstPageElement: true)
                 }
             }
         }
@@ -99,7 +114,7 @@ struct HomePageView: View {
                 isButtonVisible: (campaign.status == "OPEN") && !isCampaignCompleted(),
                 onPressButton: {
                     routerManager.selectedCampaign = campaign
-                    routerManager.goTo(item: .qvstDetail)
+                    routerManager.goTo(item: .campaignForm)
                 }
             )
             .onAppear {

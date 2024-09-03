@@ -7,18 +7,45 @@
 
 import SwiftUI
 
-enum RouterItem {
-    case home, newsletter, cra, vacation, expenseReport, contacts, qvstTemp, qvstDetail, debug
+enum RouterItem: String {
+    case home = "home"
+    case newsletters = "newsletters"
+    case campaign = "campaign"
+    case campaignForm = "campaignForm"
+    case expenseReport = "expenseReport"
+    case colleagues = "colleagues"
+    case cra = "cra"
+    case vacation = "vacation"
+    case debug = "debug"
 }
 
 class RouterManager: ObservableObject {
     @Published var selectedView: RouterItem = .home
+    private var dataManager: DataManager
     
     // View Parameters
     @Published var selectedCampaign: QvstCampaign? = nil
+
+    init(dataManager: DataManager) {
+        self.dataManager = dataManager
+    }
     
     func goTo(item: RouterItem) {
         selectedView = item
+    }
+
+    // Check in data manager si a router item is linked to a feature enabled
+    func isEnabled(_ feature: RouterItem) -> Bool {
+        guard let feature = dataManager.features[feature.rawValue] else {
+            return false
+        }
+        if (ENV == .uat) {
+            return feature.uatEnabled
+        } else if (ENV == .prod) {
+            return feature.prodEnabled
+        } else {
+            return false
+        }
     }
 }
 
@@ -33,22 +60,24 @@ struct Router: View {
             switch routerManager.selectedView {
                 case .home:
                     HomePageView()
-                case .newsletter:
+                case .newsletters where routerManager.isEnabled(.newsletters):
                     NewsletterPageView()
-                case .cra:
-                    Text("CRA page placeholder")
-                case .vacation:
-                    Text("Vacation page placeholder")
-                case .expenseReport:
-                    Text("Expense Report page placeholder")
-                case .contacts:
-                    Text("Contacts page placeholder")
-                case .qvstTemp:
+                case .campaign where routerManager.isEnabled(.campaign):
                     QvstCampaignsPageView()
-                case .qvstDetail:
+                case .campaignForm where routerManager.isEnabled(.campaign):
                     QvstCampaignFormView()
+                case .expenseReport where routerManager.isEnabled(.expenseReport):
+                    Text("Expense Report page placeholder")
+                case .colleagues where routerManager.isEnabled(.colleagues):
+                    Text("Colleagues page placeholder")
+                case .cra where routerManager.isEnabled(.cra):
+                    Text("CRA page placeholder")
+                case .vacation where routerManager.isEnabled(.vacation):
+                    Text("Vacation page placeholder")
                 case .debug:
                     DebugPageView()
+                default:
+                    Text("Feature non présente")
             }
         }
     }

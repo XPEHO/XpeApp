@@ -14,6 +14,7 @@ _Feat_
 - [Issue #130](https://github.com/XPEHO/XpeApp/issues/130) Add tests for sidebar and construct the home page and the qvst page with the new design
 - [Issue #70](https://github.com/XPEHO/XpeApp/issues/70) Add QVST form, Refactor structure of API Call, Remove CoreData and finally Create Router, Data and Toast independant systems
 - [Issue #133](https://github.com/XPEHO/XpeApp/issues/133) Add Completion indication on QVST Card
+- [Issue #68](https://github.com/XPEHO/XpeApp/issues/68) Implement feature flipping
 
 _Fix_
 

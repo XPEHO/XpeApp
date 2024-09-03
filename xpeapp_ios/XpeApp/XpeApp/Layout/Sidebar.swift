@@ -15,6 +15,7 @@ struct Sidebar: View {
     
     // Global Management
     @EnvironmentObject var routerManager: RouterManager
+    @EnvironmentObject var dataManager: DataManager
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -43,36 +44,48 @@ struct Sidebar: View {
                                 navigationItem: .home,
                                 icon: Image("Home"),
                                 label: "Accueil")
-                    SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                navigationItem: .newsletter,
-                                icon: Assets.loadImage(named: "Newsletter"),
-                                label: "Newsletters")
-                    SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                navigationItem: .qvstTemp,
-                                icon: Assets.loadImage(named: "QVST"),
-                                label: "QVST")
-                    SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                navigationItem: .cra,
-                                icon: Assets.loadImage(named: "Briefcase"),
-                                label: "CRA")
-                    SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                navigationItem: .vacation,
-                                icon: Assets.loadImage(named: "PlaneDeparture"),
-                                label: "Congés")
-                    SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                navigationItem: .expenseReport,
-                                icon: Assets.loadImage(named: "Receipt"),
-                                label: "Notes de frais")
-                    SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                navigationItem: .contacts,
-                                icon: Assets.loadImage(named: "ContactFill"),
-                                label: "Contacts")
-                    #if DEBUG && true
-                    SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                navigationItem: .debug,
-                                icon: Image("Bug"),
-                                label: "Debug")
-                    #endif
+                    if routerManager.isEnabled(.newsletters){
+                        SidebarItem(isSidebarVisible: $isSidebarVisible,
+                                    navigationItem: .newsletters,
+                                    icon: Assets.loadImage(named: "Newsletter"),
+                                    label: "Newsletters")
+                    }
+                    if routerManager.isEnabled(.campaign){
+                        SidebarItem(isSidebarVisible: $isSidebarVisible,
+                                    navigationItem: .campaign,
+                                    icon: Assets.loadImage(named: "QVST"),
+                                    label: "QVST")
+                    }
+                    if routerManager.isEnabled(.expenseReport){
+                        SidebarItem(isSidebarVisible: $isSidebarVisible,
+                                    navigationItem: .expenseReport,
+                                    icon: Assets.loadImage(named: "Receipt"),
+                                    label: "Notes de frais")
+                    }
+                    if routerManager.isEnabled(.colleagues){
+                        SidebarItem(isSidebarVisible: $isSidebarVisible,
+                                    navigationItem: .colleagues,
+                                    icon: Assets.loadImage(named: "ContactFill"),
+                                    label: "Contacts")
+                    }
+                    if routerManager.isEnabled(.cra){
+                        SidebarItem(isSidebarVisible: $isSidebarVisible,
+                                    navigationItem: .cra,
+                                    icon: Assets.loadImage(named: "Briefcase"),
+                                    label: "CRA")
+                    }
+                    if routerManager.isEnabled(.vacation){
+                        SidebarItem(isSidebarVisible: $isSidebarVisible,
+                                    navigationItem: .vacation,
+                                    icon: Assets.loadImage(named: "PlaneDeparture"),
+                                    label: "Congés")
+                    }
+                    if ENV == .uat {
+                        SidebarItem(isSidebarVisible: $isSidebarVisible,
+                                    navigationItem: .debug,
+                                    icon: Image("Bug"),
+                                    label: "Debug")
+                    }
                 }
                 .padding(.horizontal, 20)
                 .accessibilityElement(children: .contain)

@@ -23,6 +23,10 @@
 		0E61D2C82C78A55400050F7C /* QvstService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E61D2C72C78A55400050F7C /* QvstService.swift */; };
 		0E61D2CB2C78D47700050F7C /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E61D2CA2C78D47700050F7C /* Config.swift */; };
 		0E67FA212C74943C00B34AE9 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E67FA202C74943C00B34AE9 /* Toast.swift */; };
+		0E6ACF7C2C870FC700735E1E /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6ACF7B2C870FC700735E1E /* Feature.swift */; };
+		0E6ACF802C8710B100735E1E /* FeatureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6ACF7F2C8710B100735E1E /* FeatureService.swift */; };
+		0E6ACF822C8727E900735E1E /* NewsletterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6ACF812C8727E900735E1E /* NewsletterTests.swift */; };
+		0E6ACF842C87285500735E1E /* FeatureFlippingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6ACF832C87285500735E1E /* FeatureFlippingTests.swift */; };
 		0E7032962C6B591000850ED5 /* SidebarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7032952C6B591000850ED5 /* SidebarUITests.swift */; };
 		0E7032972C6B5A6600850ED5 /* XpeAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECFB2C10930C007B5262 /* XpeAppUITests.swift */; };
 		0E70329A2C6B5B3100850ED5 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 0E7032992C6B5B3100850ED5 /* FirebaseMessaging */; };
@@ -84,6 +88,10 @@
 		0E61D2CA2C78D47700050F7C /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		0E61D2CC2C78DC0B00050F7C /* XpeApp.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = XpeApp.xctestplan; sourceTree = "<group>"; };
 		0E67FA202C74943C00B34AE9 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		0E6ACF7B2C870FC700735E1E /* Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
+		0E6ACF7F2C8710B100735E1E /* FeatureService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureService.swift; sourceTree = "<group>"; };
+		0E6ACF812C8727E900735E1E /* NewsletterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsletterTests.swift; sourceTree = "<group>"; };
+		0E6ACF832C87285500735E1E /* FeatureFlippingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlippingTests.swift; sourceTree = "<group>"; };
 		0E7032952C6B591000850ED5 /* SidebarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarUITests.swift; sourceTree = "<group>"; };
 		0E72BA5F2C75DCE400C0583D /* QvstTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QvstTests.swift; sourceTree = "<group>"; };
 		0E72BA612C771FC100C0583D /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
@@ -165,6 +173,7 @@
 		0E61D2B22C78A0EE00050F7C /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				0E6ACF7A2C870FAB00735E1E /* FeatureFlipping */,
 				0E5C6EFB2C6A1A4500AA2127 /* HomePageView.swift */,
 				BDE1B5152C183AE200E8513F /* DebugPageView.swift */,
 				BDFB9FFA2C11AC6200F8A35F /* Newsletter */,
@@ -209,6 +218,31 @@
 				0E7EBD5D2C6CFF8700C95482 /* QvstCampaignFormView.swift */,
 			);
 			path = view;
+			sourceTree = "<group>";
+		};
+		0E6ACF7A2C870FAB00735E1E /* FeatureFlipping */ = {
+			isa = PBXGroup;
+			children = (
+				0E6ACF7E2C870FDC00735E1E /* service */,
+				0E6ACF7D2C870FD000735E1E /* model */,
+			);
+			path = FeatureFlipping;
+			sourceTree = "<group>";
+		};
+		0E6ACF7D2C870FD000735E1E /* model */ = {
+			isa = PBXGroup;
+			children = (
+				0E6ACF7B2C870FC700735E1E /* Feature.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		0E6ACF7E2C870FDC00735E1E /* service */ = {
+			isa = PBXGroup;
+			children = (
+				0E6ACF7F2C8710B100735E1E /* FeatureService.swift */,
+			);
+			path = service;
 			sourceTree = "<group>";
 		};
 		0E7032982C6B5B3100850ED5 /* Frameworks */ = {
@@ -313,6 +347,8 @@
 			children = (
 				BDACECF12C10930C007B5262 /* XpeAppTests.swift */,
 				0E72BA5F2C75DCE400C0583D /* QvstTests.swift */,
+				0E6ACF812C8727E900735E1E /* NewsletterTests.swift */,
+				0E6ACF832C87285500735E1E /* FeatureFlippingTests.swift */,
 			);
 			path = XpeAppTests;
 			sourceTree = "<group>";
@@ -487,6 +523,7 @@
 			files = (
 				0E61D2B92C78A20F00050F7C /* Newsletter.swift in Sources */,
 				0E7EBD5E2C6CFF8700C95482 /* QvstCampaignFormView.swift in Sources */,
+				0E6ACF802C8710B100735E1E /* FeatureService.swift in Sources */,
 				0E67FA212C74943C00B34AE9 /* Toast.swift in Sources */,
 				0E61D2AF2C78A0AC00050F7C /* QvstTheme.swift in Sources */,
 				0E5C6EFC2C6A1A4500AA2127 /* HomePageView.swift in Sources */,
@@ -502,6 +539,7 @@
 				BDACECDF2C109309007B5262 /* XpeAppApp.swift in Sources */,
 				0E61D2C42C78A4F200050F7C /* QvstProgress.swift in Sources */,
 				0E61D2C62C78A53100050F7C /* QvstFormResponse.swift in Sources */,
+				0E6ACF7C2C870FC700735E1E /* Feature.swift in Sources */,
 				BDACED0B2C10A690007B5262 /* NewsletterPageView.swift in Sources */,
 				0E61D2BE2C78A47300050F7C /* Utils.swift in Sources */,
 				0E87AC332C660DDF0079877D /* Sidebar.swift in Sources */,
@@ -517,6 +555,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDACECF22C10930C007B5262 /* XpeAppTests.swift in Sources */,
+				0E6ACF842C87285500735E1E /* FeatureFlippingTests.swift in Sources */,
+				0E6ACF822C8727E900735E1E /* NewsletterTests.swift in Sources */,
 				0E72BA602C75DCE400C0583D /* QvstTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

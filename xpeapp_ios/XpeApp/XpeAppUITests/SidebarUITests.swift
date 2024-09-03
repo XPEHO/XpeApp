@@ -29,7 +29,7 @@ final class SidebarUITests: XCTestCase {
         Fonts.registerFonts()
     }
     
-    func testSidebar_WeCanOpenIt() throws {
+    func test_WeCanOpenIt() throws {
         let app = XCUIApplication()
         app.launch()
         
@@ -50,7 +50,7 @@ final class SidebarUITests: XCTestCase {
         }
     }
     
-    func testSidebar_WeCanCloseItUsingCloseButton() throws {
+    func test_WeCanCloseItUsingCloseButton() throws {
         let app = XCUIApplication()
         app.launch()
         
@@ -75,7 +75,7 @@ final class SidebarUITests: XCTestCase {
         XCTAssertFalse(sidebar.exists)
     }
     
-    func testSidebar_WeCanNavigateToNewslettersAndItIsClosing() throws {
+    func test_WeCanNavigateToNewslettersAndItIsClosing() throws {
         let app = XCUIApplication()
         app.launch()
         
@@ -108,7 +108,7 @@ final class SidebarUITests: XCTestCase {
         }
     }
     
-    func testSidebar_WeCanNavigateToQvstAndItIsClosing() throws {
+    func test_WeCanNavigateToQvstAndItIsClosing() throws {
         let app = XCUIApplication()
         app.launch()
         
@@ -141,7 +141,7 @@ final class SidebarUITests: XCTestCase {
         }
     }
     
-    func testSidebar_WeCanNavigateToHomeAndItIsClosing() throws {
+    func test_WeCanNavigateToHomeAndItIsClosing() throws {
         let app = XCUIApplication()
         app.launch()
         

@@ -63,6 +63,11 @@ struct ContentView: View {
                 await dataManager.initData()
             }
         }
+        .refreshable {
+            Task {
+                await dataManager.initData()
+            }
+        }
     }
 }
 

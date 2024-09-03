@@ -1,15 +1,16 @@
 //
-//  XpeAppTests.swift
+//  NewsletterTests.swift
 //  XpeAppTests
 //
-//  Created by Loucas Cubeddu on 05/06/2024.
+//  Created by Ryan Debouvries on 03/09/2024.
 //
 
 import XCTest
 @testable import XpeApp
 
-final class XpeAppTests: XCTestCase {
+final class NewsletterTests: XCTestCase {
     var newsletterService: NewsletterService!
+
 
     override func setUp() {
         super.setUp()
@@ -20,11 +21,12 @@ final class XpeAppTests: XCTestCase {
         newsletterService = nil
         super.tearDown()
     }
-    
-    func test_FirebaseFirestoreConnected() throws {
+
+    func test_fetchNewslettersNotEmpty() throws {
         Task {
             let ns = await newsletterService.fetchNewsletters()
             XCTAssertNotNil(ns)
+            XCTAssertGreaterThan(ns!.count, 0)
         }
     }
 

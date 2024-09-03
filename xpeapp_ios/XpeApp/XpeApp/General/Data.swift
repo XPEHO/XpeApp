@@ -8,6 +8,11 @@
 import SwiftUI
 
 class DataManager: ObservableObject {
+    // Feature Flipping
+    @Published var features: [String:Feature] = [:]
+    
+    private var featureService: FeatureService?
+    
     // Newsletters
     @Published var newsletters: [Newsletter] = []
     
@@ -40,35 +45,48 @@ class DataManager: ObservableObject {
         
         // Initialise services 
         // (need to be done here to make sure FirebaseApp.configure() has enough time to be called)
+        if featureService == nil {
+            featureService = FeatureService()
+        }
         if newsletterService == nil {
             newsletterService = NewsletterService()
         }
-        
         if qvstService == nil {
             qvstService = QvstService()
         }
 
         // Initialise data
-        if self.newsletters.isEmpty {
-            await initNewsletters()
-        }
-        if self.activeQvstCampaigns.isEmpty {
-            await initActiveQvstCampaigns()
-        }
-        if self.qvstCampaigns.isEmpty {
-            await initQvstCampaigns()
-        }
-        if self.qvstCampaignsProgress.isEmpty {
-            await initQvstCampaignsProgress()
-        }
+        await initFeatures()
+        await initNewsletters()
+        await initActiveQvstCampaigns()
+        await initQvstCampaigns()
+        await initQvstCampaignsProgress()
 
-        // Notify that data is loaded
-        DispatchQueue.main.async {
-            self.isDataLoaded = true
+        // Notify that data is firstly loaded
+        if !self.isDataLoaded {
+            DispatchQueue.main.async {
+                self.isDataLoaded = true
+            }
         }
     }
     
     // Initialisation parts
+    private func initFeatures() async {
+        guard let featureService = self.featureService else {
+            return
+        }
+        
+        // Fetch newsletters
+        guard let features = await featureService.fetchFeatures() else {
+            print("Failed to fetch features")
+            return
+        }
+        // Note: We have to do UI updates on the main thread to prevent crashes
+        DispatchQueue.main.async {
+            self.features = features
+        }
+    }
+    
     private func initNewsletters() async {
         guard let newsletterService = self.newsletterService else {
             return

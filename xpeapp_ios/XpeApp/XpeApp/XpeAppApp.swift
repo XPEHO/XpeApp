@@ -17,11 +17,16 @@ struct XpeAppApp: App {
     @UIApplicationDelegateAdaptor(XpeAppAppDelegate.self) var delegate
     public static var firestore: Firestore = Firestore.firestore()
     
-    var routerManager: RouterManager = RouterManager()
-    var dataManager: DataManager = DataManager()
-    var toastManager: ToastManager = ToastManager()
+    var dataManager: DataManager
+    var routerManager: RouterManager
+    var toastManager: ToastManager
     
     init() {
+        // Init global managers
+        dataManager = DataManager()
+        routerManager = RouterManager(dataManager: dataManager)
+        toastManager = ToastManager()
+        
         // Load XpehoUI fonts
         Fonts.registerFonts()
     }

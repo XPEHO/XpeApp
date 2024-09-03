@@ -23,6 +23,13 @@
         "identifier" : "BDACECEC2C10930C007B5262",
         "name" : "XpeAppTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:XpeApp.xcodeproj",
+        "identifier" : "BDACECF62C10930C007B5262",
+        "name" : "XpeAppUITests"
+      }
     }
   ],
   "version" : 1

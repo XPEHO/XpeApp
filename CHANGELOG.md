@@ -35,6 +35,7 @@ _Chore_
 - [Issue #62](https://github.com/XPEHO/XpeApp/issues/62) Create iOS folder structure
 - [Issue #67](https://github.com/XPEHO/XpeApp/issues/67) Add firebase to the iOS app
 - Change detekt scan and add README files
+- [Detekt] Disable NewLineAtEndOfFile
 
 _Doc_
 

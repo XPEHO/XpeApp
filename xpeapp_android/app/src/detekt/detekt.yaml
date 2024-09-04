@@ -22,6 +22,8 @@ style:
   MagicNumber:
     active: true
     severity: ERROR
+  NewLineAtEndOfFile:
+    active: false
 
 naming:
   FunctionNaming:

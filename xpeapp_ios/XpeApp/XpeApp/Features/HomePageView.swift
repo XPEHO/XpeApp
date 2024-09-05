@@ -62,10 +62,17 @@ struct HomePageView: View {
         
         var body: some View {
             FilePreviewButton (
-                labelLeft: "Newsletter",
-                labelRight: dateFormatter.string(from: newsletter.date),
-                imagePreview: Image("NewsletterPreviewTest"),
-                pillTags: newsletter.summary.split(separator: ",").map({String($0)}),
+                labelStart: "Newsletter",
+                labelEnd: dateFormatter.string(from: newsletter.date),
+                imagePreview: AnyView(
+                    Image("NewsletterPreviewTest")
+                        .resizable()
+                ),
+                tags: newsletter.summary.split(separator: ",").map({
+                    TagPill(
+                        label: String($0)
+                    )
+                }),
                 height: 200,
                 onPress: {
                     if let url = URL(string: newsletter.pdfUrl)  {
@@ -84,7 +91,7 @@ struct HomePageView: View {
         @State var campaign: QvstCampaign
         @State var campaignProgress: QvstProgress?
         
-        @State private var tagsList: [String] = []
+        @State private var tagsList: [TagPill] = []
         
         // Global Management
         @EnvironmentObject var routerManager: RouterManager
@@ -92,38 +99,61 @@ struct HomePageView: View {
         var body: some View {
             CollapsableCard(
                 label: campaign.name,
-                headTag: "",
                 tags: tagsList,
-                // We highlighting the completion if the campaign is completed
-                // Otherwise we highlight the deadline if the campaign has not ended
-                importantTags: [
-                    isCampaignCompleted()
-                    ? "Complétée"
-                    : !campaign.isOver()
-                        ? getDeadlineLabel()
-                        : ""
-                ],
-                buttonLabel: "Compléter",
-                icon: Assets.loadImage(named: "QVST"),
-                // We highlight in XPEHO color if the campaign is completed
-                // Otherwise we highlight in red
-                importantTagBackgroundColor: isCampaignCompleted() ? XPEHO_THEME.XPEHO_COLOR : XPEHO_THEME.RED_INFO_COLOR,
-                isCollapsable: false,
-                isHeadTagVisible: false,
                 // We hide the button if the campaign is closed or completed
-                isButtonVisible: (campaign.status == "OPEN") && !isCampaignCompleted(),
-                onPressButton: {
-                    routerManager.selectedCampaign = campaign
-                    routerManager.goTo(item: .campaignForm)
-                }
+                button: (campaign.status == "OPEN") && !isCampaignCompleted()
+                    ? ClickyButton(
+                        label: "Compléter",
+                        horizontalPadding: 50,
+                        verticalPadding: 12,
+                        onPress: {
+                            routerManager.selectedCampaign = campaign
+                            routerManager.goTo(item: .campaignForm)
+                        }
+                    )
+                    : nil,
+                icon: AnyView(
+                    Assets.loadImage(named: "QVST")
+                        .renderingMode(.template)
+                        .foregroundStyle(XPEHO_THEME.XPEHO_COLOR)
+                ),
+                collapsable: false
             )
             .onAppear {
                 // Init the tagsList depending the data that we got
-                tagsList.append(campaign.theme.name)
-                tagsList.append(getDeadlineLabel())
-                // If campaign has not ended or is completed we show the completion state
-                if !campaign.isOver() || isCampaignCompleted() {
-                    tagsList.append(isCampaignCompleted() ? "Complétée" : "À compléter")
+                tagsList.append(
+                    TagPill(
+                        label: campaign.theme.name,
+                        backgroundColor: XPEHO_THEME.GREEN_DARK_COLOR
+                    )
+                )
+
+                // If campaign has not ended we show the deadline with color that depends on the completion state
+                if (!campaign.isOver()) {
+                    tagsList.append(
+                        TagPill(
+                            label: getDeadlineLabel(),
+                            backgroundColor: isCampaignCompleted() ? XPEHO_THEME.GREEN_DARK_COLOR : XPEHO_THEME.RED_INFO_COLOR
+                        )
+                    )
+                }
+                
+                // If campaign is completed we show the completion state whatever the case
+                // Else if it has not ended we show the completion state to indicate it can always be completed
+                if (isCampaignCompleted()) {
+                    tagsList.append(
+                        TagPill(
+                            label: "Complétée",
+                            backgroundColor: XPEHO_THEME.XPEHO_COLOR
+                        )
+                    )
+                } else {
+                    tagsList.append(
+                        TagPill(
+                            label: "À compléter",
+                            backgroundColor: XPEHO_THEME.GREEN_DARK_COLOR
+                        )
+                    )
                 }
             }
         }

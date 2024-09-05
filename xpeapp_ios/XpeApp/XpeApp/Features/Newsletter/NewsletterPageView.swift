@@ -48,21 +48,36 @@ struct NewsletterPageView: View {
         var body: some View {
             CollapsableCard(
                 label: "Newsletter",
-                headTag: dateFormatter.string(from: newsletter.date),
-                tags: newsletter.summary.split(separator: ",").map({String($0)}),
-                importantTags: [],
-                buttonLabel: "Ouvrir",
-                icon: Assets.loadImage(named: "Newsletter"),
-                isDefaultOpen: isOpen,
-                onPressButton: {
-                    if let url = URL(string: newsletter.pdfUrl)  {
-                        openURL(url)
-                    } else {
-                        toastManager.message = "URL de Newsletter incorrecte"
-                        toastManager.isError = true
-                        toastManager.show()
+                headTag: TagPill(
+                    label: dateFormatter.string(from: newsletter.date),
+                    backgroundColor: XPEHO_THEME.GREEN_DARK_COLOR
+                ),
+                tags: newsletter.summary.split(separator: ",").map({
+                    TagPill(
+                        label: String($0),
+                        backgroundColor: XPEHO_THEME.GREEN_DARK_COLOR
+                    )
+                }),
+                button: ClickyButton(
+                    label: "Ouvrir",
+                    horizontalPadding: 50,
+                    verticalPadding: 12,
+                    onPress: {
+                        if let url = URL(string: newsletter.pdfUrl)  {
+                            openURL(url)
+                        } else {
+                            toastManager.message = "URL de Newsletter incorrecte"
+                            toastManager.isError = true
+                            toastManager.show()
+                        }
                     }
-                }
+                ),
+                icon: AnyView(
+                    Assets.loadImage(named: "Newsletter")
+                        .renderingMode(.template)
+                        .foregroundStyle(XPEHO_THEME.XPEHO_COLOR)
+                ),
+                defaultOpen: isOpen
             )
         }
     }

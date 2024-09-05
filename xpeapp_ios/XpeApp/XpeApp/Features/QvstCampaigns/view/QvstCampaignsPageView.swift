@@ -78,7 +78,7 @@ struct QvstCampaignsPageView: View {
         @State var campaign: QvstCampaign
         @State var campaignProgress: QvstProgress?
         
-        @State private var tagsList: [String] = []
+        @State private var tagsList: [TagPill] = []
         
         var isOpen: Bool = false
         
@@ -88,39 +88,65 @@ struct QvstCampaignsPageView: View {
         var body: some View {
             CollapsableCard(
                 label: campaign.name,
-                headTag: "",
                 tags: tagsList,
-                // We highlighting the completion if the campaign is completed
-                // Otherwise we highlight the deadline if the campaign has not ended
-                importantTags: [
-                    isCampaignCompleted()
-                    ? "Complétée"
-                    : !campaign.isOver()
-                        ? getDeadlineLabel()
-                        : ""
-                ],
-                buttonLabel: "Compléter",
-                icon: Assets.loadImage(named: "QVST"),
-                // We highlight in XPEHO color if the campaign is completed
-                // Otherwise we highlight in red
-                importantTagBackgroundColor: isCampaignCompleted() ? XPEHO_THEME.XPEHO_COLOR : XPEHO_THEME.RED_INFO_COLOR,
-                // We highlight the icon if campaign is open
-                iconColor: (campaign.status == "OPEN") ? XPEHO_THEME.XPEHO_COLOR : XPEHO_THEME.DISABLED_COLOR,
-                isHeadTagVisible: false,
                 // We hide the button if the campaign is closed or completed
-                isButtonVisible: (campaign.status == "OPEN") && !isCampaignCompleted(),
-                isDefaultOpen: isOpen,
-                onPressButton: {
-                    routerManager.selectedCampaign = campaign
-                    routerManager.goTo(item: .campaignForm)
-                }
+                button: (campaign.status == "OPEN") && !isCampaignCompleted()
+                    ? ClickyButton(
+                        label: "Compléter",
+                        horizontalPadding: 50,
+                        verticalPadding: 12,
+                        onPress: {
+                            routerManager.selectedCampaign = campaign
+                            routerManager.goTo(item: .campaignForm)
+                        }
+                    )
+                    : nil,
+                icon: AnyView(
+                    Assets.loadImage(named: "QVST")
+                        .renderingMode(.template)
+                        .foregroundStyle(
+                            (campaign.status == "OPEN")
+                            ? XPEHO_THEME.XPEHO_COLOR
+                            : XPEHO_THEME.GRAY_LIGHT_COLOR
+                        )
+                ),
+                defaultOpen: isOpen
             )
             .onAppear{
-                tagsList.append(campaign.theme.name)
-                tagsList.append(getDeadlineLabel())
-                // If campaign has not ended or is completed we show the completion state
-                if !campaign.isOver() || isCampaignCompleted() {
-                    tagsList.append(isCampaignCompleted() ? "Complétée" : "À compléter")
+                // Init the tagsList depending the data that we got
+                tagsList.append(
+                    TagPill(
+                        label: campaign.theme.name,
+                        backgroundColor: XPEHO_THEME.GREEN_DARK_COLOR
+                    )
+                )
+
+                // If campaign has not ended we show the deadline with color that depends on the completion state
+                if (!campaign.isOver()) {
+                    tagsList.append(
+                        TagPill(
+                            label: getDeadlineLabel(),
+                            backgroundColor: isCampaignCompleted() ? XPEHO_THEME.GREEN_DARK_COLOR : XPEHO_THEME.RED_INFO_COLOR
+                        )
+                    )
+                }
+                
+                // If campaign is completed we show the completion state whatever the case
+                // Else if it has not ended we show the completion state to indicate it can always be completed
+                if (isCampaignCompleted()) {
+                    tagsList.append(
+                        TagPill(
+                            label: "Complétée",
+                            backgroundColor: XPEHO_THEME.XPEHO_COLOR
+                        )
+                    )
+                } else {
+                    tagsList.append(
+                        TagPill(
+                            label: "À compléter",
+                            backgroundColor: XPEHO_THEME.GREEN_DARK_COLOR
+                        )
+                    )
                 }
             }
         }

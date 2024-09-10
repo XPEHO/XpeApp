@@ -37,6 +37,7 @@ _Chore_
 - [Issue #67](https://github.com/XPEHO/XpeApp/issues/67) Add firebase to the iOS app
 - Change detekt scan and add README files
 - [Detekt] Disable NewLineAtEndOfFile
+- [Sonar] Add sonarqube to the iOS project
 
 _Doc_
 

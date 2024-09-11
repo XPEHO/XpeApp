@@ -34,7 +34,7 @@ class RouterManager: ObservableObject {
         selectedView = item
     }
 
-    // Check in data manager si a router item is linked to a feature enabled
+    // Check in data manager if a router item is linked to a feature enabled
     func isEnabled(_ feature: RouterItem) -> Bool {
         guard let feature = dataManager.features[feature.rawValue] else {
             return false
@@ -51,9 +51,7 @@ class RouterManager: ObservableObject {
 
 struct Router: View {
     // Global Management
-    @EnvironmentObject var dataManager: DataManager
     @EnvironmentObject var routerManager: RouterManager
-    @EnvironmentObject var toastManager: ToastManager
     
     var body: some View {
         Group {

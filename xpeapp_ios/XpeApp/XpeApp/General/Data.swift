@@ -8,6 +8,9 @@
 import SwiftUI
 
 class DataManager: ObservableObject {
+    // User
+    var userService: UserService?
+    
     // Feature Flipping
     @Published var features: [String:Feature] = [:]
     
@@ -45,6 +48,9 @@ class DataManager: ObservableObject {
         
         // Initialise services 
         // (need to be done here to make sure FirebaseApp.configure() has enough time to be called)
+        if userService == nil {
+            userService = UserService()
+        }
         if featureService == nil {
             featureService = FeatureService()
         }
@@ -145,13 +151,16 @@ class DataManager: ObservableObject {
     }
     
     private func initQvstCampaignsProgress() async {
-        // Get user id for the request
-        guard let userId = await fetchUserId(email: EMAIL) else {
-            print("Failed to fetch user ID")
+        guard let userService = self.userService else {
+            return
+        }
+        guard let qvstService = self.qvstService else {
             return
         }
         
-        guard let qvstService = self.qvstService else {
+        // Get user id for the request
+        guard let userId = await userService.fetchUserId(email: EMAIL) else {
+            print("Failed to fetch user ID")
             return
         }
         

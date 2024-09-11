@@ -13,6 +13,7 @@ struct ContentView: View {
     @State private var isSidebarVisible: Bool = false
     
     // Global Management
+    @EnvironmentObject var userManager: UserManager
     @EnvironmentObject var dataManager: DataManager
     @EnvironmentObject var routerManager: RouterManager
     @EnvironmentObject var toastManager: ToastManager
@@ -21,12 +22,26 @@ struct ContentView: View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
                 VStack {
-                    Header(isSidebarVisible: $isSidebarVisible)
-                    if dataManager.isDataLoaded {
-                        Router()
-                        .padding(.horizontal, 24)
+                    if userManager.userLoaded {
+                        // If we are connected we can access to the app
+                        if userManager.connected {
+                            Header(isSidebarVisible: $isSidebarVisible)
+                            
+                            if dataManager.isDataLoaded {
+                                Router()
+                                    .padding(.horizontal, 24)
+                            } else {
+                                ProgressView("Chargement des données...")
+                                    .progressViewStyle(CircularProgressViewStyle())
+                                    .padding()
+                            }
+                        } else {
+                            Spacer()
+                            LoginPageView()
+                        }
                     } else {
-                        ProgressView("Chargement des données...")
+                        Spacer()
+                        ProgressView("Vérification de la connexion...")
                             .progressViewStyle(CircularProgressViewStyle())
                             .padding()
                     }
@@ -38,24 +53,27 @@ struct ContentView: View {
                 // Toast
                 .toast(manager: toastManager)
                 
-                // Make the app content darker and unusable while using sidebar, add also a close effect on click
-                if isSidebarVisible {
-                    Color.black.opacity(0.3)
-                        .edgesIgnoringSafeArea(.all)
-                        .onTapGesture {
-                            self.isSidebarVisible = false
-                        }
+                if userManager.connected {
+                    // Make the app content darker and unusable while using sidebar, add also a close effect on click
+                    if isSidebarVisible {
+                        Color.black.opacity(0.3)
+                            .edgesIgnoringSafeArea(.all)
+                            .onTapGesture {
+                                self.isSidebarVisible = false
+                            }
+                    }
+                    
+                    Sidebar(
+                        isSidebarVisible: $isSidebarVisible,
+                        geometry: geometry
+                    )
                 }
-                
-                Sidebar(
-                    isSidebarVisible: $isSidebarVisible,
-                    geometry: geometry
-                )
             }
         }
         .onAppear {
             Task {
                 await dataManager.initData()
+                await userManager.initUser()
             }
         }
         .onChange(of: routerManager.selectedView) { _, _ in

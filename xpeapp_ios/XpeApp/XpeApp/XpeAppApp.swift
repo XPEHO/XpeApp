@@ -17,12 +17,14 @@ struct XpeAppApp: App {
     @UIApplicationDelegateAdaptor(XpeAppAppDelegate.self) var delegate
     public static var firestore: Firestore = Firestore.firestore()
     
+    var userManager: UserManager
     var dataManager: DataManager
     var routerManager: RouterManager
     var toastManager: ToastManager
     
     init() {
         // Init global managers
+        userManager = UserManager()
         dataManager = DataManager()
         routerManager = RouterManager(dataManager: dataManager)
         toastManager = ToastManager()
@@ -34,8 +36,9 @@ struct XpeAppApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(routerManager)
+                .environmentObject(userManager)
                 .environmentObject(dataManager)
+                .environmentObject(routerManager)
                 .environmentObject(toastManager)
         }
     }

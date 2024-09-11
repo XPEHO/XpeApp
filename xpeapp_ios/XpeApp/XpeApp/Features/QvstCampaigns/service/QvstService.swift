@@ -7,13 +7,6 @@
 
 import Foundation
 
-protocol URLSessionProtocol {
-    func data(for request: URLRequest) async throws -> (Data, URLResponse)
-    func data(from url: URL) async throws -> (Data, URLResponse)
-}
-
-extension URLSession: URLSessionProtocol {}
-
 class QvstService {
     private let session: URLSessionProtocol
 
@@ -23,7 +16,8 @@ class QvstService {
     
     // Fetch all campaigns
     func fetchAllCampaigns() async throws -> [QvstCampaign]? {
-        let endpointUrl = "http://yaki.uat.xpeho.fr:7830/wp-json/xpeho/v1workaround/qvst/campaigns"
+        //xpeho/v1workaround/qvst/campaigns
+        let endpointUrl = BACKEND_URL + "xpeho/v1/qvst/campaigns"
         guard let url = URL(string: endpointUrl) else {
             print("Invalid url (fetchAllCampaigns): \(endpointUrl)")
             return nil
@@ -49,7 +43,8 @@ class QvstService {
     
     // Fetch active campaigns
     func fetchActiveCampaigns() async throws -> [QvstCampaign]? {
-        let endpointUrl = "http://yaki.uat.xpeho.fr:7830/wp-json/xpeho/v1workaround/qvst/campaigns:active"
+        //xpeho/v1workaround/qvst/campaigns:active
+        let endpointUrl = BACKEND_URL + "xpeho/v1/qvst/campaigns:active"
         guard let url = URL(string: endpointUrl) else {
             print("Invalid url (fetchActiveCampaigns): \(endpointUrl)")
             return nil
@@ -98,7 +93,8 @@ class QvstService {
     
     // Fetch questions by campaignId
     func fetchCampaignQuestions(campaignId: String) async -> [QvstQuestion]? {
-        let endpointUrl = "http://yaki.uat.xpeho.fr:7830/wp-json/xpeho/v1workaround/qvst/campaigns/\(campaignId):questions"
+        //xpeho/v1workaround/qvst/campaigns/\(campaignId):questions
+        let endpointUrl = BACKEND_URL + "xpeho/v1/qvst/campaigns/\(campaignId):questions"
         guard let url = URL(string: endpointUrl) else {
             print("Invalid URL (fetchCampaignQuestions): \(endpointUrl)")
             return nil
@@ -117,7 +113,8 @@ class QvstService {
     
     // Send campaign answers
     func sendCampaignAnswers(campaignId: String, userId: String, token: String, questions: [QvstQuestion], answers: [QvstAnswer]) async -> Bool? {
-        let endpointUrl = "http://yaki.uat.xpeho.fr:7830/wp-json/xpeho/v1workaround/qvst/campaigns/\(campaignId)/questions:answer"
+        //xpeho/v1workaround/qvst/campaigns/\(campaignId)/questions:answer
+        let endpointUrl = BACKEND_URL + "xpeho/v1/qvst/campaigns/\(campaignId)/questions:answer"
         guard let url = URL(string: endpointUrl) else {
             print("Invalid URL (sendCampaignAnswers): \(endpointUrl)")
             return nil
@@ -125,8 +122,8 @@ class QvstService {
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        /*request.setValue(userId, forHTTPHeaderField: "userId")
-        request.setValue(token, forHTTPHeaderField: "authorization")*/
+        request.setValue(userId, forHTTPHeaderField: "userId")
+        request.setValue(token, forHTTPHeaderField: "authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         var formResponses: [QvstFormResponse] = []
@@ -157,17 +154,15 @@ class QvstService {
     
     // Fetch progress for each campaign by userId
     func fetchCampaignsProgress(userId: String, token: String) async throws -> [QvstProgress]? {
-        let endpointUrl = "http://yaki.uat.xpeho.fr:7830/wp-json/xpeho/v1workaround/campaign-progress/?userId=\(userId)"
+        //xpeho/v1workaround/campaign-progress?userId=\(userId)
+        let endpointUrl = BACKEND_URL + "xpeho/v1/campaign-progress?userId=\(userId)"
         guard let url = URL(string: endpointUrl) else {
             print("Invalid URL (fetchCampaignsProgress): \(endpointUrl)")
             return nil
         }
         
         var request = URLRequest(url: url)
-        /*
-        request.setValue(userId, forHTTPHeaderField: "userId")
         request.setValue(token, forHTTPHeaderField: "authorization")
-         */
         
         do {
             let (data, _) = try await session.data(for: request)

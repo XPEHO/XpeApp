@@ -66,7 +66,6 @@ struct QvstCampaignFormView: View {
                         .foregroundStyle(isAnsweredOffset() ? XPEHO_THEME.CONTENT_COLOR : XPEHO_THEME.DISABLED_COLOR)
                         .onTapGesture {
                             if isLastOffset() {
-                                
                                 sendCampaignAnswers()
                             } else if isAnsweredOffset() {
                                 questionsOffset+=1
@@ -159,8 +158,11 @@ struct QvstCampaignFormView: View {
             return
         }
         Task {
+            guard let userService = dataManager.userService else {
+                return
+            }
             // Get user id for the request
-            guard let userId = await fetchUserId(email: EMAIL) else {
+            guard let userId = await userService.fetchUserId(email: EMAIL) else {
                 print("Failed to fetch user ID")
                 return
             }
@@ -192,14 +194,19 @@ struct QvstCampaignFormView: View {
                 
                 // Check the return to inform user
                 if (!areAnswersSent) {
+                    // Inform user
                     toastManager.message = "Impossible d'envoyer vos réponses"
                     toastManager.isError = true
                     toastManager.show()
                     // Unlock to be able to try again
                     isSending = false
                 } else {
+                    // Reload data
+                    await dataManager.initData()
+                    // Inform user
                     toastManager.message = "Réponses envoyées"
                     toastManager.action = {
+                        // Redirect user
                         routerManager.goTo(item: .home)
                     }
                     toastManager.show()

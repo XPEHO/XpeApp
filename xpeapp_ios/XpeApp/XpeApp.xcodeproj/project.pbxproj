@@ -39,6 +39,12 @@
 		0E7EBD5E2C6CFF8700C95482 /* QvstCampaignFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7EBD5D2C6CFF8700C95482 /* QvstCampaignFormView.swift */; };
 		0E87AC2F2C660DBB0079877D /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E87AC2E2C660DBB0079877D /* Header.swift */; };
 		0E87AC332C660DDF0079877D /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E87AC322C660DDF0079877D /* Sidebar.swift */; };
+		0EF0F8D12C8A04DB00AF5966 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0F8D02C8A04DB00AF5966 /* User.swift */; };
+		0EF0F8D42C8A067C00AF5966 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0F8D32C8A067C00AF5966 /* LoginPageView.swift */; };
+		0EF0F8D72C8AE69300AF5966 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0F8D62C8AE69300AF5966 /* UserService.swift */; };
+		0EF0F8DA2C90805800AF5966 /* UserCandidate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0F8D92C90805800AF5966 /* UserCandidate.swift */; };
+		0EF0F8DC2C9080C900AF5966 /* TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0F8DB2C9080C900AF5966 /* TokenResponse.swift */; };
+		0EF0F8DE2C90863E00AF5966 /* TokenValidity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0F8DD2C90863E00AF5966 /* TokenValidity.swift */; };
 		BD83CCBA2C1853ED00152559 /* QvstCampaignsPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83CCB92C1853ED00152559 /* QvstCampaignsPageView.swift */; };
 		BDACECDF2C109309007B5262 /* XpeAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECDE2C109309007B5262 /* XpeAppApp.swift */; };
 		BDACECE12C109309007B5262 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECE02C109309007B5262 /* ContentView.swift */; };
@@ -99,6 +105,12 @@
 		0E7EBD5D2C6CFF8700C95482 /* QvstCampaignFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QvstCampaignFormView.swift; sourceTree = "<group>"; };
 		0E87AC2E2C660DBB0079877D /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		0E87AC322C660DDF0079877D /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
+		0EF0F8D02C8A04DB00AF5966 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		0EF0F8D32C8A067C00AF5966 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
+		0EF0F8D62C8AE69300AF5966 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		0EF0F8D92C90805800AF5966 /* UserCandidate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCandidate.swift; sourceTree = "<group>"; };
+		0EF0F8DB2C9080C900AF5966 /* TokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponse.swift; sourceTree = "<group>"; };
+		0EF0F8DD2C90863E00AF5966 /* TokenValidity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenValidity.swift; sourceTree = "<group>"; };
 		BD83CCB92C1853ED00152559 /* QvstCampaignsPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QvstCampaignsPageView.swift; sourceTree = "<group>"; };
 		BDACECDB2C109309007B5262 /* XpeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XpeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDACECDE2C109309007B5262 /* XpeAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XpeAppApp.swift; sourceTree = "<group>"; };
@@ -173,6 +185,7 @@
 		0E61D2B22C78A0EE00050F7C /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				0EF0F8D22C8A065B00AF5966 /* Login */,
 				0E6ACF7A2C870FAB00735E1E /* FeatureFlipping */,
 				0E5C6EFB2C6A1A4500AA2127 /* HomePageView.swift */,
 				BDE1B5152C183AE200E8513F /* DebugPageView.swift */,
@@ -279,9 +292,38 @@
 				0E72BA632C77258900C0583D /* Data.swift */,
 				0E72BA612C771FC100C0583D /* Router.swift */,
 				0E67FA202C74943C00B34AE9 /* Toast.swift */,
+				0EF0F8D02C8A04DB00AF5966 /* User.swift */,
 				0E61D2BD2C78A47300050F7C /* Utils.swift */,
 			);
 			path = General;
+			sourceTree = "<group>";
+		};
+		0EF0F8D22C8A065B00AF5966 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				0EF0F8D82C90804C00AF5966 /* model */,
+				0EF0F8D52C8AE67E00AF5966 /* service */,
+				0EF0F8D32C8A067C00AF5966 /* LoginPageView.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		0EF0F8D52C8AE67E00AF5966 /* service */ = {
+			isa = PBXGroup;
+			children = (
+				0EF0F8D62C8AE69300AF5966 /* UserService.swift */,
+			);
+			path = service;
+			sourceTree = "<group>";
+		};
+		0EF0F8D82C90804C00AF5966 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				0EF0F8D92C90805800AF5966 /* UserCandidate.swift */,
+				0EF0F8DB2C9080C900AF5966 /* TokenResponse.swift */,
+				0EF0F8DD2C90863E00AF5966 /* TokenValidity.swift */,
+			);
+			path = model;
 			sourceTree = "<group>";
 		};
 		BD83CCB62C1853B200152559 /* QvstCampaigns */ = {
@@ -521,11 +563,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EF0F8DA2C90805800AF5966 /* UserCandidate.swift in Sources */,
 				0E61D2B92C78A20F00050F7C /* Newsletter.swift in Sources */,
 				0E7EBD5E2C6CFF8700C95482 /* QvstCampaignFormView.swift in Sources */,
 				0E6ACF802C8710B100735E1E /* FeatureService.swift in Sources */,
 				0E67FA212C74943C00B34AE9 /* Toast.swift in Sources */,
 				0E61D2AF2C78A0AC00050F7C /* QvstTheme.swift in Sources */,
+				0EF0F8DC2C9080C900AF5966 /* TokenResponse.swift in Sources */,
+				0EF0F8D12C8A04DB00AF5966 /* User.swift in Sources */,
 				0E5C6EFC2C6A1A4500AA2127 /* HomePageView.swift in Sources */,
 				0E61D2CB2C78D47700050F7C /* Config.swift in Sources */,
 				BDE1B5162C183AE200E8513F /* DebugPageView.swift in Sources */,
@@ -536,13 +581,16 @@
 				0E61D2B12C78A0C600050F7C /* QvstCampaign.swift in Sources */,
 				0E87AC2F2C660DBB0079877D /* Header.swift in Sources */,
 				0E72BA622C771FC100C0583D /* Router.swift in Sources */,
+				0EF0F8D72C8AE69300AF5966 /* UserService.swift in Sources */,
 				BDACECDF2C109309007B5262 /* XpeAppApp.swift in Sources */,
 				0E61D2C42C78A4F200050F7C /* QvstProgress.swift in Sources */,
+				0EF0F8DE2C90863E00AF5966 /* TokenValidity.swift in Sources */,
 				0E61D2C62C78A53100050F7C /* QvstFormResponse.swift in Sources */,
 				0E6ACF7C2C870FC700735E1E /* Feature.swift in Sources */,
 				BDACED0B2C10A690007B5262 /* NewsletterPageView.swift in Sources */,
 				0E61D2BE2C78A47300050F7C /* Utils.swift in Sources */,
 				0E87AC332C660DDF0079877D /* Sidebar.swift in Sources */,
+				0EF0F8D42C8A067C00AF5966 /* LoginPageView.swift in Sources */,
 				0E61D2C22C78A4E300050F7C /* QvstAnswer.swift in Sources */,
 				BD83CCBA2C1853ED00152559 /* QvstCampaignsPageView.swift in Sources */,
 				0E61D2C02C78A4DA00050F7C /* QvstQuestion.swift in Sources */,

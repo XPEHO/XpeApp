@@ -38,6 +38,7 @@ _Chore_
 - Change detekt scan and add README files
 - [Detekt] Disable NewLineAtEndOfFile
 - [Sonar] Add sonarqube to the iOS project
+- [Sonar] Add iOS coverage
 
 _Doc_
 

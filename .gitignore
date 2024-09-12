@@ -17,3 +17,6 @@ migrate_working_dir/
 *.ipr
 *.iws
 .idea/
+
+xpeapp_ios/XpeApp/Build/
+xpeapp_ios/XpeApp/Coverage.xml

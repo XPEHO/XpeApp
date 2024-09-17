@@ -37,9 +37,10 @@ This file is required to use Firebase services. Please refer to an administrator
 
 This file contains the configuration of the application. You can change the values of the variables to configure the application.
 
-```swift
-// TODO
-```
+## Dependencies
+
+### xpeho_ui
+
+**xpeho_ui** is a SwiftUI package from [xpeho_ui_swift](https://github.com/XPEHO/xpeho_ui_swift) repository that contains main components for this mobile application.
 
 TODO
-

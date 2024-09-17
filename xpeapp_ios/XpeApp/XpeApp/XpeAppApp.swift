@@ -17,17 +17,7 @@ struct XpeAppApp: App {
     @UIApplicationDelegateAdaptor(XpeAppAppDelegate.self) var delegate
     public static var firestore: Firestore = Firestore.firestore()
     
-    var userManager: UserManager
-    var dataManager: DataManager
-    var routerManager: RouterManager
-    var toastManager: ToastManager
-    
     init() {
-        // Init global managers
-        userManager = UserManager()
-        dataManager = DataManager()
-        routerManager = RouterManager(dataManager: dataManager)
-        toastManager = ToastManager()
         
         // Load XpehoUI fonts
         Fonts.registerFonts()
@@ -36,10 +26,6 @@ struct XpeAppApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(userManager)
-                .environmentObject(dataManager)
-                .environmentObject(routerManager)
-                .environmentObject(toastManager)
         }
     }
 }
@@ -56,7 +42,7 @@ class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
         FirebaseApp.configure()
         Auth.auth().signInAnonymously{ res, err in
             if let err = err {
-                print("Error connecting to Firebase anonymously: \(err.localizedDescription)")
+                debugPrint("Error connecting to Firebase anonymously: \(err.localizedDescription)")
                 // Todo(Loucas): Handle failure more gracefully
                 // maybe an alert "Cannot connect to Firebase"
             }

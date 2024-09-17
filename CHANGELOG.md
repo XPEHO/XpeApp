@@ -15,6 +15,10 @@ _Feat_
 - [Issue #70](https://github.com/XPEHO/XpeApp/issues/70) Add QVST form, Refactor structure of API Call, Remove CoreData and finally Create Router, Data and Toast independant systems
 - [Issue #133](https://github.com/XPEHO/XpeApp/issues/133) Add Completion indication on QVST Card
 - [Issue #68](https://github.com/XPEHO/XpeApp/issues/68) Implement feature flipping
+- [Issue #60](https://github.com/XPEHO/XpeApp/issues/60)
+- [Issue #145](https://github.com/XPEHO/XpeApp/issues/145)
+- [Issue #146](https://github.com/XPEHO/XpeApp/issues/146)
+- Implement Login Feature and refactor the entire code to follow clean architecture
 
 _Fix_
 

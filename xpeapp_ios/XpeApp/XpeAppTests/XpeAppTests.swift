@@ -9,22 +9,20 @@ import XCTest
 @testable import XpeApp
 
 final class XpeAppTests: XCTestCase {
-    var newsletterService: NewsletterService!
+    let firebaseAPI = FirebaseAPI.instance
 
     override func setUp() {
         super.setUp()
-        newsletterService = NewsletterService()
     }
 
     override func tearDownWithError() throws {
-        newsletterService = nil
         super.tearDown()
     }
     
     func test_FirebaseFirestoreConnected() throws {
         Task {
-            let ns = await newsletterService.fetchNewsletters()
-            XCTAssertNotNil(ns)
+            let fetch = await firebaseAPI.fetchAllNewsletters()
+            XCTAssertNotNil(fetch)
         }
     }
 

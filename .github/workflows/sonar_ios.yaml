@@ -2,54 +2,51 @@ on:
   # Trigger analysis when pushing to your main branches, and when creating a pull request.
   push:
     branches:
-      - '**'
+      - "**"
   pull_request:
-      types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened]
 
 name: Sonar IOS
 jobs:
   sonarqube:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        # Disabling shallow clones is recommended for improving the relevancy of reporting
-        fetch-depth: 0
-    - name: Create Config.swift
-      run: |
-        cp xpeapp_ios/Config.example.swift xpeapp_ios/XpeApp/XpeApp/Config.swift
-    - name: Create GoogleService-Info.plist
-      run: |
-        echo ${{ secrets.GOOGLE_SERVICE_INFO_PLIST }} | base64 -d > xpeapp_ios/XpeApp/XpeApp/GoogleService-Info.plist
-    # Following steps has been built following the official SonarQube documentation for iOS
-    # see: https://github.com/SonarSource/sonar-scanning-examples/tree/master/swift-coverage
-    - name: Build and test
-      run: |
-        cd xpeapp_ios/XpeApp
-        xcodebuild \
-        -project XpeApp.xcodeproj/ \
-        -scheme XpeApp \
-        -destination 'platform=iOS Simulator,name=iPhone 15' \
-        -derivedDataPath Build/ \
-        -only-testing:XpeAppTests \
-        -enableCodeCoverage YES \
-        clean build test \
-        CODE_SIGN_IDENTITY="" \
-        CODE_SIGNING_REQUIRED=NO
-    - name: Convert to generic coverage
-      run: |
-        cd xpeapp_ios/XpeApp
-        cp -R Build/Logs/Test/Run-XpeApp-*.xcresult Build/Logs/Test/Run-XpeApp.xcresult
-        bash xccov-to-sonarqube-generic.sh Build/Logs/Test/Run-XpeApp.xcresult/ >Coverage.xml
-    - name: Sonar-scanner
-      env:
-        SONAR_SCANNER_PATH: sonar-scanner-6.0.0.4432-macosx/bin
-      run: |
-        cd xpeapp_ios/XpeApp
-        wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.0.0.4432-macosx.zip
-        unzip sonar-scanner-cli-6.0.0.4432-macosx.zip
+      - uses: actions/checkout@v4
+        with:
+          # Disabling shallow clones is recommended for improving the relevancy of reporting
+          fetch-depth: 0
+      - name: Create GoogleService-Info.plist
+        run: |
+          echo ${{ secrets.GOOGLE_SERVICE_INFO_PLIST }} | base64 -d > xpeapp_ios/XpeApp/XpeApp/GoogleService-Info.plist
+      # Following steps has been built following the official SonarQube documentation for iOS
+      # see: https://github.com/SonarSource/sonar-scanning-examples/tree/master/swift-coverage
+      - name: Build and test
+        run: |
+          cd xpeapp_ios/XpeApp
+          xcodebuild \
+          -project XpeApp.xcodeproj/ \
+          -scheme XpeApp \
+          -destination 'platform=iOS Simulator,name=iPhone 15' \
+          -derivedDataPath Build/ \
+          -only-testing:XpeAppTests \
+          -enableCodeCoverage YES \
+          clean build test \
+          CODE_SIGN_IDENTITY="" \
+          CODE_SIGNING_REQUIRED=NO
+      - name: Convert to generic coverage
+        run: |
+          cd xpeapp_ios/XpeApp
+          cp -R Build/Logs/Test/Run-XpeApp-*.xcresult Build/Logs/Test/Run-XpeApp.xcresult
+          bash xccov-to-sonarqube-generic.sh Build/Logs/Test/Run-XpeApp.xcresult/ >Coverage.xml
+      - name: Sonar-scanner
+        env:
+          SONAR_SCANNER_PATH: sonar-scanner-6.0.0.4432-macosx/bin
+        run: |
+          cd xpeapp_ios/XpeApp
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.0.0.4432-macosx.zip
+          unzip sonar-scanner-cli-6.0.0.4432-macosx.zip
 
-        $SONAR_SCANNER_PATH/sonar-scanner -v
-        $SONAR_SCANNER_PATH/sonar-scanner \
-          -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
-          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+          $SONAR_SCANNER_PATH/sonar-scanner -v
+          $SONAR_SCANNER_PATH/sonar-scanner \
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}

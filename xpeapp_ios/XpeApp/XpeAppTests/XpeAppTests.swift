@@ -25,5 +25,4 @@ final class XpeAppTests: XCTestCase {
             XCTAssertNotNil(fetch)
         }
     }
-
 }

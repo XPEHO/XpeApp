@@ -23,16 +23,21 @@ final class FeatureRepositoryTests: XCTestCase {
 
     func test_getFeatures_fetchAllFeaturesError() throws {
         Task {
+            // GIVEN
             featureSource.fetchAllFeaturesReturnData = nil
+            
+            // WHEN
             let features = await featureRepo.getFeatures()
             
+            // THEN
             XCTAssertNil(features)
         }
     }
     
-    func test_getFeatures_fetchAllFeaturesSuccess() throws {
+    func test_getFeatures_Success() throws {
         Task {
-            let dataGiven = [
+            // GIVEN
+            featureSource.fetchAllFeaturesReturnData = [
                 FeatureModel(
                     id: "id",
                     description: "description",
@@ -41,14 +46,17 @@ final class FeatureRepositoryTests: XCTestCase {
                     uatEnabled: true
                 )
             ]
+            
+            // WHEN
+            let features = await featureRepo.getFeatures()
+            
+            // THEN
             let dataExpected = [
                 "id": FeatureEntity(
                     name: "Feature",
                     enabled: true
                 )
             ]
-            featureSource.fetchAllFeaturesReturnData = dataGiven
-            let features = await featureRepo.getFeatures()
             
             XCTAssertNotNil(features)
             XCTAssertEqual(features!.count, 1)

@@ -44,6 +44,23 @@ struct QvstCampaignModel: Codable, Identifiable {
         
         self.startDate = startDate
         self.endDate = endDate
+    } 
+
+    init(id: String, 
+         name: String,
+         theme: QvstThemeModel,
+         status: String,
+         startDate: Date,
+         endDate: Date,
+         participationRate: String
+    ) {
+        self.id = id
+        self.name = name
+        self.theme = theme
+        self.status = status
+        self.startDate = startDate
+        self.endDate = endDate
+        self.participationRate = participationRate
     }
     
     // Formatter for decode

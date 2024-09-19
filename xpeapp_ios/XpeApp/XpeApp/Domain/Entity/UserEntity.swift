@@ -7,7 +7,7 @@
 
 import Foundation
 
-@Observable class UserEntity {
+@Observable class UserEntity: Equatable {
     let token: String
     let id: String
     
@@ -17,5 +17,9 @@ import Foundation
     ) {
         self.token = token
         self.id = id
+    }
+    
+    static func == (lhs: UserEntity, rhs: UserEntity) -> Bool {
+        return lhs.id == rhs.id
     }
 }

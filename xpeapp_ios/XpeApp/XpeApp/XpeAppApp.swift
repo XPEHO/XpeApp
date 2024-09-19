@@ -40,13 +40,6 @@ class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
         FirebaseApp.configure()
-        Auth.auth().signInAnonymously{ res, err in
-            if let err = err {
-                debugPrint("Error connecting to Firebase anonymously: \(err.localizedDescription)")
-                // Todo(Loucas): Handle failure more gracefully
-                // maybe an alert "Cannot connect to Firebase"
-            }
-        }
         return true
     }
 }

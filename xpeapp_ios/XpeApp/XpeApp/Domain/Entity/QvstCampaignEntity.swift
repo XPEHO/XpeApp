@@ -7,7 +7,7 @@
 
 import Foundation
 
-@Observable class QvstCampaignEntity: Identifiable {
+@Observable class QvstCampaignEntity: Identifiable, Equatable {
     let id: String
     let name: String
     let themeName: String
@@ -26,5 +26,9 @@ import Foundation
         self.completed = completed
         self.remainingDays = remainingDays
         self.endDate = endDate
+    }
+    
+    static func == (lhs: QvstCampaignEntity, rhs: QvstCampaignEntity) -> Bool {
+        return lhs.id == rhs.id
     }
 }

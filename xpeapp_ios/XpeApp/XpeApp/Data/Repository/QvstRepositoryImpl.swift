@@ -11,17 +11,21 @@ class QvstRepositoryImpl: QvstRepository {
     // An instance for app and a mock for tests
     static let instance = QvstRepositoryImpl()
     static let mock = QvstRepositoryImpl(
-        dataSource: MockWordpressAPI.instance
+        dataSource: MockWordpressAPI.instance,
+        userRepo: UserRepositoryImpl.mock
     )
     
-    // Data source to use
+    // Data source and user repo to use (so we can mock them)
     private let dataSource: WordpressAPIProtocol
+    private let userRepo: UserRepositoryImpl
 
     // Make private constructor to prevent use without shared instances
     private init(
-        dataSource: WordpressAPIProtocol = WordpressAPI.instance
+        dataSource: WordpressAPIProtocol = WordpressAPI.instance,
+        userRepo: UserRepositoryImpl = UserRepositoryImpl.instance
     ) {
         self.dataSource = dataSource
+        self.userRepo = userRepo
     }
     
     private func convertCampaignsToEntities(
@@ -79,7 +83,7 @@ class QvstRepositoryImpl: QvstRepository {
             debugPrint("Failed call to fetchAllCampaigns in getCampaigns")
             return nil
         }
-        guard let user = UserRepositoryImpl.instance.user else {
+        guard let user = userRepo.user else {
             debugPrint("No user to use in getCampaigns")
             return nil
         }
@@ -104,7 +108,7 @@ class QvstRepositoryImpl: QvstRepository {
             debugPrint("Failed call to fetchActiveCampaigns in getActiveCampaigns")
             return nil
         }
-        guard let user = UserRepositoryImpl.instance.user else {
+        guard let user = userRepo.user else {
             debugPrint("No user to use in getCampaigns")
             return nil
         }

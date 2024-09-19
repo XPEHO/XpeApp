@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 @Observable class UserRepositoryImpl: UserRepository {
     // An instance for app and a mock for tests
@@ -18,7 +19,7 @@ import Foundation
     private let dataSource: WordpressAPIProtocol
     
     // Watched user
-    var user: UserEntity?
+    var user: UserEntity? = nil
 
     // Make private constructor to prevent use without shared instances
     private init(
@@ -51,17 +52,32 @@ import Foundation
                 completion(.error)
                 return
             }
-            // Register the user
-            self.user = UserEntity(
-                token: "Bearer "+successTokenResponse.token,
-                id: userId
-            )
-            // Save it in cache
-            KeychainManager.instance.saveValue(user!.id, forKey: "user_id")
-            KeychainManager.instance.saveValue(user!.token, forKey: "user_token")
-            completion(.success)
+            // Try to connect to firebase
+            do {
+                let authResult = try await Auth.auth().signInAnonymously()
+                // Handle successful sign-in if needed
+                debugPrint("Successfully signed in anonymously: \(authResult.user.uid)")
+                
+                // Register the user
+                self.user = UserEntity(
+                    token: "Bearer "+successTokenResponse.token,
+                    id: userId
+                )
+                
+                // Save it in cache
+                KeychainManager.instance.saveValue(user!.id, forKey: "user_id")
+                KeychainManager.instance.saveValue(user!.token, forKey: "user_token")
+                
+                completion(.success)
+            } catch {
+                debugPrint("Error connecting to Firebase anonymously: \(error.localizedDescription)")
+                completion(.error)
+            }
         } else if tokenResponse.error != nil {
             completion(.failure)
+        } else {
+            debugPrint("Unhandled tokenResponse in login")
+            completion(.error)
         }
     }
     
@@ -90,9 +106,20 @@ import Foundation
         }
         
         if validity.code == "jwt_auth_valid_token" {
-            // Register the user
-            self.user = userFromCache
-            completion(.success)
+            // Try to connect to firebase
+            do {
+                let authResult = try await Auth.auth().signInAnonymously()
+                // Handle successful sign-in if needed
+                debugPrint("Successfully signed in anonymously: \(authResult.user.uid)")
+                
+                // Register the user
+                self.user = userFromCache
+                
+                completion(.success)
+            } catch {
+                debugPrint("Error connecting to Firebase anonymously: \(error.localizedDescription)")
+                completion(.error)
+            }
         } else {
             completion(.failure)
         }

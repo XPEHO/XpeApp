@@ -26,7 +26,7 @@ struct NewsletterModel: Codable {
         return NewsletterEntity(
             id: self.id,
             pdfUrl: self.pdfUrl,
-            publicationDate: self.publicationDate,
+            date: self.date,
             summary: self.summary.split(separator: ",").map { String($0) }
         )
     }

@@ -18,7 +18,7 @@ struct LastNewsletterPreview: View {
         if let lastNewsletter = lastNewsletter {
             FilePreviewButton (
                 labelStart: "Newsletter",
-                labelEnd: dateFormatter.string(from: lastNewsletter.publicationDate),
+                labelEnd: dateFormatter.string(from: lastNewsletter.date),
                 imagePreview: AnyView(
                     Image("NewsletterPreviewTest")
                         .resizable()

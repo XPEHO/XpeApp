@@ -31,7 +31,7 @@ class NewsletterRepositoryImpl: NewsletterRepository {
             return nil
         }
         
-        return newsletters.sorted(by: { $0.publicationDate > $1.publicationDate }).map { model in
+        return newsletters.sorted(by: { $0.date > $1.date }).map { model in
             model.toEntity()
         }
     }
@@ -43,7 +43,7 @@ class NewsletterRepositoryImpl: NewsletterRepository {
             return nil
         }
         
-        let sortedNewsletters = newsletters.sorted(by: { $0.publicationDate < $1.publicationDate })
+        let sortedNewsletters = newsletters.sorted(by: { $0.date < $1.date })
         
         return sortedNewsletters.last?.toEntity()
     }

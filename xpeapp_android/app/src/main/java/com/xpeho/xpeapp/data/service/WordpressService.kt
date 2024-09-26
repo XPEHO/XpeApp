@@ -7,6 +7,7 @@ import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.data.entity.QvstAnswerBody
 import com.xpeho.xpeapp.data.model.WordpressToken
 import com.xpeho.xpeapp.data.model.qvst.QvstCampaign
+import com.xpeho.xpeapp.data.model.qvst.QvstProgress
 import com.xpeho.xpeapp.data.model.qvst.QvstQuestion
 import com.xpeho.xpeapp.data.service.interceptor.AuthorizationHeaderInterceptor
 import okhttp3.OkHttpClient
@@ -15,7 +16,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
-private const val BASE_URL = BuildConfig.BACKEND_URL
+private val BASE_URL = BuildConfig.BACKEND_URL
 
 private val gson = GsonBuilder().setLenient().create()
 
@@ -37,13 +38,13 @@ private val retrofit =
 
 interface WordpressService {
     @Headers("Content-Type: application/json")
-    @POST("api/v1/token")
+    @POST("jwt-auth/v1/token")
     suspend fun authentification(
             @Body body: AuthentificationBody,
     ): WordpressToken
 
     @Headers("Content-Type: application/json")
-    @GET("api/v1/token-validate")
+    @POST("jwt-auth/v1/token/validate")
     suspend fun validateToken(
             @Header("Authorization") token: String,
     )
@@ -60,7 +61,7 @@ interface WordpressService {
 
     @Headers("Content-Type: application/json")
     @GET("xpeho/v1/qvst/campaigns:active")
-    suspend fun getQvstCampaigns(): List<QvstCampaign>
+    suspend fun getActiveQvstCampaigns(): List<QvstCampaign>
 
     @Headers("Content-Type: application/json")
     @GET("xpeho/v1/qvst/campaigns/{campaignId}/questions")
@@ -68,6 +69,13 @@ interface WordpressService {
             @Path("campaignId") campaignId: String,
             @Header("userId") userId: String
     ): List<QvstQuestion>
+
+    @Headers("Content-Type: application/json")
+    @GET("xpeho/v1/campaign-progress")
+    suspend fun getQvstProgressByUserId(
+        @Query("userId") userId: String,
+        @Header("Authorization") token: String
+    ): List<QvstProgress>
 
     @Headers("Content-Type: application/json")
     @POST("xpeho/v1/qvst/campaigns/{campaignId}/questions:answer")

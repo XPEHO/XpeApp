@@ -42,8 +42,27 @@ Please refer to an administrator to get this file.
 This application require two properties to be set in the `app/config/uat.properties` for `UAT` and `app/config/prod.properties` for `PROD`.
 
 ```properties
-BACKEND_URL=https://api.example.com
-ENVIRONMENT=uat
+BACKEND_URL="https://api.example.com"
+ENVIRONMENT="uat"
 ```
 
 The `BACKEND_URL` is the URL of the backend API and the `ENVIRONMENT` is the environment of the application.
+
+### Xpeho UI
+
+This application use the android part of the ui library of XPEHO imported from its [own repository](https://github.com/XPEHO/xpeho_ui_android).
+
+#### Import
+
+Define at the root of this application, a file `github.properties` following this structure :
+
+```
+gpr.user=YOUR_USERNAME
+gpr.key=YOUR_PERSONAL_ACCESS_TOKEN
+```
+
+Make sure to generate a PAT (Personal Access Token) on your github account following the [documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic).
+
+You need to allow the following rights :
+![repos_right](doc/repos_right.png)
+![packages_right](doc/packages_right.png)

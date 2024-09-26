@@ -3,22 +3,19 @@ package com.xpeho.xpeapp.ui.page.qvst
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.data.DatastorePref
 import com.xpeho.xpeapp.data.model.qvst.QvstAnswer
 import com.xpeho.xpeapp.data.model.qvst.QvstQuestion
-import com.xpeho.xpeapp.ui.componants.AppBar
-import com.xpeho.xpeapp.ui.componants.CustomDialog
+import com.xpeho.xpeapp.ui.components.CustomDialog
 import com.xpeho.xpeapp.ui.viewModel.qvst.QvstAnswersState
 import com.xpeho.xpeapp.ui.viewModel.qvst.QvstAnswersViewModel
 import com.xpeho.xpeapp.ui.viewModel.qvst.QvstCampaignQuestionsState
@@ -65,66 +62,55 @@ fun QvstCampaignDetailPage(
             }
         )
     }
-    Scaffold(
-        topBar = {
-            AppBar(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                title = stringResource(id = R.string.qvst_campaign),
-            ) {
-                onBack()
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 32.dp, vertical = 10.dp)
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        when (qvstCampaignQuestionsViewModel.state) {
+            is QvstCampaignQuestionsState.SUCCESS -> {
+                QvstCampaignDetailContent(
+                    qvstCampaignQuestionsViewModel = qvstCampaignQuestionsViewModel,
+                    qvstAnswersViewModel = qvstAnswersViewModel,
+                    showDialog = showDialog,
+                    questionInDialog = questionInDialog,
+                )
+            }
+            is QvstCampaignQuestionsState.ERROR -> {
+                CustomDialog(
+                    title = stringResource(id = R.string.home_page_error),
+                    message = (qvstCampaignQuestionsViewModel.state as QvstCampaignQuestionsState.ERROR).error,
+                    closeDialog = {
+                        qvstCampaignQuestionsViewModel.resetState()
+                    }
+                )
             }
         }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            when (qvstCampaignQuestionsViewModel.state) {
-                is QvstCampaignQuestionsState.SUCCESS -> {
-                    QvstCampaignDetailContent(
-                        qvstCampaignQuestionsViewModel = qvstCampaignQuestionsViewModel,
-                        qvstAnswersViewModel = qvstAnswersViewModel,
-                        showDialog = showDialog,
-                        questionInDialog = questionInDialog,
-                    )
-                }
-                is QvstCampaignQuestionsState.ERROR -> {
-                    CustomDialog(
-                        title = stringResource(id = R.string.home_page_error),
-                        message = (qvstCampaignQuestionsViewModel.state as QvstCampaignQuestionsState.ERROR).error,
-                        closeDialog = {
-                            qvstCampaignQuestionsViewModel.resetState()
-                        }
-                    )
-                }
-            }
-            // If all questions are answered, show a button to submit answers
-            if (qvstCampaignQuestionsViewModel.state is QvstCampaignQuestionsState.SUCCESS) {
-                val questions = (qvstCampaignQuestionsViewModel.state as QvstCampaignQuestionsState.SUCCESS)
-                    .qvstQuestions
+        // If all questions are answered, show a button to submit answers
+        if (qvstCampaignQuestionsViewModel.state is QvstCampaignQuestionsState.SUCCESS) {
+            val questions = (qvstCampaignQuestionsViewModel.state as QvstCampaignQuestionsState.SUCCESS)
+                .qvstQuestions
 
-                val questionsSize = (questions[false]?.size ?: 0) + (questions[true]?.size ?: 0)
+            val questionsSize = (questions[false]?.size ?: 0) + (questions[true]?.size ?: 0)
 
-                if (qvstAnswersViewModel.answers.value.size == questionsSize) {
-                    SubmitAnswersButton(
-                        vm = qvstAnswersViewModel,
-                        onClick = {
-                            qvstAnswersViewModel.submitAnswers(
-                                campaignId = qvstCampaignId,
-                                userId = userId.value,
-                            )
-                        }
-                    )
-                }
+            if (qvstAnswersViewModel.answers.value.size == questionsSize) {
+                SubmitAnswersButton(
+                    vm = qvstAnswersViewModel,
+                    onClick = {
+                        qvstAnswersViewModel.submitAnswers(
+                            campaignId = qvstCampaignId,
+                            userId = userId.value,
+                        )
+                    }
+                )
             }
         }
-        redirectOnSuccess(
-            qvstAnswersViewModel = qvstAnswersViewModel,
-            navController = navController,
-        )
     }
+    redirectOnSuccess(
+        qvstAnswersViewModel = qvstAnswersViewModel,
+        navController = navController,
+    )
 }
 
 @Composable

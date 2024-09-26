@@ -5,28 +5,48 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.xpeho.xpeapp.XpeApp
+import com.xpeho.xpeapp.data.model.WordpressToken
 import com.xpeho.xpeapp.data.service.WordpressAPI
+import com.xpeho.xpeapp.data.service.WordpressRepository
+import com.xpeho.xpeapp.domain.AuthState
+import com.xpeho.xpeapp.domain.AuthenticationManager
 import com.xpeho.xpeapp.ui.uiState.QvstUiState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class QvstCampaignViewModel : ViewModel() {
+class QvstCampaignViewModel (
+    private val wordpressRepo: WordpressRepository,
+    private val authManager: AuthenticationManager
+) : ViewModel() {
 
     var state: QvstUiState by mutableStateOf(QvstUiState.EMPTY)
 
     init {
-        getActiveCampaign()
+        getAllCampaign()
     }
 
-    private fun getActiveCampaign() {
+    private fun getAllCampaign() {
         state = QvstUiState.LOADING
         viewModelScope.launch {
             state = try {
-                val result = WordpressAPI.service.getQvstCampaigns()
+                val authState = authManager.authState.value
+                if (authState is AuthState.Authenticated) {
+                    val username = authState.authData.username
+                    val token = authState.authData.token
 
-                if (result.isEmpty()) {
-                    QvstUiState.EMPTY
+                    val campaigns = wordpressRepo.getAllQvstCampaigns(token, username)
+                    if (campaigns == null) {
+                        QvstUiState.ERROR("No result")
+                    } else if (campaigns.isEmpty()) {
+                        QvstUiState.EMPTY
+                    } else {
+                        val result = wordpressRepo.classifyCampaigns(campaigns)
+                        QvstUiState.SUCCESS(result)
+                    }
                 } else {
-                    QvstUiState.SUCCESS(result)
+                    QvstUiState.ERROR("User is not authenticated")
                 }
             } catch (e: Exception) {
                 QvstUiState.ERROR("Oups, il y a eu un problème dans le chargement des campagnes")

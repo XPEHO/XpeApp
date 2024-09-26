@@ -14,19 +14,18 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.xpeho.xpeho_ui_android.foundations.Colors as XpehoColors
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80,
-    background = XpehoBackgroundColor,
+    primary = XpehoColors.CONTENT_COLOR,
+    secondary = XpehoColors.XPEHO_COLOR,
+    background = XpehoColors.BACKGROUND_COLOR
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40,
-    background = XpehoBackgroundColor,
+    primary = XpehoColors.CONTENT_COLOR,
+    secondary = XpehoColors.XPEHO_COLOR,
+    background = XpehoColors.BACKGROUND_COLOR
 )
 
 @Composable
@@ -47,8 +46,8 @@ fun XpeAppTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            window.statusBarColor = colorScheme.background.toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 

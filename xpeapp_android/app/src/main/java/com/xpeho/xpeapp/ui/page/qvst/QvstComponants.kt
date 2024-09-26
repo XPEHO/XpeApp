@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.xpeho.xpeapp.data.model.qvst.QvstAnswer
 import com.xpeho.xpeapp.data.model.qvst.QvstQuestion
-import com.xpeho.xpeapp.ui.componants.ButtonElevated
 import com.xpeho.xpeapp.ui.theme.SfPro
 import com.xpeho.xpeapp.ui.viewModel.qvst.QvstAnswersState
 import com.xpeho.xpeapp.ui.viewModel.qvst.QvstAnswersViewModel
@@ -285,11 +284,11 @@ fun SubmitAnswersButton(
             top = 8.dp,
         )
     ) {
-        ButtonElevated(
+        /*ButtonElevated(
             text = stringResource(id = com.xpeho.xpeapp.R.string.qvst_campaign_detail_submit_answers),
             backgroundColor = colorResource(id = com.xpeho.xpeapp.R.color.colorPrimary),
             textColor = Color.Black,
             isLoading = vm.state is QvstAnswersState.LOADING,
-        ) { onClick() }
+        ) { onClick() }*/
     }
 }

@@ -58,7 +58,7 @@ struct LoginPage: View {
                     ) {
                         isTryingToLogin = false
                     }
-                    debugPrint("Login with \(username): \(password)") 
+                    debugPrint("Login with \(username)") 
                 }
             )
             .padding(.top, 32)

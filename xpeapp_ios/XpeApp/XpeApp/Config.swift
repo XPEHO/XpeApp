@@ -13,7 +13,7 @@ struct Configuration {
         case uat, prod
     }
     
-    static var env: EnvItem = .uat
+    static var env: EnvItem = .prod
     
     static var backendUrl: String {
         // Try to get url from environment
@@ -21,8 +21,8 @@ struct Configuration {
             return url
         }
         // Else use default url for environment
-        return env == .uat
-            ? "http://nginx-wp/wp-json/"
-            : "http://yaki.uat.xpeho.fr:7830/wp-json/"
+        return env == .prod
+            ? "https://wordpress.uat.xpeho.fr/wp-json/"
+            : "http://localhost:7830/wp-json/"
     }
 }

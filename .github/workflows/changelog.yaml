@@ -1,7 +1,0 @@
-on: pull_request
-
-name: Control changelog update
-
-jobs:
-  xpeho_workflows_changelog:
-    uses: XPEHO/Xpeho-Workflows/.github/workflows/changelog.yaml@main

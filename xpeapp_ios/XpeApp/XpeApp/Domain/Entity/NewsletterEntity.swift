@@ -10,13 +10,13 @@ import Foundation
 @Observable class NewsletterEntity: Equatable {
     let id: String?
     let pdfUrl: String
-    let publicationDate: Date
+    let date: Date
     let summary: [String]
     
-    init(id: String?, pdfUrl: String, publicationDate: Date, summary: [String]) {
+    init(id: String?, pdfUrl: String, date: Date, summary: [String]) {
         self.id = id
         self.pdfUrl = pdfUrl
-        self.publicationDate = publicationDate
+        self.date = date
         self.summary = summary
     }
     
@@ -24,7 +24,7 @@ import Foundation
         return NewsletterEntity(
             id: model.id,
             pdfUrl: model.pdfUrl,
-            publicationDate: model.publicationDate,
+            date: model.date,
             summary: model.summary.split(separator: ",").map { String($0) }
         )
     }

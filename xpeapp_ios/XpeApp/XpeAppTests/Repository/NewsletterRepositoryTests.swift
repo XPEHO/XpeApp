@@ -57,7 +57,7 @@ final class NewsletterRepositoryTests: XCTestCase {
                 NewsletterEntity(
                     id: "id",
                     pdfUrl: "http://url.com",
-                    publicationDate: currentDate,
+                    date: currentDate,
                     summary: ["summary 1", "summary 2", "summary 3"]
                 )
             ]
@@ -97,9 +97,9 @@ final class NewsletterRepositoryTests: XCTestCase {
                 ),
                 NewsletterModel(
                     id: "id2",
-                    date: currentDate,
+                    date: currentDatePlusOneDay,
                     pdfUrl: "http://url.com",
-                    publicationDate: currentDatePlusOneDay,
+                    publicationDate: currentDate,
                     summary: "summary 1,summary 2,summary 3"
                 )
             ]
@@ -111,7 +111,7 @@ final class NewsletterRepositoryTests: XCTestCase {
             let dataExpected = NewsletterEntity(
                 id: "id2",
                 pdfUrl: "http://url.com",
-                publicationDate: currentDatePlusOneDay,
+                date: currentDatePlusOneDay,
                 summary: ["summary 1", "summary 2", "summary 3"]
             )
             

@@ -10,40 +10,47 @@ import com.xpeho.xpeapp.enums.Screens
 import java.time.LocalDate
 import java.time.Month
 import java.time.Year
+import com.xpeho.xpeho_ui_android.R.drawable as XpehoRes
 
 class Resources {
 
     var listOfMenu: Array<Menu> =
         arrayOf(
             Menu(
-                idImage = R.drawable.newsletters,
+                idImage = XpehoRes.newsletter,
                 title = "Newsletters",
                 redirection = Screens.Newsletters.name,
                 featureFlippingId = FeatureFlippingEnum.NEWSLETTERS,
             ),
             Menu(
-                idImage = R.drawable.cra,
+                idImage = XpehoRes.qvst,
+                title = "Campagnes QVST",
+                redirection = Screens.Qvst.name,
+                featureFlippingId = FeatureFlippingEnum.QVST,
+            ),
+            Menu(
+                idImage = XpehoRes.receipt,
+                title = "Notes de frais",
+                redirection = "",
+                featureFlippingId = FeatureFlippingEnum.EXPENSE_REPORT,
+            ),
+            Menu(
+                idImage = XpehoRes.contactfill,
+                title = "Collègues",
+                redirection = Screens.Colleague.name,
+                featureFlippingId = FeatureFlippingEnum.COLLEAGUES,
+            ),
+            Menu(
+                idImage = XpehoRes.briefcase,
                 title = "CRA",
                 redirection = "",
                 featureFlippingId = FeatureFlippingEnum.CRA,
             ),
             Menu(
-                idImage = R.drawable.vacation,
+                idImage = XpehoRes.planedeparture,
                 title = "Congés",
                 redirection = Screens.Vacation.name,
                 featureFlippingId = FeatureFlippingEnum.VACATION,
-            ),
-            Menu(
-                idImage = R.drawable.expense_report,
-                title = "Note de frais",
-                redirection = "",
-                featureFlippingId = FeatureFlippingEnum.EXPENSE_REPORT,
-            ),
-            Menu(
-                idImage = R.drawable.colleagues,
-                title = "Mes collègues",
-                redirection = Screens.Colleague.name,
-                featureFlippingId = FeatureFlippingEnum.COLLEAGUES,
             ),
         )
 

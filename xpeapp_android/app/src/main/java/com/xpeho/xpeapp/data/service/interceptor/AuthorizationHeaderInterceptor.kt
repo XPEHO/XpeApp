@@ -18,7 +18,7 @@ class AuthorizationHeaderInterceptor(
         return when(authState) {
             is AuthState.Unauthenticated -> identityResponse(chain)
             is AuthState.Authenticated ->
-                authorizedResponse(chain, "Bearer ${authState.authData.token.jwt_token}")
+                authorizedResponse(chain, "Bearer ${authState.authData.token.token}")
         }
     }
 

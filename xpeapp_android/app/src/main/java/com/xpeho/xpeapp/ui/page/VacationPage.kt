@@ -23,26 +23,16 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.ui.Resources
-import com.xpeho.xpeapp.ui.componants.AppBar
-import com.xpeho.xpeapp.ui.componants.vacation.MyRequestLeaveList
+import com.xpeho.xpeapp.ui.components.vacation.MyRequestLeaveList
 import com.xpeho.xpeapp.ui.theme.SfPro
+import com.xpeho.xpeho_ui_android.foundations.Colors as XpehoColors
 
 @Composable
-fun VacationPage(
-    onBackPressed: () -> Unit,
-) {
+fun VacationPage() {
     val vacationRequestLeave = Resources().request
     Scaffold(
         containerColor = if(isSystemInDarkTheme()) MaterialTheme.colorScheme.surface
-            else colorResource(id = R.color.xpeho_background_color),
-        topBar = {
-            AppBar(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                title = stringResource(id = R.string.vacation_title_app_bar)
-            ) {
-                onBackPressed()
-            }
-        },
+            else XpehoColors.BACKGROUND_COLOR,
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {},
@@ -81,7 +71,5 @@ fun VacationPage(
 @Preview
 @Composable
 fun VacationPagePreview() {
-    VacationPage(
-        onBackPressed = {}
-    )
+    VacationPage()
 }

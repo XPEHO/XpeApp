@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">XpeApp</string>
     <string name="xpeho_logo_content">Logo Xpeho</string>
-    <string name="login_page_email">Adresse email</string>
+    <string name="login_page_email">Email</string>
     <string name="login_page_password">Mot de passe</string>
     <string name="login_page_button">SE CONNECTER</string>
     <string name="login_page_google_button">Se connecter avec Google</string>

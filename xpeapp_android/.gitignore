@@ -312,3 +312,5 @@ app/google-services.json
 app/config
 
 key.properties
+
+github.properties

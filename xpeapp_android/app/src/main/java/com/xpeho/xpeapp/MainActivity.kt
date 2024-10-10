@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.xpeho.xpeapp.enums.Screens
 import com.xpeho.xpeapp.ui.Home
@@ -23,12 +24,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import com.xpeho.xpeho_ui_android.foundations.Colors as XpehoColors
 
 class MainActivity : ComponentActivity() {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         checkPermission()
 
         // This is done to skip to the Home screen faster,
@@ -57,7 +60,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier
                         .fillMaxSize(),
-                    color = colorResource(id = R.color.xpeho_background_color)
+                    color = XpehoColors.BACKGROUND_COLOR
                 ) {
                     val startScreen = startScreenFlow.collectAsStateWithLifecycle()
                     Home(startScreen.value)

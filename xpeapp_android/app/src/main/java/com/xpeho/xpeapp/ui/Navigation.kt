@@ -53,11 +53,11 @@ fun NavGraphBuilder.navigationBuilder(
         }
     }
     composable(route = "${Screens.Qvst.name}/{campaignId}") {
-        QvstCampaignDetailPage(
-            qvstCampaignId = it.arguments?.getString("campaignId") ?: "",
-            navController = navigationController,
-        ) {
-            navigationController.navigateUp()
+        Layout(navigationController) {
+            QvstCampaignDetailPage(
+                qvstCampaignId = it.arguments?.getString("campaignId") ?: "",
+                navController = navigationController,
+            )
         }
     }
 }

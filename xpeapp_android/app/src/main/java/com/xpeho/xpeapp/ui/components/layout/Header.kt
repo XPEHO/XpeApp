@@ -33,7 +33,7 @@ fun Header(sidebarVisible: MutableState<Boolean>) {
             }
         ) {
             Icon(
-                painter = painterResource(id = XpehoRes.burgermenu), // TODO: Replace with theme
+                painter = painterResource(id = XpehoRes.burgermenu),
                 contentDescription = "Open Sidebar",
                 tint = XpehoColors.XPEHO_COLOR,
                 modifier = Modifier

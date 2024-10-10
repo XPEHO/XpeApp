@@ -27,13 +27,8 @@ class QvstCampaignQuestionsViewModel : ViewModel() {
                 if (result.isEmpty()) {
                     QvstCampaignQuestionsState.EMPTY
                 } else {
-                    val questionAnswered = result.filter { it.hasAnswered }
-                    val questionNotAnswered = result.filter { !it.hasAnswered }
                     QvstCampaignQuestionsState.SUCCESS(
-                        qvstQuestions = mapOf(
-                            true to questionAnswered,
-                            false to questionNotAnswered,
-                        )
+                        qvstQuestions = result
                     )
                 }
             } catch (e: Exception) {
@@ -52,6 +47,6 @@ interface QvstCampaignQuestionsState {
     object LOADING : QvstCampaignQuestionsState
     data class ERROR(val error: String) : QvstCampaignQuestionsState
     data class SUCCESS(
-        val qvstQuestions: Map<Boolean, List<QvstQuestion>>,
+        val qvstQuestions: List<QvstQuestion>,
     ) : QvstCampaignQuestionsState
 }

@@ -1,7 +1,6 @@
 package com.xpeho.xpeapp.ui.page.qvst
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,12 +22,11 @@ import androidx.navigation.NavController
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.data.service.WordpressRepository
-import com.xpeho.xpeapp.ui.components.qvst.QvstCampaignList
 import com.xpeho.xpeapp.ui.components.CustomDialog
 import com.xpeho.xpeapp.ui.components.layout.Title
 import com.xpeho.xpeapp.ui.components.qvst.QvstCardList
 import com.xpeho.xpeapp.ui.uiState.QvstUiState
-import com.xpeho.xpeapp.ui.viewModel.qvst.QvstCampaignViewModel
+import com.xpeho.xpeapp.ui.viewModel.qvst.QvstCampaignsViewModel
 import com.xpeho.xpeapp.ui.viewModel.viewModelFactory
 import com.xpeho.xpeho_ui_android.ClickyButton
 import com.xpeho.xpeho_ui_android.foundations.Colors as XpehoColors
@@ -41,9 +39,9 @@ fun QvstPage(
         mutableStateOf(false)
     }
 
-    val campaignViewModel = viewModel<QvstCampaignViewModel>(
+    val campaignViewModel = viewModel<QvstCampaignsViewModel>(
         factory = viewModelFactory {
-            QvstCampaignViewModel(
+            QvstCampaignsViewModel(
                 wordpressRepo = WordpressRepository(),
                 authManager = XpeApp.appModule.authenticationManager
             )

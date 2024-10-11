@@ -23,7 +23,7 @@ fun Header(sidebarVisible: MutableState<Boolean>) {
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .zIndex(10f)
-            .padding(horizontal = 24.dp, vertical = 24.dp)
+            .padding(horizontal = 16.dp, vertical = 18.dp)
             .fillMaxWidth()
             .height(50.dp)
     ) {
@@ -38,6 +38,7 @@ fun Header(sidebarVisible: MutableState<Boolean>) {
                 tint = XpehoColors.XPEHO_COLOR,
                 modifier = Modifier
                     .padding(6.dp)
+                    .size(32.dp)
             )
         }
         Icon(

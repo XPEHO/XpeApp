@@ -1,11 +1,16 @@
 package com.xpeho.xpeapp.ui.page.qvst
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -15,7 +20,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.xpeho.xpeapp.R
@@ -38,6 +45,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import com.xpeho.xpeho_ui_android.R.drawable as XpehoRes
 import com.xpeho.xpeho_ui_android.foundations.Colors as XpehoColors
+import com.xpeho.xpeho_ui_android.foundations.Fonts as XpehoFonts
 
 @Composable
 fun QvstCampaignDetailPage(
@@ -66,102 +74,177 @@ fun QvstCampaignDetailPage(
                 campaignId = qvstCampaignId,
                 userId = userId.value,
             )
-            campaign = campaignViewModel.getCampaignById(campaignId = qvstCampaignId)
         }
     }
 
-    if (campaign == null || campaign!!.completed) {
-        navController.navigate(Screens.Qvst.name)
-    }
-
-    Column(
-        modifier = Modifier
-            .padding(horizontal = 32.dp, vertical = 10.dp)
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        when (qvstCampaignQuestionsViewModel.state) {
-            is QvstCampaignQuestionsState.SUCCESS -> {
-
-                val questions = (qvstCampaignQuestionsViewModel.state as QvstCampaignQuestionsState.SUCCESS)
-                    .qvstQuestions
-                val currentQuestionIndex = remember { mutableStateOf(0) }
-
-                campaign?.let {
-                    Title(
-                        label = it.themeName
-                    )
-                }
-                Spacer(modifier = Modifier.padding(50.dp))
-                QvstCampaignQuestionView(
-                    question = questions[currentQuestionIndex.value],
-                    qvstAnswersViewModel = qvstAnswersViewModel,
-                )
-
-                // Show the pagination
-                Row {
-                    // Previous button
-                    if (currentQuestionIndex.value > 0) {
-                        Icon(
-                            painter = painterResource(id = XpehoRes.chevron_left),
-                            contentDescription = "Previous Button",
-                            tint = XpehoColors.CONTENT_COLOR,
-                            modifier = Modifier
-                                .clickable(onClick = {
-                                    currentQuestionIndex.value -= 1
-                                })
-                        )
-                    }
-                    Text(
-                        text = "Question ${currentQuestionIndex.value + 1}/${questions.size}",
-                        color = XpehoColors.XPEHO_COLOR,
-                    )
-                    // Next button
-                    if (currentQuestionIndex.value < questions.size - 1) {
-                        Icon(
-                            painter = painterResource(id = XpehoRes.chevron_right),
-                            contentDescription = "Next Button",
-                            tint = XpehoColors.CONTENT_COLOR,
-                            modifier = Modifier
-                                .clickable(onClick = {
-                                    currentQuestionIndex.value += 1
-                                })
-                        )
-                    }
-                }
+    when(campaignViewModel.state) {
+        // Loading
+        is QvstUiState.LOADING -> {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                CircularProgressIndicator()
             }
-            is QvstCampaignQuestionsState.ERROR -> {
+        }
+
+        // Success
+        is QvstUiState.SUCCESS -> {
+            campaign = campaignViewModel.getCampaignById(campaignId = qvstCampaignId)
+            if (campaign == null) {
                 CustomDialog(
-                    title = stringResource(id = R.string.home_page_error),
-                    message = (qvstCampaignQuestionsViewModel.state as QvstCampaignQuestionsState.ERROR).error,
+                    title = stringResource(id = R.string.qvst_answers_saved_title),
+                    message = "Campagne non trouvée",
                     closeDialog = {
                         qvstCampaignQuestionsViewModel.resetState()
+                        navController.navigate(Screens.Qvst.name)
+                    }
+                )
+            } else if (campaign.completed){
+                CustomDialog(
+                    title = stringResource(id = R.string.qvst_answers_saved_title),
+                    message = "Campagne déjà complétée",
+                    closeDialog = {
+                        qvstCampaignQuestionsViewModel.resetState()
+                        navController.navigate(Screens.Qvst.name)
                     }
                 )
             }
-        }
-        // If all questions are answered, show a button to submit answers
-        if (qvstCampaignQuestionsViewModel.state is QvstCampaignQuestionsState.SUCCESS) {
-            val questions = (qvstCampaignQuestionsViewModel.state as QvstCampaignQuestionsState.SUCCESS)
-                .qvstQuestions
 
-            if (qvstAnswersViewModel.answers.value.size == questions.size) {
-                SubmitAnswersButton(
-                    vm = qvstAnswersViewModel,
-                    onClick = {
-                        qvstAnswersViewModel.submitAnswers(
-                            campaignId = qvstCampaignId,
-                            userId = userId.value,
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 24.dp, vertical = 10.dp)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                when (qvstCampaignQuestionsViewModel.state) {
+                    is QvstCampaignQuestionsState.SUCCESS -> {
+
+                        val questions = (qvstCampaignQuestionsViewModel.state as QvstCampaignQuestionsState.SUCCESS)
+                            .qvstQuestions
+                        val answers = qvstAnswersViewModel.answers.value
+                        val currentQuestionIndex = remember { mutableStateOf(0) }
+                        val currentQuestion = questions[currentQuestionIndex.value]
+                        val currentAnswer = answers[currentQuestion.question_id]
+
+                        Column {
+                            campaign?.let {
+                                Title(
+                                    label = it.themeName
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(40.dp))
+                            QvstCampaignQuestionView(
+                                question = questions[currentQuestionIndex.value],
+                                qvstAnswersViewModel = qvstAnswersViewModel,
+                            )
+                        }
+
+                        // Show the pagination
+                        Row (
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .padding(bottom = 10.dp, top = 5.dp)
+                                .fillMaxWidth()
+                        ) {
+                            // Previous button
+                            Icon(
+                                painter = painterResource(id = XpehoRes.arrow_left),
+                                contentDescription = "Previous Button",
+                                tint = if (currentQuestionIndex.value > 0) {
+                                    XpehoColors.CONTENT_COLOR
+                                } else {
+                                    XpehoColors.DISABLED_COLOR
+                                },
+                                modifier = Modifier
+                                    .clickable(onClick = {
+                                        if (currentQuestionIndex.value > 0) {
+                                            currentQuestionIndex.value -= 1
+                                        }
+                                    })
+                            )
+                            Text(
+                                text = "Question ${currentQuestionIndex.value + 1}/${questions.size}",
+                                color = XpehoColors.XPEHO_COLOR,
+                                fontSize = 20.sp,
+                                fontFamily = XpehoFonts.raleway,
+                                fontWeight = FontWeight.SemiBold,
+                            )
+                            // Next button
+                            Icon(
+                                painter = painterResource(
+                                    id = if (currentQuestionIndex.value < questions.size - 1) {
+                                        XpehoRes.arrow_right
+                                    } else {
+                                        XpehoRes.validated
+                                    }
+                                ),
+                                contentDescription = "Next Button",
+                                tint = if (currentAnswer == null) {
+                                    XpehoColors.DISABLED_COLOR
+                                } else {
+                                    XpehoColors.CONTENT_COLOR
+                                },
+                                modifier = Modifier
+                                    .size(
+                                        if (currentQuestionIndex.value < questions.size - 1) {
+                                            24.dp
+                                        } else {
+                                            40.dp
+                                        }
+                                    )
+                                    . clickable (onClick = {
+                                        // If the current question has an answer
+                                        currentQuestion.userAnswer?.let {
+                                            // If there are more questions, go to the next one
+                                            if (currentQuestionIndex.value < questions.size - 1) {
+                                                currentQuestionIndex.value += 1
+                                            }
+                                            // If all questions are answered, submit answers
+                                            else if (answers.size == questions.size) {
+                                                qvstAnswersViewModel.submitAnswers(
+                                                    campaignId = qvstCampaignId,
+                                                    userId = userId.value,
+                                                )
+                                            }
+                                        }
+                                    })
+                            )
+                        }
+                    }
+                    is QvstCampaignQuestionsState.ERROR -> {
+                        CustomDialog(
+                            title = stringResource(id = R.string.home_page_error),
+                            message = (qvstCampaignQuestionsViewModel.state as QvstCampaignQuestionsState.ERROR).error,
+                            closeDialog = {
+                                qvstCampaignQuestionsViewModel.resetState()
+                                navController.navigate(Screens.Qvst.name)
+                            }
                         )
                     }
-                )
+                }
             }
+            redirectOnSuccess(
+                qvstAnswersViewModel = qvstAnswersViewModel,
+                navController = navController,
+            )
+        }
+
+        // Error
+        else -> {
+            CustomDialog(
+                title = stringResource(id = R.string.home_page_error),
+                message = (campaignViewModel.state as QvstUiState.ERROR).error,
+                closeDialog = {
+                    campaignViewModel.resetState()
+                    navController.navigate(Screens.Qvst.name)
+                }
+            )
         }
     }
-    redirectOnSuccess(
-        qvstAnswersViewModel = qvstAnswersViewModel,
-        navController = navController,
-    )
 }
 
 @Composable

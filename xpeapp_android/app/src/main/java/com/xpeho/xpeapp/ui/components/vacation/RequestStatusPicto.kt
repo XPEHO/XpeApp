@@ -8,12 +8,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.data.model.RequestLeaveStatus
+import com.xpeho.xpeho_ui_android.R.drawable as XpehoRes
 
 @Composable
 fun RequestStatusPicto(status: RequestLeaveStatus) {
     val picto = when (status) {
         RequestLeaveStatus.PENDING -> R.drawable.in_progress
-        RequestLeaveStatus.ACCEPTED -> R.drawable.validated
+        RequestLeaveStatus.ACCEPTED -> XpehoRes.validated
         RequestLeaveStatus.REFUSED -> R.drawable.refused
     }
 

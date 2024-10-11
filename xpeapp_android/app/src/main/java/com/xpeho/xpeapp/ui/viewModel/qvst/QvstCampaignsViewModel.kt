@@ -24,17 +24,9 @@ class QvstCampaignsViewModel (
     }
 
     fun getCampaignById(campaignId: String): QvstCampaignEntity? {
-        return when (state) {
-            is QvstUiState.SUCCESS -> {
-                val campaigns = (state as QvstUiState.SUCCESS).qvst
-                val campaign = campaigns.values.flatten().find { it.id == campaignId }
-                campaign
-            }
-
-            else -> {
-                null
-            }
-        }
+        val campaigns = (state as QvstUiState.SUCCESS).qvst
+        val campaign = campaigns.values.flatten().find { it.id == campaignId }
+        return campaign
     }
 
     private fun getAllCampaign() {
@@ -66,5 +58,10 @@ class QvstCampaignsViewModel (
 
     fun resetState() {
         state = QvstUiState.EMPTY
+    }
+
+    fun updateState() {
+        resetState()
+        getAllCampaign()
     }
 }

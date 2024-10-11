@@ -15,7 +15,7 @@ fun Title(
 ) {
     Text(
         text = label,
-        fontSize = 20.sp,
+        fontSize = 18.sp,
         fontFamily = XpehoFonts.raleway,
         fontWeight = FontWeight.Bold,
         modifier = Modifier

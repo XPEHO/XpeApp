@@ -31,6 +31,15 @@ class NewsletterViewModel : ViewModel() {
             isLoading.value = false
         }
     }
+
+    fun resetState() {
+        state.value = emptyList()
+    }
+
+    fun updateState() {
+        resetState()
+        getNewsletters()
+    }
 }
 
 suspend fun getNewslettersFromFirebase(): List<Newsletter> {

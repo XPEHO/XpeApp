@@ -5,19 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.xpeho.xpeapp.XpeApp
-import com.xpeho.xpeapp.data.model.WordpressToken
-import com.xpeho.xpeapp.data.service.WordpressAPI
 import com.xpeho.xpeapp.data.service.WordpressRepository
 import com.xpeho.xpeapp.domain.AuthState
 import com.xpeho.xpeapp.domain.AuthenticationManager
 import com.xpeho.xpeapp.ui.uiState.QvstActiveUiState
-import com.xpeho.xpeapp.ui.uiState.QvstUiState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class QvstActiveCampaignViewModel (
+class QvstActiveCampaignsViewModel (
     private val wordpressRepo: WordpressRepository,
     private val authManager: AuthenticationManager
 ) : ViewModel() {
@@ -57,5 +51,10 @@ class QvstActiveCampaignViewModel (
 
     fun resetState() {
         state = QvstActiveUiState.EMPTY
+    }
+
+    fun updateState() {
+        resetState()
+        getActiveCampaign()
     }
 }

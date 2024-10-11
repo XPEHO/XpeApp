@@ -27,13 +27,14 @@ fun NewsletterPreview(newsletter: Newsletter) {
     FilePreviewButton(
         labelStart = "Newsletter",
         labelEnd = formatter.format(newsletter.date),
-        height = 200.dp,
+        labelSize = 16.sp,
+        height = 175.dp,
         tags = {
             newsletter.summary.split(",").forEach { item ->
                 TagPill(
                     label = item,
                     backgroundColor = XpehoColors.XPEHO_COLOR,
-                    size = 10.sp
+                    size = 9.sp
                 )
             }
         },

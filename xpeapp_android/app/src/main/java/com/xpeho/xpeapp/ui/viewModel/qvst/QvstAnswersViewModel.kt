@@ -16,8 +16,8 @@ class QvstAnswersViewModel : ViewModel() {
     private val _answers = mutableStateOf<Map<String, String>>(emptyMap())
     val answers: State<Map<String, String>> get() = _answers
 
-    fun updateAnswer(questionId: String, answer: String) {
-        _answers.value += mapOf(questionId to answer)
+    fun updateAnswer(questionId: String, answerId: String) {
+        _answers.value += mapOf(questionId to answerId)
     }
 
     fun submitAnswers(campaignId: String, userId: String) {

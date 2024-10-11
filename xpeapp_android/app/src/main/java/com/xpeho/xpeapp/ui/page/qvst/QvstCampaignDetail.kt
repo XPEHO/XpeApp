@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,7 +13,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -29,7 +32,6 @@ import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.data.DatastorePref
 import com.xpeho.xpeapp.data.entity.QvstCampaignEntity
-import com.xpeho.xpeapp.data.service.WordpressRepository
 import com.xpeho.xpeapp.enums.Screens
 import com.xpeho.xpeapp.ui.components.CustomDialog
 import com.xpeho.xpeapp.ui.components.layout.Title
@@ -61,7 +63,7 @@ fun QvstCampaignDetailPage(
     val campaignViewModel = viewModel<QvstCampaignsViewModel>(
         factory = viewModelFactory {
             QvstCampaignsViewModel(
-                wordpressRepo = WordpressRepository(),
+                wordpressRepo = XpeApp.appModule.wordpressRepository,
                 authManager = XpeApp.appModule.authenticationManager
             )
         }
@@ -77,7 +79,7 @@ fun QvstCampaignDetailPage(
         }
     }
 
-    when(campaignViewModel.state) {
+    when (campaignViewModel.state) {
         // Loading
         is QvstUiState.LOADING -> {
             Column(
@@ -101,7 +103,7 @@ fun QvstCampaignDetailPage(
                         navController.navigate(Screens.Qvst.name)
                     }
                 )
-            } else if (campaign.completed){
+            } else if (campaign.completed) {
                 CustomDialog(
                     title = stringResource(id = R.string.qvst_answers_saved_title),
                     message = "Campagne déjà complétée",
@@ -127,7 +129,7 @@ fun QvstCampaignDetailPage(
                         val answers = qvstAnswersViewModel.answers.value
                         val currentQuestionIndex = remember { mutableStateOf(0) }
                         val currentQuestion = questions[currentQuestionIndex.value]
-                        val currentAnswer = answers[currentQuestion.question_id]
+                        val currentAnswer = answers[currentQuestion.questionId]
 
                         Column {
                             campaign?.let {
@@ -143,7 +145,7 @@ fun QvstCampaignDetailPage(
                         }
 
                         // Show the pagination
-                        Row (
+                        Row(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
@@ -196,7 +198,7 @@ fun QvstCampaignDetailPage(
                                             40.dp
                                         }
                                     )
-                                    . clickable (onClick = {
+                                    .clickable(onClick = {
                                         // If the current question has an answer
                                         currentQuestion.userAnswer?.let {
                                             // If there are more questions, go to the next one
@@ -215,6 +217,7 @@ fun QvstCampaignDetailPage(
                             )
                         }
                     }
+
                     is QvstCampaignQuestionsState.ERROR -> {
                         CustomDialog(
                             title = stringResource(id = R.string.home_page_error),
@@ -264,6 +267,7 @@ fun redirectOnSuccess(
                 }
             )
         }
+
         is QvstAnswersState.ERROR -> {
             CustomDialog(
                 title = stringResource(id = R.string.home_page_error),

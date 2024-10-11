@@ -10,7 +10,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -40,7 +39,7 @@ class MainActivity : ComponentActivity() {
             XpeApp.appModule.datastorePref.getWasConnectedLastTime()
         }
         val startScreenFlow: MutableStateFlow<Screens> =
-            MutableStateFlow(if(connectedLastTime) Screens.Home else Screens.Login)
+            MutableStateFlow(if (connectedLastTime) Screens.Home else Screens.Login)
 
         if (connectedLastTime) {
             CoroutineScope(Dispatchers.IO).launch {

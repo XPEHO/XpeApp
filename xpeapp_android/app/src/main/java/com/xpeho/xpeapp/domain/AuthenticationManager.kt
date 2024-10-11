@@ -1,11 +1,12 @@
 package com.xpeho.xpeapp.domain
 
-import com.google.firebase.auth.FirebaseAuth
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.xpeho.xpeapp.data.DatastorePref
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.data.model.AuthResult
 import com.xpeho.xpeapp.data.model.WordpressToken
+import com.xpeho.xpeapp.data.service.FirebaseService
 import com.xpeho.xpeapp.data.service.WordpressRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -23,26 +24,27 @@ import kotlinx.coroutines.tasks.await
  */
 class AuthenticationManager(
     val wordpressRepo: WordpressRepository,
-    val datastorePref: DatastorePref
+    val datastorePref: DatastorePref,
+    val firebaseService: FirebaseService
 ) {
     private val _authState: MutableStateFlow<AuthState> = MutableStateFlow(AuthState.Unauthenticated)
     val authState = _authState.asStateFlow()
 
     fun restoreAuthStateFromStorage() = runBlocking {
-         datastorePref.getAuthData()?.let {
+        datastorePref.getAuthData()?.let {
             _authState.value = AuthState.Authenticated(it)
-         }
+        }
     }
 
     suspend fun isAuthValid(): Boolean {
-        return when(val authState = this.authState.value) {
+        return when (val authState = this.authState.value) {
             is AuthState.Unauthenticated -> false
             is AuthState.Authenticated -> {
                 // Note(loucas): Order of operations here is important,
                 // lazy `&&` evalutation makes this faster
-                FirebaseAuth.getInstance().currentUser != null
-                    && wordpressRepo.validateToken(authState.authData.token) is AuthResult.Success
-                    && usernameInFirestoreWordpressUsers(authState.authData.username)
+                firebaseService.isAuthenticated()
+                        && wordpressRepo.validateToken(authState.authData.token) is AuthResult.Success
+                        && usernameInFirestoreWordpressUsers(authState.authData.username)
             }
         }
     }
@@ -51,13 +53,22 @@ class AuthenticationManager(
         val wpDefRes = async {
             wordpressRepo.authenticate(AuthentificationBody(username, password))
         }
-        
+        val fbDefRes = async {
+            try {
+                firebaseService.authenticate()
+                return@async AuthResult.Success(Unit)
+            } catch (e: Exception) {
+                Log.e("AuthenticationManager: login", "Network error: ${e.message}")
+                return@async AuthResult.NetworkError
+            }
+        }
 
         val wpRes = wpDefRes.await()
-        if(wpRes is AuthResult.NetworkError) {
+        val fbRes = fbDefRes.await()
+        if (wpRes is AuthResult.NetworkError || fbRes is AuthResult.NetworkError) {
             return@coroutineScope AuthResult.NetworkError
         }
-        if(wpRes is AuthResult.Unauthorized) {
+        if (wpRes is AuthResult.Unauthorized || fbRes is AuthResult.Unauthorized) {
             return@coroutineScope AuthResult.Unauthorized
         }
 
@@ -72,11 +83,11 @@ class AuthenticationManager(
         datastorePref.setAuthData(authData)
         datastorePref.setIsConnectedLeastOneTime(true)
         datastorePref.setWasConnectedLastTime(true)
-        wordpressUid?.let{ datastorePref.setUserId(it) }
+        wordpressUid?.let { datastorePref.setUserId(it) }
     }
 
     suspend fun logout() {
-        FirebaseAuth.getInstance().signOut()
+        firebaseService.signOut()
         datastorePref.clearAuthData()
         datastorePref.setWasConnectedLastTime(false)
         _authState.value = AuthState.Unauthenticated
@@ -93,8 +104,8 @@ class AuthenticationManager(
 }
 
 sealed interface AuthState {
-    object Unauthenticated: AuthState
-    data class Authenticated(val authData: AuthData): AuthState
+    object Unauthenticated : AuthState
+    data class Authenticated(val authData: AuthData) : AuthState
 }
 
 data class AuthData(val username: String, val token: WordpressToken)

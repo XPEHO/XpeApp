@@ -4,7 +4,6 @@ enum class Screens {
     Login,
     Home,
     Newsletters,
-    NewsletterDetail,
     Vacation,
     Colleague,
     Qvst,

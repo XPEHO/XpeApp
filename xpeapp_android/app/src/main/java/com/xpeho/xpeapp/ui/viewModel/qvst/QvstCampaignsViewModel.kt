@@ -12,7 +12,7 @@ import com.xpeho.xpeapp.domain.AuthenticationManager
 import com.xpeho.xpeapp.ui.uiState.QvstUiState
 import kotlinx.coroutines.launch
 
-class QvstCampaignsViewModel (
+class QvstCampaignsViewModel(
     private val wordpressRepo: WordpressRepository,
     private val authManager: AuthenticationManager
 ) : ViewModel() {
@@ -32,26 +32,22 @@ class QvstCampaignsViewModel (
     private fun getAllCampaign() {
         state = QvstUiState.LOADING
         viewModelScope.launch {
-            state = try {
-                val authState = authManager.authState.value
-                if (authState is AuthState.Authenticated) {
-                    val username = authState.authData.username
-                    val token = authState.authData.token
+            val authState = authManager.authState.value
+            if (authState is AuthState.Authenticated) {
+                val username = authState.authData.username
+                val token = authState.authData.token
 
-                    val campaigns = wordpressRepo.getAllQvstCampaigns(token, username)
-                    if (campaigns == null) {
-                        QvstUiState.ERROR("No result")
-                    } else if (campaigns.isEmpty()) {
-                        QvstUiState.EMPTY
-                    } else {
-                        val result = wordpressRepo.classifyCampaigns(campaigns)
-                        QvstUiState.SUCCESS(result)
-                    }
+                val campaigns = wordpressRepo.getAllQvstCampaigns(token, username)
+                if (campaigns == null) {
+                    state = QvstUiState.ERROR("Oups, il y a eu un problème dans le chargement des campagnes")
+                } else if (campaigns.isEmpty()) {
+                    state = QvstUiState.EMPTY
                 } else {
-                    QvstUiState.ERROR("User is not authenticated")
+                    val result = wordpressRepo.classifyCampaigns(campaigns)
+                    state = QvstUiState.SUCCESS(result)
                 }
-            } catch (e: Exception) {
-                QvstUiState.ERROR("Oups, il y a eu un problème dans le chargement des campagnes")
+            } else {
+                state = QvstUiState.ERROR("Oups, l'utilisateur n'est pas authentifié")
             }
         }
     }

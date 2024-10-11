@@ -1,7 +1,6 @@
 package com.xpeho.xpeapp.ui.uiState
 
 import com.xpeho.xpeapp.data.entity.QvstCampaignEntity
-import com.xpeho.xpeapp.data.model.qvst.QvstCampaign
 
 interface QvstUiState {
 

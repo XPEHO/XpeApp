@@ -1,8 +1,10 @@
 package com.xpeho.xpeapp.data.model.qvst
 
-data class QvstProgress (
-    val user_id: String,
-    val campaign_id: String,
-    val answered_questions: Int,
-    val total_questions: Int,
+import com.google.gson.annotations.SerializedName
+
+data class QvstProgress(
+    @SerializedName("user_id") val userId: String,
+    @SerializedName("campaign_id") val campaignId: String,
+    @SerializedName("answered_questions") val answeredQuestions: Int,
+    @SerializedName("total_questions") val totalQuestions: Int,
 )

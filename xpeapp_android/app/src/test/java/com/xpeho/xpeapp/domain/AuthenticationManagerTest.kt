@@ -4,10 +4,13 @@ import com.xpeho.xpeapp.data.DatastorePref
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.data.model.AuthResult
 import com.xpeho.xpeapp.data.model.WordpressToken
+import com.xpeho.xpeapp.data.service.FirebaseService
 import com.xpeho.xpeapp.data.service.WordpressRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
@@ -17,12 +20,17 @@ class AuthenticationManagerTest {
     private lateinit var wordpressRepo: WordpressRepository
     private lateinit var datastorePref: DatastorePref
     private lateinit var authManager: AuthenticationManager
+    private lateinit var firebaseService: FirebaseService
 
     @Before
     fun setUp() {
         wordpressRepo = mockk()
         datastorePref = mockk()
-        authManager = AuthenticationManager(wordpressRepo, datastorePref)
+        firebaseService = mockk()
+        coEvery { firebaseService.authenticate() } just runs
+
+        //return@async AuthResult.Success(Unit)
+        authManager = AuthenticationManager(wordpressRepo, datastorePref, firebaseService)
     }
 
     @Test
@@ -31,11 +39,13 @@ class AuthenticationManagerTest {
         val password = "password"
         val token = WordpressToken(
             token = "token",
-            user_email = "user_email",
-            user_nicename = "user_nicename",
-            user_display_name = "user_display_name",
+            userEmail = "user_email",
+            userNicename = "user_nicename",
+            userDisplayName = "user_display_name",
         )
-        coEvery { wordpressRepo.authenticate(AuthentificationBody(username, password)) } returns AuthResult.Success(token)
+        coEvery { wordpressRepo.authenticate(AuthentificationBody(username, password)) } returns AuthResult.Success(
+            token
+        )
         coEvery { wordpressRepo.getUserId(username) } returns "userId"
         coEvery { datastorePref.setAuthData(any()) } returns Unit
         coEvery { datastorePref.setIsConnectedLeastOneTime(true) } returns Unit

@@ -1,6 +1,5 @@
 package com.xpeho.xpeapp.ui
 
-import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.data.FeatureFlippingEnum
 import com.xpeho.xpeapp.data.model.RequestLeave
 import com.xpeho.xpeapp.data.model.RequestLeaveDetail

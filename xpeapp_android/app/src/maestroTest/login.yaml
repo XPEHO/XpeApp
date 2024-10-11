@@ -1,0 +1,10 @@
+appId: com.xpeho.xpeapp
+---
+- launchApp
+- tapOn: "Email"
+- inputText: "my dumb email"
+- tapOn: "Mot de passe"
+- inputText: "my dumb password"
+- hideKeyboard
+- tapOn: "SE CONNECTER"
+- assertVisible: "Erreur"

@@ -11,5 +11,3 @@ enum class FeatureFlippingEnum(val value: String) {
     COLLEAGUES("colleagues"),
     QVST("campaign"),
 }
-
-const val ALPHA_BOX = 0.5f

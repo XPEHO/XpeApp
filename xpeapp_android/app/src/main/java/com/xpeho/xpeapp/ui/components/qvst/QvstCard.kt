@@ -1,12 +1,6 @@
 package com.xpeho.xpeapp.ui.components.qvst
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
@@ -16,15 +10,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.xpeho.xpeapp.data.entity.QvstCampaignEntity
-import com.xpeho.xpeapp.data.model.qvst.QvstCampaign
 import com.xpeho.xpeapp.enums.Screens
 import com.xpeho.xpeho_ui_android.ClickyButton
 import com.xpeho.xpeho_ui_android.CollapsableCard
 import com.xpeho.xpeho_ui_android.TagPill
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import com.xpeho.xpeho_ui_android.foundations.Colors as XpehoColors
 import com.xpeho.xpeho_ui_android.R.drawable as XpehoRes
+import com.xpeho.xpeho_ui_android.foundations.Colors as XpehoColors
 
 @Composable
 fun QvstCard(
@@ -37,30 +30,29 @@ fun QvstCard(
         label = campaign.name,
         tags = getTagsList(campaign = campaign),
         button =
-            if ((campaign.status == "OPEN") && !campaign.completed) {
-                {
-                    key(campaign.id) {
-                        ClickyButton(
-                            label = "Compléter",
-                            size = 14.sp,
-                            verticalPadding = 3.dp,
-                            horizontalPadding = 40.dp
-                        ) {
-                            navigationController.navigate(route = "${Screens.Qvst.name}/${campaign.id}")
-                        }
+        if ((campaign.status == "OPEN") && !campaign.completed) {
+            {
+                key(campaign.id) {
+                    ClickyButton(
+                        label = "Compléter",
+                        size = 14.sp,
+                        verticalPadding = 3.dp,
+                        horizontalPadding = 40.dp
+                    ) {
+                        navigationController.navigate(route = "${Screens.Qvst.name}/${campaign.id}")
                     }
                 }
-            } else {
-                null
             }
-        ,
+        } else {
+            null
+        },
         icon = {
             Icon(
                 painter = painterResource(id = XpehoRes.qvst),
                 contentDescription = "QVST Icon",
                 tint =
-                    if (campaign.status == "OPEN") XpehoColors.XPEHO_COLOR
-                    else XpehoColors.GRAY_LIGHT_COLOR,
+                if (campaign.status == "OPEN") XpehoColors.XPEHO_COLOR
+                else XpehoColors.GRAY_LIGHT_COLOR,
                 modifier = Modifier
                     .size(22.dp)
             )

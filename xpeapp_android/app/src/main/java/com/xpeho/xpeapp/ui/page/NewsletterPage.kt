@@ -1,7 +1,5 @@
 package com.xpeho.xpeapp.ui.page
 
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -13,7 +11,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.xpeho.xpeapp.ui.components.AppLoader
 import com.xpeho.xpeapp.ui.components.newsletter.NewsletterCard
 import com.xpeho.xpeapp.ui.viewModel.newsletter.NewsletterViewModel

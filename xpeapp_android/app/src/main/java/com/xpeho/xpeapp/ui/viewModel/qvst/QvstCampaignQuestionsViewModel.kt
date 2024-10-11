@@ -5,8 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.data.model.qvst.QvstQuestion
-import com.xpeho.xpeapp.data.service.WordpressAPI
+
 import kotlinx.coroutines.launch
 
 class QvstCampaignQuestionsViewModel : ViewModel() {
@@ -18,21 +19,23 @@ class QvstCampaignQuestionsViewModel : ViewModel() {
         userId: String,
     ) {
         viewModelScope.launch {
-            state = try {
-                val result = WordpressAPI.service.getQvstQuestionsByCampaignId(
-                    campaignId = campaignId,
-                    userId = userId,
-                )
+            // Get questions
+            val result = XpeApp.appModule.wordpressRepository.getQvstQuestionsByCampaignId(
+                campaignId = campaignId,
+                userId = userId,
+            )
 
+            // Update state
+            if (result != null) {
                 if (result.isEmpty()) {
-                    QvstCampaignQuestionsState.EMPTY
+                    state = QvstCampaignQuestionsState.EMPTY
                 } else {
-                    QvstCampaignQuestionsState.SUCCESS(
+                    state = QvstCampaignQuestionsState.SUCCESS(
                         qvstQuestions = result
                     )
                 }
-            } catch (e: Exception) {
-                QvstCampaignQuestionsState.ERROR("Oups, ${e.message}")
+            } else {
+                state = QvstCampaignQuestionsState.ERROR("Erreur de chargement des questions")
             }
         }
     }

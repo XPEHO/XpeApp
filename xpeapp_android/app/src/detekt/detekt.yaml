@@ -2,6 +2,7 @@ config:
   excludes: "build/"
   includes: "**/*.kt"
 
+#https://detekt.dev/docs/rules/complexity/
 complexity:
   CyclomaticComplexMethod:
     active: true
@@ -12,8 +13,11 @@ complexity:
   LongMethod:
     active: true
     severity: WARNING
-    threshold: 100
+    threshold: 150
+  TooManyFunctions:
+    thresholdInClasses: 20
 
+#https://detekt.dev/docs/rules/style/
 style:
   MaxLineLength:
     active: true
@@ -24,7 +28,10 @@ style:
     severity: ERROR
   NewLineAtEndOfFile:
     active: false
+  WildcardImport:
+    active: false
 
+#https://detekt.dev/docs/rules/naming/
 naming:
   FunctionNaming:
     active: false

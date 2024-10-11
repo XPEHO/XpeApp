@@ -11,7 +11,7 @@ import com.xpeho.xpeapp.domain.AuthenticationManager
 import com.xpeho.xpeapp.ui.uiState.QvstActiveUiState
 import kotlinx.coroutines.launch
 
-class QvstActiveCampaignsViewModel (
+class QvstActiveCampaignsViewModel(
     private val wordpressRepo: WordpressRepository,
     private val authManager: AuthenticationManager
 ) : ViewModel() {
@@ -25,26 +25,22 @@ class QvstActiveCampaignsViewModel (
     private fun getActiveCampaign() {
         state = QvstActiveUiState.LOADING
         viewModelScope.launch {
-            state = try {
-                val authState = authManager.authState.value
-                if (authState is AuthState.Authenticated) {
-                    val username = authState.authData.username
-                    val token = authState.authData.token
+            val authState = authManager.authState.value
+            if (authState is AuthState.Authenticated) {
+                val username = authState.authData.username
+                val token = authState.authData.token
 
-                    val result = wordpressRepo.getActiveQvstCampaigns(token, username)
+                val result = wordpressRepo.getActiveQvstCampaigns(token, username)
 
-                    if (result == null) {
-                        QvstActiveUiState.ERROR("No result")
-                    } else if (result.isEmpty()) {
-                        QvstActiveUiState.EMPTY
-                    } else {
-                        QvstActiveUiState.SUCCESS(result)
-                    }
+                if (result == null) {
+                    state = QvstActiveUiState.ERROR("Oups, il y a eu un problème dans le chargement des campagnes")
+                } else if (result.isEmpty()) {
+                    state = QvstActiveUiState.EMPTY
                 } else {
-                    QvstActiveUiState.ERROR("User is not authenticated")
+                    state = QvstActiveUiState.SUCCESS(result)
                 }
-            } catch (e: Exception) {
-                QvstActiveUiState.ERROR("Oups, il y a eu un problème dans le chargement des campagnes")
+            } else {
+                state = QvstActiveUiState.ERROR("Oups, l'utilisateur n'est pas authentifié")
             }
         }
     }

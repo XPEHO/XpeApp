@@ -22,7 +22,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.XpeApp
-import com.xpeho.xpeapp.data.service.WordpressRepository
 import com.xpeho.xpeapp.ui.components.CustomDialog
 import com.xpeho.xpeapp.ui.components.layout.Title
 import com.xpeho.xpeapp.ui.components.qvst.QvstCardList
@@ -43,7 +42,7 @@ fun QvstPage(
     val campaignViewModel = viewModel<QvstCampaignsViewModel>(
         factory = viewModelFactory {
             QvstCampaignsViewModel(
-                wordpressRepo = WordpressRepository(),
+                wordpressRepo = XpeApp.appModule.wordpressRepository,
                 authManager = XpeApp.appModule.authenticationManager
             )
         }
@@ -112,6 +111,7 @@ fun QvstPage(
                     }
                 }
             }
+
             is QvstUiState.ERROR -> {
                 item {
                     CustomDialog(

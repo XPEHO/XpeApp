@@ -4,8 +4,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.xpeho.xpeapp.data.DatastorePref
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
+import com.xpeho.xpeapp.data.model.AuthResult
 import com.xpeho.xpeapp.data.model.WordpressToken
-import com.xpeho.xpeapp.data.service.AuthResult
 import com.xpeho.xpeapp.data.service.WordpressRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -51,25 +51,13 @@ class AuthenticationManager(
         val wpDefRes = async {
             wordpressRepo.authenticate(AuthentificationBody(username, password))
         }
-        val fbDefRes = async {
-            try {
-                FirebaseAuth.getInstance().signInAnonymously().await()
-            } catch (e: Exception) {
-                return@async AuthResult.NetworkError
-            }
-            if(!usernameInFirestoreWordpressUsers(username)){
-                return@async AuthResult.Unauthorized
-            } else {
-                return@async AuthResult.Success(Unit)
-            }
-        }
+        
 
         val wpRes = wpDefRes.await()
-        val fbRes = fbDefRes.await()
-        if(wpRes is AuthResult.NetworkError || fbRes is AuthResult.NetworkError) {
+        if(wpRes is AuthResult.NetworkError) {
             return@coroutineScope AuthResult.NetworkError
         }
-        if(wpRes is AuthResult.Unauthorized || fbRes is AuthResult.Unauthorized) {
+        if(wpRes is AuthResult.Unauthorized) {
             return@coroutineScope AuthResult.Unauthorized
         }
 

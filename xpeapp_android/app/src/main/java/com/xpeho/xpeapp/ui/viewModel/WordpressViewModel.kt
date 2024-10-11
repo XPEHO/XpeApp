@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
-import com.xpeho.xpeapp.data.service.AuthResult
+import com.xpeho.xpeapp.data.model.AuthResult
 import com.xpeho.xpeapp.domain.AuthenticationManager
 import com.xpeho.xpeapp.ui.uiState.WordpressUiState
 import kotlinx.coroutines.launch

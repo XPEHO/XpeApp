@@ -3,6 +3,7 @@ package com.xpeho.xpeapp.data.service
 import android.util.Log
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.data.entity.QvstCampaignEntity
+import com.xpeho.xpeapp.data.model.AuthResult
 import com.xpeho.xpeapp.data.model.WordpressToken
 import com.xpeho.xpeapp.data.model.qvst.QvstCampaign
 import com.xpeho.xpeapp.data.model.qvst.QvstProgress
@@ -14,20 +15,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import javax.net.ssl.SSLHandshakeException
-
-// Utils date methods
-fun countDaysBetween(startDateStr: String, endDateStr: String, pattern: String = "yyyy-MM-dd"): Long {
-    val formatter = DateTimeFormatter.ofPattern(pattern)
-    val startDate = LocalDate.parse(startDateStr, formatter)
-    val endDate = LocalDate.parse(endDateStr, formatter)
-    return ChronoUnit.DAYS.between(startDate, endDate)
-}
-
-fun getTodayDateString(pattern: String = "yyyy-MM-dd"): String {
-    val today = LocalDate.now()
-    val formatter = DateTimeFormatter.ofPattern(pattern)
-    return today.format(formatter)
-}
 
 class WordpressRepository {
     companion object {
@@ -76,10 +63,13 @@ class WordpressRepository {
         }
     }
 
-    private fun getCampaignsEntitiesFromModels(campaigns: List<QvstCampaign>, progress: List<QvstProgress>): ArrayList<QvstCampaignEntity> {
+    private fun getCampaignsEntitiesFromModels(
+        campaigns: List<QvstCampaign>,
+        progress: List<QvstProgress>
+    ): ArrayList<QvstCampaignEntity> {
         var campaignsEntities = ArrayList<QvstCampaignEntity>()
 
-        for(campaign in campaigns) {
+        for (campaign in campaigns) {
             var remainingDays = countDaysBetween(getTodayDateString(), campaign.end_date)
             if (remainingDays < 0)
                 remainingDays = 0
@@ -107,12 +97,18 @@ class WordpressRepository {
         return campaignsEntities
     }
 
-    suspend fun getAllQvstCampaigns(token: WordpressToken, username: String): ArrayList<QvstCampaignEntity>? {
+    suspend fun getAllQvstCampaigns(
+        token: WordpressToken,
+        username: String
+    ): ArrayList<QvstCampaignEntity>? {
         try {
             val campaigns = WordpressAPI.service.getAllQvstCampaigns()
             val userId = getUserId(username = username)
             val progress = userId?.let {
-                WordpressAPI.service.getQvstProgressByUserId(token = "Bearer ${token.token}", userId = userId)
+                WordpressAPI.service.getQvstProgressByUserId(
+                    token = "Bearer ${token.token}",
+                    userId = userId
+                )
             }
 
             return progress?.let {
@@ -125,12 +121,18 @@ class WordpressRepository {
         }
     }
 
-    suspend fun getActiveQvstCampaigns(token: WordpressToken, username: String): ArrayList<QvstCampaignEntity>? {
+    suspend fun getActiveQvstCampaigns(
+        token: WordpressToken,
+        username: String
+    ): ArrayList<QvstCampaignEntity>? {
         try {
             val campaigns = WordpressAPI.service.getActiveQvstCampaigns()
             val userId = getUserId(username = username)
             val progress = userId?.let {
-                WordpressAPI.service.getQvstProgressByUserId(token = "Bearer ${token.token}", userId = userId)
+                WordpressAPI.service.getQvstProgressByUserId(
+                    token = "Bearer ${token.token}",
+                    userId = userId
+                )
             }
 
             return progress?.let {
@@ -144,7 +146,7 @@ class WordpressRepository {
     }
 
     private fun handleAuthException(e: Exception): AuthResult<Nothing> {
-        if (isNetworkError(e)){
+        if (isNetworkError(e)) {
             Log.e("WordpressRepository", "Network error: ${e.message}")
             return AuthResult.NetworkError
         }
@@ -171,10 +173,23 @@ class WordpressRepository {
             else -> false
         }
     }
+
+    // Utils date methods
+    private fun countDaysBetween(
+        startDateStr: String,
+        endDateStr: String,
+        pattern: String = "yyyy-MM-dd"
+    ): Long {
+        val formatter = DateTimeFormatter.ofPattern(pattern)
+        val startDate = LocalDate.parse(startDateStr, formatter)
+        val endDate = LocalDate.parse(endDateStr, formatter)
+        return ChronoUnit.DAYS.between(startDate, endDate)
+    }
+
+    private fun getTodayDateString(pattern: String = "yyyy-MM-dd"): String {
+        val today = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern(pattern)
+        return today.format(formatter)
+    }
 }
 
-sealed interface AuthResult<out T> {
-    object Unauthorized: AuthResult<Nothing>
-    object NetworkError: AuthResult<Nothing>
-    data class Success<out T>(val data: T): AuthResult<T>
-}

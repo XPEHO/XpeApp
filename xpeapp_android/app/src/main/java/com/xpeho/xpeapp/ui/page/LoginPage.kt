@@ -140,7 +140,8 @@ private fun LoginPageContent(
                     horizontalPadding = 50.dp,
                     backgroundColor = XpehoColors.XPEHO_COLOR,
                     labelColor = Color.White,
-                    enabled = !(wordpressState is WordpressUiState.LOADING || wordpressState is WordpressUiState.SUCCESS)
+                    enabled = !(wordpressState is WordpressUiState.LOADING ||
+                            wordpressState is WordpressUiState.SUCCESS)
                 ) {
                     errorTextFieldUser = false
                     errorTextFieldPassword = false

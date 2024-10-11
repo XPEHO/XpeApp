@@ -32,6 +32,7 @@ fun getTodayDateString(pattern: String = "yyyy-MM-dd"): String {
 class WordpressRepository {
     companion object {
         private const val HTTPBADREQUEST = 400
+        private const val HTTPFORBIDDEN = 403
         private const val HTTPSERVICEUNAVAILABLE = 503
     }
 
@@ -147,6 +148,12 @@ class WordpressRepository {
             Log.e("WordpressRepository", "Network error: ${e.message}")
             return AuthResult.NetworkError
         }
+        // Backend sends a 403 Forbidden
+        if (e is HttpException && e.code() == HTTPFORBIDDEN) {
+            Log.e("WordpressRepository", "Unauthorized error: ${e.message}")
+            return AuthResult.Unauthorized
+        }
+
         // Backend sends a 400 Bad Request, should send a 401 Unauthorized
         if (e is HttpException && e.code() == HTTPBADREQUEST)
             return AuthResult.Unauthorized

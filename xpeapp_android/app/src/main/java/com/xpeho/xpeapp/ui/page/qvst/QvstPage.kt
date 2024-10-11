@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -48,21 +49,18 @@ fun QvstPage(
         }
     )
 
+    LaunchedEffect(Unit) {
+        campaignViewModel.updateState()
+    }
+
     LazyColumn(
         modifier = Modifier
-            .padding(horizontal = 32.dp, vertical = 10.dp)
+            .padding(horizontal = 24.dp, vertical = 10.dp)
             .fillMaxSize(),
     ) {
 
         when (campaignViewModel.state) {
             is QvstUiState.SUCCESS -> {
-                /*items((campaignViewModel.state as QvstUiState.SUCCESS).qvst) { campaign ->
-                    QvstCardList(
-                        navigationController = navigationController,
-                        campaigns = listOf(campaign),
-                        collapsable = true
-                    )
-                }*/
                 item {
                     val openCampaigns = (campaignViewModel.state as QvstUiState.SUCCESS).qvst["open"]
                     openCampaigns?.let {
@@ -75,7 +73,7 @@ fun QvstPage(
                             campaigns = openCampaigns,
                             collapsable = true
                         )
-                        Spacer(modifier = Modifier.height(25.dp))
+                        Spacer(modifier = Modifier.height(20.dp))
                     }
                 }
                 if (showClosedCampaigns.value) {
@@ -90,7 +88,7 @@ fun QvstPage(
                                 campaigns = campaigns,
                                 collapsable = true
                             )
-                            Spacer(modifier = Modifier.height(25.dp))
+                            Spacer(modifier = Modifier.height(20.dp))
                         }
                     }
                 } else {
@@ -102,11 +100,11 @@ fun QvstPage(
                         ) {
                             ClickyButton(
                                 label = "Voir les campagnes fermées",
-                                size = 18.sp,
+                                size = 14.sp,
                                 backgroundColor = Color.White,
                                 labelColor = XpehoColors.CONTENT_COLOR,
-                                verticalPadding = 10.dp,
-                                horizontalPadding = 10.dp,
+                                verticalPadding = 5.dp,
+                                horizontalPadding = 15.dp,
                             ) {
                                 showClosedCampaigns.value = true
                             }

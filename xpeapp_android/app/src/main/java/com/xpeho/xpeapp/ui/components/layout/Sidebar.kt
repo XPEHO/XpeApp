@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.data.FeatureFlippingEnum
 import com.xpeho.xpeapp.enums.Screens
@@ -80,7 +81,7 @@ fun Sidebar(
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .padding(top = 24.dp, bottom = 20.dp, start = 24.dp, end = 24.dp),
+                    .padding(top = 18.dp, bottom = 20.dp, start = 18.dp, end = 18.dp),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
@@ -94,7 +95,7 @@ fun Sidebar(
                             contentDescription = "Close Sidebar",
                             tint = Color.White,
                             modifier = Modifier
-                                .size(50.dp)
+                                .size(60.dp)
                         )
                     }
                     Spacer(
@@ -103,7 +104,7 @@ fun Sidebar(
                     )
                     SidebarItem(
                         navigationController = navigationController,
-                        icon = painterResource(id = XpehoRes.anchor),
+                        icon = painterResource(id = R.drawable.home),
                         label = "Accueil",
                         route = Screens.Home.name
                     )
@@ -133,9 +134,9 @@ fun Sidebar(
                 ) {
                     ClickyButton(
                         label = "Se déconnecter",
-                        size = 18.sp,
+                        size = 16.sp,
                         verticalPadding = 5.dp,
-                        horizontalPadding = 25.dp,
+                        horizontalPadding = 15.dp,
                         backgroundColor = Color.White,
                         labelColor = XpehoColors.CONTENT_COLOR
                     ) {

@@ -21,9 +21,12 @@ fun QvstCampaignQuestionView(
     question: QvstQuestion,
     qvstAnswersViewModel: QvstAnswersViewModel,
 ) {
-    fun onAnswerSelected(answer: QvstAnswer) {
-        qvstAnswersViewModel.updateAnswer(question.question_id, answer.id!!)
-        question.userAnswer = answer.answer
+    fun onAnswerSelected(answer: String) {
+        val answerSelected = question.answers.find { it.answer == answer }
+        answerSelected.let {
+            qvstAnswersViewModel.updateAnswer(question.question_id, answerSelected!!.id)
+            question.userAnswer = answerSelected.answer
+        }
     }
 
     LazyColumn(
@@ -32,11 +35,15 @@ fun QvstCampaignQuestionView(
         item {
             Text(text = question.question)
         }
-        item {
+        item (key = "ChoiceSelector Question " + question.question_id) {
             ChoiceSelector(
                 choicesAvailable = question.answers.map { it.answer },
-                checkIconColor = XpehoColors.XPEHO_COLOR
-            )
+                checkIconColor = XpehoColors.XPEHO_COLOR,
+                label = "ChoiceSelector Question " + question.question_id,
+                defaultSelectedChoice = question.userAnswer,
+            ) { answer ->
+                onAnswerSelected(answer)
+            }
         }
     }
 }

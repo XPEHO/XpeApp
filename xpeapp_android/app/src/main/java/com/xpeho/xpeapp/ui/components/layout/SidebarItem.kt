@@ -3,6 +3,7 @@ package com.xpeho.xpeapp.ui.components.layout
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
@@ -35,15 +36,17 @@ fun SidebarItem(
         Icon(
             painter = icon,
             contentDescription = "$label Icon",
-            tint= Color.White
+            tint= Color.White,
+            modifier = Modifier
+                .size(22.dp)
         )
         Spacer(
             modifier = Modifier
-                .width(10.dp)
+                .width(8.dp)
         )
         Text(
             label,
-            fontSize = 20.sp,
+            fontSize = 18.sp,
             fontFamily = XpehoFonts.raleway,
             fontWeight = FontWeight.Bold,
             color = Color.White

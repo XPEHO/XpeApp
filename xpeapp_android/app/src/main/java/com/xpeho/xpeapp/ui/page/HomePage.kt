@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -21,7 +22,7 @@ import com.xpeho.xpeapp.ui.components.newsletter.NewsletterPreview
 import com.xpeho.xpeapp.ui.components.qvst.QvstCardList
 import com.xpeho.xpeapp.ui.uiState.QvstActiveUiState
 import com.xpeho.xpeapp.ui.viewModel.newsletter.NewsletterViewModel
-import com.xpeho.xpeapp.ui.viewModel.qvst.QvstActiveCampaignViewModel
+import com.xpeho.xpeapp.ui.viewModel.qvst.QvstActiveCampaignsViewModel
 import com.xpeho.xpeapp.ui.viewModel.viewModelFactory
 import java.time.format.DateTimeFormatter
 
@@ -29,9 +30,9 @@ import java.time.format.DateTimeFormatter
 @Suppress("UnusedMaterial3ScaffoldPaddingParameter")
 fun HomePage(navigationController: NavController) {
 
-    val campaignActiveViewModel = viewModel<QvstActiveCampaignViewModel>(
+    val campaignActiveViewModel = viewModel<QvstActiveCampaignsViewModel>(
         factory = viewModelFactory {
-            QvstActiveCampaignViewModel(
+            QvstActiveCampaignsViewModel(
                 wordpressRepo = WordpressRepository(),
                 authManager = XpeApp.appModule.authenticationManager
             )
@@ -44,9 +45,14 @@ fun HomePage(navigationController: NavController) {
         }
     )
 
+    LaunchedEffect(Unit) {
+        campaignActiveViewModel.updateState()
+        newsletterViewModel.updateState()
+    }
+
     LazyColumn(
         modifier = Modifier
-            .padding(horizontal = 32.dp, vertical = 10.dp)
+            .padding(horizontal = 24.dp, vertical = 10.dp)
             .fillMaxSize()
     ) {
         // If the newsletters are loaded, and there is at least one newsletter

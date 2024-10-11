@@ -8,10 +8,12 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowForwardIos
@@ -51,7 +53,7 @@ fun NewsletterCard(newsletter: Newsletter, open: Boolean) {
             TagPill(
                 label = formatter.format(newsletter.date),
                 backgroundColor = XpehoColors.GREEN_DARK_COLOR,
-                size = 10.sp
+                size = 9.sp
             )
         },
         tags = {
@@ -59,7 +61,7 @@ fun NewsletterCard(newsletter: Newsletter, open: Boolean) {
                 TagPill(
                     label = item,
                     backgroundColor = XpehoColors.GREEN_DARK_COLOR,
-                    size = 10.sp
+                    size = 9.sp
                 )
             }
         },
@@ -68,9 +70,9 @@ fun NewsletterCard(newsletter: Newsletter, open: Boolean) {
                 label = "Consulter",
                 backgroundColor = XpehoColors.XPEHO_COLOR,
                 labelColor = Color.White,
-                size = 16.sp,
-                verticalPadding = 5.dp,
-                horizontalPadding = 25.dp
+                size = 14.sp,
+                verticalPadding = 3.dp,
+                horizontalPadding = 40.dp
             ) {
                 openNewsletter(openUrlLauncher, newsletter.pdfUrl)
             }
@@ -79,10 +81,12 @@ fun NewsletterCard(newsletter: Newsletter, open: Boolean) {
             Icon(
                 painter = painterResource(id = XpehoRes.newsletter),
                 contentDescription = "Newsletter Icon",
-                tint = XpehoColors.XPEHO_COLOR
+                tint = XpehoColors.XPEHO_COLOR,
+                modifier = Modifier
+                    .size(22.dp)
             )
         },
-        size = 18.sp,
+        size = 16.sp,
         collapsable = true,
         defaultOpen = open
     )

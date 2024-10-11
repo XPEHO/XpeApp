@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -24,9 +25,13 @@ fun NewsletterPage(
     val newsletters = newsletterViewModel.state.value
     val loading = newsletterViewModel.isLoading
 
+    LaunchedEffect(Unit) {
+        newsletterViewModel.updateState()
+    }
+
     LazyColumn(
         modifier = Modifier
-            .padding(horizontal = 32.dp, vertical = 10.dp)
+            .padding(horizontal = 24.dp, vertical = 10.dp)
             .fillMaxSize()
     ) {
         items(newsletters) { newsletter ->

@@ -20,3 +20,4 @@ migrate_working_dir/
 
 xpeapp_ios/XpeApp/Build/
 xpeapp_ios/XpeApp/Coverage.xml
+xpeapp_ios/XpeApp/XpeApp/GoogleService-Info.plist

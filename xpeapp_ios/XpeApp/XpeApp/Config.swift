@@ -10,10 +10,10 @@ import Foundation
 
 struct Configuration {
     enum EnvItem {
-        case uat, prod
+        case uat, prod, local
     }
     
-    static var env: EnvItem = .prod
+    static var env: EnvItem = .uat
     
     static var backendUrl: String {
         // Try to get url from environment
@@ -21,8 +21,13 @@ struct Configuration {
             return url
         }
         // Else use default url for environment
-        return env == .prod
-            ? "https://wordpress.uat.xpeho.fr/wp-json/"
-            : "http://localhost:7830/wp-json/"
+        switch env {
+            case .local:
+                return "http://localhost:7830/wp-json/" //NOSONAR
+            case .uat:
+                return "https://wordpress.uat.xpeho.fr/wp-json/" //NOSONAR
+            case .prod: 
+                return "https://wordpress.uat.xpeho.fr/wp-json/" //NOSONAR
+        }
     }
 }

@@ -1,10 +1,16 @@
-name: SonarQube analysis
+on:
+  # Trigger analysis when pushing to your main branches, and when creating a pull request.
+  push:
+    branches:
+      - "**"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "xpeapp_android/**"
 
-on: push
-
+name: Sonar Android
 jobs:
-  build:
-    name: SonarQube analysis
+  sonarqube:
     runs-on: ubuntu-latest
     defaults:
       run:

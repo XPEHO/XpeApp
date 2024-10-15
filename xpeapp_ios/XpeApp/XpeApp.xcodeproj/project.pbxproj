@@ -74,6 +74,7 @@
 		0EF0F9092C9431E100AF5966 /* FeatureEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0F9082C9431E100AF5966 /* FeatureEntity.swift */; };
 		0EF0F90B2C94350B00AF5966 /* FeatureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0F90A2C94350B00AF5966 /* FeatureManager.swift */; };
 		0EF0F90D2C9435CE00AF5966 /* RouterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0F90C2C9435CE00AF5966 /* RouterView.swift */; };
+		108150F32CBD167400D57952 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 108150F22CBD167400D57952 /* GoogleService-Info.plist */; };
 		BD83CCBA2C1853ED00152559 /* CampaignsPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83CCB92C1853ED00152559 /* CampaignsPageView.swift */; };
 		BDACECDF2C109309007B5262 /* XpeAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECDE2C109309007B5262 /* XpeAppApp.swift */; };
 		BDACECE12C109309007B5262 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECE02C109309007B5262 /* ContentView.swift */; };
@@ -86,7 +87,6 @@
 		BDACED142C10BB78007B5262 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED132C10BB78007B5262 /* FirebaseFirestore */; };
 		BDACED162C10BB78007B5262 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED152C10BB78007B5262 /* FirebaseMessaging */; };
 		BDE1B5162C183AE200E8513F /* DebugPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE1B5152C183AE200E8513F /* DebugPageView.swift */; };
-		BDFB9FF92C11A72300F8A35F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDFB9FF82C11A72300F8A35F /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -169,6 +169,7 @@
 		0EF0F9082C9431E100AF5966 /* FeatureEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureEntity.swift; sourceTree = "<group>"; };
 		0EF0F90A2C94350B00AF5966 /* FeatureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureManager.swift; sourceTree = "<group>"; };
 		0EF0F90C2C9435CE00AF5966 /* RouterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterView.swift; sourceTree = "<group>"; };
+		108150F22CBD167400D57952 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BD83CCB92C1853ED00152559 /* CampaignsPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignsPageView.swift; sourceTree = "<group>"; };
 		BDACECDB2C109309007B5262 /* XpeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XpeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDACECDE2C109309007B5262 /* XpeAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XpeAppApp.swift; sourceTree = "<group>"; };
@@ -183,7 +184,6 @@
 		BDACED0A2C10A690007B5262 /* NewsletterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsletterPageView.swift; sourceTree = "<group>"; };
 		BDC8A4242C18765A00D14C35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BDE1B5152C183AE200E8513F /* DebugPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPageView.swift; sourceTree = "<group>"; };
-		BDFB9FF82C11A72300F8A35F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -481,6 +481,7 @@
 		BDACECDD2C109309007B5262 /* XpeApp */ = {
 			isa = PBXGroup;
 			children = (
+				108150F22CBD167400D57952 /* GoogleService-Info.plist */,
 				0E61D2CA2C78D47700050F7C /* Config.swift */,
 				BDACECDE2C109309007B5262 /* XpeAppApp.swift */,
 				BDC8A4242C18765A00D14C35 /* Info.plist */,
@@ -491,7 +492,6 @@
 				0EF0F8E32C91E14900AF5966 /* Presentation */,
 				BDACECE42C10930C007B5262 /* Assets.xcassets */,
 				0E155E642C64F97100649EBC /* LaunchScreen.storyboard */,
-				BDFB9FF82C11A72300F8A35F /* GoogleService-Info.plist */,
 				BDACECE62C10930C007B5262 /* Preview Content */,
 			);
 			path = XpeApp;
@@ -649,7 +649,7 @@
 				BDACECE82C10930C007B5262 /* Preview Assets.xcassets in Resources */,
 				0E155E652C64F97100649EBC /* LaunchScreen.storyboard in Resources */,
 				BDACECE52C10930C007B5262 /* Assets.xcassets in Resources */,
-				BDFB9FF92C11A72300F8A35F /* GoogleService-Info.plist in Resources */,
+				108150F32CBD167400D57952 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -900,7 +900,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"XpeApp/Preview Content\"";
 				DEVELOPMENT_TEAM = S97GY8T7R8;
 				ENABLE_PREVIEWS = YES;
@@ -917,7 +917,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.xpeho.XpeApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xpeho.xpeapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -931,7 +931,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"XpeApp/Preview Content\"";
 				DEVELOPMENT_TEAM = S97GY8T7R8;
 				ENABLE_PREVIEWS = YES;
@@ -948,7 +948,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.xpeho.XpeApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xpeho.xpeapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

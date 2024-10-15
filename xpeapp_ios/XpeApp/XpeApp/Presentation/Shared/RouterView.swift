@@ -12,8 +12,10 @@ struct Router: View {
     var featureManager = FeatureManager.instance
     
     var body: some View {
-        Group {
-            switch routerManager.selectedView {
+        // Wait for the features to be loaded
+        if (featureManager.features != nil){
+            Group {
+                switch routerManager.selectedView {
                 case .home:
                     HomePage()
                 case .newsletters where featureManager.isEnabled(item: .newsletters):
@@ -34,7 +36,12 @@ struct Router: View {
                     DebugPage()
                 default:
                     Text("Feature non présente")
+                }
             }
+        } else {
+            ProgressView("Chargement des features...")
+                .progressViewStyle(CircularProgressViewStyle())
+                .padding()
         }
     }
 }

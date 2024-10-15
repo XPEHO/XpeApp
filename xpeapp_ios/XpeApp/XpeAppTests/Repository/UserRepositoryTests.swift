@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import FirebaseAuth
 @testable import XpeApp
 
 final class UserRepositoryTests: XCTestCase {
@@ -155,6 +156,52 @@ final class UserRepositoryTests: XCTestCase {
             )
             XCTAssertNotNil(userRepo.user)
             XCTAssertEqual(userRepo.user, dataExpected)
+        }
+    }
+    
+
+    // ------------------- logout TESTS -------------------
+
+    func test_logout_clearsUser() throws {
+        // GIVEN
+        userRepo.user = UserEntity(token: "Bearer token", id: "user_id")
+        
+        // WHEN
+        userRepo.logout()
+        
+        // THEN
+        XCTAssertNil(userRepo.user)
+    }
+    
+    func test_logout_removesUserFromCache() throws {
+        // GIVEN
+        KeychainManager.instance.saveValue("user_id", forKey: "user_id")
+        KeychainManager.instance.saveValue("user_token", forKey: "user_token")
+        
+        // WHEN
+        userRepo.logout()
+        
+        // THEN
+        XCTAssertNil(KeychainManager.instance.getValue(forKey: "user_id"))
+        XCTAssertNil(KeychainManager.instance.getValue(forKey: "user_token"))
+    }
+    
+    func test_logout_disconnectsFromFirebase() throws {
+        Task {
+            // GIVEN
+            let auth = Auth.auth()
+            do {
+                try await auth.signInAnonymously()
+            } catch {
+                XCTFail("Failed to sign in anonymously")
+            }
+            XCTAssertNotNil(auth.currentUser)
+            
+            // WHEN
+            userRepo.logout()
+            
+            // THEN
+            XCTAssertNil(auth.currentUser)
         }
     }
 }

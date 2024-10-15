@@ -70,7 +70,7 @@ import FirebaseAuth
                 
                 completion(.success)
             } catch {
-                debugPrint("Error connecting to Firebase anonymously: \(error.localizedDescription)")
+                debugPrint("Error connecting to Firebase anonymously to Firebase: \(error.localizedDescription)")
                 completion(.error)
             }
         } else if tokenResponse.error != nil {
@@ -110,7 +110,7 @@ import FirebaseAuth
             do {
                 let authResult = try await Auth.auth().signInAnonymously()
                 // Handle successful sign-in if needed
-                debugPrint("Successfully signed in anonymously: \(authResult.user.uid)")
+                debugPrint("Successfully signed in anonymously to Firebase: \(authResult.user.uid)")
                 
                 // Register the user
                 self.user = userFromCache
@@ -127,7 +127,17 @@ import FirebaseAuth
     
     func logout() {
         self.user = nil
+        
+        // Remove the user from cache
         KeychainManager.instance.deleteValue(forKey: "user_id")
         KeychainManager.instance.deleteValue(forKey: "user_token")
+        
+        // Disconnect from Firebase
+        do {
+            try Auth.auth().signOut()
+            debugPrint("Successfully signed out from Firebase")
+        } catch {
+            debugPrint("Error disconnecting from Firebase: \(error.localizedDescription)")
+        }
     }
 }

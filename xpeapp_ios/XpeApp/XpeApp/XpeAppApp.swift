@@ -42,4 +42,13 @@ class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
         FirebaseApp.configure()
         return true
     }
+
+    func applicationWillTerminate(_ application: UIApplication) {
+        do {
+            try Auth.auth().signOut()
+            debugPrint("Successfully signed out from Firebase")
+        } catch let signOutError as NSError {
+            debugPrint("Error disconnecting from Firebase: \(signOutError)")
+        }
+    }
 }

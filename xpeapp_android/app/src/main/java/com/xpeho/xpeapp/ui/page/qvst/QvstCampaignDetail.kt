@@ -68,7 +68,7 @@ fun QvstCampaignDetailPage(
             )
         }
     )
-    var campaign: QvstCampaignEntity? = null
+    var campaign: QvstCampaignEntity?
     LaunchedEffect(Unit) {
         MainScope().launch {
             userId.value = datastorePref.userId.first()

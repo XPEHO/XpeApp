@@ -46,9 +46,7 @@ class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
         UNUserNotificationCenter.current().delegate = self
         
         // Request notification permissions
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-            print("Permission granted: \(granted)")
-        }
+        registerForPushNotifications()
         
         application.registerForRemoteNotifications()
         
@@ -67,6 +65,25 @@ class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
             debugPrint("Successfully signed out from Firebase")
         } catch let signOutError as NSError {
             debugPrint("Error disconnecting from Firebase: \(signOutError)")
+        }
+    }
+}
+
+func registerForPushNotifications() {
+    let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+    UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { granted, error in
+        print("Permission granted: \(granted)")
+        guard granted else { return }
+        getNotificationSettings()
+    }
+}
+
+func getNotificationSettings() {
+    UNUserNotificationCenter.current().getNotificationSettings { settings in
+        print("Notification settings: \(settings)")
+        guard settings.authorizationStatus == .authorized else { return }
+        DispatchQueue.main.async {
+            UIApplication.shared.registerForRemoteNotifications()
         }
     }
 }
@@ -94,6 +111,12 @@ extension XpeAppAppDelegate: UNUserNotificationCenterDelegate {
 extension XpeAppAppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("Firebase registration token: \(String(describing: fcmToken))")
+        let dataDict: [String: String] = ["token": fcmToken ?? ""]
+        NotificationCenter.default.post(
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: dataDict
+        )
         // TODO: If necessary send token to application server.
     }
 }

@@ -61,6 +61,7 @@ struct CampaignForm: View {
                     Spacer()
                     Assets.loadImage(named: isLastOffset() ? "Validated" : "Arrow-right")
                         .renderingMode(.template)
+                        .scaleEffect(isLastOffset() ? 1.8 : 1)
                         .foregroundStyle(isAnsweredOffset() ? XPEHO_THEME.CONTENT_COLOR : XPEHO_THEME.DISABLED_COLOR)
                         .onTapGesture {
                             if isLastOffset() {

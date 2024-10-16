@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct CampaignsList: View {
-    var campaigns: [QvstCampaignEntity]?
+    @Binding var campaigns: [QvstCampaignEntity]?
     var collapsable: Bool = true
     var defaultOpen: Bool = false
     
     var body: some View {
-        if let campaigns = campaigns {
-            ForEach(campaigns, id: \.id){ campaign in
+        if let campaignsUnwrapped = Binding($campaigns) {
+            ForEach(campaignsUnwrapped.indices, id: \.self) { indices in
                 CampaignCard(
-                    campaign: campaign,
+                    campaign: campaignsUnwrapped[indices],
                     collapsable: collapsable,
                     defaultOpen: defaultOpen
                 )

@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - "**"
+    paths:
+      - "xpeapp_ios/**"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:

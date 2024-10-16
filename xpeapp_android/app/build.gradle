@@ -84,8 +84,11 @@ android {
 
 sonar {
     properties {
-        property "sonar.projectKey", "XpeApp"
-        property "sonar.projectName", "XpeApp"
+        property "sonar.projectKey", "xpeapp_android"
+        property "sonar.projectName", "xpeapp_android"
+        property "sonar.coverage.exclusions", "**/ui/**"
+        property "sonar.tests", "src/test"
+        property "sonar.junit.reportsPath", "build/test-results/testDebugUnitTest"
     }
 }
 

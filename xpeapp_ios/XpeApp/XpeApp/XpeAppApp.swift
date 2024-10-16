@@ -40,26 +40,17 @@ class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
+        // Initialize Firebase
         FirebaseApp.configure()
-
-        // Set UNUserNotificationCenter delegate
-        UNUserNotificationCenter.current().delegate = self
-        
-        // Request notification permissions
-        registerForPushNotifications()
-        
-        application.registerForRemoteNotifications()
-        
+        // Set Firebase Messaging delegate
         Messaging.messaging().delegate = self
-
+        // Request notification permissions
+        registerForPushNotifications(application: application)
         return true
     }
 
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        Messaging.messaging().apnsToken = deviceToken
-    }
-
     func applicationWillTerminate(_ application: UIApplication) {
+        // Disconnect from Firebase
         do {
             try Auth.auth().signOut()
             debugPrint("Successfully signed out from Firebase")
@@ -69,54 +60,30 @@ class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
     }
 }
 
-func registerForPushNotifications() {
-    let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-    UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { granted, error in
-        print("Permission granted: \(granted)")
-        guard granted else { return }
-        getNotificationSettings()
+extension XpeAppAppDelegate: UNUserNotificationCenterDelegate {
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print(error)
     }
-}
+    
+    
+    private func registerForPushNotifications(application: UIApplication) {
+        UNUserNotificationCenter.current().delegate = self
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
 
-func getNotificationSettings() {
-    UNUserNotificationCenter.current().getNotificationSettings { settings in
-        print("Notification settings: \(settings)")
-        guard settings.authorizationStatus == .authorized else { return }
-        DispatchQueue.main.async {
-            UIApplication.shared.registerForRemoteNotifications()
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) {
+            (granted, error) in
+            guard granted else { return }
+            DispatchQueue.main.async {
+                application.registerForRemoteNotifications()
+            }
         }
     }
-}
-
-extension XpeAppAppDelegate: UNUserNotificationCenterDelegate {
-    // Receive displayed notifications for iOS 10 devices.
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification) async
-    -> UNNotificationPresentationOptions {
-        let userInfo = notification.request.content.userInfo
-        // Print full message.
-        print(userInfo)
-        // Change this to your preferred presentation option
-        return [.banner, .sound]
-    }
-
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse) async {
-        let userInfo = response.notification.request.content.userInfo
-        // Print full message.
-        print(userInfo)
-    }
+    
+    
 }
 
 extension XpeAppAppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("Firebase registration token: \(String(describing: fcmToken))")
-        let dataDict: [String: String] = ["token": fcmToken ?? ""]
-        NotificationCenter.default.post(
-            name: Notification.Name("FCMToken"),
-            object: nil,
-            userInfo: dataDict
-        )
-        // TODO: If necessary send token to application server.
     }
 }

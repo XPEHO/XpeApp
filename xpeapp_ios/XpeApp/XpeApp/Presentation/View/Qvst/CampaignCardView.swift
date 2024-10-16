@@ -10,7 +10,7 @@ import xpeho_ui
 
 struct CampaignCard: View {
     var routerManager = RouterManager.instance
-    var campaign: QvstCampaignEntity
+    @Binding var campaign: QvstCampaignEntity
     
     var collapsable: Bool = true
     var defaultOpen: Bool = false

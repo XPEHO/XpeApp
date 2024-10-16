@@ -9,23 +9,23 @@ import SwiftUI
 import xpeho_ui
 
 struct CampaignsPage: View {
-    var campaignsPageViewModel = CampaignsPageViewModel.instance
+    @Bindable var campaignsPageViewModel = CampaignsPageViewModel.instance
     
     // Hide archived campaigns
     @State private var closedCampaignsShowned: Bool = false
     
     var body: some View {
         ScrollView {
-            if let classifiedCampaigns = campaignsPageViewModel.classifiedCampaigns {
-                if classifiedCampaigns.isEmpty {
+            if let classifiedCampaigns = Binding($campaignsPageViewModel.classifiedCampaigns) {
+                if classifiedCampaigns.wrappedValue.isEmpty {
                     Text("Rien à l'horizon !")
                 } else {
                     VStack(spacing: 10) {
                         // Display open campaigns
-                        if let activeCampaigns = classifiedCampaigns["open"] {
+                        if classifiedCampaigns.wrappedValue["open"] != nil {
                             Title(text: "Campagnes Ouvertes", isFirstPageElement: true)
                             CampaignsList(
-                                campaigns: activeCampaigns,
+                                campaigns: classifiedCampaigns["open"],
                                 collapsable: true,
                                 defaultOpen: true
                             )
@@ -63,19 +63,34 @@ struct CampaignsPage: View {
     }
     
     struct CampaignsPerYearSection: View {
-        var classifiedCampaigns: [String: [QvstCampaignEntity]]
+        @Binding var classifiedCampaigns: [String: [QvstCampaignEntity]]
         
         var body: some View {
             let keys = classifiedCampaigns.keys.sorted(by: { $0 > $1 })
+
             ForEach(keys, id: \.self) { key in
-                if key != "open", let campaigns = classifiedCampaigns[key] {
-                    Title(text: "Campagnes pour \(key.capitalized)")
-                    CampaignsList(
-                        campaigns: campaigns,
-                        collapsable: true,
-                        defaultOpen: false
+                if key != "open" {
+                    CampaignsForAYearSection(
+                        year: key.capitalized,
+                        campaigns: $classifiedCampaigns[key]
                     )
                 }
+            }
+        }
+    }
+    
+    struct CampaignsForAYearSection: View {
+        var year: String
+        @Binding var campaigns: [QvstCampaignEntity]?
+        
+        var body: some View {
+            if campaigns != nil {
+                Title(text: "Campagnes pour \(year)")
+                CampaignsList(
+                    campaigns: $campaigns,
+                    collapsable: true,
+                    defaultOpen: false
+                )
             }
         }
     }

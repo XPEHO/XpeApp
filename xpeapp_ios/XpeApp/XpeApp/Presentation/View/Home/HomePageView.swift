@@ -9,7 +9,7 @@ import SwiftUI
 import xpeho_ui
 
 struct HomePage: View {
-    private var homePageViewModel = HomePageViewModel.instance
+    @Bindable private var homePageViewModel = HomePageViewModel.instance
     private var featureManager = FeatureManager.instance
     
     var body: some View {
@@ -29,7 +29,7 @@ struct HomePage: View {
                     }
                     
                     CampaignsList(
-                        campaigns: homePageViewModel.activeCampaigns,
+                        campaigns: $homePageViewModel.activeCampaigns,
                         collapsable: false,
                         defaultOpen: true
                     )

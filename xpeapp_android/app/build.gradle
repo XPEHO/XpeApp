@@ -109,13 +109,23 @@ task jacocoTestReport(type: JacocoReport) {
         html.required.set(true)
     }
 
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', '**/ui/**']
-    def debugTree = fileTree(dir: "$buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def fileFilter = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            '**/ui/**',
+            '**/AppModule.kt',
+            '**/MainActivity.kt',
+            '**/XpeApp.kt'
+    ]
+    def debugTree = fileTree(dir: layout.buildDirectory.dir("tmp/kotlin-classes/debug").get().asFile, excludes: fileFilter)
     def mainSrc = "$projectDir/src/main/java"
 
     sourceDirectories.setFrom(files([mainSrc]))
     classDirectories.setFrom(files([debugTree]))
-    executionData.setFrom(fileTree(dir: "$buildDir", includes: [
+    executionData.setFrom(fileTree(dir: layout.buildDirectory.get().asFile, includes: [
             "jacoco/testDebugUnitTest.exec",
             "outputs/code-coverage/connected/*coverage.ec"
     ]))
@@ -125,7 +135,7 @@ sonar {
     properties {
         property "sonar.projectKey", "xpeapp_android"
         property "sonar.projectName", "xpeapp_android"
-        property "sonar.coverage.exclusions", "**/ui/**"
+        property "sonar.coverage.exclusions", "**/ui/**, **/AppModule.kt, **/MainActivity.kt, **/XpeApp.kt"
         property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
     }
 }
@@ -171,7 +181,7 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:2.8.2"
 
     // Use Json
-    implementation"com.google.code.gson:gson:2.10.1"
+    implementation "com.google.code.gson:gson:2.10.1"
 
     //ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6"

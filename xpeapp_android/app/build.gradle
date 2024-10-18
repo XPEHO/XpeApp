@@ -4,6 +4,7 @@ plugins {
     id 'com.google.gms.google-services'
     id "com.google.devtools.ksp"
     id "org.sonarqube" version "4.2.1.3168"
+    id 'jacoco'
 }
 
 def getPropertiesFile = { path ->
@@ -37,6 +38,15 @@ android {
             useSupportLibrary true
         }
     }
+
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+
     signingConfigs {
         release {
             keyAlias keystoreProperties['keyAlias']
@@ -82,10 +92,41 @@ android {
     }
 }
 
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
+}
+
+task jacocoTestReport(type: JacocoReport) {
+    dependsOn 'testDebugUnitTest' // Run unit tests before generating the report
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', '**/ui/**']
+    def debugTree = fileTree(dir: "$buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def mainSrc = "$projectDir/src/main/java"
+
+    sourceDirectories.setFrom(files([mainSrc]))
+    classDirectories.setFrom(files([debugTree]))
+    executionData.setFrom(fileTree(dir: "$buildDir", includes: [
+            "jacoco/testDebugUnitTest.exec",
+            "outputs/code-coverage/connected/*coverage.ec"
+    ]))
+}
+
 sonar {
     properties {
-        property "sonar.projectKey", "XpeApp"
-        property "sonar.projectName", "XpeApp"
+        property "sonar.projectKey", "xpeapp_android"
+        property "sonar.projectName", "xpeapp_android"
+        property "sonar.coverage.exclusions", "**/ui/**"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
     }
 }
 

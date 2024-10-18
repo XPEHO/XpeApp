@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - "**"
+    paths:
+      - "xpeapp_android/**"
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -48,4 +50,4 @@ jobs:
           echo ${{ secrets.GOOGLE_SERVICE_FILE }} | base64 -d > app/google-services.json
           mkdir -p app/config
           echo ${{ secrets.UAT_CONFIG_FILE }} | base64 -d > app/config/uat.properties
-          ./gradlew assembleDebug sonar
+          ./gradlew assembleDebug jacocoTestReport sonar

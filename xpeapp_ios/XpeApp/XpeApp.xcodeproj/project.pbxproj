@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E0A7FE82CBFF9C500BFFCDB /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E0A7FE72CBFF9C500BFFCDB /* Entitlements.plist */; };
 		0E155E632C64EE6500649EBC /* xpeho_ui in Frameworks */ = {isa = PBXBuildFile; productRef = 0E155E622C64EE6500649EBC /* xpeho_ui */; };
 		0E155E652C64F97100649EBC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E155E642C64F97100649EBC /* LaunchScreen.storyboard */; };
 		0E5C6EFA2C69EDD100AA2127 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5C6EF92C69EDD100AA2127 /* TitleView.swift */; };
@@ -107,6 +108,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E0A7FE72CBFF9C500BFFCDB /* Entitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		0E0A7FE92CBFFA4100BFFCDB /* XpeApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XpeApp.entitlements; sourceTree = "<group>"; };
 		0E155E642C64F97100649EBC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0E5C6EF92C69EDD100AA2127 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		0E5C6EFB2C6A1A4500AA2127 /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
@@ -481,9 +484,11 @@
 		BDACECDD2C109309007B5262 /* XpeApp */ = {
 			isa = PBXGroup;
 			children = (
+				0E0A7FE92CBFFA4100BFFCDB /* XpeApp.entitlements */,
 				108150F22CBD167400D57952 /* GoogleService-Info.plist */,
 				0E61D2CA2C78D47700050F7C /* Config.swift */,
 				BDACECDE2C109309007B5262 /* XpeAppApp.swift */,
+				0E0A7FE72CBFF9C500BFFCDB /* Entitlements.plist */,
 				BDC8A4242C18765A00D14C35 /* Info.plist */,
 				BDACECE02C109309007B5262 /* ContentView.swift */,
 				0E61D2BD2C78A47300050F7C /* Utils.swift */,
@@ -649,6 +654,7 @@
 				BDACECE82C10930C007B5262 /* Preview Assets.xcassets in Resources */,
 				0E155E652C64F97100649EBC /* LaunchScreen.storyboard in Resources */,
 				BDACECE52C10930C007B5262 /* Assets.xcassets in Resources */,
+				0E0A7FE82CBFF9C500BFFCDB /* Entitlements.plist in Resources */,
 				108150F32CBD167400D57952 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -899,6 +905,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = XpeApp/XpeApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"XpeApp/Preview Content\"";
@@ -930,6 +937,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = XpeApp/XpeApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"XpeApp/Preview Content\"";

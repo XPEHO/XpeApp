@@ -10,6 +10,7 @@ import SwiftData
 import FirebaseCore
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseMessaging
 import xpeho_ui
 
 @main
@@ -39,16 +40,50 @@ class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
+        // Initialize Firebase
         FirebaseApp.configure()
+        // Set Firebase Messaging delegate
+        Messaging.messaging().delegate = self
+        // Request notification permissions
+        registerForPushNotifications(application: application)
         return true
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
+        // Disconnect from Firebase
         do {
             try Auth.auth().signOut()
             debugPrint("Successfully signed out from Firebase")
         } catch let signOutError as NSError {
             debugPrint("Error disconnecting from Firebase: \(signOutError)")
         }
+    }
+}
+
+extension XpeAppAppDelegate: UNUserNotificationCenterDelegate {
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print(error)
+    }
+    
+    
+    private func registerForPushNotifications(application: UIApplication) {
+        UNUserNotificationCenter.current().delegate = self
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) {
+            (granted, error) in
+            guard granted else { return }
+            DispatchQueue.main.async {
+                application.registerForRemoteNotifications()
+            }
+        }
+    }
+    
+    
+}
+
+extension XpeAppAppDelegate: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        print("Firebase registration token: \(String(describing: fcmToken))")
     }
 }

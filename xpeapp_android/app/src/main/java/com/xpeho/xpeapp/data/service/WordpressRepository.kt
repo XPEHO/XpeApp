@@ -1,6 +1,7 @@
 package com.xpeho.xpeapp.data.service
 
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.data.entity.QvstAnswerBody
 import com.xpeho.xpeapp.data.entity.QvstCampaignEntity
@@ -22,7 +23,6 @@ class WordpressRepository(private val api: WordpressService) {
 
     companion object {
         private const val HTTPFORBIDDEN = 403
-        private const val HTTPSERVICEUNAVAILABLE = 503
 
         private const val DATETIME_FORMATTER_PATTERN = "yyyy-MM-dd"
     }
@@ -76,7 +76,8 @@ class WordpressRepository(private val api: WordpressService) {
         }
     }
 
-    private fun getCampaignsEntitiesFromModels(
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun getCampaignsEntitiesFromModels(
         campaigns: List<QvstCampaign>,
         progress: List<QvstProgress>
     ): ArrayList<QvstCampaignEntity> {
@@ -212,17 +213,18 @@ class WordpressRepository(private val api: WordpressService) {
     // Exceptions handling
 
     @Suppress("ReturnCount")
-    private fun handleAuthExceptions(e: Exception): AuthResult<Nothing> {
-        // Check if it's a network error
-        if (isNetworkError(e)) {
-            Log.e("WordpressRepository", "Network error: ${e.message}")
-            return AuthResult.NetworkError
-        }
-
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun handleAuthExceptions(e: Exception): AuthResult<Nothing> {
         // Backend sends a 403 Forbidden
         if (e is HttpException && e.code() == HTTPFORBIDDEN) {
             Log.e("WordpressRepository", "Unauthorized error: ${e.message}")
             return AuthResult.Unauthorized
+        }
+
+        // Check if it's a network error
+        if (isNetworkError(e)) {
+            Log.e("WordpressRepository", "Network error: ${e.message}")
+            return AuthResult.NetworkError
         }
 
         // Unknown error
@@ -230,41 +232,38 @@ class WordpressRepository(private val api: WordpressService) {
         throw e
     }
 
-    private fun isNetworkError(e: Exception): Boolean {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun isNetworkError(e: Exception): Boolean {
         return when (e) {
             is UnknownHostException -> true
             is SocketTimeoutException -> true
             is SSLHandshakeException -> true
             is ConnectException -> true
-            is HttpException -> e.code() == HTTPSERVICEUNAVAILABLE
+            is HttpException -> true
             else -> false
         }
     }
 
     @Suppress("TooGenericExceptionCaught")
-    private inline fun <T> handleServiceExceptions(
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    inline fun <T> handleServiceExceptions(
         tryBody: () -> T,
         catchBody: (Exception) -> T
     ): T {
         return try {
             tryBody()
         } catch (e: Exception) {
-            when (e) {
-                is UnknownHostException,
-                is SocketTimeoutException,
-                is SSLHandshakeException,
-                is ConnectException,
-                is HttpException -> {
-                    catchBody(e)
-                }
-
-                else -> throw e
+            if (isNetworkError(e)) {
+                catchBody(e)
+            } else {
+                throw e
             }
         }
     }
 
     // Utils date methods
-    private fun countDaysBetween(
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun countDaysBetween(
         startDateStr: String,
         endDateStr: String,
         pattern: String = DATETIME_FORMATTER_PATTERN
@@ -275,7 +274,8 @@ class WordpressRepository(private val api: WordpressService) {
         return ChronoUnit.DAYS.between(startDate, endDate)
     }
 
-    private fun getTodayDateString(pattern: String = DATETIME_FORMATTER_PATTERN): String {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun getTodayDateString(pattern: String = DATETIME_FORMATTER_PATTERN): String {
         val today = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern(pattern)
         return today.format(formatter)

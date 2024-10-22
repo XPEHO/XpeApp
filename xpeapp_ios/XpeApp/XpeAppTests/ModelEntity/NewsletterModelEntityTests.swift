@@ -28,7 +28,7 @@ final class NewsletterEntityTests: XCTestCase {
         entity = NewsletterEntity(
             id: "newsletter_id",
             pdfUrl: "newsletter_url",
-            publicationDate: currentDate!,
+            date: currentDate!,
             summary: ["summary 1", "summary 2", "summary 3"]
         )
     }

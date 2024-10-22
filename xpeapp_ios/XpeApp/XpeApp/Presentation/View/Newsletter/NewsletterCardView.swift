@@ -20,7 +20,7 @@ struct NewsletterCard: View {
         CollapsableCard(
             label: "Newsletter",
             headTag: TagPill(
-                label: dateFormatter.string(from: newsletter.publicationDate),
+                label: dateFormatter.string(from: newsletter.date),
                 backgroundColor: XPEHO_THEME.GREEN_DARK_COLOR
             ),
             tags: newsletter.summary.map({

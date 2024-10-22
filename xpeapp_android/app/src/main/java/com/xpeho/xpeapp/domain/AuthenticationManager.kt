@@ -1,7 +1,7 @@
 package com.xpeho.xpeapp.domain
 
 import android.util.Log
-import com.google.firebase.firestore.FirebaseFirestore
+import androidx.annotation.VisibleForTesting
 import com.xpeho.xpeapp.data.DatastorePref
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.data.model.AuthResult
@@ -13,7 +13,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.tasks.await
 
 /**
  * Singleton responsible for keeping track of the authentication state,
@@ -27,7 +26,9 @@ class AuthenticationManager(
     val datastorePref: DatastorePref,
     val firebaseService: FirebaseService
 ) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     private val _authState: MutableStateFlow<AuthState> = MutableStateFlow(AuthState.Unauthenticated)
+
     val authState = _authState.asStateFlow()
 
     fun restoreAuthStateFromStorage() = runBlocking {
@@ -44,7 +45,6 @@ class AuthenticationManager(
                 // lazy `&&` evalutation makes this faster
                 firebaseService.isAuthenticated()
                         && wordpressRepo.validateToken(authState.authData.token) is AuthResult.Success
-                        && usernameInFirestoreWordpressUsers(authState.authData.username)
             }
         }
     }
@@ -54,13 +54,16 @@ class AuthenticationManager(
             wordpressRepo.authenticate(AuthentificationBody(username, password))
         }
         val fbDefRes = async {
-            try {
-                firebaseService.authenticate()
-                return@async AuthResult.Success(Unit)
-            } catch (e: Exception) {
-                Log.e("AuthenticationManager: login", "Network error: ${e.message}")
-                return@async AuthResult.NetworkError
-            }
+            wordpressRepo.handleServiceExceptions(
+                tryBody = {
+                    firebaseService.authenticate()
+                    return@async AuthResult.Success(Unit)
+                },
+                catchBody = { e ->
+                    Log.e("AuthenticationManager: login", "Network error: ${e.message}")
+                    return@async AuthResult.NetworkError
+                }
+            )
         }
 
         val wpRes = wpDefRes.await()
@@ -91,15 +94,6 @@ class AuthenticationManager(
         datastorePref.clearAuthData()
         datastorePref.setWasConnectedLastTime(false)
         _authState.value = AuthState.Unauthenticated
-    }
-
-    private suspend fun usernameInFirestoreWordpressUsers(username: String): Boolean {
-        val firestore = FirebaseFirestore.getInstance()
-        val users = firestore.collection("wordpressUsers")
-            .get()
-            .await()
-        return users.documents
-            .any { user -> user["email"] == username }
     }
 }
 

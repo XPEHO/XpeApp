@@ -232,7 +232,6 @@ class WordpressRepository(private val api: WordpressService) {
         throw e
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun isNetworkError(e: Exception): Boolean {
         return when (e) {
             is UnknownHostException -> true
@@ -245,7 +244,6 @@ class WordpressRepository(private val api: WordpressService) {
     }
 
     @Suppress("TooGenericExceptionCaught")
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     inline fun <T> handleServiceExceptions(
         tryBody: () -> T,
         catchBody: (Exception) -> T

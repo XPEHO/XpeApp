@@ -66,24 +66,30 @@ extension XpeAppAppDelegate: UNUserNotificationCenterDelegate {
     }
     
     
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        //self.sendDeviceTokenToServer(data: deviceToken)
+        Messaging.messaging().setAPNSToken(deviceToken, type: .unknown)
+    }
+    
     private func registerForPushNotifications(application: UIApplication) {
         UNUserNotificationCenter.current().delegate = self
+        
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-
-        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) {
-            (granted, error) in
-            guard granted else { return }
-            DispatchQueue.main.async {
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions
+        ) { (granted, error) in
+            guard granted else {return}
+            DispatchQueue.main.async{
                 application.registerForRemoteNotifications()
             }
         }
     }
-    
-    
 }
 
 extension XpeAppAppDelegate: MessagingDelegate {
+    
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("Firebase registration token: \(String(describing: fcmToken))")
+        //print("Firebase registration token: \(String(describing: fcmToken))")
     }
 }
+

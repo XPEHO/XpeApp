@@ -12,7 +12,6 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 
@@ -54,8 +53,8 @@ class AuthenticationManagerTest {
 
         val result = authManager.login(username, password)
 
-        assertThat("Result should be an AuthResult.Success", result is AuthResult.Success)
-        assertThat("AuthState should be Authenticated", authManager.authState.value is AuthState.Authenticated)
+        assert(result is AuthResult.Success, { "Result should be an AuthResult.Success" })
+        assert(authManager.authState.value is AuthState.Authenticated, { "AuthState should be Authenticated" })
         coVerify { datastorePref.setAuthData(any()) }
     }
 
@@ -67,8 +66,8 @@ class AuthenticationManagerTest {
 
         val result = authManager.login(username, password)
 
-        assertThat("Result should be an AuthResult.Unauthorized", result is AuthResult.Unauthorized)
-        assertThat("AuthState should be Unauthenticated", authManager.authState.value is AuthState.Unauthenticated)
+        assert(result is AuthResult.Unauthorized, { "Result should be an AuthResult.Unauthorized" })
+        assert(authManager.authState.value is AuthState.Unauthenticated, { "AuthState should be Unauthenticated" })
     }
 
     @Test
@@ -79,8 +78,8 @@ class AuthenticationManagerTest {
 
         val result = authManager.login(username, password)
 
-        assertThat("Result should be an AuthResult.NetworkError", result is AuthResult.NetworkError)
-        assertThat("AuthState should be Unauthenticated", authManager.authState.value is AuthState.Unauthenticated)
+        assert(result is AuthResult.NetworkError, { "Result should be an AuthResult.NetworkError" })
+        assert(authManager.authState.value is AuthState.Unauthenticated, { "AuthState should be Unauthenticated" })
     }
 
 }

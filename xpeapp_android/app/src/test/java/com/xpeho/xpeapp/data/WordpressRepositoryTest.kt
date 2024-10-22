@@ -2,95 +2,660 @@ package com.xpeho.xpeapp.data
 
 import android.util.Log
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
+import com.xpeho.xpeapp.data.entity.QvstAnswerBody
+import com.xpeho.xpeapp.data.entity.QvstCampaignEntity
 import com.xpeho.xpeapp.data.model.AuthResult
 import com.xpeho.xpeapp.data.model.WordpressToken
+import com.xpeho.xpeapp.data.model.qvst.QvstAnswer
+import com.xpeho.xpeapp.data.model.qvst.QvstCampaign
+import com.xpeho.xpeapp.data.model.qvst.QvstProgress
+import com.xpeho.xpeapp.data.model.qvst.QvstQuestion
+import com.xpeho.xpeapp.data.model.qvst.QvstTheme
 import com.xpeho.xpeapp.data.service.WordpressRepository
 import com.xpeho.xpeapp.data.service.WordpressService
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.runs
+import io.mockk.spyk
+import io.mockk.verify
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertThrows
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.junit.experimental.runners.Enclosed
+import org.junit.runner.RunWith
 import retrofit2.HttpException
 import java.net.ConnectException
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
+import javax.net.ssl.SSLHandshakeException
 
+@RunWith(Enclosed::class)
 class WordpressRepositoryTest {
-    private lateinit var wordpressRepo: WordpressRepository
-    private lateinit var wordpressService: WordpressService
+    abstract class BaseTest {
+        protected lateinit var wordpressRepo: WordpressRepository
+        protected lateinit var wordpressService: WordpressService
 
-    @Before
-    fun setUp() {
-        wordpressService = mockk()
-        wordpressRepo = WordpressRepository(wordpressService)
-        mockkStatic(Log::class)
-        every { Log.e(any(), any()) } returns 0
+        @Before
+        fun setUp() {
+            wordpressService = mockk()
+            wordpressRepo = spyk(WordpressRepository(wordpressService))
+            mockkStatic(Log::class)
+            every { Log.e(any(), any()) } returns 0
+        }
     }
 
-    @Test
-    fun authenticate_withValidCredentials_returnsSuccess() = runBlocking {
-        val credentials = AuthentificationBody("username", "password")
-        val token = WordpressToken("token", "user_email", "user_nicename", "user_display_name")
-        coEvery { wordpressService.authentification(credentials) } returns token
+    class AuthenticateTests : BaseTest() {
 
-        val result = wordpressRepo.authenticate(credentials)
+        @Test
+        fun `authenticate with valid credentials returns Success`() = runBlocking {
+            val credentials = AuthentificationBody("username", "password")
+            val token = WordpressToken("token", "user_email", "user_nicename", "user_display_name")
+            coEvery { wordpressService.authentification(credentials) } returns token
 
-        assertEquals(AuthResult.Success(token), result)
+            val result = wordpressRepo.authenticate(credentials)
+
+            assert(result is AuthResult.Success)
+            assertEquals(token, (result as AuthResult.Success).data)
+        }
+
+        @Test
+        fun `authenticate with error calls handleAuthExceptions`() = runBlocking {
+            val credentials = AuthentificationBody("username", "password")
+            coEvery { wordpressService.authentification(credentials) } throws HttpException(mockk {
+                coEvery { code() } returns 403
+                coEvery { message() } returns "Forbidden"
+            })
+
+            wordpressRepo.authenticate(credentials)
+
+            verify { wordpressRepo.handleAuthExceptions(any()) }
+        }
     }
 
-    @Test
-    fun authenticate_withNetworkError_returnsNetworkError() = runBlocking {
-        val credentials = AuthentificationBody("username", "password")
-        coEvery { wordpressService.authentification(any()) } throws UnknownHostException()
+    class ValidateTokenTests : BaseTest() {
 
-        val result = wordpressRepo.authenticate(credentials)
+        @Test
+        fun `validateToken with valid token returns Success`() = runBlocking {
+            val token = WordpressToken("token", "user_email", "user_nicename", "user_display_name")
+            coEvery { wordpressService.validateToken(any()) } returns Unit
 
-        assertEquals(AuthResult.NetworkError, result)
+            val result = wordpressRepo.validateToken(token)
+
+            assertTrue(result is AuthResult.Success)
+        }
+
+        @Test
+        fun `validateToken with error calls handleAuthException`() = runBlocking {
+            val token = WordpressToken("token", "user_email", "user_nicename", "user_display_name")
+            coEvery { wordpressService.validateToken(any()) } throws HttpException(mockk {
+                coEvery { code() } returns 403
+                coEvery { message() } returns "Forbidden"
+            })
+
+            wordpressRepo.validateToken(token)
+
+            coVerify { wordpressRepo.handleAuthExceptions(any()) }
+        }
     }
 
-    @Test
-    fun authenticate_withHttpException_returnsUnauthorized() = runBlocking {
-        val credentials = AuthentificationBody("username", "password")
-        coEvery { wordpressService.authentification(credentials) } throws HttpException(mockk {
-            coEvery { code() } returns 403
-            coEvery { message() } returns "message"
-        })
+    class GetUserIdTests : BaseTest() {
 
-        val result = wordpressRepo.authenticate(credentials)
+        @Test
+        fun `getUserId with valid username returns userId`() = runBlocking {
+            val username = "username"
+            coEvery { wordpressService.getUserId(username) } returns "userId"
 
-        assertEquals(AuthResult.Unauthorized, result)
+            val result = wordpressRepo.getUserId(username)
+
+            assertEquals("userId", result)
+        }
+
+        @Test
+        fun `getUserId with error returns null`() = runBlocking {
+            val username = "username"
+            coEvery { wordpressService.getUserId(username) } throws UnknownHostException()
+
+            val result = wordpressRepo.getUserId(username)
+
+            assertEquals(null, result)
+        }
     }
 
-    @Test
-    fun validateToken_withValidToken_returnsSuccess() = runBlocking {
-        val token = WordpressToken("token", "user_email", "user_nicename", "user_display_name")
-        coEvery { wordpressService.validateToken("Bearer ${token.token}") } returns Unit
+    class ClassifyCampaignsTests : BaseTest() {
+        @Test
+        fun `classifyCampaigns with open status returns open key`() {
+            val campaigns = arrayListOf(
+                QvstCampaignEntity(
+                    id = "1",
+                    name = "Campaign 1",
+                    themeName = "Theme 1",
+                    status = "OPEN",
+                    outdated = false,
+                    completed = false,
+                    remainingDays = 10,
+                    endDate = "2023-12-31"
+                )
+            )
 
-        val result = wordpressRepo.validateToken(token)
+            val result = wordpressRepo.classifyCampaigns(campaigns)
 
-        assertEquals(AuthResult.Success(Unit), result)
+            assertEquals(1, result["open"]?.size)
+            assertEquals("Campaign 1", result["open"]?.get(0)?.name)
+        }
+
+        @Test
+        fun `classifyCampaigns with closed status and valid end date returns date year key`() {
+            val campaigns = arrayListOf(
+                QvstCampaignEntity(
+                    id = "2",
+                    name = "Campaign 2",
+                    themeName = "Theme 2",
+                    status = "CLOSED",
+                    outdated = true,
+                    completed = true,
+                    remainingDays = 0,
+                    endDate = "2022-12-31"
+                )
+            )
+
+            val result = wordpressRepo.classifyCampaigns(campaigns)
+
+            assertEquals(1, result["2022"]?.size)
+            assertEquals("Campaign 2", result["2022"]?.get(0)?.name)
+        }
+
+        @Test(expected = DateTimeParseException::class)
+        fun `classifyCampaigns with closed status and invalid end date returns empty`() {
+            val campaigns = arrayListOf(
+                QvstCampaignEntity(
+                    id = "3",
+                    name = "Campaign 3",
+                    themeName = "Theme 3",
+                    status = "CLOSED",
+                    outdated = true,
+                    completed = true,
+                    remainingDays = 0,
+                    endDate = "invalid-date"
+                )
+            )
+
+            val result = wordpressRepo.classifyCampaigns(campaigns)
+
+            assertEquals(0, result.size)
+        }
     }
 
-    @Test
-    fun getUserId_withValidUsername_returnsUserId() = runBlocking {
-        val username = "username"
-        coEvery { wordpressService.getUserId(username) } returns "userId"
+    class GetCampaignsEntitiesFromModelsTests : BaseTest() {
 
-        val result = wordpressRepo.getUserId(username)
+        @Test
+        fun `getCampaignsEntitiesFromModels with remaining days greater than 0`() {
+            val campaigns = listOf(
+                QvstCampaign(
+                    id = "campaignId",
+                    name = "campaignName",
+                    theme = QvstTheme(
+                        "themeId",
+                        name = "themeName",
+                    ),
+                    status = "OPEN",
+                    startDate = LocalDate.now().minusDays(10).toString(),
+                    participationRate = 0.5.toString(),
+                    endDate = LocalDate.now().plusDays(10).toString()
+                )
+            )
+            val progress = listOf<QvstProgress>()
 
-        assertEquals("userId", result)
+            val result = wordpressRepo.getCampaignsEntitiesFromModels(campaigns, progress)
+
+            assertEquals(1, result.size)
+            assertEquals("campaignName", result[0].name)
+            assertEquals("themeName", result[0].themeName)
+            assertEquals(10, result[0].remainingDays)
+            assertEquals(false, result[0].outdated)
+        }
+
+        @Test
+        fun `getCampaignsEntitiesFromModels with remaining days less than or equal to 0`() {
+            val campaigns = listOf(
+                QvstCampaign(
+                    id = "campaignId",
+                    name = "campaignName",
+                    theme = QvstTheme(
+                        "themeId",
+                        name = "themeName",
+                    ),
+                    status = "CLOSED",
+                    startDate = LocalDate.now().minusDays(10).toString(),
+                    endDate = LocalDate.now().minusDays(1).toString(),
+                    participationRate = 0.5.toString()
+                )
+            )
+            val progress = listOf<QvstProgress>()
+
+            val result = wordpressRepo.getCampaignsEntitiesFromModels(campaigns, progress)
+
+            assertEquals(1, result.size)
+            assertEquals("campaignName", result[0].name)
+            assertEquals("themeName", result[0].themeName)
+            assertEquals(0, result[0].remainingDays)
+            assertEquals(true, result[0].outdated)
+        }
+
+        @Test
+        fun `getCampaignsEntitiesFromModels with completed progress`() {
+            val campaigns = listOf(
+                QvstCampaign(
+                    id = "campaignId",
+                    name = "campaignName",
+                    theme = QvstTheme(
+                        "themeId",
+                        name = "themeName"
+                    ),
+                    status = "OPEN",
+                    endDate = LocalDate.now().plusDays(5).toString(),
+                    startDate = LocalDate.now().minusDays(10).toString(),
+                    participationRate = 0.5.toString()
+                )
+            )
+            val progress = listOf(
+                QvstProgress(
+                    campaignId = "campaignId",
+                    answeredQuestions = 10,
+                    totalQuestions = 10,
+                    userId = "userId"
+                )
+            )
+
+            val result = wordpressRepo.getCampaignsEntitiesFromModels(campaigns, progress)
+
+            assertEquals(1, result.size)
+            assertEquals("campaignName", result[0].name)
+            assertEquals("themeName", result[0].themeName)
+            assertEquals(true, result[0].completed)
+        }
+
+        @Test
+        fun `getCampaignsEntitiesFromModels without progress`() {
+            val campaigns = listOf(
+                QvstCampaign(
+                    id = "campaignId",
+                    name = "campaignName",
+                    theme = QvstTheme(
+                        "themeId",
+                        name = "themeName"
+                    ),
+                    status = "OPEN",
+                    endDate = LocalDate.now().plusDays(5).toString(),
+                    startDate = LocalDate.now().minusDays(10).toString(),
+                    participationRate = 0.5.toString()
+                )
+            )
+            val progress = listOf<QvstProgress>()
+
+            val result = wordpressRepo.getCampaignsEntitiesFromModels(campaigns, progress)
+
+            assertEquals(1, result.size)
+            assertEquals("campaignName", result[0].name)
+            assertEquals("themeName", result[0].themeName)
+            assertEquals(false, result[0].completed)
+        }
     }
 
-    @Test
-    fun getUserId_withNetworkError_returnsNull() = runBlocking {
-        val username = "username"
-        coEvery { wordpressService.getUserId(username) } throws ConnectException()
+    class GetAllQvstCampaignsTests : BaseTest() {
 
-        val result = wordpressRepo.getUserId(username)
+        @Test
+        fun `getAllQvstCampaigns with valid token and username returns campaigns`() = runBlocking {
+            val token = WordpressToken("token", "user_email", "user_nicename", "user_display_name")
+            val username = "username"
+            val campaigns = listOf(
+                QvstCampaign(
+                    id = "campaignId",
+                    name = "campaignName",
+                    theme = QvstTheme(
+                        "themeId",
+                        name = "themeName"
+                    ),
+                    status = "OPEN",
+                    startDate = LocalDate.now().minusDays(10).toString(),
+                    endDate = LocalDate.now().plusDays(10).toString(),
+                    participationRate = 0.5.toString()
+                )
+            )
+            val progress = listOf<QvstProgress>()
 
-        assertEquals(null, result)
+            coEvery { wordpressService.getAllQvstCampaigns() } returns campaigns
+            coEvery { wordpressService.getQvstProgressByUserId(any(), any()) } returns progress
+            coEvery { wordpressService.getUserId(username) } returns "userId"
+
+            val result = wordpressRepo.getAllQvstCampaigns(token, username)
+
+            assertEquals(1, result?.size)
+            assertEquals("campaignName", result?.get(0)?.name)
+        }
+
+        @Test
+        fun `getAllQvstCampaigns with network error returns null`() = runBlocking {
+            val token = WordpressToken("token", "user_email", "user_nicename", "user_display_name")
+            val username = "username"
+
+            coEvery { wordpressService.getAllQvstCampaigns() } throws UnknownHostException()
+
+            val result = wordpressRepo.getAllQvstCampaigns(token, username)
+
+            assertEquals(null, result)
+        }
+    }
+
+    class GetActiveQvstCampaignsTests : BaseTest() {
+
+        @Test
+        fun `getActiveQvstCampaigns with valid token and username returns campaigns`() = runBlocking {
+            val token = WordpressToken("token", "user_email", "user_nicename", "user_display_name")
+            val username = "username"
+            val campaigns = listOf(
+                QvstCampaign(
+                    id = "campaignId",
+                    name = "campaignName",
+                    theme = QvstTheme(
+                        "themeId",
+                        name = "themeName"
+                    ),
+                    status = "OPEN",
+                    startDate = LocalDate.now().minusDays(10).toString(),
+                    endDate = LocalDate.now().plusDays(10).toString(),
+                    participationRate = 0.5.toString()
+                )
+            )
+            val progress = listOf<QvstProgress>()
+
+            coEvery { wordpressService.getActiveQvstCampaigns() } returns campaigns
+            coEvery { wordpressService.getQvstProgressByUserId(any(), any()) } returns progress
+            coEvery { wordpressService.getUserId(username) } returns "userId"
+
+            val result = wordpressRepo.getActiveQvstCampaigns(token, username)
+
+            assertEquals(1, result?.size)
+            assertEquals("campaignName", result?.get(0)?.name)
+        }
+
+        @Test
+        fun `getActiveQvstCampaigns with network error returns null`() = runBlocking {
+            val token = WordpressToken("token", "user_email", "user_nicename", "user_display_name")
+            val username = "username"
+
+            coEvery { wordpressService.getActiveQvstCampaigns() } throws UnknownHostException()
+
+            val result = wordpressRepo.getActiveQvstCampaigns(token, username)
+
+            assertEquals(null, result)
+        }
+    }
+
+    class GetQvstQuestionsByCampaignId : BaseTest() {
+
+        @Test
+        fun `getQvstQuestionsByCampaignId with valid campaignId and userId returns questions`() = runBlocking {
+            val campaignId = "campaignId"
+            val userId = "userId"
+            val questions = listOf(
+                QvstQuestion(
+                    questionId = "questionId",
+                    question = "question",
+                    hasAnswered = false,
+                    answers = listOf(QvstAnswer("answerId", "answer", "value")),
+                    userAnswer = null
+                )
+            )
+
+            coEvery { wordpressService.getQvstQuestionsByCampaignId(campaignId, userId) } returns questions
+
+            val result = wordpressRepo.getQvstQuestionsByCampaignId(campaignId, userId)
+
+            assertEquals(1, result?.size)
+            assertEquals("question", result?.get(0)?.question)
+        }
+
+        @Test
+        fun `getQvstQuestionsByCampaignId with network error returns null`() = runBlocking {
+            val campaignId = "campaignId"
+            val userId = "userId"
+
+            coEvery { wordpressService.getQvstQuestionsByCampaignId(campaignId, userId) } throws UnknownHostException()
+
+            val result = wordpressRepo.getQvstQuestionsByCampaignId(campaignId, userId)
+
+            assertEquals(null, result)
+        }
+    }
+
+    class SubmitAnswersTest : BaseTest() {
+
+        @Test
+        fun `submitAnswers with valid campaignId, userId and answers returns true`() = runBlocking {
+            val campaignId = "campaignId"
+            val userId = "userId"
+            val answers = listOf(
+                QvstAnswerBody("questionId", "answerId")
+            )
+
+            coEvery { wordpressService.submitAnswers(campaignId, userId, answers) } returns true
+
+            val result = wordpressRepo.submitAnswers(campaignId, userId, answers)
+
+            assertTrue(result)
+        }
+
+        @Test
+        fun `submitAnswers with network error returns false`() = runBlocking {
+            val campaignId = "campaignId"
+            val userId = "userId"
+            val answers = listOf(
+                QvstAnswerBody("questionId", "answerId")
+            )
+
+            coEvery { wordpressService.submitAnswers(campaignId, userId, answers) } throws UnknownHostException()
+
+            val result = wordpressRepo.submitAnswers(campaignId, userId, answers)
+
+            assertFalse(result)
+        }
+    }
+
+    class HandleAuthExceptionsTests : BaseTest() {
+
+        @Test
+        fun `handleAuthExceptions with network error returns NetworkError`() = runBlocking {
+            every { wordpressRepo.isNetworkError(any()) } returns true
+
+            val result = wordpressRepo.handleAuthExceptions(Exception())
+
+            assertEquals(AuthResult.NetworkError, result)
+        }
+
+        @Test
+        fun `handleAuthExceptions with 403 error returns Unauthorized`() = runBlocking {
+            val result = wordpressRepo.handleAuthExceptions(
+                HttpException(
+                    mockk {
+                        coEvery { code() } returns 403
+                        coEvery { message() } returns "message"
+                    }
+                )
+            )
+            assertEquals(AuthResult.Unauthorized, result)
+        }
+
+        @Test
+        fun `handleAuthExceptions with unknown error throws unknown exception`() = runBlocking {
+            val exception: java.lang.Exception = assertThrows(RuntimeException::class.java) {
+                runBlocking {
+                    wordpressRepo.handleAuthExceptions(
+                        RuntimeException("kaboom")
+                    )
+                }
+            }
+
+            assertEquals("kaboom", exception.message)
+        }
+    }
+
+    class HandleServiceExceptionsTests : BaseTest() {
+
+        @Test
+        fun `handleServiceExceptions with network error calls catchBody`() = runBlocking {
+            val tryBody = mockk<() -> Unit>()
+            val catchBody = mockk<(Exception) -> Unit>()
+            val exceptionInstance = UnknownHostException()
+
+            every { tryBody() } throws exceptionInstance
+            every { catchBody(any()) } just runs
+            every { wordpressRepo.isNetworkError(exceptionInstance) } returns true
+
+            wordpressRepo.handleServiceExceptions(tryBody, catchBody)
+
+            verify { catchBody(exceptionInstance) }
+        }
+
+        @Test
+        fun `handleServiceExceptions with unknown exception throws unknown exception`() = runBlocking {
+            val tryBody = mockk<() -> Unit>()
+            val catchBody = mockk<(Exception) -> Unit>()
+            val exceptionInstance = RuntimeException("Unknown error")
+
+            every { tryBody() } throws exceptionInstance
+
+            val exception: java.lang.Exception = assertThrows(RuntimeException::class.java) {
+                wordpressRepo.handleServiceExceptions(tryBody, catchBody)
+            }
+
+            assertEquals("Unknown error", exception.message)
+        }
+    }
+
+    class IsNetworkErrorTests : BaseTest() {
+
+        @Test
+        fun `isNetworkError with UnknownHostException returns True`() {
+            val exception = UnknownHostException()
+            val result = wordpressRepo.isNetworkError(exception)
+            assertTrue(result)
+        }
+
+        @Test
+        fun `isNetworkError with SocketTimeoutException returns True`() {
+            val exception = SocketTimeoutException()
+            val result = wordpressRepo.isNetworkError(exception)
+            assertTrue(result)
+        }
+
+        @Test
+        fun `isNetworkError with SSLHandshakeException returns True`() {
+            val exception = SSLHandshakeException("SSL error")
+            val result = wordpressRepo.isNetworkError(exception)
+            assertTrue(result)
+        }
+
+        @Test
+        fun `isNetworkError with ConnectException returns True`() {
+            val exception = ConnectException()
+            val result = wordpressRepo.isNetworkError(exception)
+            assertTrue(result)
+        }
+
+        @Test
+        fun `isNetworkError with HttpException returns True`() {
+            val exception = HttpException(mockk {
+                coEvery { code() } returns 503
+                coEvery { message() } returns "Service unavailable"
+            })
+            val result = wordpressRepo.isNetworkError(exception)
+            assertTrue(result)
+        }
+
+        @Test
+        fun `isNetworkError with unknown exception returns False`() {
+            val exception = RuntimeException("Other error")
+            val result = wordpressRepo.isNetworkError(exception)
+            assertFalse(result)
+        }
+    }
+
+    class CountDaysBetweenTests : BaseTest() {
+
+        @Test
+        fun `countDaysBetween with valid dates returns correct days count`() {
+            val startDate = "2023-01-01"
+            val endDate = "2023-01-10"
+            val result = wordpressRepo.countDaysBetween(startDate, endDate)
+            assertEquals(9, result)
+        }
+
+        @Test
+        fun `countDaysBetween with same dates returns zero`() {
+            val startDate = "2023-01-01"
+            val endDate = "2023-01-01"
+            val result = wordpressRepo.countDaysBetween(startDate, endDate)
+            assertEquals(0, result)
+        }
+
+        @Test
+        fun `countDaysBetween with end date before start date returns negative days count`() {
+            val startDate = "2023-01-10"
+            val endDate = "2023-01-01"
+            val result = wordpressRepo.countDaysBetween(startDate, endDate)
+            assertEquals(-9, result)
+        }
+
+        @Test(expected = DateTimeParseException::class)
+        fun `countDaysBetween with invalid start date throws DateTimeParseException`() {
+            val startDate = "invalid-date"
+            val endDate = "2023-01-10"
+            wordpressRepo.countDaysBetween(startDate, endDate)
+        }
+
+        @Test(expected = DateTimeParseException::class)
+        fun `countDaysBetween with invalid end date throws DateTimeParseException`() {
+            val startDate = "2023-01-01"
+            val endDate = "invalid-date"
+            wordpressRepo.countDaysBetween(startDate, endDate)
+        }
+
+        @Test
+        fun `countDaysBetween with different pattern returns correctDays`() {
+            val startDate = "01-01-2023"
+            val endDate = "10-01-2023"
+            val pattern = "dd-MM-yyyy"
+            val result = wordpressRepo.countDaysBetween(startDate, endDate, pattern)
+            assertEquals(9, result)
+        }
+    }
+
+    class GetTodayDateStringTests : BaseTest() {
+
+        @Test
+        fun `getTodayDateString with default pattern returns correctDate`() {
+            val expectedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            val result = wordpressRepo.getTodayDateString()
+            assertEquals(expectedDate, result)
+        }
+
+        @Test
+        fun `getTodayDateString with custom pattern returns correctDate`() {
+            val pattern = "dd-MM-yyyy"
+            val expectedDate = LocalDate.now().format(DateTimeFormatter.ofPattern(pattern))
+            val result = wordpressRepo.getTodayDateString(pattern)
+            assertEquals(expectedDate, result)
+        }
     }
 }

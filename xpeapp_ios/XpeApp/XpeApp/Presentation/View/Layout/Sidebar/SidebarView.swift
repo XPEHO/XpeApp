@@ -87,6 +87,31 @@ struct Sidebar: View {
                         }
                         Spacer()
                         LogoutButtonSection()
+                        VStack(
+                            spacing: 10
+                        ){
+                            Divider()
+                                .frame(height: 1)
+                                .background(.white)
+                                .padding(.horizontal, 20)
+                            HStack () {
+                                let bundle = Bundle.main
+                                let version = bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
+                                Button(action: {
+                                    UIApplication.shared.open(URL(string: "https://www.xpeho.com")!)
+                                }) {
+                                    Text("by XPEHO")
+                                        .font(.raleway(.bold, size: 20))
+                                        .foregroundStyle(.white)
+                                }
+                                .accessibility(identifier:"Copyright")
+                                Spacer()
+                                Text("v\(version)")
+                                    .font(.raleway(.bold, size: 20))
+                                    .foregroundStyle(.white)
+                            }
+                        }
+                        .padding(.top, 10)
                     }
                     .padding(.horizontal, 20)
                     .accessibilityElement(children: .contain)

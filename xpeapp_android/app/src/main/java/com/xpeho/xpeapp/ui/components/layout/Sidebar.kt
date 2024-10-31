@@ -42,6 +42,7 @@ import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.data.FeatureFlippingEnum
 import com.xpeho.xpeapp.enums.Screens
+import com.xpeho.xpeapp.ui.Measurements
 import com.xpeho.xpeapp.ui.Resources
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingUiState
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
@@ -146,55 +147,69 @@ fun Sidebar(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        ClickyButton(
-                            label = "Se déconnecter",
-                            size = 16.sp,
-                            verticalPadding = 5.dp,
-                            horizontalPadding = 15.dp,
-                            backgroundColor = Color.White,
-                            labelColor = XpehoColors.CONTENT_COLOR
-                        ) {
-                            CoroutineScope(Dispatchers.IO).launch {
-                                XpeApp.appModule.authenticationManager.logout()
-                            }
-                            // Return to login page and clear the backstack
-                            navigationController.navigate(route = Screens.Login.name) {
-                                popUpTo(Screens.Home.name) { inclusive = true }
-                            }
-                        }
-                    }
+                    SidebarLogoutButtonSection(navigationController)
                     HorizontalDivider(
                         color = Color.White,
                         thickness = 1.dp,
                         modifier = Modifier
-                            .fillMaxWidth(0.7f)
+                            .fillMaxWidth(Measurements.SIDEBAR_DIVIDER_PERCENTAGE)
                             .padding(bottom = 10.dp, top = 20.dp)
                     )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        val versionCode = BuildConfig.VERSION_NAME
-                        Subtitle(
-                            label = "by XPEHO",
-                            modifier = Modifier
-                                .clickable {
-                                    // Open the XPEHO website
-                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.xpeho.com"))
-                                    context.startActivity(intent)
-                                }
-                        )
-                        Subtitle(label = "v$versionCode")
-                    }
+                    SidebarInfoSection(context)
                 }
             }
         }
+    }
+}
+
+@Composable
+fun SidebarLogoutButtonSection(
+    navigationController: NavController
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        ClickyButton(
+            label = "Se déconnecter",
+            size = 16.sp,
+            verticalPadding = 5.dp,
+            horizontalPadding = 15.dp,
+            backgroundColor = Color.White,
+            labelColor = XpehoColors.CONTENT_COLOR
+        ) {
+            CoroutineScope(Dispatchers.IO).launch {
+                XpeApp.appModule.authenticationManager.logout()
+            }
+            // Return to login page and clear the backstack
+            navigationController.navigate(route = Screens.Login.name) {
+                popUpTo(Screens.Home.name) { inclusive = true }
+            }
+        }
+    }
+}
+
+@Composable
+fun SidebarInfoSection(
+    context: android.content.Context
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        val versionCode = BuildConfig.VERSION_NAME
+        Subtitle(
+            label = "by XPEHO",
+            modifier = Modifier
+                .clickable {
+                    // Open the XPEHO website
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.xpeho.com"))
+                    context.startActivity(intent)
+                }
+        )
+        Subtitle(label = "v$versionCode")
     }
 }
 

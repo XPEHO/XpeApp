@@ -18,11 +18,7 @@ struct NewsletterCard: View {
     
     var body: some View {
         CollapsableCard(
-            label: "Newsletter",
-            headTag: TagPill(
-                label: dateFormatter.string(from: newsletter.date),
-                backgroundColor: XPEHO_THEME.GREEN_DARK_COLOR
-            ),
+            label: dateMonthFormatter.string(from: newsletter.date).capitalized,
             tags: newsletter.summary.map({
                 TagPill(
                     label: String($0),

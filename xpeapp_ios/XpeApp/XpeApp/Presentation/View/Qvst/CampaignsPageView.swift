@@ -10,40 +10,36 @@ import xpeho_ui
 
 struct CampaignsPage: View {
     @Bindable var campaignsPageViewModel = CampaignsPageViewModel.instance
-    
-    // Hide archived campaigns
-    @State private var closedCampaignsShowned: Bool = false
+    @State private var selectedYear = Calendar.current.component(.year, from: Date())
     
     var body: some View {
         ScrollView {
             if let classifiedCampaigns = Binding($campaignsPageViewModel.classifiedCampaigns) {
-                if classifiedCampaigns.wrappedValue.isEmpty {
-                    Text("Rien à l'horizon !")
-                } else {
-                    VStack(spacing: 10) {
-                        // Display open campaigns
-                        if classifiedCampaigns.wrappedValue["open"] != nil {
-                            Title(text: "Campagnes Ouvertes", isFirstPageElement: true)
-                            CampaignsList(
-                                campaigns: classifiedCampaigns["open"],
-                                collapsable: true,
-                                defaultOpen: true
-                            )
+                let filterList = getFilterList(groupedElements: classifiedCampaigns.wrappedValue)
+                HStack {
+                    Title(text: "Campagnes de l'année")
+                    Spacer()
+                    if (filterList.count > 1) {
+                        ListFilter<Int>(
+                            elements: filterList,
+                            defaultSelectedElement: selectedYear
+                        ) { selectedElement in
+                            selectedYear = selectedElement
                         }
-                        
-                        if closedCampaignsShowned {
-                            // Display campaigns by year
-                            CampaignsPerYearSection(classifiedCampaigns: classifiedCampaigns)
-                        } else {
-                            ClickyButton(
-                                label: "Voir les campagnes fermées",
-                                backgroundColor: .white,
-                                labelColor: XPEHO_THEME.CONTENT_COLOR,
-                                onPress: showClosedCampaigns
-                            )
-                            .padding(.top, 20)
-                        }
+                    } else {
+                        ListFilterTitle(text: String(selectedYear))
                     }
+                }
+                Spacer().frame(height: 16)
+                if let campaigns = Binding(classifiedCampaigns[selectedYear]) {
+                    // Display campaigns list
+                    CampaignsList(
+                        campaigns: campaigns,
+                        collapsable: true,
+                        defaultOpen: false
+                    )
+                } else {
+                    NoContentPlaceHolder()
                 }
             } else {
                 ProgressView("Chargement des campagnes...")
@@ -56,42 +52,17 @@ struct CampaignsPage: View {
         .accessibility(identifier: "QvstView")
     }
     
-    func showClosedCampaigns() {
-        withAnimation {
-            closedCampaignsShowned = true
+    func getFilterList(groupedElements: [Int: [QvstCampaignEntity]]) -> [Int] {
+        // Get the list of years
+        var filterList = groupedElements.keys.map { $0 }
+        let currentYear = Calendar.current.component(.year, from: Date())
+        // Add the current year to the list if needed
+        if (!filterList.contains(currentYear)) {
+            filterList.append(currentYear)
         }
-    }
-    
-    struct CampaignsPerYearSection: View {
-        @Binding var classifiedCampaigns: [String: [QvstCampaignEntity]]
-        
-        var body: some View {
-            let keys = classifiedCampaigns.keys.sorted(by: { $0 > $1 })
-
-            ForEach(keys, id: \.self) { key in
-                if key != "open" {
-                    CampaignsForAYearSection(
-                        year: key.capitalized,
-                        campaigns: $classifiedCampaigns[key]
-                    )
-                }
-            }
-        }
-    }
-    
-    struct CampaignsForAYearSection: View {
-        var year: String
-        @Binding var campaigns: [QvstCampaignEntity]?
-        
-        var body: some View {
-            if campaigns != nil {
-                Title(text: "Campagnes pour \(year)")
-                CampaignsList(
-                    campaigns: $campaigns,
-                    collapsable: true,
-                    defaultOpen: false
-                )
-            }
-        }
+        // Sort the list in descending order
+        filterList.sort(by: >)
+        // Return the list
+        return filterList
     }
 }

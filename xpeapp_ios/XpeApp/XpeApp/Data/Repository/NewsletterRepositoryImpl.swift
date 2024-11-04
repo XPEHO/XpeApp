@@ -47,4 +47,12 @@ class NewsletterRepositoryImpl: NewsletterRepository {
         
         return sortedNewsletters.last?.toEntity()
     }
+
+    // Classify newsletters by year
+    func classifyNewsletters(newsletters: [NewsletterEntity]) -> [Int: [NewsletterEntity]] {
+        return newsletters.reduce(into: [Int: [NewsletterEntity]]()) { classifiedNewsletters, newsletter in
+            let year = Calendar.current.component(.year, from: newsletter.date)
+            classifiedNewsletters[year, default: []].append(newsletter)
+        }
+    }
 }

@@ -1,24 +1,23 @@
 //
-//  TitleView.swift
+//  ListFilterTitleView.swift
 //  XpeApp
 //
-//  Created by Ryan Debouvries on 12/08/2024.
+//  Created by Ryan Debouvries on 04/11/2024.
 //
 
 import SwiftUI
 import xpeho_ui
 
-struct Title: View {
+struct ListFilterTitle: View {
     var text: String
     
     var body: some View {
         Text(text)
-            .font(.raleway(.bold, size: 20))
+            .font(.rubik(.semiBold, size: 18))
             .foregroundStyle(XPEHO_THEME.CONTENT_COLOR)
-            .frame(alignment: .leading)
     }
 }
 
 #Preview {
-    Title(text: "Title")
+    ListFilterTitle(text: "Title")
 }

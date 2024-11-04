@@ -21,23 +21,18 @@ import com.xpeho.xpeho_ui_android.CollapsableCard
 import com.xpeho.xpeho_ui_android.TagPill
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import com.xpeho.xpeho_ui_android.R.drawable as XpehoRes
 import com.xpeho.xpeho_ui_android.foundations.Colors as XpehoColors
 
 @Composable
 fun NewsletterCard(newsletter: Newsletter, open: Boolean) {
-    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    val formatter = DateTimeFormatter.ofPattern("MMMM", Locale.FRENCH)
+    val newsletterMonth = newsletter.date.format(formatter).replaceFirstChar { it.uppercase() }
     val openUrlLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
 
     CollapsableCard(
-        label = "Newsletter",
-        headTag = {
-            TagPill(
-                label = formatter.format(newsletter.date),
-                backgroundColor = XpehoColors.GREEN_DARK_COLOR,
-                size = 9.sp
-            )
-        },
+        label = newsletterMonth,
         tags = {
             newsletter.summary.split(",").forEach { item ->
                 TagPill(

@@ -14,11 +14,18 @@ func countDaysBetween(_ from: Date, and to: Date) -> Int? {
     return components.day
 }
 
-// Date formatter for display in views
+// Date formatters for display in views
 let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.locale = Locale(identifier: "fr_FR")
     formatter.dateFormat = "dd/MM/yyyy"
+    formatter.timeZone = TimeZone(secondsFromGMT: 0)
+    return formatter
+}()
+let dateMonthFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.locale = Locale(identifier: "fr_FR")
+    formatter.dateFormat = "MMMM"
     formatter.timeZone = TimeZone(secondsFromGMT: 0)
     return formatter
 }()

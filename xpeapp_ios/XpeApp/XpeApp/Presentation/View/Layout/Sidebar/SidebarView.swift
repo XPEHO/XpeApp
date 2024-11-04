@@ -79,7 +79,7 @@ struct Sidebar: View {
                                         icon: Assets.loadImage(named: "PlaneDeparture"),
                                         label: featureManager.getName(item: .vacation))
                         }
-                        if Configuration.env != .prod {
+                        if Configuration.env == .local {
                             SidebarItem(isSidebarVisible: $isSidebarVisible,
                                         navigationItem: .debug,
                                         icon: Image("Bug"),

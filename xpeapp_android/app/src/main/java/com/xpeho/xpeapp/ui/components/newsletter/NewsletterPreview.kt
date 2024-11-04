@@ -17,16 +17,18 @@ import com.xpeho.xpeapp.data.model.Newsletter
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import com.xpeho.xpeho_ui_android.TagPill
+import java.util.Locale
 import com.xpeho.xpeho_ui_android.foundations.Colors as XpehoColors
 
 @Composable
 fun NewsletterPreview(newsletter: Newsletter) {
-    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    val formatter = DateTimeFormatter.ofPattern("MMMM", Locale.FRENCH)
+    val newsletterMonth = newsletter.date.format(formatter).replaceFirstChar { it.uppercase() }
     val openUrlLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
 
     FilePreviewButton(
         labelStart = "Newsletter",
-        labelEnd = formatter.format(newsletter.date),
+        labelEnd = newsletterMonth,
         labelSize = 16.sp,
         height = 175.dp,
         tags = {

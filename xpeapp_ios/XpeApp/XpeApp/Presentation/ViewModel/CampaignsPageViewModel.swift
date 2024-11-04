@@ -17,7 +17,7 @@ import Foundation
     }
 
     var campaigns: [QvstCampaignEntity]? = nil
-    var classifiedCampaigns: [String: [QvstCampaignEntity]]? = nil
+    var classifiedCampaigns: [Int: [QvstCampaignEntity]]? = nil
     
     func update() {
         initCampaigns()

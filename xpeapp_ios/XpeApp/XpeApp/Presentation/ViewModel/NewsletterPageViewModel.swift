@@ -17,6 +17,7 @@ import Foundation
     }
 
     var newsletters: [NewsletterEntity]? = nil
+    var classifiedNewsletters: [Int: [NewsletterEntity]]? = nil
     
     func update() {
         initNewsletters()
@@ -24,9 +25,12 @@ import Foundation
     
     private func initNewsletters() {
         Task{
-            let obtainedNewsletters = await NewsletterRepositoryImpl.instance.getNewsletters()
-            DispatchQueue.main.async {
-                self.newsletters = obtainedNewsletters
+            if let obtainedNewsletters = await NewsletterRepositoryImpl.instance.getNewsletters() {
+                let obtainedClassifiedNewsletters = NewsletterRepositoryImpl.instance.classifyNewsletters(newsletters: obtainedNewsletters)
+                DispatchQueue.main.async {
+                    self.newsletters = obtainedNewsletters
+                    self.classifiedNewsletters = obtainedClassifiedNewsletters
+                }
             }
         }
     }

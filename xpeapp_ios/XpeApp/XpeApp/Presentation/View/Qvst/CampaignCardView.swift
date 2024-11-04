@@ -40,7 +40,7 @@ struct CampaignCard: View {
                     )
             ),
             collapsable: collapsable,
-            defaultOpen: defaultOpen
+            defaultOpen: defaultOpen || campaign.status == "OPEN"
         )
     }
     

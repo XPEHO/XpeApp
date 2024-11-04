@@ -8,23 +8,23 @@
 import SwiftUI
 
 struct CampaignsList: View {
-    @Binding var campaigns: [QvstCampaignEntity]?
+    @Binding var campaigns: [QvstCampaignEntity]
     var collapsable: Bool = true
     var defaultOpen: Bool = false
     
     var body: some View {
-        if let campaignsUnwrapped = Binding($campaigns) {
-            ForEach(campaignsUnwrapped.indices, id: \.self) { indices in
-                CampaignCard(
-                    campaign: campaignsUnwrapped[indices],
-                    collapsable: collapsable,
-                    defaultOpen: defaultOpen
-                )
-            }
+        if campaigns.isEmpty {
+            NoContentPlaceHolder()
         } else {
-            ProgressView("Chargement des campagnes...")
-                .progressViewStyle(CircularProgressViewStyle())
-                .padding()
+            VStack(spacing: 10) {
+                ForEach(campaigns.indices, id: \.self) { indices in
+                    CampaignCard(
+                        campaign: $campaigns[indices],
+                        collapsable: collapsable,
+                        defaultOpen: defaultOpen
+                    )
+                }
+            }
         }
     }
 }

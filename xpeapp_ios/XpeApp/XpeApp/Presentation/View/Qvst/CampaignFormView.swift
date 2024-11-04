@@ -25,11 +25,11 @@ struct CampaignForm: View {
     var body: some View {
         VStack {
             if let campaign = routerManager.parameters["campaign"] as! QvstCampaignEntity? {
-                Title(
-                    text: campaign.themeName,
-                    isFirstPageElement: true
-                )
-                Spacer().frame(height: 50)
+                HStack {
+                    Title(text: campaign.themeName)
+                    Spacer()
+                }
+                Spacer().frame(height: 60)
                 ScrollView {
                     if questions.isEmpty {
                         ProgressView("Chargement des questions...")

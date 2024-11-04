@@ -134,28 +134,7 @@ class WordpressRepositoryTest {
 
     class ClassifyCampaignsTests : BaseTest() {
         @Test
-        fun `classifyCampaigns with open status returns open key`() {
-            val campaigns = arrayListOf(
-                QvstCampaignEntity(
-                    id = "1",
-                    name = "Campaign 1",
-                    themeName = "Theme 1",
-                    status = "OPEN",
-                    outdated = false,
-                    completed = false,
-                    remainingDays = 10,
-                    endDate = "2023-12-31"
-                )
-            )
-
-            val result = wordpressRepo.classifyCampaigns(campaigns)
-
-            assertEquals(1, result["open"]?.size)
-            assertEquals("Campaign 1", result["open"]?.get(0)?.name)
-        }
-
-        @Test
-        fun `classifyCampaigns with closed status and valid end date returns date year key`() {
+        fun `classifyCampaigns with valid end date returns date year key`() {
             val campaigns = arrayListOf(
                 QvstCampaignEntity(
                     id = "2",
@@ -171,12 +150,12 @@ class WordpressRepositoryTest {
 
             val result = wordpressRepo.classifyCampaigns(campaigns)
 
-            assertEquals(1, result["2022"]?.size)
-            assertEquals("Campaign 2", result["2022"]?.get(0)?.name)
+            assertEquals(1, result[2022]?.size)
+            assertEquals("Campaign 2", result[2022]?.get(0)?.name)
         }
 
         @Test(expected = DateTimeParseException::class)
-        fun `classifyCampaigns with closed status and invalid end date returns empty`() {
+        fun `classifyCampaigns with invalid end date returns empty`() {
             val campaigns = arrayListOf(
                 QvstCampaignEntity(
                     id = "3",

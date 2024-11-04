@@ -10,4 +10,5 @@ import Foundation
 protocol NewsletterRepository {
     func getNewsletters() async -> [NewsletterEntity]?
     func getLastNewsletter() async -> NewsletterEntity?
+    func classifyNewsletters(newsletters: [NewsletterEntity]) -> [Int: [NewsletterEntity]]
 }

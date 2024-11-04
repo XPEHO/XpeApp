@@ -331,7 +331,7 @@ final class QvstRepositoryTests: XCTestCase {
     func test_classifyCampaigns() throws {
         // GIVEN
         let currentDate = Date()
-        let currentDatePlusOneDay = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
+        let currentDatePlusOneYear = Calendar.current.date(byAdding: .year, value: 1, to: currentDate)!
         let campaigns = [
             QvstCampaignEntity(
                 id: "campaign_id_1",
@@ -341,7 +341,7 @@ final class QvstRepositoryTests: XCTestCase {
                 outdated: false,
                 completed: true,
                 remainingDays: 1,
-                endDate: currentDatePlusOneDay
+                endDate: currentDatePlusOneYear
             ),
             QvstCampaignEntity(
                 id: "campaign_id_2",
@@ -360,7 +360,7 @@ final class QvstRepositoryTests: XCTestCase {
         
         // THEN
         let dataExpected = [
-            "open": [
+            Calendar.current.component(.year, from: currentDatePlusOneYear): [
                 QvstCampaignEntity(
                     id: "campaign_id_1",
                     name: "Qvst Campaign 1",
@@ -369,10 +369,10 @@ final class QvstRepositoryTests: XCTestCase {
                     outdated: false,
                     completed: true,
                     remainingDays: 1,
-                    endDate: currentDatePlusOneDay
+                    endDate: currentDatePlusOneYear
                 )
             ],
-            "\(Calendar.current.component(.year, from: currentDate))": [
+            Calendar.current.component(.year, from: currentDate): [
                 QvstCampaignEntity(
                     id: "campaign_id_2",
                     name: "Qvst Campaign 2",
@@ -386,8 +386,8 @@ final class QvstRepositoryTests: XCTestCase {
             ]
         ]
         XCTAssertNotNil(classifiedCampaigns)
-        XCTAssertEqual(classifiedCampaigns["open"]?.count, 1)
-        XCTAssertEqual(classifiedCampaigns["\(Calendar.current.component(.year, from: currentDate))"]?.count, 1)
+        XCTAssertEqual(classifiedCampaigns[Calendar.current.component(.year, from: currentDatePlusOneYear)]?.count, 1)
+        XCTAssertEqual(classifiedCampaigns[Calendar.current.component(.year, from: currentDate)]?.count, 1)
         XCTAssertEqual(classifiedCampaigns, dataExpected)
     }
 }

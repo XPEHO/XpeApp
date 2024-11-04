@@ -7,6 +7,6 @@ interface QvstUiState {
     object EMPTY : QvstUiState
     object LOADING : QvstUiState
     data class ERROR(val error: String) : QvstUiState
-    data class SUCCESS(val qvst: Map<String, List<QvstCampaignEntity>>) : QvstUiState
+    data class SUCCESS(val qvst: Map<Int, List<QvstCampaignEntity>>) : QvstUiState
 
 }

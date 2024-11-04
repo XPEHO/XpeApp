@@ -32,6 +32,10 @@ class NewsletterViewModel : ViewModel() {
         }
     }
 
+    fun getClassifiedNewsletters(): Map<Int, List<Newsletter>> {
+        return state.value.groupBy { it.date.year }
+    }
+
     fun resetState() {
         state.value = emptyList()
     }

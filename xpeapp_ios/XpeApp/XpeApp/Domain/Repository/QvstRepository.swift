@@ -8,7 +8,7 @@
 import Foundation
 
 protocol QvstRepository {
-    func classifyCampaigns(campaigns: [QvstCampaignEntity]) -> [String: [QvstCampaignEntity]]
+    func classifyCampaigns(campaigns: [QvstCampaignEntity]) -> [Int: [QvstCampaignEntity]]
     func getCampaigns() async -> [QvstCampaignEntity]?
     func getActiveCampaigns() async -> [QvstCampaignEntity]?
 }

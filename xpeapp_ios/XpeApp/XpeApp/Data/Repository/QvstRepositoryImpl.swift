@@ -61,19 +61,14 @@ class QvstRepositoryImpl: QvstRepository {
             )
         }
         
-        return campaignsEntities
+        return campaignsEntities.sorted { $0.endDate > $1.endDate }
     }
     
     // Classify campaigns by year and status
-    func classifyCampaigns(campaigns: [QvstCampaignEntity]) -> [String: [QvstCampaignEntity]] {
-        return campaigns.reduce(into: [String: [QvstCampaignEntity]]()) { classifiedCampaigns, campaign in
-            if campaign.status == "OPEN" {
-                classifiedCampaigns["open", default: []].append(campaign)
-            } else {
-                let year = Calendar.current.component(.year, from: campaign.endDate)
-                let yearKey = "\(year)"
-                classifiedCampaigns[yearKey, default: []].append(campaign)
-            }
+    func classifyCampaigns(campaigns: [QvstCampaignEntity]) -> [Int: [QvstCampaignEntity]] {
+        return campaigns.reduce(into: [Int: [QvstCampaignEntity]]()) { classifiedCampaigns, campaign in
+            let year = Calendar.current.component(.year, from: campaign.endDate)
+            classifiedCampaigns[year, default: []].append(campaign)
         }
     }
     

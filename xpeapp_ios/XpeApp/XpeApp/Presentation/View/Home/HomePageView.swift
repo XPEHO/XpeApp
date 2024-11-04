@@ -14,30 +14,36 @@ struct HomePage: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 10) {
+            VStack {
                 if lastNewsletterSectionIsEnabled() {
-                    Title(text: "Dernière publication", isFirstPageElement: true)
+                    HStack {
+                        Title(text: "Dernière publication")
+                        Spacer()
+                    }
+                    Spacer().frame(height: 16)
                     LastNewsletterPreview(
                         lastNewsletter: homePageViewModel.lastNewsletter
                     )
+                    Spacer().frame(height: 32)
                 }
                 if toNotMissSectionIsEnabled() {
-                    if lastNewsletterSectionIsEnabled() {
-                        Title(text: "À ne pas manquer !")
-                    } else {
-                        Title(text: "À ne pas manquer !", isFirstPageElement: true)
+                    if let activeCampaigns = Binding($homePageViewModel.activeCampaigns) {
+                        HStack {
+                            Title(text: "À ne pas manquer !")
+                            Spacer()
+                        }
+                        Spacer().frame(height: 16)
+                        CampaignsList(
+                            campaigns: activeCampaigns,
+                            collapsable: false,
+                            defaultOpen: true
+                        )
                     }
-                    
-                    CampaignsList(
-                        campaigns: $homePageViewModel.activeCampaigns,
-                        collapsable: false,
-                        defaultOpen: true
-                    )
                 }
                 
                 if !lastNewsletterSectionIsEnabled()
                     && !toNotMissSectionIsEnabled() {
-                    Title(text: "Rien à l'horizon !", isFirstPageElement: true)
+                    NoContentPlaceHolder()
                 }
             }
         }
@@ -47,22 +53,13 @@ struct HomePage: View {
     }
 
     private func lastNewsletterSectionIsEnabled() -> Bool {
-        // Check that we have newsletter and that the newsletters are a feature enabled
-        if homePageViewModel.lastNewsletter != nil {
-            return featureManager.isEnabled(item: .newsletters)
-        } else {
-            return false
-        }
+        // Check that the newsletters are a feature enabled
+        return featureManager.isEnabled(item: .newsletters)
     }
 
     private func toNotMissSectionIsEnabled() -> Bool {
-        // Check that we have active campaigns and that the campaigns are a feature enabled
-        if let activeCampaigns = homePageViewModel.activeCampaigns {
-            return featureManager.isEnabled(item: .campaign)
-            && !activeCampaigns.isEmpty
-        } else {
-            return false
-        }
+        // Check that the campaigns are a feature enabled
+        return featureManager.isEnabled(item: .campaign)
         
     }
 }

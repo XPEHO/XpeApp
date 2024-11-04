@@ -63,16 +63,12 @@ class WordpressRepository(private val api: WordpressService) {
         )
     }
 
-    fun classifyCampaigns(campaigns: ArrayList<QvstCampaignEntity>): Map<String, List<QvstCampaignEntity>> {
+    fun classifyCampaigns(campaigns: ArrayList<QvstCampaignEntity>): Map<Int, List<QvstCampaignEntity>> {
         return campaigns.groupBy { campaign ->
-            if (campaign.status == "OPEN") {
-                "open"
-            } else {
-                val formatter = DateTimeFormatter.ofPattern(DATETIME_FORMATTER_PATTERN)
-                val endDate = LocalDate.parse(campaign.endDate, formatter)
-                val year = endDate.year
-                year.toString()
-            }
+            val formatter = DateTimeFormatter.ofPattern(DATETIME_FORMATTER_PATTERN)
+            val endDate = LocalDate.parse(campaign.endDate, formatter)
+            val year = endDate.year
+            year
         }
     }
 
@@ -108,7 +104,7 @@ class WordpressRepository(private val api: WordpressService) {
             )
         }
 
-        return campaignsEntities
+        return ArrayList(campaignsEntities.sortedByDescending { it.endDate })
     }
 
     suspend fun getAllQvstCampaigns(

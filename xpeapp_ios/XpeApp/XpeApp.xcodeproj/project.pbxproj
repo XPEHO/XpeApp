@@ -10,6 +10,9 @@
 		0E0A7FE82CBFF9C500BFFCDB /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E0A7FE72CBFF9C500BFFCDB /* Entitlements.plist */; };
 		0E155E632C64EE6500649EBC /* xpeho_ui in Frameworks */ = {isa = PBXBuildFile; productRef = 0E155E622C64EE6500649EBC /* xpeho_ui */; };
 		0E155E652C64F97100649EBC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E155E642C64F97100649EBC /* LaunchScreen.storyboard */; };
+		0E260DBD2CD8D79E00F8EF0C /* NoContentPlaceHolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E260DBC2CD8D79E00F8EF0C /* NoContentPlaceHolderView.swift */; };
+		0E260DBF2CD90DAA00F8EF0C /* ListFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E260DBE2CD90DAA00F8EF0C /* ListFilterView.swift */; };
+		0E260DC12CD92CEA00F8EF0C /* ListFilterTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E260DC02CD92CEA00F8EF0C /* ListFilterTitleView.swift */; };
 		0E5C6EFA2C69EDD100AA2127 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5C6EF92C69EDD100AA2127 /* TitleView.swift */; };
 		0E5C6EFC2C6A1A4500AA2127 /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5C6EFB2C6A1A4500AA2127 /* HomePageView.swift */; };
 		0E61D2AF2C78A0AC00050F7C /* QvstThemeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E61D2AE2C78A0AC00050F7C /* QvstThemeModel.swift */; };
@@ -111,6 +114,9 @@
 		0E0A7FE72CBFF9C500BFFCDB /* Entitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		0E0A7FE92CBFFA4100BFFCDB /* XpeApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XpeApp.entitlements; sourceTree = "<group>"; };
 		0E155E642C64F97100649EBC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0E260DBC2CD8D79E00F8EF0C /* NoContentPlaceHolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoContentPlaceHolderView.swift; sourceTree = "<group>"; };
+		0E260DBE2CD90DAA00F8EF0C /* ListFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilterView.swift; sourceTree = "<group>"; };
+		0E260DC02CD92CEA00F8EF0C /* ListFilterTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilterTitleView.swift; sourceTree = "<group>"; };
 		0E5C6EF92C69EDD100AA2127 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		0E5C6EFB2C6A1A4500AA2127 /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
 		0E61D2AE2C78A0AC00050F7C /* QvstThemeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QvstThemeModel.swift; sourceTree = "<group>"; };
@@ -228,6 +234,9 @@
 				0E7C7CA22C9B082E00660E75 /* Sidebar */,
 				0E87AC2E2C660DBB0079877D /* HeaderView.swift */,
 				0E5C6EF92C69EDD100AA2127 /* TitleView.swift */,
+				0E260DBC2CD8D79E00F8EF0C /* NoContentPlaceHolderView.swift */,
+				0E260DBE2CD90DAA00F8EF0C /* ListFilterView.swift */,
+				0E260DC02CD92CEA00F8EF0C /* ListFilterTitleView.swift */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -685,6 +694,7 @@
 				0E61D2B92C78A20F00050F7C /* NewsletterModel.swift in Sources */,
 				0EF0F9002C931EE100AF5966 /* HomePageViewModel.swift in Sources */,
 				0E7EBD5E2C6CFF8700C95482 /* CampaignFormView.swift in Sources */,
+				0E260DBD2CD8D79E00F8EF0C /* NoContentPlaceHolderView.swift in Sources */,
 				0E6277AA2C94897100F26E55 /* NewsletterCardView.swift in Sources */,
 				0E6ACF802C8710B100735E1E /* FeatureRepositoryImpl.swift in Sources */,
 				0E6277A72C9484D900F26E55 /* NewsletterPageViewModel.swift in Sources */,
@@ -710,6 +720,7 @@
 				BDACECE12C109309007B5262 /* ContentView.swift in Sources */,
 				0E61D2B12C78A0C600050F7C /* QvstCampaignModel.swift in Sources */,
 				0E87AC2F2C660DBB0079877D /* HeaderView.swift in Sources */,
+				0E260DC12CD92CEA00F8EF0C /* ListFilterTitleView.swift in Sources */,
 				0E72BA622C771FC100C0583D /* RouterManager.swift in Sources */,
 				0EF0F8F42C91E8C100AF5966 /* WordpressAPI.swift in Sources */,
 				0EF0F8D72C8AE69300AF5966 /* UserRepositoryImpl.swift in Sources */,
@@ -734,6 +745,7 @@
 				0E61D2C22C78A4E300050F7C /* QvstAnswerModel.swift in Sources */,
 				BD83CCBA2C1853ED00152559 /* CampaignsPageView.swift in Sources */,
 				0E61D2C02C78A4DA00050F7C /* QvstQuestionModel.swift in Sources */,
+				0E260DBF2CD90DAA00F8EF0C /* ListFilterView.swift in Sources */,
 				0EF0F8FA2C92CEFA00AF5966 /* UserRepository.swift in Sources */,
 				0EF0F9092C9431E100AF5966 /* FeatureEntity.swift in Sources */,
 				0E61D2C82C78A55400050F7C /* QvstRepositoryImpl.swift in Sources */,

@@ -17,20 +17,11 @@ struct NewsletterPage: View {
         ScrollView {
             if let classifiedNewsletters = newsletterPageViewModel.classifiedNewsletters {
                 let filterList = getFilterList(groupedElements: classifiedNewsletters)
-                HStack {
-                    Title(text: "Newsletters de l'année")
-                    Spacer()
-                    if (filterList.count > 1) {
-                        ListFilter<Int>(
-                            elements: filterList,
-                            defaultSelectedElement: selectedYear
-                        ) { selectedElement in
-                            selectedYear = selectedElement
-                        }
-                    } else {
-                        ListFilterTitle(text: String(selectedYear))
-                    }
-                }
+                PageTitleWithFilterSection(
+                    title: "Newsletters de l'année",
+                    filterList: filterList,
+                    selectedYear: $selectedYear
+                )
                 Spacer().frame(height: 16)
                 let newsletters: [NewsletterEntity] = classifiedNewsletters[selectedYear] ?? []
                 NewslettersList(newsletters: newsletters)

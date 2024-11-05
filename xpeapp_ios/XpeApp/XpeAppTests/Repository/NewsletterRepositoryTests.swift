@@ -120,4 +120,53 @@ final class NewsletterRepositoryTests: XCTestCase {
         }
     }
 
+    // ------------------- classifyNewsletters TESTS -------------------
+
+    func test_classifyNewsletters() throws {
+        // GIVEN
+        let currentDate = Date()
+        let currentDatePlusOneYear = Calendar.current.date(byAdding: .year, value: 1, to: currentDate)!
+        let newsletters = [
+            NewsletterEntity(
+                id: "newsletter_id_1",
+                pdfUrl: "newsletter@url.1",
+                date: currentDatePlusOneYear,
+                summary: ["Summary 1"]
+            ),
+            NewsletterEntity(
+                id: "newsletter_id_2",
+                pdfUrl: "newsletter@url.2",
+                date: currentDate,
+                summary: ["Summary 2"]
+            )
+        ]
+        
+        // WHEN
+        let classifiedNewsletters = newsletterRepo.classifyNewsletters(newsletters: newsletters)
+        
+        // THEN
+        let dataExpected = [
+            Calendar.current.component(.year, from: currentDatePlusOneYear): [
+                NewsletterEntity(
+                    id: "newsletter_id_1",
+                    pdfUrl: "newsletter@url.1",
+                    date: currentDatePlusOneYear,
+                    summary: ["Summary 1"]
+                )
+            ],
+            Calendar.current.component(.year, from: currentDate): [
+                NewsletterEntity(
+                    id: "newsletter_id_2",
+                    pdfUrl: "newsletter@url.2",
+                    date: currentDate,
+                    summary: ["Summary 2"]
+                )
+            ]
+        ]
+        XCTAssertNotNil(classifiedNewsletters)
+        XCTAssertEqual(classifiedNewsletters[Calendar.current.component(.year, from: currentDatePlusOneYear)]?.count, 1)
+        XCTAssertEqual(classifiedNewsletters[Calendar.current.component(.year, from: currentDate)]?.count, 1)
+        XCTAssertEqual(classifiedNewsletters, dataExpected)
+    }
+
 }

@@ -63,7 +63,7 @@ class WordpressRepository(private val api: WordpressService) {
         )
     }
 
-    fun classifyCampaigns(campaigns: ArrayList<QvstCampaignEntity>): Map<Int, List<QvstCampaignEntity>> {
+    fun classifyCampaigns(campaigns: List<QvstCampaignEntity>): Map<Int, List<QvstCampaignEntity>> {
         return campaigns.groupBy { campaign ->
             val formatter = DateTimeFormatter.ofPattern(DATETIME_FORMATTER_PATTERN)
             val endDate = LocalDate.parse(campaign.endDate, formatter)
@@ -76,41 +76,43 @@ class WordpressRepository(private val api: WordpressService) {
     fun getCampaignsEntitiesFromModels(
         campaigns: List<QvstCampaign>,
         progress: List<QvstProgress>
-    ): ArrayList<QvstCampaignEntity> {
-        val campaignsEntities = ArrayList<QvstCampaignEntity>()
+    ): List<QvstCampaignEntity> {
+        val campaignsEntities = campaigns
+            .map { campaign -> getCampaignEntityFromModel(campaign, progress) }
+        return campaignsEntities.sortedByDescending { it.endDate }
+    }
 
-        for (campaign in campaigns) {
-            var remainingDays = countDaysBetween(getTodayDateString(), campaign.endDate)
-            if (remainingDays < 0)
-                remainingDays = 0
-
-            val campaignProgress = progress.firstOrNull { it.campaignId == campaign.id }
-
-            val completed = campaignProgress?.let {
-                it.answeredQuestions >= it.totalQuestions
-            } ?: false
-
-            campaignsEntities.add(
-                QvstCampaignEntity(
-                    id = campaign.id,
-                    name = campaign.name,
-                    themeName = campaign.theme.name,
-                    status = campaign.status,
-                    outdated = remainingDays <= 0,
-                    completed = completed,
-                    remainingDays = remainingDays.toInt(),
-                    endDate = campaign.endDate
-                )
-            )
+    private fun getCampaignEntityFromModel(
+        campaign: QvstCampaign,
+        progress: List<QvstProgress>
+    ): QvstCampaignEntity {
+        var remainingDays = countDaysBetween(getTodayDateString(), campaign.endDate)
+        if (remainingDays < 0) {
+            remainingDays = 0
         }
 
-        return ArrayList(campaignsEntities.sortedByDescending { it.endDate })
+        val campaignProgress = progress.firstOrNull { it.campaignId == campaign.id }
+
+        val completed = campaignProgress?.let {
+            it.answeredQuestions >= it.totalQuestions
+        } ?: false
+
+        return QvstCampaignEntity(
+            id = campaign.id,
+            name = campaign.name,
+            themeName = campaign.theme.name,
+            status = campaign.status,
+            outdated = remainingDays <= 0,
+            completed = completed,
+            remainingDays = remainingDays.toInt(),
+            endDate = campaign.endDate
+        )
     }
 
     suspend fun getAllQvstCampaigns(
         token: WordpressToken,
         username: String
-    ): ArrayList<QvstCampaignEntity>? {
+    ): List<QvstCampaignEntity>? {
         handleServiceExceptions(
             tryBody = {
                 val campaigns = api.getAllQvstCampaigns()
@@ -140,7 +142,7 @@ class WordpressRepository(private val api: WordpressService) {
     suspend fun getActiveQvstCampaigns(
         token: WordpressToken,
         username: String
-    ): ArrayList<QvstCampaignEntity>? {
+    ): List<QvstCampaignEntity>? {
         handleServiceExceptions(
             tryBody = {
                 val campaigns = api.getActiveQvstCampaigns()

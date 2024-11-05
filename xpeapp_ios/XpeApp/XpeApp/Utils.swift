@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 // Util function to count days between two dates
 func countDaysBetween(_ from: Date, and to: Date) -> Int? {

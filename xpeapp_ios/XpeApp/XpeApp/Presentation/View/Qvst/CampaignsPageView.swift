@@ -16,20 +16,11 @@ struct CampaignsPage: View {
         ScrollView {
             if let classifiedCampaigns = Binding($campaignsPageViewModel.classifiedCampaigns) {
                 let filterList = getFilterList(groupedElements: classifiedCampaigns.wrappedValue)
-                HStack {
-                    Title(text: "Campagnes de l'année")
-                    Spacer()
-                    if (filterList.count > 1) {
-                        ListFilter<Int>(
-                            elements: filterList,
-                            defaultSelectedElement: selectedYear
-                        ) { selectedElement in
-                            selectedYear = selectedElement
-                        }
-                    } else {
-                        ListFilterTitle(text: String(selectedYear))
-                    }
-                }
+                PageTitleWithFilterSection(
+                    title: "Campagnes de l'année",
+                    filterList: filterList,
+                    selectedYear: $selectedYear
+                )
                 Spacer().frame(height: 16)
                 if let campaigns = Binding(classifiedCampaigns[selectedYear]) {
                     // Display campaigns list

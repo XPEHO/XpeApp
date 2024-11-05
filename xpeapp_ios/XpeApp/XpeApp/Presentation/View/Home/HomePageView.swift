@@ -16,10 +16,7 @@ struct HomePage: View {
         ScrollView {
             VStack {
                 if lastNewsletterSectionIsEnabled() {
-                    HStack {
-                        Title(text: "Dernière publication")
-                        Spacer()
-                    }
+                    PageTitleSection(title: "Dernière publication")
                     Spacer().frame(height: 16)
                     LastNewsletterPreview(
                         lastNewsletter: homePageViewModel.lastNewsletter
@@ -28,10 +25,7 @@ struct HomePage: View {
                 }
                 if toNotMissSectionIsEnabled() {
                     if let activeCampaigns = Binding($homePageViewModel.activeCampaigns) {
-                        HStack {
-                            Title(text: "À ne pas manquer !")
-                            Spacer()
-                        }
+                        PageTitleSection(title: "À ne pas manquer !")
                         Spacer().frame(height: 16)
                         CampaignsList(
                             campaigns: activeCampaigns,

@@ -13,6 +13,7 @@
 		0E260DBD2CD8D79E00F8EF0C /* NoContentPlaceHolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E260DBC2CD8D79E00F8EF0C /* NoContentPlaceHolderView.swift */; };
 		0E260DBF2CD90DAA00F8EF0C /* ListFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E260DBE2CD90DAA00F8EF0C /* ListFilterView.swift */; };
 		0E260DC12CD92CEA00F8EF0C /* ListFilterTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E260DC02CD92CEA00F8EF0C /* ListFilterTitleView.swift */; };
+		0E260DC32CDA245000F8EF0C /* PageTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E260DC22CDA245000F8EF0C /* PageTitleView.swift */; };
 		0E5C6EFA2C69EDD100AA2127 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5C6EF92C69EDD100AA2127 /* TitleView.swift */; };
 		0E5C6EFC2C6A1A4500AA2127 /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5C6EFB2C6A1A4500AA2127 /* HomePageView.swift */; };
 		0E61D2AF2C78A0AC00050F7C /* QvstThemeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E61D2AE2C78A0AC00050F7C /* QvstThemeModel.swift */; };
@@ -117,6 +118,7 @@
 		0E260DBC2CD8D79E00F8EF0C /* NoContentPlaceHolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoContentPlaceHolderView.swift; sourceTree = "<group>"; };
 		0E260DBE2CD90DAA00F8EF0C /* ListFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilterView.swift; sourceTree = "<group>"; };
 		0E260DC02CD92CEA00F8EF0C /* ListFilterTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilterTitleView.swift; sourceTree = "<group>"; };
+		0E260DC22CDA245000F8EF0C /* PageTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageTitleView.swift; sourceTree = "<group>"; };
 		0E5C6EF92C69EDD100AA2127 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		0E5C6EFB2C6A1A4500AA2127 /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
 		0E61D2AE2C78A0AC00050F7C /* QvstThemeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QvstThemeModel.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				0E260DBC2CD8D79E00F8EF0C /* NoContentPlaceHolderView.swift */,
 				0E260DBE2CD90DAA00F8EF0C /* ListFilterView.swift */,
 				0E260DC02CD92CEA00F8EF0C /* ListFilterTitleView.swift */,
+				0E260DC22CDA245000F8EF0C /* PageTitleView.swift */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -720,6 +723,7 @@
 				BDACECE12C109309007B5262 /* ContentView.swift in Sources */,
 				0E61D2B12C78A0C600050F7C /* QvstCampaignModel.swift in Sources */,
 				0E87AC2F2C660DBB0079877D /* HeaderView.swift in Sources */,
+				0E260DC32CDA245000F8EF0C /* PageTitleView.swift in Sources */,
 				0E260DC12CD92CEA00F8EF0C /* ListFilterTitleView.swift in Sources */,
 				0E72BA622C771FC100C0583D /* RouterManager.swift in Sources */,
 				0EF0F8F42C91E8C100AF5966 /* WordpressAPI.swift in Sources */,

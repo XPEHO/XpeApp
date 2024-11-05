@@ -1,18 +1,12 @@
 package com.xpeho.xpeapp.ui.page.qvst
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,9 +16,7 @@ import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.data.entity.QvstCampaignEntity
 import com.xpeho.xpeapp.ui.components.CustomDialog
-import com.xpeho.xpeapp.ui.components.layout.ListFilter
-import com.xpeho.xpeapp.ui.components.layout.ListFilterTitle
-import com.xpeho.xpeapp.ui.components.layout.Title
+import com.xpeho.xpeapp.ui.components.layout.TitleWithFilter
 import com.xpeho.xpeapp.ui.components.qvst.QvstCardList
 import com.xpeho.xpeapp.ui.uiState.QvstUiState
 import com.xpeho.xpeapp.ui.viewModel.qvst.QvstCampaignsViewModel
@@ -38,7 +30,7 @@ fun QvstPage(
 
     // We set the selected year to the current year
     val currentYear = LocalDate.now().year
-    var selectedYear by remember { mutableStateOf(currentYear) }
+    val selectedYear = remember { mutableIntStateOf(currentYear) }
 
     val campaignViewModel = viewModel<QvstCampaignsViewModel>(
         factory = viewModelFactory {
@@ -74,27 +66,13 @@ fun QvstPage(
 
                 // Display the content of the page
                 item {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.Top,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        // Display the title
-                        Title(label = "Campagnes de l'année")
-                        // Display the filter if there is more than one year in the list
-                        if (filterList.size > 1) {
-                            ListFilter<Int>(
-                                elements = filterList,
-                                defaultSelectedElement = selectedYear,
-                            ) { selectedElement ->
-                                selectedYear = selectedElement
-                            }
-                        } else {
-                            ListFilterTitle(label = selectedYear.toString())
-                        }
-                    }
+                    TitleWithFilter<Int>(
+                        title = "Campagnes de l'année",
+                        filterList = filterList,
+                        state = selectedYear,
+                    )
                     // Display the list of newsletters
-                    val campaigns: List<QvstCampaignEntity> = classifiedCampaigns[selectedYear] ?: emptyList()
+                    val campaigns: List<QvstCampaignEntity> = classifiedCampaigns[selectedYear.intValue] ?: emptyList()
                     QvstCardList(
                         navigationController = navigationController,
                         campaigns = campaigns,

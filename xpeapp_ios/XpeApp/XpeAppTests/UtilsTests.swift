@@ -43,6 +43,20 @@ final class UtilsTests: XCTestCase{
         let dateExpected = "01/01/2000"
         XCTAssertEqual(dateFormatted, dateExpected)
     }
+
+    func test_dateMonthFormatter() throws {
+        // GIVEN
+        var dateComponents = DateComponents(year: 2000, month: 1, day: 1)
+        dateComponents.timeZone = TimeZone(secondsFromGMT: 0)
+        let date = Calendar.current.date(from: dateComponents)!
+        
+        // WHEN
+        let monthFormatted = dateMonthFormatter.string(from: date)
+        
+        // THEN
+        let monthExpected = "janvier"
+        XCTAssertEqual(monthFormatted, monthExpected)
+    }
     
     func test_isValidEmail() throws {
         // GIVEN

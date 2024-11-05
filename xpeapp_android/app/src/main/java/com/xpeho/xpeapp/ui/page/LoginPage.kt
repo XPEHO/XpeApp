@@ -1,14 +1,13 @@
 package com.xpeho.xpeapp.ui.page
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -16,14 +15,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -86,6 +88,10 @@ private fun LoginPageContent(
     var errorTextFieldUser by rememberSaveable { mutableStateOf(false) }
     var errorTextFieldPassword by rememberSaveable { mutableStateOf(false) }
 
+    val focusManager = LocalFocusManager.current
+    val usernameFocusRequester = remember { FocusRequester() }
+    val passwordFocusRequester = remember { FocusRequester() }
+
     Scaffold(
         content = {
             Column(
@@ -95,24 +101,24 @@ private fun LoginPageContent(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Box(
+                Icon(
+                    painter = painterResource(id = R.drawable.app_icon_cropped),
+                    tint = XpehoColors.XPEHO_COLOR,
+                    contentDescription = stringResource(id = R.string.xpeho_logo_content),
                     modifier = Modifier
-                        .size(160.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.app_icon_without_bg),
-                        contentDescription = stringResource(id = R.string.xpeho_logo_content),
-                        tint = XpehoColors.XPEHO_COLOR,
-                        modifier = Modifier
-                            .scale(2f)
-                    )
-                }
-                Spacer(modifier = Modifier.height(50.dp))
+                        .width(200.dp)
+                )
+                Spacer(modifier = Modifier.height(100.dp))
                 InputText(
                     label = stringResource(id = R.string.login_page_email),
                     defaultInput = usernameTextField,
                     labelSize = 14.sp,
-                    inputSize = 18.sp
+                    inputSize = 18.sp,
+                    focusRequester = usernameFocusRequester,
+                    keyboardAction = ImeAction.Next,
+                    onKeyboardAction = {
+                        passwordFocusRequester.requestFocus()
+                    }
                 ) {
                     usernameTextField = it
                 }
@@ -123,7 +129,20 @@ private fun LoginPageContent(
                     defaultInput = passwordTextField,
                     labelSize = 14.sp,
                     inputSize = 18.sp,
-                    password = true
+                    password = true,
+                    focusRequester = passwordFocusRequester,
+                    keyboardAction = ImeAction.Done,
+                    onKeyboardAction = {
+                        focusManager.clearFocus()
+                        errorTextFieldUser = false
+                        errorTextFieldPassword = false
+                        if (usernameTextField.isNotEmpty() && passwordTextField.isNotEmpty()) {
+                            onLoginPressed(usernameTextField, passwordTextField)
+                        } else {
+                            if (usernameTextField.isEmpty()) errorTextFieldUser = true
+                            if (passwordTextField.isEmpty()) errorTextFieldPassword = true
+                        }
+                    }
                 ) {
                     passwordTextField = it
                 }
@@ -151,6 +170,8 @@ private fun LoginPageContent(
             }
         }
     )
+
+
 }
 
 @Composable

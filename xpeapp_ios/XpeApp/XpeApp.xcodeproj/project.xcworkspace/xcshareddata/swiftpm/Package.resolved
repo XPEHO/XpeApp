@@ -123,8 +123,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/XPEHO/xpeho_ui_swift",
       "state" : {
-        "revision" : "211a73546f5a603a4d90a1f1cc918bb63164fb7f",
-        "version" : "1.1.0"
+        "revision" : "1b5bc8d3487dd064308ec8a1bb8957a5d6e0c5fe",
+        "version" : "1.1.1"
       }
     }
   ],

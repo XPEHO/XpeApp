@@ -19,6 +19,12 @@ struct LoginPage: View {
     // Allow to lock the button after first click and prevent spamming
     @State var isTryingToLogin = false
 
+    @FocusState private var focusedField: Field?
+    enum Field {
+        case username
+        case password
+    }
+
     var body: some View {
         VStack(spacing: 16) {
             Spacer()
@@ -33,17 +39,28 @@ struct LoginPage: View {
             InputText(
                 label: "Email",
                 password: false,
+                submitLabel: .next,
+                onSubmit: {
+                    focusedField = .password
+                },
                 onInput: { input in
                     self.username = input
                 }
             )
+            .focused($focusedField, equals: .username)
             InputText(
                 label: "Mot de passe",
                 password: true,
+                submitLabel: .done,
+                onSubmit: {
+                    focusedField = nil
+                    onLoginPress()
+                },
                 onInput: { input in
                     self.password = input
                 }
             )
+            .focused($focusedField, equals: .password)
             ClickyButton(
                 label: isTryingToLogin ? "Connexion..." : "Se Connecter",
                 size: 18,
@@ -51,20 +68,24 @@ struct LoginPage: View {
                 verticalPadding: 18,
                 enabled: true,//!isTryingToLogin,
                 onPress: {
-                    isTryingToLogin = true
-                    loginManager.login(
-                        username: username,
-                        password: password
-                    ) {
-                        isTryingToLogin = false
-                    }
-                    debugPrint("Login with \(username)") 
+                    onLoginPress() 
                 }
             )
             .padding(.top, 32)
         }
         .padding(.horizontal, 16)
         .preferredColorScheme(.dark)
+    }
+
+    func onLoginPress() {
+        isTryingToLogin = true
+        loginManager.login(
+            username: username,
+            password: password
+        ) {
+            isTryingToLogin = false
+        }
+        debugPrint("Login with \(username)") 
     }
 }
 

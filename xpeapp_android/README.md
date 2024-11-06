@@ -66,3 +66,7 @@ Make sure to generate a PAT (Personal Access Token) on your github account follo
 You need to allow the following rights :
 ![repos_right](doc/repos_right.png)
 ![packages_right](doc/packages_right.png)
+
+## Deployment
+
+Follow the Bookstack documentation : _Mobilité/Android/Comment uploader une release sur Google Play Console_

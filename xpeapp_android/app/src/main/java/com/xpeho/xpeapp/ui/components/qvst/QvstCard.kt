@@ -1,16 +1,20 @@
 package com.xpeho.xpeapp.ui.components.qvst
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.xpeho.xpeapp.data.entity.QvstCampaignEntity
 import com.xpeho.xpeapp.enums.Screens
+import com.xpeho.xpeapp.ui.openPdfFile
 import com.xpeho.xpeho_ui_android.ClickyButton
 import com.xpeho.xpeho_ui_android.CollapsableCard
 import com.xpeho.xpeho_ui_android.TagPill
@@ -29,23 +33,7 @@ fun QvstCard(
     CollapsableCard(
         label = campaign.name,
         tags = getTagsList(campaign = campaign),
-        button =
-        if ((campaign.status == "OPEN") && !campaign.completed) {
-            {
-                key(campaign.id) {
-                    ClickyButton(
-                        label = "Compléter",
-                        size = 14.sp,
-                        verticalPadding = 3.dp,
-                        horizontalPadding = 40.dp
-                    ) {
-                        navigationController.navigate(route = "${Screens.Qvst.name}/${campaign.id}")
-                    }
-                }
-            }
-        } else {
-            null
-        },
+        button = getButton(campaign = campaign, navigationController = navigationController),
         icon = {
             Icon(
                 painter = painterResource(id = XpehoRes.qvst),
@@ -61,6 +49,52 @@ fun QvstCard(
         collapsable = collapsable,
         defaultOpen = defaultOpen
     )
+}
+
+@Composable
+private fun getButton(campaign: QvstCampaignEntity, navigationController: NavController): @Composable() (() -> Unit)? {
+    val openUrlLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
+    val context = LocalContext.current
+
+    val buttonContent: @Composable() (() -> Unit)? = when {
+        (campaign.status == "ARCHIVED") && (campaign.resultLink != "") -> {
+            {
+                key(campaign.id) {
+                    ClickyButton(
+                        label = "Voir le résultat",
+                        size = 14.sp,
+                        verticalPadding = 3.dp,
+                        horizontalPadding = 40.dp
+                    ) {
+                        openPdfFile(
+                            context = context,
+                            openUrlLauncher = openUrlLauncher,
+                            pdfUrl = campaign.resultLink
+                        )
+                    }
+                }
+            }
+        }
+
+        (campaign.status == "OPEN") && !campaign.completed -> {
+            {
+                key(campaign.id) {
+                    ClickyButton(
+                        label = "Compléter",
+                        size = 14.sp,
+                        verticalPadding = 3.dp,
+                        horizontalPadding = 40.dp
+                    ) {
+                        navigationController.navigate(route = "${Screens.Qvst.name}/${campaign.id}")
+                    }
+                }
+            }
+        }
+
+        else -> null
+    }
+
+    return buttonContent
 }
 
 // Get the tag pills for a campaign

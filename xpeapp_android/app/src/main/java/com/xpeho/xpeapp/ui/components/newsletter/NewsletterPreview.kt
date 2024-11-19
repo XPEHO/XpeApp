@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.data.model.Newsletter
+import com.xpeho.xpeapp.ui.openPdfFile
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import com.xpeho.xpeho_ui_android.TagPill
@@ -24,6 +26,8 @@ import com.xpeho.xpeho_ui_android.foundations.Colors as XpehoColors
 fun NewsletterPreview(newsletter: Newsletter) {
     val formatter = DateTimeFormatter.ofPattern("MMMM", Locale.FRENCH)
     val newsletterMonth = newsletter.date.format(formatter).replaceFirstChar { it.uppercase() }
+
+    val context = LocalContext.current
     val openUrlLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
 
     FilePreviewButton(
@@ -49,7 +53,11 @@ fun NewsletterPreview(newsletter: Newsletter) {
             )
         }
     ){
-        openNewsletter(openUrlLauncher, newsletter.pdfUrl)
+        openPdfFile(
+            context = context,
+            openUrlLauncher = openUrlLauncher,
+            pdfUrl = newsletter.pdfUrl
+        )
     }
 }
 

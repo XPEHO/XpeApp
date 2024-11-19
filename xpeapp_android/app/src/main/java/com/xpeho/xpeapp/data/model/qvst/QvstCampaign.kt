@@ -9,5 +9,6 @@ data class QvstCampaign(
     val status: String,
     @SerializedName("start_date") val startDate: String,
     @SerializedName("end_date") val endDate: String,
+    @SerializedName("action") val action: String,
     @SerializedName("participation_rate") val participationRate: String
 )

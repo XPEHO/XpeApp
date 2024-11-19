@@ -144,7 +144,8 @@ class WordpressRepositoryTest {
                     outdated = true,
                     completed = true,
                     remainingDays = 0,
-                    endDate = "2022-12-31"
+                    endDate = "2022-12-31",
+                    resultLink = "resultLink"
                 )
             )
 
@@ -165,7 +166,8 @@ class WordpressRepositoryTest {
                     outdated = true,
                     completed = true,
                     remainingDays = 0,
-                    endDate = "invalid-date"
+                    endDate = "invalid-date",
+                    resultLink = "resultLink"
                 )
             )
 
@@ -190,7 +192,8 @@ class WordpressRepositoryTest {
                     status = "OPEN",
                     startDate = LocalDate.now().minusDays(10).toString(),
                     participationRate = 0.5.toString(),
-                    endDate = LocalDate.now().plusDays(10).toString()
+                    endDate = LocalDate.now().plusDays(10).toString(),
+                    action = "resultLink"
                 )
             )
             val progress = listOf<QvstProgress>()
@@ -202,6 +205,7 @@ class WordpressRepositoryTest {
             assertEquals("themeName", result[0].themeName)
             assertEquals(10, result[0].remainingDays)
             assertEquals(false, result[0].outdated)
+            assertEquals("resultLink", result[0].resultLink)
         }
 
         @Test
@@ -217,7 +221,8 @@ class WordpressRepositoryTest {
                     status = "CLOSED",
                     startDate = LocalDate.now().minusDays(10).toString(),
                     endDate = LocalDate.now().minusDays(1).toString(),
-                    participationRate = 0.5.toString()
+                    participationRate = 0.5.toString(),
+                    action = "resultLink"
                 )
             )
             val progress = listOf<QvstProgress>()
@@ -229,6 +234,7 @@ class WordpressRepositoryTest {
             assertEquals("themeName", result[0].themeName)
             assertEquals(0, result[0].remainingDays)
             assertEquals(true, result[0].outdated)
+            assertEquals("resultLink", result[0].resultLink)
         }
 
         @Test
@@ -244,7 +250,8 @@ class WordpressRepositoryTest {
                     status = "OPEN",
                     endDate = LocalDate.now().plusDays(5).toString(),
                     startDate = LocalDate.now().minusDays(10).toString(),
-                    participationRate = 0.5.toString()
+                    participationRate = 0.5.toString(),
+                    action = "resultLink"
                 )
             )
             val progress = listOf(
@@ -262,6 +269,7 @@ class WordpressRepositoryTest {
             assertEquals("campaignName", result[0].name)
             assertEquals("themeName", result[0].themeName)
             assertEquals(true, result[0].completed)
+            assertEquals("resultLink", result[0].resultLink)
         }
 
         @Test
@@ -277,7 +285,8 @@ class WordpressRepositoryTest {
                     status = "OPEN",
                     endDate = LocalDate.now().plusDays(5).toString(),
                     startDate = LocalDate.now().minusDays(10).toString(),
-                    participationRate = 0.5.toString()
+                    participationRate = 0.5.toString(),
+                    action = "resultLink"
                 )
             )
             val progress = listOf<QvstProgress>()
@@ -288,6 +297,7 @@ class WordpressRepositoryTest {
             assertEquals("campaignName", result[0].name)
             assertEquals("themeName", result[0].themeName)
             assertEquals(false, result[0].completed)
+            assertEquals("resultLink", result[0].resultLink)
         }
     }
 
@@ -308,7 +318,8 @@ class WordpressRepositoryTest {
                     status = "OPEN",
                     startDate = LocalDate.now().minusDays(10).toString(),
                     endDate = LocalDate.now().plusDays(10).toString(),
-                    participationRate = 0.5.toString()
+                    participationRate = 0.5.toString(),
+                    action = "resultLink"
                 )
             )
             val progress = listOf<QvstProgress>()
@@ -353,7 +364,8 @@ class WordpressRepositoryTest {
                     status = "OPEN",
                     startDate = LocalDate.now().minusDays(10).toString(),
                     endDate = LocalDate.now().plusDays(10).toString(),
-                    participationRate = 0.5.toString()
+                    participationRate = 0.5.toString(),
+                    action = "resultLink"
                 )
             )
             val progress = listOf<QvstProgress>()

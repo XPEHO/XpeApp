@@ -105,7 +105,8 @@ class WordpressRepository(private val api: WordpressService) {
             outdated = remainingDays <= 0,
             completed = completed,
             remainingDays = remainingDays.toInt(),
-            endDate = campaign.endDate
+            endDate = campaign.endDate,
+            resultLink = campaign.action
         )
     }
 

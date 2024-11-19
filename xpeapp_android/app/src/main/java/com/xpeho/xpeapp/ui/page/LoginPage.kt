@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -93,24 +92,20 @@ private fun LoginPageContent(
     val usernameFocusRequester = remember { FocusRequester() }
     val passwordFocusRequester = remember { FocusRequester() }
 
-    Scaffold(
-        content = {
-            LoginPageContentColumn(
-                usernameTextField,
-                passwordTextField,
-                errorTextFieldUser,
-                errorTextFieldPassword,
-                focusManager,
-                usernameFocusRequester,
-                passwordFocusRequester,
-                wordpressState,
-                onLoginPressed,
-                onUsernameChange = { usernameTextField = it },
-                onPasswordChange = { passwordTextField = it },
-                onErrorUserChange = { errorTextFieldUser = it },
-                onErrorPasswordChange = { errorTextFieldPassword = it }
-            )
-        }
+    LoginPageContentColumn(
+        usernameTextField,
+        passwordTextField,
+        errorTextFieldUser,
+        errorTextFieldPassword,
+        focusManager,
+        usernameFocusRequester,
+        passwordFocusRequester,
+        wordpressState,
+        onLoginPressed,
+        onUsernameChange = { usernameTextField = it },
+        onPasswordChange = { passwordTextField = it },
+        onErrorUserChange = { errorTextFieldUser = it },
+        onErrorPasswordChange = { errorTextFieldPassword = it }
     )
 }
 

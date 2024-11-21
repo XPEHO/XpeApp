@@ -56,7 +56,8 @@ class QvstRepositoryImpl: QvstRepository {
                     outdated: remainingDays <= 0,
                     completed: completed,
                     remainingDays: remainingDays,
-                    endDate: campaign.endDate
+                    endDate: campaign.endDate,
+                    resultLink: campaign.action
                 )
             )
         }

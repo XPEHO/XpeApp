@@ -16,8 +16,9 @@ import Foundation
     let completed: Bool
     let remainingDays: Int
     let endDate: Date
+    let resultLink: String
     
-    init(id: String, name: String, themeName: String, status: String, outdated: Bool, completed: Bool, remainingDays: Int, endDate: Date) {
+    init(id: String, name: String, themeName: String, status: String, outdated: Bool, completed: Bool, remainingDays: Int, endDate: Date, resultLink: String) {
         self.id = id
         self.name = name
         self.themeName = themeName
@@ -26,6 +27,7 @@ import Foundation
         self.completed = completed
         self.remainingDays = remainingDays
         self.endDate = endDate
+        self.resultLink = resultLink
     }
     
     static func == (lhs: QvstCampaignEntity, rhs: QvstCampaignEntity) -> Bool {

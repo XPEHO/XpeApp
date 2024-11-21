@@ -30,7 +30,7 @@ struct LastNewsletterPreview: View {
                 }),
                 height: 200,
                 onPress: {
-                    if let url = URL(string: lastNewsletter.pdfUrl)  {
+                    if let url = URL(string: lastNewsletter.pdfUrl), UIApplication.shared.canOpenURL(url) {
                         openURL(url)
                     } else {
                         toastManager.setParams(

@@ -10,7 +10,10 @@ import xpeho_ui
 
 struct CampaignCard: View {
     var routerManager = RouterManager.instance
+    var toastManager = ToastManager.instance
     @Binding var campaign: QvstCampaignEntity
+    
+    @Environment(\.openURL) var openURL
     
     var collapsable: Bool = true
     var defaultOpen: Bool = false
@@ -20,16 +23,7 @@ struct CampaignCard: View {
             label: campaign.name,
             tags: getTagsList(campaign: campaign),
             // We hide the button if the campaign is closed or completed
-            button: (campaign.status == "OPEN") && !campaign.completed
-            ? ClickyButton(
-                label: "Compléter",
-                horizontalPadding: 50,
-                verticalPadding: 12,
-                onPress: {
-                    routerManager.goTo(item: .campaignForm, parameters: ["campaign": campaign])
-                }
-            )
-            : nil,
+            button: getButton(campaign: campaign),
             icon: AnyView(
                 Assets.loadImage(named: "QVST")
                     .renderingMode(.template)
@@ -42,6 +36,41 @@ struct CampaignCard: View {
             collapsable: collapsable,
             defaultOpen: defaultOpen || campaign.status == "OPEN"
         )
+    }
+    
+    // Get the action button for a campaign
+    private func getButton(campaign: QvstCampaignEntity) -> ClickyButton?{
+        var result : ClickyButton?
+        if (campaign.status == "OPEN") && !campaign.completed {
+            result = ClickyButton(
+                label: "Compléter",
+                horizontalPadding: 50,
+                verticalPadding: 12,
+                onPress: {
+                    routerManager.goTo(item: .campaignForm, parameters: ["campaign": campaign])
+                }
+            )
+        } else if (campaign.status == "ARCHIVED") && (campaign.resultLink != "") {
+            result = ClickyButton(
+                label: "Voir les résultats",
+                horizontalPadding: 50,
+                verticalPadding: 12,
+                onPress: {
+                    if let url = URL(string: campaign.resultLink), UIApplication.shared.canOpenURL(url) {
+                        openURL(url)
+                    } else {
+                        toastManager.setParams(
+                            message: "URL de Newsletter incorrecte",
+                            error: true
+                        )
+                        toastManager.play()
+                    }
+                }
+            )
+        } else {
+            result = nil
+        }
+        return result
     }
     
     // Get the tag pills for a campaign

@@ -29,11 +29,19 @@ enum RouterItem: String {
     }
     
     var selectedView: RouterItem = .home
+    var preventView: RouterItem = .home
     var parameters: [String: Any] = [:]
     
     func goTo(item: RouterItem, parameters: [String: Any] = [:]) {
+        self.preventView = self.selectedView
         self.selectedView = item
         self.parameters = parameters
+        FeatureManager.instance.update()
+    }
+    
+    func goBack() {
+        self.selectedView = self.preventView
+        self.parameters = [:]
         FeatureManager.instance.update()
     }
 }

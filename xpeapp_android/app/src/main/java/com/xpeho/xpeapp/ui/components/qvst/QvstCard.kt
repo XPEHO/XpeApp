@@ -51,27 +51,12 @@ fun QvstCard(
     )
 }
 
-@Composable
 private fun getButton(campaign: QvstCampaignEntity, navigationController: NavController): @Composable() (() -> Unit)? {
-    val openUrlLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
-    val context = LocalContext.current
-
-    val buttonContent: @Composable() (() -> Unit)? = when {
+    return when {
         (campaign.status == "ARCHIVED") && (campaign.resultLink != "") -> {
             {
                 key(campaign.id) {
-                    ClickyButton(
-                        label = "Voir le résultat",
-                        size = 14.sp,
-                        verticalPadding = 3.dp,
-                        horizontalPadding = 40.dp
-                    ) {
-                        openPdfFile(
-                            context = context,
-                            openUrlLauncher = openUrlLauncher,
-                            pdfUrl = campaign.resultLink
-                        )
-                    }
+                    SeeResultButton(campaign = campaign)
                 }
             }
         }
@@ -79,26 +64,47 @@ private fun getButton(campaign: QvstCampaignEntity, navigationController: NavCon
         (campaign.status == "OPEN") && !campaign.completed -> {
             {
                 key(campaign.id) {
-                    ClickyButton(
-                        label = "Compléter",
-                        size = 14.sp,
-                        verticalPadding = 3.dp,
-                        horizontalPadding = 40.dp
-                    ) {
-                        navigationController.navigate(route = "${Screens.Qvst.name}/${campaign.id}")
-                    }
+                    CompleteButton(campaign = campaign, navigationController = navigationController)
                 }
             }
         }
 
         else -> null
     }
+}
 
-    return buttonContent
+@Composable
+private fun CompleteButton(campaign: QvstCampaignEntity, navigationController: NavController) {
+    ClickyButton(
+        label = "Compléter",
+        size = 14.sp,
+        verticalPadding = 3.dp,
+        horizontalPadding = 40.dp
+    ) {
+        navigationController.navigate(route = "${Screens.Qvst.name}/${campaign.id}")
+    }
+}
+
+@Composable
+private fun SeeResultButton(campaign: QvstCampaignEntity) {
+    val context = LocalContext.current
+    val openUrlLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
+
+    ClickyButton(
+        label = "Voir le résultat",
+        size = 14.sp,
+        verticalPadding = 3.dp,
+        horizontalPadding = 40.dp
+    ) {
+        openPdfFile(
+            context = context,
+            openUrlLauncher = openUrlLauncher,
+            pdfUrl = campaign.resultLink
+        )
+    }
 }
 
 // Get the tag pills for a campaign
-@Composable
 private fun getTagsList(campaign: QvstCampaignEntity): @Composable() (() -> Unit) {
 
     // Init the tagsList depending the data that we got

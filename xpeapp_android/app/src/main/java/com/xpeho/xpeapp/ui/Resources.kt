@@ -1,11 +1,20 @@
 package com.xpeho.xpeapp.ui
 
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.result.ActivityResult
 import com.xpeho.xpeapp.data.FeatureFlippingEnum
 import com.xpeho.xpeapp.data.model.RequestLeave
 import com.xpeho.xpeapp.data.model.RequestLeaveDetail
 import com.xpeho.xpeapp.data.model.RequestLeaveStatus
 import com.xpeho.xpeapp.data.model.RequestLeaveType
 import com.xpeho.xpeapp.enums.Screens
+import java.net.URISyntaxException
 import java.time.LocalDate
 import java.time.Month
 import java.time.Year
@@ -100,3 +109,21 @@ data class Menu(
     val redirection: String,
     val featureFlippingId: FeatureFlippingEnum,
 )
+
+fun openPdfFile(
+    context: Context,
+    openUrlLauncher: ManagedActivityResultLauncher<Intent, ActivityResult>,
+    pdfUrl: String
+) {
+    try {
+        val uri = Uri.parse(pdfUrl)
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        openUrlLauncher.launch(intent)
+    } catch (e: URISyntaxException) {
+        Log.e("openPdfFile", "Invalid URL format", e)
+        Toast.makeText(context, "Format de l'URL invalide", Toast.LENGTH_SHORT).show()
+    } catch (e: ActivityNotFoundException) {
+        Log.e("openPdfFile", "No application can handle this request", e)
+        Toast.makeText(context, "Impossible d'ouvrir l'URL", Toast.LENGTH_SHORT).show()
+    }
+}

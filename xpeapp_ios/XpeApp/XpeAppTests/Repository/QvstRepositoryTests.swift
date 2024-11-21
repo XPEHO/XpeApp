@@ -63,6 +63,7 @@ final class QvstRepositoryTests: XCTestCase {
                     status: "OPEN",
                     startDate: currentDate,
                     endDate: currentDatePlusOneDay,
+                    action: "action",
                     participationRate: "rate"
                 )
             ]
@@ -98,6 +99,7 @@ final class QvstRepositoryTests: XCTestCase {
                     status: "OPEN",
                     startDate: currentDate,
                     endDate: currentDatePlusOneDay,
+                    action: "action",
                     participationRate: "rate"
                 )
             ]
@@ -129,6 +131,7 @@ final class QvstRepositoryTests: XCTestCase {
                     status: "OPEN",
                     startDate: currentDate,
                     endDate: currentDatePlusOneDay,
+                    action: "action",
                     participationRate: "rate"
                 )
             ]
@@ -164,7 +167,8 @@ final class QvstRepositoryTests: XCTestCase {
                     outdated: false,
                     completed: true,
                     remainingDays: 1,
-                    endDate: currentDatePlusOneDay
+                    endDate: currentDatePlusOneDay,
+                    resultLink: "action"
                 )
             ]
             XCTAssertNotNil(campaigns)
@@ -215,6 +219,7 @@ final class QvstRepositoryTests: XCTestCase {
                     status: "OPEN",
                     startDate: currentDate,
                     endDate: currentDatePlusOneDay,
+                    action: "action",
                     participationRate: "rate"
                 )
             ]
@@ -250,6 +255,7 @@ final class QvstRepositoryTests: XCTestCase {
                     status: "OPEN",
                     startDate: currentDate,
                     endDate: currentDatePlusOneDay,
+                    action: "action",
                     participationRate: "rate"
                 )
             ]
@@ -281,6 +287,7 @@ final class QvstRepositoryTests: XCTestCase {
                     status: "OPEN",
                     startDate: currentDate,
                     endDate: currentDatePlusOneDay,
+                    action: "action",
                     participationRate: "rate"
                 )
             ]
@@ -316,7 +323,8 @@ final class QvstRepositoryTests: XCTestCase {
                     outdated: false,
                     completed: true,
                     remainingDays: 1,
-                    endDate: currentDatePlusOneDay
+                    endDate: currentDatePlusOneDay,
+                    resultLink: "action"
                 )
             ]
             XCTAssertNotNil(activeCampaigns)
@@ -341,7 +349,8 @@ final class QvstRepositoryTests: XCTestCase {
                 outdated: false,
                 completed: true,
                 remainingDays: 1,
-                endDate: currentDatePlusOneYear
+                endDate: currentDatePlusOneYear,
+                resultLink: "action 1"
             ),
             QvstCampaignEntity(
                 id: "campaign_id_2",
@@ -351,7 +360,8 @@ final class QvstRepositoryTests: XCTestCase {
                 outdated: true,
                 completed: true,
                 remainingDays: 0,
-                endDate: currentDate
+                endDate: currentDate,
+                resultLink: "action 2"
             )
         ]
         
@@ -369,7 +379,8 @@ final class QvstRepositoryTests: XCTestCase {
                     outdated: false,
                     completed: true,
                     remainingDays: 1,
-                    endDate: currentDatePlusOneYear
+                    endDate: currentDatePlusOneYear,
+                    resultLink: "action 1"
                 )
             ],
             Calendar.current.component(.year, from: currentDate): [
@@ -381,7 +392,8 @@ final class QvstRepositoryTests: XCTestCase {
                     outdated: true,
                     completed: true,
                     remainingDays: 0,
-                    endDate: currentDate
+                    endDate: currentDate,
+                    resultLink: "action 2"
                 )
             ]
         ]

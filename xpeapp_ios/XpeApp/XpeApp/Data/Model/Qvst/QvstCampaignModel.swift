@@ -14,6 +14,7 @@ struct QvstCampaignModel: Codable, Identifiable {
     let status: String
     let startDate: Date
     let endDate: Date
+    let action: String
     let participationRate: String
     
     enum CodingKeys: String, CodingKey {
@@ -23,6 +24,7 @@ struct QvstCampaignModel: Codable, Identifiable {
         case status
         case startDate = "start_date"
         case endDate = "end_date"
+        case action
         case participationRate = "participation_rate"
     }
     
@@ -33,6 +35,7 @@ struct QvstCampaignModel: Codable, Identifiable {
         self.theme = try container.decode(QvstThemeModel.self, forKey: .theme)
         self.status = try container.decode(String.self, forKey: .status)
         self.participationRate = try container.decode(String.self, forKey: .participationRate)
+        self.action = try container.decode(String.self, forKey: .action)
         
         let startDateString = try container.decode(String.self, forKey: .startDate)
         let endDateString = try container.decode(String.self, forKey: .endDate)
@@ -52,6 +55,7 @@ struct QvstCampaignModel: Codable, Identifiable {
          status: String,
          startDate: Date,
          endDate: Date,
+         action: String,
          participationRate: String
     ) {
         self.id = id
@@ -60,6 +64,7 @@ struct QvstCampaignModel: Codable, Identifiable {
         self.status = status
         self.startDate = startDate
         self.endDate = endDate
+        self.action = action
         self.participationRate = participationRate
     }
     

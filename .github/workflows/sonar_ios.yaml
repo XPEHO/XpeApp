@@ -2,7 +2,7 @@ on:
   # Trigger analysis when pushing to your main branches, and when creating a pull request.
   push:
     branches:
-      - "**"
+      - "main"
     paths:
       - "xpeapp_ios/**"
   pull_request:

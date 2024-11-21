@@ -137,11 +137,19 @@ struct CampaignForm: View {
     private func initCampaignData() {
         guard let campaign = routerManager.parameters["campaign"] as! QvstCampaignEntity? else {
             debugPrint("No campaign selected")
+            routerManager.goBack()
+            return
+        }
+        // Prevent access when campaign is already completed
+        if (campaign.completed){
+            debugPrint("Campaign is already completed")
+            routerManager.goBack()
             return
         }
         Task {
             guard let questions = await WordpressAPI.instance.fetchCampaignQuestions(campaignId: campaign.id) else {
                 debugPrint("Failed to fetch campaign questions")
+                routerManager.goBack()
                 return
             }
             

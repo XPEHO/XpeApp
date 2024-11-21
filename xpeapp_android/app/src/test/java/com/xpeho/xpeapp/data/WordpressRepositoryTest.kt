@@ -299,6 +299,37 @@ class WordpressRepositoryTest {
             assertEquals(false, result[0].completed)
             assertEquals("resultLink", result[0].resultLink)
         }
+
+        @Test
+        fun `getCampaignsEntitiesFromModels filter draft campaigns`() {
+            val campaigns = listOf(
+                QvstCampaign(
+                    id = "campaignId",
+                    name = "campaignName",
+                    theme = QvstTheme(
+                        "themeId",
+                        name = "themeName"
+                    ),
+                    status = "DRAFT",
+                    endDate = LocalDate.now().plusDays(5).toString(),
+                    startDate = LocalDate.now().minusDays(10).toString(),
+                    participationRate = 0.5.toString(),
+                    action = "resultLink"
+                )
+            )
+            val progress = listOf(
+                QvstProgress(
+                    campaignId = "campaignId",
+                    answeredQuestions = 10,
+                    totalQuestions = 10,
+                    userId = "userId"
+                )
+            )
+
+            val result = wordpressRepo.getCampaignsEntitiesFromModels(campaigns, progress)
+
+            assertEquals(0, result.size)
+        }
     }
 
     class GetAllQvstCampaignsTests : BaseTest() {

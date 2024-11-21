@@ -18,19 +18,7 @@ struct Sidebar: View {
         VStack(alignment: .leading) {
             if self.isSidebarVisible{
                 HStack(alignment: .center) {
-                    Button(action: {
-                        withAnimation {
-                            self.isSidebarVisible.toggle()
-                        }
-                    }) {
-                        Assets.loadImage(named: "CrossClose")
-                            .renderingMode(.template)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundStyle(.white)
-                            .frame(height: 50)
-                    }
-                    .accessibility(identifier: "Sidebar_CloseButton")
+                    CloseButton(isSidebarVisible: $isSidebarVisible)
                     Spacer()
                 }
                 .padding(.leading, 14)
@@ -103,6 +91,26 @@ struct Sidebar: View {
         .frame(width: self.isSidebarVisible ? geometry.size.width * 0.7 : 0)
         .background(XPEHO_THEME.XPEHO_COLOR)
         .animation(.easeInOut(duration: 0.2), value: self.isSidebarVisible)
+    }
+    
+    struct CloseButton: View {
+        @Binding var isSidebarVisible: Bool
+        
+        var body: some View {
+            Button(action: {
+                withAnimation {
+                    self.isSidebarVisible.toggle()
+                }
+            }) {
+                Assets.loadImage(named: "CrossClose")
+                    .renderingMode(.template)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundStyle(.white)
+                    .frame(height: 50)
+            }
+            .accessibility(identifier: "Sidebar_CloseButton")
+        }
     }
     
     struct LogoutButtonSection: View {

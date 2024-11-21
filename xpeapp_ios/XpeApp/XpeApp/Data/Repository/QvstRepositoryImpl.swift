@@ -34,7 +34,11 @@ class QvstRepositoryImpl: QvstRepository {
     ) -> [QvstCampaignEntity]{
         
         var campaignsEntities: [QvstCampaignEntity] = []
-        for campaign in campaignsModels {
+
+        // Filter out campaigns with status "DRAFT"
+        let filteredCampaignsModels = campaignsModels.filter { $0.status != "DRAFT" }
+        
+        for campaign in filteredCampaignsModels {
         
             var remainingDays = 0
             if let remainingDaysTry = countDaysBetween(Date(), and: campaign.endDate) {

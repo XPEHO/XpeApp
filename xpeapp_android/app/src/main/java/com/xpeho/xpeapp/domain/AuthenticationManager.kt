@@ -66,19 +66,24 @@ class AuthenticationManager(
             )
         }
 
-        val wpRes = wpDefRes.await()
-        val fbRes = fbDefRes.await()
-        if (wpRes is AuthResult.NetworkError || fbRes is AuthResult.NetworkError) {
-            return@coroutineScope AuthResult.NetworkError
+        val result = when (val wpRes = wpDefRes.await()) {
+            is AuthResult.NetworkError -> AuthResult.NetworkError
+            is AuthResult.Unauthorized -> AuthResult.Unauthorized
+            else -> {
+                val fbRes = fbDefRes.await()
+                when (fbRes) {
+                    is AuthResult.NetworkError -> AuthResult.NetworkError
+                    is AuthResult.Unauthorized -> AuthResult.Unauthorized
+                    else -> {
+                        val authData = AuthData(username, (wpRes as AuthResult.Success).data)
+                        writeAuthentication(authData)
+                        _authState.value = AuthState.Authenticated(authData)
+                        wpRes
+                    }
+                }
+            }
         }
-        if (wpRes is AuthResult.Unauthorized || fbRes is AuthResult.Unauthorized) {
-            return@coroutineScope AuthResult.Unauthorized
-        }
-
-        val authData = AuthData(username, (wpRes as AuthResult.Success).data)
-        writeAuthentication(authData)
-        _authState.value = AuthState.Authenticated(authData)
-        return@coroutineScope wpRes
+        return@coroutineScope result
     }
 
     private suspend fun writeAuthentication(authData: AuthData) {

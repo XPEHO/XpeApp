@@ -23,16 +23,14 @@ struct HomePage: View {
                     )
                     Spacer().frame(height: 32)
                 }
-                if toNotMissSectionIsEnabled() {
-                    if let activeCampaigns = Binding($homePageViewModel.activeCampaigns) {
-                        PageTitleSection(title: "À ne pas manquer !")
-                        Spacer().frame(height: 16)
-                        CampaignsList(
-                            campaigns: activeCampaigns,
-                            collapsable: false,
-                            defaultOpen: true
-                        )
-                    }
+                if toNotMissSectionIsEnabled(), let activeCampaigns = Binding($homePageViewModel.activeCampaigns) {
+                    PageTitleSection(title: "À ne pas manquer !")
+                    Spacer().frame(height: 16)
+                    CampaignsList(
+                        campaigns: activeCampaigns,
+                        collapsable: false,
+                        defaultOpen: true
+                    )
                 }
                 
                 if !lastNewsletterSectionIsEnabled()

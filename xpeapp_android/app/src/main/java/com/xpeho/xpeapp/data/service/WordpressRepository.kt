@@ -78,6 +78,7 @@ class WordpressRepository(private val api: WordpressService) {
         progress: List<QvstProgress>
     ): List<QvstCampaignEntity> {
         val campaignsEntities = campaigns
+            .filter { campaign -> campaign.status != "DRAFT" }
             .map { campaign -> getCampaignEntityFromModel(campaign, progress) }
         return campaignsEntities.sortedByDescending { it.endDate }
     }

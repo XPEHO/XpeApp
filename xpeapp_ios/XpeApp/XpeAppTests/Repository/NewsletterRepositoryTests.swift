@@ -58,7 +58,8 @@ final class NewsletterRepositoryTests: XCTestCase {
                     id: "id",
                     pdfUrl: "http://url.com",
                     date: currentDate,
-                    summary: ["summary 1", "summary 2", "summary 3"]
+                    summary: ["summary 1", "summary 2", "summary 3"],
+                    previewPath: "path/to/preview"
                 )
             ]
             
@@ -93,14 +94,16 @@ final class NewsletterRepositoryTests: XCTestCase {
                     date: currentDate,
                     pdfUrl: "http://url.com",
                     publicationDate: currentDate,
-                    summary: "summary 1,summary 2,summary 3"
+                    summary: "summary 1,summary 2,summary 3",
+                    previewPath: "path/to/preview/1"
                 ),
                 NewsletterModel(
                     id: "id2",
                     date: currentDatePlusOneDay,
                     pdfUrl: "http://url.com",
                     publicationDate: currentDate,
-                    summary: "summary 1,summary 2,summary 3"
+                    summary: "summary 1,summary 2,summary 3",
+                    previewPath: "path/to/preview/2"
                 )
             ]
             
@@ -112,7 +115,8 @@ final class NewsletterRepositoryTests: XCTestCase {
                 id: "id2",
                 pdfUrl: "http://url.com",
                 date: currentDatePlusOneDay,
-                summary: ["summary 1", "summary 2", "summary 3"]
+                summary: ["summary 1", "summary 2", "summary 3"],
+                previewPath: "path/to/preview/2"
             )
             
             XCTAssertNotNil(lastNewsletter)
@@ -131,13 +135,15 @@ final class NewsletterRepositoryTests: XCTestCase {
                 id: "newsletter_id_1",
                 pdfUrl: "newsletter@url.1",
                 date: currentDatePlusOneYear,
-                summary: ["Summary 1"]
+                summary: ["Summary 1"],
+                previewPath: "path/to/preview/1"
             ),
             NewsletterEntity(
                 id: "newsletter_id_2",
                 pdfUrl: "newsletter@url.2",
                 date: currentDate,
-                summary: ["Summary 2"]
+                summary: ["Summary 2"],
+                previewPath: "path/to/preview/2"
             )
         ]
         
@@ -151,7 +157,8 @@ final class NewsletterRepositoryTests: XCTestCase {
                     id: "newsletter_id_1",
                     pdfUrl: "newsletter@url.1",
                     date: currentDatePlusOneYear,
-                    summary: ["Summary 1"]
+                    summary: ["Summary 1"],
+                    previewPath: "path/to/preview/1"
                 )
             ],
             Calendar.current.component(.year, from: currentDate): [
@@ -159,7 +166,8 @@ final class NewsletterRepositoryTests: XCTestCase {
                     id: "newsletter_id_2",
                     pdfUrl: "newsletter@url.2",
                     date: currentDate,
-                    summary: ["Summary 2"]
+                    summary: ["Summary 2"],
+                    previewPath: "path/to/preview/2"
                 )
             ]
         ]

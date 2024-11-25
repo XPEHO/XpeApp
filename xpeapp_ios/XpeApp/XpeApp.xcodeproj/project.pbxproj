@@ -42,11 +42,6 @@
 		0E6ACF802C8710B100735E1E /* FeatureRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6ACF7F2C8710B100735E1E /* FeatureRepositoryImpl.swift */; };
 		0E6ACF822C8727E900735E1E /* NewsletterRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6ACF812C8727E900735E1E /* NewsletterRepositoryTests.swift */; };
 		0E6ACF842C87285500735E1E /* FeatureRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6ACF832C87285500735E1E /* FeatureRepositoryTests.swift */; };
-		0E7032962C6B591000850ED5 /* SidebarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7032952C6B591000850ED5 /* SidebarUITests.swift */; };
-		0E7032972C6B5A6600850ED5 /* XpeAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECFB2C10930C007B5262 /* XpeAppUITests.swift */; };
-		0E70329A2C6B5B3100850ED5 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 0E7032992C6B5B3100850ED5 /* FirebaseMessaging */; };
-		0E70329C2C6B5B3600850ED5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 0E70329B2C6B5B3600850ED5 /* FirebaseAuth */; };
-		0E70329E2C6B5B3A00850ED5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 0E70329D2C6B5B3A00850ED5 /* FirebaseFirestore */; };
 		0E72BA602C75DCE400C0583D /* QvstRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E72BA5F2C75DCE400C0583D /* QvstRepositoryTests.swift */; };
 		0E72BA622C771FC100C0583D /* RouterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E72BA612C771FC100C0583D /* RouterManager.swift */; };
 		0E7C7CA42C9B084800660E75 /* SidebarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7C7CA32C9B084800660E75 /* SidebarItemView.swift */; };
@@ -57,9 +52,7 @@
 		0E87AC2F2C660DBB0079877D /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E87AC2E2C660DBB0079877D /* HeaderView.swift */; };
 		0E87AC332C660DDF0079877D /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E87AC322C660DDF0079877D /* SidebarView.swift */; };
 		0EB50D232CDB676F004E8C24 /* xpeho_ui in Frameworks */ = {isa = PBXBuildFile; productRef = 0EB50D222CDB676F004E8C24 /* xpeho_ui */; };
-		0EB50D252CDB67C7004E8C24 /* xpeho_ui in Frameworks */ = {isa = PBXBuildFile; productRef = 0EB50D242CDB67C7004E8C24 /* xpeho_ui */; };
 		0EB50D282CDB6F60004E8C24 /* xpeho_ui in Frameworks */ = {isa = PBXBuildFile; productRef = 0EB50D272CDB6F60004E8C24 /* xpeho_ui */; };
-		0EB50D2A2CDB6F68004E8C24 /* xpeho_ui in Frameworks */ = {isa = PBXBuildFile; productRef = 0EB50D292CDB6F68004E8C24 /* xpeho_ui */; };
 		0EEE15042C9C56A70066CCB7 /* UserRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEE15032C9C56A70066CCB7 /* UserRepositoryTests.swift */; };
 		0EEE15082C9D56790066CCB7 /* FeatureModelEntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEE15072C9D56790066CCB7 /* FeatureModelEntityTests.swift */; };
 		0EEE150A2C9D58130066CCB7 /* NewsletterModelEntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEE15092C9D58130066CCB7 /* NewsletterModelEntityTests.swift */; };
@@ -89,7 +82,6 @@
 		BDACECE52C10930C007B5262 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDACECE42C10930C007B5262 /* Assets.xcassets */; };
 		BDACECE82C10930C007B5262 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDACECE72C10930C007B5262 /* Preview Assets.xcassets */; };
 		BDACECF22C10930C007B5262 /* XpeAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECF12C10930C007B5262 /* XpeAppTests.swift */; };
-		BDACECFE2C10930C007B5262 /* XpeAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECFD2C10930C007B5262 /* XpeAppUITestsLaunchTests.swift */; };
 		BDACED0B2C10A690007B5262 /* NewsletterPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACED0A2C10A690007B5262 /* NewsletterPageView.swift */; };
 		BDACED122C10BB78007B5262 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED112C10BB78007B5262 /* FirebaseAuth */; };
 		BDACED142C10BB78007B5262 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED132C10BB78007B5262 /* FirebaseFirestore */; };
@@ -99,13 +91,6 @@
 
 /* Begin PBXContainerItemProxy section */
 		BDACECEE2C10930C007B5262 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BDACECD32C109309007B5262 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BDACECDA2C109309007B5262;
-			remoteInfo = XpeApp;
-		};
-		BDACECF82C10930C007B5262 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BDACECD32C109309007B5262 /* Project object */;
 			proxyType = 1;
@@ -152,7 +137,6 @@
 		0E6ACF7F2C8710B100735E1E /* FeatureRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureRepositoryImpl.swift; sourceTree = "<group>"; };
 		0E6ACF812C8727E900735E1E /* NewsletterRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsletterRepositoryTests.swift; sourceTree = "<group>"; };
 		0E6ACF832C87285500735E1E /* FeatureRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureRepositoryTests.swift; sourceTree = "<group>"; };
-		0E7032952C6B591000850ED5 /* SidebarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarUITests.swift; sourceTree = "<group>"; };
 		0E72BA5F2C75DCE400C0583D /* QvstRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QvstRepositoryTests.swift; sourceTree = "<group>"; };
 		0E72BA612C771FC100C0583D /* RouterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterManager.swift; sourceTree = "<group>"; };
 		0E7C7CA32C9B084800660E75 /* SidebarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItemView.swift; sourceTree = "<group>"; };
@@ -192,9 +176,6 @@
 		BDACECE72C10930C007B5262 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BDACECED2C10930C007B5262 /* XpeAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XpeAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDACECF12C10930C007B5262 /* XpeAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XpeAppTests.swift; sourceTree = "<group>"; };
-		BDACECF72C10930C007B5262 /* XpeAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XpeAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BDACECFB2C10930C007B5262 /* XpeAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XpeAppUITests.swift; sourceTree = "<group>"; };
-		BDACECFD2C10930C007B5262 /* XpeAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XpeAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		BDACED0A2C10A690007B5262 /* NewsletterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsletterPageView.swift; sourceTree = "<group>"; };
 		BDC8A4242C18765A00D14C35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BDE1B5152C183AE200E8513F /* DebugPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPageView.swift; sourceTree = "<group>"; };
@@ -218,18 +199,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BDACECF42C10930C007B5262 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0E70329A2C6B5B3100850ED5 /* FirebaseMessaging in Frameworks */,
-				0EB50D252CDB67C7004E8C24 /* xpeho_ui in Frameworks */,
-				0EB50D2A2CDB6F68004E8C24 /* xpeho_ui in Frameworks */,
-				0E70329C2C6B5B3600850ED5 /* FirebaseAuth in Frameworks */,
-				0E70329E2C6B5B3A00850ED5 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,7 +452,6 @@
 				0E61D2CC2C78DC0B00050F7C /* XpeApp.xctestplan */,
 				BDACECDD2C109309007B5262 /* XpeApp */,
 				BDACECF02C10930C007B5262 /* XpeAppTests */,
-				BDACECFA2C10930C007B5262 /* XpeAppUITests */,
 				BDACECDC2C109309007B5262 /* Products */,
 				0E7032982C6B5B3100850ED5 /* Frameworks */,
 			);
@@ -494,7 +462,6 @@
 			children = (
 				BDACECDB2C109309007B5262 /* XpeApp.app */,
 				BDACECED2C10930C007B5262 /* XpeAppTests.xctest */,
-				BDACECF72C10930C007B5262 /* XpeAppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -537,16 +504,6 @@
 				0EEE150B2C9D59F70066CCB7 /* UtilsTests.swift */,
 			);
 			path = XpeAppTests;
-			sourceTree = "<group>";
-		};
-		BDACECFA2C10930C007B5262 /* XpeAppUITests */ = {
-			isa = PBXGroup;
-			children = (
-				BDACECFB2C10930C007B5262 /* XpeAppUITests.swift */,
-				BDACECFD2C10930C007B5262 /* XpeAppUITestsLaunchTests.swift */,
-				0E7032952C6B591000850ED5 /* SidebarUITests.swift */,
-			);
-			path = XpeAppUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -595,31 +552,6 @@
 			productReference = BDACECED2C10930C007B5262 /* XpeAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		BDACECF62C10930C007B5262 /* XpeAppUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = BDACED072C10930C007B5262 /* Build configuration list for PBXNativeTarget "XpeAppUITests" */;
-			buildPhases = (
-				BDACECF32C10930C007B5262 /* Sources */,
-				BDACECF42C10930C007B5262 /* Frameworks */,
-				BDACECF52C10930C007B5262 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				BDACECF92C10930C007B5262 /* PBXTargetDependency */,
-			);
-			name = XpeAppUITests;
-			packageProductDependencies = (
-				0E7032992C6B5B3100850ED5 /* FirebaseMessaging */,
-				0E70329B2C6B5B3600850ED5 /* FirebaseAuth */,
-				0E70329D2C6B5B3A00850ED5 /* FirebaseFirestore */,
-				0EB50D242CDB67C7004E8C24 /* xpeho_ui */,
-				0EB50D292CDB6F68004E8C24 /* xpeho_ui */,
-			);
-			productName = XpeAppUITests;
-			productReference = BDACECF72C10930C007B5262 /* XpeAppUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -634,10 +566,6 @@
 						CreatedOnToolsVersion = 15.4;
 					};
 					BDACECEC2C10930C007B5262 = {
-						CreatedOnToolsVersion = 15.4;
-						TestTargetID = BDACECDA2C109309007B5262;
-					};
-					BDACECF62C10930C007B5262 = {
 						CreatedOnToolsVersion = 15.4;
 						TestTargetID = BDACECDA2C109309007B5262;
 					};
@@ -662,7 +590,6 @@
 			targets = (
 				BDACECDA2C109309007B5262 /* XpeApp */,
 				BDACECEC2C10930C007B5262 /* XpeAppTests */,
-				BDACECF62C10930C007B5262 /* XpeAppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -681,13 +608,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		BDACECEB2C10930C007B5262 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BDACECF52C10930C007B5262 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -780,16 +700,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BDACECF32C10930C007B5262 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0E7032972C6B5A6600850ED5 /* XpeAppUITests.swift in Sources */,
-				0E7032962C6B591000850ED5 /* SidebarUITests.swift in Sources */,
-				BDACECFE2C10930C007B5262 /* XpeAppUITestsLaunchTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -797,11 +707,6 @@
 			isa = PBXTargetDependency;
 			target = BDACECDA2C109309007B5262 /* XpeApp */;
 			targetProxy = BDACECEE2C10930C007B5262 /* PBXContainerItemProxy */;
-		};
-		BDACECF92C10930C007B5262 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = BDACECDA2C109309007B5262 /* XpeApp */;
-			targetProxy = BDACECF82C10930C007B5262 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1031,40 +936,6 @@
 			};
 			name = Release;
 		};
-		BDACED082C10930C007B5262 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = xpeho.XpeAppUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = XpeApp;
-			};
-			name = Debug;
-		};
-		BDACED092C10930C007B5262 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = xpeho.XpeAppUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = XpeApp;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1095,15 +966,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BDACED072C10930C007B5262 /* Build configuration list for PBXNativeTarget "XpeAppUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				BDACED082C10930C007B5262 /* Debug */,
-				BDACED092C10930C007B5262 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -1126,21 +988,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0E7032992C6B5B3100850ED5 /* FirebaseMessaging */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDACED102C10BB78007B5262 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseMessaging;
-		};
-		0E70329B2C6B5B3600850ED5 /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDACED102C10BB78007B5262 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
-		};
-		0E70329D2C6B5B3A00850ED5 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDACED102C10BB78007B5262 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
-		};
 		0E7E8C032CF490CE00D348EC /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BDACED102C10BB78007B5262 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -1150,16 +997,7 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = xpeho_ui;
 		};
-		0EB50D242CDB67C7004E8C24 /* xpeho_ui */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = xpeho_ui;
-		};
 		0EB50D272CDB6F60004E8C24 /* xpeho_ui */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0EB50D262CDB6F60004E8C24 /* XCRemoteSwiftPackageReference "xpeho_ui_swift" */;
-			productName = xpeho_ui;
-		};
-		0EB50D292CDB6F68004E8C24 /* xpeho_ui */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0EB50D262CDB6F60004E8C24 /* XCRemoteSwiftPackageReference "xpeho_ui_swift" */;
 			productName = xpeho_ui;

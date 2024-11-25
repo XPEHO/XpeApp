@@ -13,13 +13,15 @@ struct NewsletterModel: Codable {
     let pdfUrl: String
     let publicationDate: Date
     let summary: String
+    let previewPath: String?
     
-    init(id: String? = nil, date: Date, pdfUrl: String, publicationDate: Date, summary: String) {
+    init(id: String? = nil, date: Date, pdfUrl: String, publicationDate: Date, summary: String, previewPath: String? = nil) {
         self.id = id
         self.date = date
         self.pdfUrl = pdfUrl
         self.publicationDate = publicationDate
         self.summary = summary
+        self.previewPath = previewPath
     }
     
     func toEntity() -> NewsletterEntity {
@@ -27,7 +29,8 @@ struct NewsletterModel: Codable {
             id: self.id,
             pdfUrl: self.pdfUrl,
             date: self.date,
-            summary: self.summary.split(separator: ",").map { String($0) }
+            summary: self.summary.split(separator: ",").map { String($0) },
+            previewPath: self.previewPath ?? ""
         )
     }
 }

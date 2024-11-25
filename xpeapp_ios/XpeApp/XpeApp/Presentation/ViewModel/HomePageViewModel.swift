@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @Observable class HomePageViewModel {
     
@@ -19,6 +20,7 @@ import Foundation
 
     var lastNewsletter: NewsletterEntity? = nil
     var activeCampaigns: [QvstCampaignEntity]? = nil
+    var lastNewsletterPreview: UIImage? = nil
     
     func update() {
         initLastNewsletter()
@@ -30,6 +32,36 @@ import Foundation
             let obtainedLastNewsletter = await NewsletterRepositoryImpl.instance.getLastNewsletter()
             DispatchQueue.main.async {
                 self.lastNewsletter = obtainedLastNewsletter
+                self.initLastNewsletterPreview()
+            }
+        }
+    }
+    
+    private func initLastNewsletterPreview() {
+        Task{
+            NewsletterRepositoryImpl.instance.getNewsletterPreviewUrl(
+                newsletter: self.lastNewsletter
+            ) { obtainedPreviewUrl in
+                if let previewUrl = obtainedPreviewUrl,
+                    let url = URL(string: previewUrl) {
+                    let urlSession = URLSession.shared
+                    let dataTask = urlSession.dataTask(with: url) { data, response, error in
+                        if let error = error {
+                            debugPrint("Failed to load image data: \(error.localizedDescription)")
+                            return
+                        }
+                        if let data = data, let image = UIImage(data: data) {
+                            DispatchQueue.main.async {
+                                self.lastNewsletterPreview = image
+                            }
+                        } else {
+                            debugPrint("Failed to load image for last newsletter")
+                        }
+                    }
+                    dataTask.resume()
+                } else {
+                    debugPrint("Failed to load image for last newsletter")
+                }
             }
         }
     }

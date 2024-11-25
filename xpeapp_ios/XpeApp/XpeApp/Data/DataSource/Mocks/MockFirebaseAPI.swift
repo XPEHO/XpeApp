@@ -13,6 +13,7 @@ class MockFirebaseAPI: FirebaseAPIProtocol {
     // Mocked Returns
     var fetchAllFeaturesReturnData: [FeatureModel]?
     var fetchAllNewslettersReturnData: [NewsletterModel]?
+    var getUrlForNewsletterPreviewReturnData: String?
     
     private init() {
         // This initializer is intentionally left empty to make private
@@ -26,5 +27,9 @@ class MockFirebaseAPI: FirebaseAPIProtocol {
     
     func fetchAllNewsletters() async -> [NewsletterModel]? {
         return fetchAllNewslettersReturnData
+    }
+    
+    func getUrlForNewsletterPreview(previewPath: String, completion: @escaping (String?) -> Void) {
+        completion(getUrlForNewsletterPreviewReturnData)
     }
 }

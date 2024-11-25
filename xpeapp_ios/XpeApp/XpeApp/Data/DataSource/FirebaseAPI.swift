@@ -7,11 +7,13 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseStorage
 
 // Protocol to be able to mock the data source
 protocol FirebaseAPIProtocol {
     func fetchAllFeatures() async -> [FeatureModel]?
     func fetchAllNewsletters() async -> [NewsletterModel]?
+    func getUrlForNewsletterPreview(previewPath: String, completion: @escaping (String?) -> Void)
 }
 
 class FirebaseAPI: FirebaseAPIProtocol {
@@ -71,12 +73,33 @@ class FirebaseAPI: FirebaseAPIProtocol {
                     date: d.date,
                     pdfUrl: d.pdfUrl,
                     publicationDate: d.publicationDate,
-                    summary: d.summary
+                    summary: d.summary,
+                    previewPath: d.previewPath
                 )
             }
         } catch {
             debugPrint("Error parsing newsletters: \(error.localizedDescription)")
             return nil
+        }
+    }
+    
+    func getUrlForNewsletterPreview(previewPath: String, completion: @escaping (String?) -> Void) {
+        guard !previewPath.isEmpty else {
+            debugPrint("No preview for newsletter")
+            completion(nil)
+            return
+        }
+        
+        let storageRef = Storage.storage().reference(withPath: previewPath)
+        
+        storageRef.downloadURL { url, error in
+            if let error = error {
+                debugPrint("Error fetching preview URL: \(error.localizedDescription)")
+                completion(nil)
+            } else if let url = url {
+                let previewURL = url.absoluteString
+                completion(previewURL)
+            }
         }
     }
 }

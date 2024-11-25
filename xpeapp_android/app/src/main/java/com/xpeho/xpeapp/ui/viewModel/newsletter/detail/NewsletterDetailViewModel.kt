@@ -52,6 +52,7 @@ suspend fun getNewsletterDetailFromFirebase(newsletterId: String): Newsletter? {
         return Newsletter(
             id = result.id,
             summary = result.data?.get("summary").toString(),
+            picture = result.data?.get("previewPath").toString(),
             date = date.atZone(defaultZone).toLocalDate(),
             publicationDate = publicationDate.atZone(defaultZone).toLocalDate(),
             pdfUrl = result.data?.get("pdfUrl").toString(),

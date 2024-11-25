@@ -71,6 +71,7 @@ suspend fun getNewslettersFromFirebase(): List<Newsletter> {
                     publicationDate = publicationDateTime.atZone(defaultSystemOfZone)
                         .toLocalDate(),
                     pdfUrl = it.data["pdfUrl"].toString(),
+                    picture = it.data["previewPath"].toString()
                 )
                 newslettersList.add(newsletter)
             }

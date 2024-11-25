@@ -16,12 +16,23 @@ class WordpressViewModel(
 ) : ViewModel() {
 
     var body: AuthentificationBody? by mutableStateOf(null)
+    var usernameInput: String by mutableStateOf("")
+    var passwordInput: String by mutableStateOf("")
+    var usernameInError: Boolean by mutableStateOf(false)
+    var passwordInError: Boolean by mutableStateOf(false)
+
     var wordpressState: WordpressUiState by mutableStateOf(WordpressUiState.EMPTY)
 
     fun onLogin() {
         viewModelScope.launch {
-            body?.let {
-                handleOnLogin(credentials = it)
+            usernameInError = false
+            passwordInError = false
+            if (usernameInput.isNotEmpty() && passwordInput.isNotEmpty()) {
+                body = AuthentificationBody(usernameInput, passwordInput)
+                handleOnLogin(credentials = body!!)
+            } else {
+                if (usernameInput.isEmpty()) usernameInError = true
+                if (passwordInput.isEmpty()) passwordInError = true
             }
         }
     }
@@ -31,7 +42,7 @@ class WordpressViewModel(
     ) {
         wordpressState = WordpressUiState.LOADING
         val loginResult = authManager.login(credentials.username, credentials.password)
-        wordpressState = when(loginResult) {
+        wordpressState = when (loginResult) {
             AuthResult.NetworkError -> WordpressUiState.ERROR(NETWORK_ERROR_STRING)
             AuthResult.Unauthorized -> WordpressUiState.ERROR(UNAUTHORIZED_ERROR_STRING)
             is AuthResult.Success -> WordpressUiState.SUCCESS

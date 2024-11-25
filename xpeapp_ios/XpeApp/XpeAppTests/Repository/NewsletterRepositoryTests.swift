@@ -124,6 +124,42 @@ final class NewsletterRepositoryTests: XCTestCase {
         }
     }
 
+    func test_getNewsletterPreviewUrl_Success() throws {
+        let expectation = self.expectation(description: "Completion handler called")
+        let newsletter = NewsletterEntity(
+            id: "id",
+            pdfUrl: "http://url.com",
+            date: Date(),
+            summary: ["summary 1", "summary 2", "summary 3"],
+            previewPath: "path/to/preview"
+        )
+        
+        // GIVEN
+        newsletterSource.getUrlForNewsletterPreviewReturnData = "http://preview.url"
+        
+        // WHEN
+        newsletterRepo.getNewsletterPreviewUrl(newsletter: newsletter) { url in
+            // THEN
+            XCTAssertEqual(url, "http://preview.url")
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func test_getNewsletterPreviewUrl_NoNewsletter() throws {
+        let expectation = self.expectation(description: "Completion handler should not be called")
+        expectation.isInverted = true
+            
+        // WHEN
+        newsletterRepo.getNewsletterPreviewUrl(newsletter: nil) { url in
+            // THEN
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+
     // ------------------- classifyNewsletters TESTS -------------------
 
     func test_classifyNewsletters() throws {

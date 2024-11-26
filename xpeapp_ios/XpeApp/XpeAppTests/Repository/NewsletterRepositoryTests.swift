@@ -135,7 +135,7 @@ final class NewsletterRepositoryTests: XCTestCase {
         )
         
         // GIVEN
-        newsletterSource.getUrlForNewsletterPreviewReturnData = "http://preview.url"
+        newsletterSource.getNewsletterPreviewUrlReturnData = "http://preview.url"
         
         // WHEN
         newsletterRepo.getNewsletterPreviewUrl(newsletter: newsletter) { url in

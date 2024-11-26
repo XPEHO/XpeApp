@@ -53,7 +53,7 @@ class NewsletterRepositoryImpl: NewsletterRepository {
             debugPrint("No newsletter")
             return
         }
-        dataSource.getUrlForNewsletterPreview(previewPath: newsletter.previewPath) { url in
+        dataSource.getNewsletterPreviewUrl(previewPath: newsletter.previewPath) { url in
             completion(url)
         }
     }

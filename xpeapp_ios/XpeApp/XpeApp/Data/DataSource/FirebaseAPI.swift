@@ -13,7 +13,7 @@ import FirebaseStorage
 protocol FirebaseAPIProtocol {
     func fetchAllFeatures() async -> [FeatureModel]?
     func fetchAllNewsletters() async -> [NewsletterModel]?
-    func getUrlForNewsletterPreview(previewPath: String, completion: @escaping (String?) -> Void)
+    func getNewsletterPreviewUrl(previewPath: String, completion: @escaping (String?) -> Void)
 }
 
 class FirebaseAPI: FirebaseAPIProtocol {
@@ -83,7 +83,7 @@ class FirebaseAPI: FirebaseAPIProtocol {
         }
     }
     
-    func getUrlForNewsletterPreview(previewPath: String, completion: @escaping (String?) -> Void) {
+    func getNewsletterPreviewUrl(previewPath: String, completion: @escaping (String?) -> Void) {
         guard !previewPath.isEmpty else {
             debugPrint("No preview for newsletter")
             completion(nil)

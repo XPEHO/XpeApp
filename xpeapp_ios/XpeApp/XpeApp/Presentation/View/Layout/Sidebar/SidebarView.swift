@@ -88,7 +88,7 @@ struct Sidebar: View {
         }
         .opacity(self.isSidebarVisible ? 1 : 0)
         .frame(height: geometry.size.height)
-        .frame(width: self.isSidebarVisible ? geometry.size.width * 0.7 : 0)
+        .frame(width: self.isSidebarVisible ? geometry.size.width * 1 : 0)
         .background(XPEHO_THEME.XPEHO_COLOR)
         .animation(.easeInOut(duration: 0.2), value: self.isSidebarVisible)
     }
@@ -120,7 +120,7 @@ struct Sidebar: View {
             HStack {
                 Spacer()
                 ClickyButton(
-                    label: "Se Déconnecter",
+                    label: "Déconnexion",
                     size: 18,
                     horizontalPadding: 20,
                     verticalPadding: 10,

@@ -47,6 +47,16 @@ class NewsletterRepositoryImpl: NewsletterRepository {
         
         return sortedNewsletters.last?.toEntity()
     }
+    
+    func getNewsletterPreviewUrl(newsletter: NewsletterEntity?, completion: @escaping (String?) -> Void) {
+        guard let newsletter = newsletter else {
+            debugPrint("No newsletter")
+            return
+        }
+        dataSource.getNewsletterPreviewUrl(previewPath: newsletter.previewPath) { url in
+            completion(url)
+        }
+    }
 
     // Classify newsletters by year
     func classifyNewsletters(newsletters: [NewsletterEntity]) -> [Int: [NewsletterEntity]] {

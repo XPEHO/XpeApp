@@ -12,12 +12,14 @@ import Foundation
     let pdfUrl: String
     let date: Date
     let summary: [String]
+    let previewPath: String
     
-    init(id: String?, pdfUrl: String, date: Date, summary: [String]) {
+    init(id: String?, pdfUrl: String, date: Date, summary: [String], previewPath: String) {
         self.id = id
         self.pdfUrl = pdfUrl
         self.date = date
         self.summary = summary
+        self.previewPath = previewPath
     }
     
     static func from(model: NewsletterModel) -> NewsletterEntity {
@@ -25,7 +27,8 @@ import Foundation
             id: model.id,
             pdfUrl: model.pdfUrl,
             date: model.date,
-            summary: model.summary.split(separator: ",").map { String($0) }
+            summary: model.summary.split(separator: ",").map { String($0) },
+            previewPath: model.previewPath ?? ""
         )
     }
     

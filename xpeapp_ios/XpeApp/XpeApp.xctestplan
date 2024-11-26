@@ -25,6 +25,7 @@
       }
     },
     {
+      "enabled" : false,
       "target" : {
         "containerPath" : "container:XpeApp.xcodeproj",
         "identifier" : "BDACECF62C10930C007B5262",

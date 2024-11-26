@@ -23,13 +23,15 @@ final class NewsletterEntityTests: XCTestCase {
             date: currentDate!,
             pdfUrl: "newsletter_url",
             publicationDate: currentDate!,
-            summary: "summary 1, summary 2, summary 3"
+            summary: "summary 1, summary 2, summary 3",
+            previewPath: "path/to/preview"
         )
         entity = NewsletterEntity(
             id: "newsletter_id",
             pdfUrl: "newsletter_url",
             date: currentDate!,
-            summary: ["summary 1", "summary 2", "summary 3"]
+            summary: ["summary 1", "summary 2", "summary 3"],
+            previewPath: "path/to/preview"
         )
     }
 

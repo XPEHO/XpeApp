@@ -10,5 +10,6 @@ import Foundation
 protocol NewsletterRepository {
     func getNewsletters() async -> [NewsletterEntity]?
     func getLastNewsletter() async -> NewsletterEntity?
+    func getNewsletterPreviewUrl(newsletter: NewsletterEntity?, completion: @escaping (String?) -> Void)
     func classifyNewsletters(newsletters: [NewsletterEntity]) -> [Int: [NewsletterEntity]]
 }

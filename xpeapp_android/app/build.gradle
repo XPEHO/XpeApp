@@ -176,6 +176,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation 'com.google.firebase:firebase-firestore-ktx:25.1.0'
     implementation 'com.google.firebase:firebase-messaging:24.0.2'
+    implementation 'com.google.firebase:firebase-storage-ktx:21.0.1'
 
     // Navigation
     implementation "androidx.navigation:navigation-compose:2.8.2"

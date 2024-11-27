@@ -69,7 +69,7 @@ fun Sidebar(
 
     // Computed sidebar size
     val sidebarWidth by animateFloatAsState(
-        targetValue = if (sidebarVisible.value) 0.7f else 0f,
+        targetValue = if (sidebarVisible.value) 1f else 0f,
         animationSpec = tween(
             durationMillis = 200,
             delayMillis = 100,
@@ -172,7 +172,7 @@ fun SidebarLogoutButtonSection(
         horizontalArrangement = Arrangement.Center
     ) {
         ClickyButton(
-            label = "Se déconnecter",
+            label = "Déconnexion",
             size = 16.sp,
             verticalPadding = 5.dp,
             horizontalPadding = 15.dp,

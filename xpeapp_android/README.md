@@ -54,14 +54,17 @@ This application use the android part of the ui library of XPEHO imported from i
 
 #### Import
 
-Define at the root of this application, a file `github.properties` following this structure :
+To import the _xpeho_ui_android_ library you need to setup two environment variables :
 
-```
-gpr.user=YOUR_USERNAME
-gpr.key=YOUR_PERSONAL_ACCESS_TOKEN
+On a mac/linux you can add them to your `.zshrc`/`.bashrc`
+
+```zshrc
+#Github
+export GITHUB_USER="your_github_username"
+export GITHUB_TOKEN="your_github_token"
 ```
 
-Make sure to generate a PAT (Personal Access Token) on your github account following the [documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic).
+To fill the GITHUB_TOKEN, make sure to generate a PAT (Personal Access Token) on your github account following the [documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic).
 
 You need to allow the following rights :
 ![repos_right](doc/repos_right.png)

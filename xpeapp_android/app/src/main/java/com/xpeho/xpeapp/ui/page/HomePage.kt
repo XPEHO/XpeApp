@@ -57,10 +57,16 @@ fun HomePage(navigationController: NavController) {
         if (!newsletterViewModel.isLoading.value && newsletterViewModel.state.value.isNotEmpty()) {
             item {
                 // Get the last newsletter as the first element of the list sorted descending by date
-                val lastNewsletter = newsletterViewModel.state.value.first()
-                Title(label = "Dernière publication")
-                NewsletterPreview(newsletter = lastNewsletter)
-                Spacer(modifier = Modifier.height(25.dp))
+                val lastNewsletter = newsletterViewModel.lastNewsletter.value
+
+                lastNewsletter?.let {
+                    Title(label = "Dernière publication")
+
+                    val lastNewsletterPreview = newsletterViewModel.lastNewsletterPreview.value
+                    NewsletterPreview(newsletter = lastNewsletter, preview = lastNewsletterPreview)
+                    
+                    Spacer(modifier = Modifier.height(25.dp))
+                }
             }
         }
         // When we have loaded the qvst campaigns

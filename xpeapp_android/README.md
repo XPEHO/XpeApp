@@ -54,8 +54,9 @@ This application use the android part of the ui library of XPEHO imported from i
 
 #### Import
 
-In this project with need to setup this file on our computer `.zshrc`:
-(With a mac/linux use this command `nano ~/.zshrc` or code `.zshrc`)
+To import the _xpeho_ui_android_ library you need to setup two environment variables :
+
+On a mac/linux you can add them to your `.zshrc`/`.bashrc`
 
 ```zshrc
 #Github
@@ -63,9 +64,7 @@ export GITHUB_USER="your_github_username"
 export GITHUB_TOKEN="your_github_token"
 ```
 
-In order to generate the `github_token`, you need to follow the [documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). the tokken classic part.
-
-Make sure to generate a PAT (Personal Access Token) on your github account following the [documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic).
+To fill the GITHUB_TOKEN, make sure to generate a PAT (Personal Access Token) on your github account following the [documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic).
 
 You need to allow the following rights :
 ![repos_right](doc/repos_right.png)

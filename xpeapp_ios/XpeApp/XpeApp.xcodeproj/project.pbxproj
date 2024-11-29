@@ -76,6 +76,7 @@
 		0EF0F9092C9431E100AF5966 /* FeatureEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0F9082C9431E100AF5966 /* FeatureEntity.swift */; };
 		0EF0F90B2C94350B00AF5966 /* FeatureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0F90A2C94350B00AF5966 /* FeatureManager.swift */; };
 		0EF0F90D2C9435CE00AF5966 /* RouterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0F90C2C9435CE00AF5966 /* RouterView.swift */; };
+		0EFC0FEA2CF9D17800F9480D /* DisabledFeaturePlaceHolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFC0FE92CF9D17800F9480D /* DisabledFeaturePlaceHolderView.swift */; };
 		108150F32CBD167400D57952 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 108150F22CBD167400D57952 /* GoogleService-Info.plist */; };
 		BD83CCBA2C1853ED00152559 /* CampaignsPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83CCB92C1853ED00152559 /* CampaignsPageView.swift */; };
 		BDACECDF2C109309007B5262 /* XpeAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECDE2C109309007B5262 /* XpeAppApp.swift */; };
@@ -168,6 +169,7 @@
 		0EF0F9082C9431E100AF5966 /* FeatureEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureEntity.swift; sourceTree = "<group>"; };
 		0EF0F90A2C94350B00AF5966 /* FeatureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureManager.swift; sourceTree = "<group>"; };
 		0EF0F90C2C9435CE00AF5966 /* RouterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterView.swift; sourceTree = "<group>"; };
+		0EFC0FE92CF9D17800F9480D /* DisabledFeaturePlaceHolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisabledFeaturePlaceHolderView.swift; sourceTree = "<group>"; };
 		108150F22CBD167400D57952 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BD83CCB92C1853ED00152559 /* CampaignsPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignsPageView.swift; sourceTree = "<group>"; };
 		BDACECDB2C109309007B5262 /* XpeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XpeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -217,6 +219,7 @@
 				0E260DBE2CD90DAA00F8EF0C /* ListFilterView.swift */,
 				0E260DC02CD92CEA00F8EF0C /* ListFilterTitleView.swift */,
 				0E260DC22CDA245000F8EF0C /* PageTitleView.swift */,
+				0EFC0FE92CF9D17800F9480D /* DisabledFeaturePlaceHolderView.swift */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -629,6 +632,7 @@
 				0E61D2B92C78A20F00050F7C /* NewsletterModel.swift in Sources */,
 				0EF0F9002C931EE100AF5966 /* HomePageViewModel.swift in Sources */,
 				0E7EBD5E2C6CFF8700C95482 /* CampaignFormView.swift in Sources */,
+				0EFC0FEA2CF9D17800F9480D /* DisabledFeaturePlaceHolderView.swift in Sources */,
 				0E260DBD2CD8D79E00F8EF0C /* NoContentPlaceHolderView.swift in Sources */,
 				0E6277AA2C94897100F26E55 /* NewsletterCardView.swift in Sources */,
 				0E6ACF802C8710B100735E1E /* FeatureRepositoryImpl.swift in Sources */,

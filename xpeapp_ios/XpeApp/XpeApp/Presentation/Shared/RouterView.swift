@@ -35,7 +35,7 @@ struct Router: View {
                 case .debug:
                     DebugPage()
                 default:
-                    Text("Feature non présente")
+                    DisabledFeaturePlaceHolder()
                 }
             }
         } else {

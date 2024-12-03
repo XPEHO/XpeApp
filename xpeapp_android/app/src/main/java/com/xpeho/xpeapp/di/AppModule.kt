@@ -56,6 +56,10 @@ class MainAppModule(
         retrofit.create(WordpressService::class.java)
     }
 
+    private val firebaseService: FirebaseService by lazy {
+        FirebaseService()
+    }
+
     override val authenticationManager: AuthenticationManager by lazy {
         AuthenticationManager(
             wordpressRepo = wordpressRepository,
@@ -64,7 +68,11 @@ class MainAppModule(
         )
     }
 
-    override val featureFlippingManager: FeatureFlippingManager = FeatureFlippingManager()
+    override val featureFlippingManager: FeatureFlippingManager by lazy {
+        FeatureFlippingManager(
+            firebaseService = firebaseService
+        )
+    }
 
     override val wordpressRepository: WordpressRepository by lazy {
         WordpressRepository(api = wordpressService)
@@ -73,10 +81,6 @@ class MainAppModule(
 
     override val datastorePref: DatastorePref by lazy {
         DatastorePref(appContext)
-    }
-
-    private val firebaseService: FirebaseService by lazy {
-        FirebaseService()
     }
 }
 

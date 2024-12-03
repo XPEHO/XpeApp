@@ -1,22 +1,20 @@
 package com.xpeho.xpeapp.domain
 
-import android.util.Log
 import androidx.annotation.VisibleForTesting
 import com.google.firebase.FirebaseException
-import com.google.firebase.firestore.FirebaseFirestore
 import com.xpeho.xpeapp.BuildConfig
-import com.xpeho.xpeapp.data.FEATURE_FLIPPING_COLLECTION
 import com.xpeho.xpeapp.data.FeatureFlippingEnum
-import com.xpeho.xpeapp.data.model.FeatureFlipping
-import com.xpeho.xpeapp.data.model.toFeatureFlipping
+import com.xpeho.xpeapp.data.service.FirebaseService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import okhttp3.internal.toImmutableMap
+import java.io.IOException
 
-class FeatureFlippingManager {
+class FeatureFlippingManager(
+    val firebaseService: FirebaseService
+) {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     private val _featuresState: MutableStateFlow<FeatureFlippingState> = MutableStateFlow(FeatureFlippingState.LOADING)
 
@@ -45,9 +43,12 @@ class FeatureFlippingManager {
 
     private suspend fun fetchData() {
         val featureFlippingList = try {
-            getFeatureFlippingFromFirebase()
-        } catch (e: Exception) {
-            _featuresState.value = FeatureFlippingState.ERROR("Error: ${e.message}")
+            firebaseService.fetchFeatureFlipping()
+        } catch (e: IOException) {
+            _featuresState.value = FeatureFlippingState.ERROR("Network error: ${e.message}")
+            return
+        } catch (e: FirebaseException) {
+            _featuresState.value = FeatureFlippingState.ERROR("Firebase error: ${e.message}")
             return
         }
         val featureEnabled = mutableMapOf<FeatureFlippingEnum, Boolean>()
@@ -64,32 +65,6 @@ class FeatureFlippingManager {
         }
         _featuresState.value = FeatureFlippingState.SUCCESS(featureEnabled.toImmutableMap())
     }
-
-    // Get the list of features from Firebase
-    private suspend fun getFeatureFlippingFromFirebase(): List<FeatureFlipping> {
-        try {
-            val db = FirebaseFirestore.getInstance()
-            val document = db.collection(FEATURE_FLIPPING_COLLECTION)
-                .get()
-                .await()
-
-            val featureFlippingList = mutableListOf<FeatureFlipping>()
-            for (doc in document.documents) {
-                val featureFlipping = doc.toFeatureFlipping()
-                if (!featureFlippingList.contains(featureFlipping)) {
-                    featureFlippingList.add(featureFlipping)
-                } else {
-                    featureFlippingList[featureFlippingList.indexOf(featureFlipping)] = featureFlipping
-                }
-            }
-            return featureFlippingList
-        } catch (firebaseException: FirebaseException) {
-            Log.e("getFeatureFlippingFromFirebase", "Error getting documents: $firebaseException")
-            return emptyList()
-        }
-    }
-
-
 }
 
 sealed interface FeatureFlippingState {

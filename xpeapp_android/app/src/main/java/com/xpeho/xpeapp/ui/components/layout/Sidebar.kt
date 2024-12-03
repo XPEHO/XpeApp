@@ -2,7 +2,6 @@ package com.xpeho.xpeapp.ui.components.layout
 
 import android.content.Intent
 import android.net.Uri
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -24,7 +23,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -35,17 +33,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.xpeho.xpeapp.BuildConfig
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.XpeApp
-import com.xpeho.xpeapp.data.FeatureFlippingEnum
 import com.xpeho.xpeapp.enums.Screens
 import com.xpeho.xpeapp.ui.Measurements
 import com.xpeho.xpeapp.ui.Resources
-import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingUiState
-import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
 import com.xpeho.xpeho_ui_android.ClickyButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -60,12 +54,7 @@ fun Sidebar(
 ) {
     // Feature Flipping
     val context = LocalContext.current
-    val ffViewModel = viewModel<FeatureFlippingViewModel>()
-    LaunchedEffect(ffViewModel.uiState) {
-        (ffViewModel.uiState as? FeatureFlippingUiState.ERROR)?.let {
-            Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
-        }
-    }
+    val ffManager = XpeApp.appModule.featureFlippingManager
 
     // Computed sidebar size
     val sidebarWidth by animateFloatAsState(
@@ -130,7 +119,7 @@ fun Sidebar(
                             .height(20.dp)
                     )
                     for (menuItem in Resources().listOfMenu) {
-                        if (isEnabled(menuItem.featureFlippingId, ffViewModel.uiState)) {
+                        if (ffManager.isFeatureEnabled(menuItem.featureFlippingId)) {
                             SidebarItem(
                                 navigationController = navigationController,
                                 icon = painterResource(id = menuItem.idImage),
@@ -212,6 +201,3 @@ fun SidebarInfoSection(
         Subtitle(label = "v$versionCode")
     }
 }
-
-private fun isEnabled(feature: FeatureFlippingEnum, uiState: FeatureFlippingUiState): Boolean =
-    uiState is FeatureFlippingUiState.SUCCESS && uiState.featureEnabled[feature] ?: false

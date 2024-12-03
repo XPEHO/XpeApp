@@ -51,19 +51,25 @@ class FeatureFlippingManager(
             _featuresState.value = FeatureFlippingState.ERROR("Firebase error: ${e.message}")
             return
         }
+
         val featureEnabled = mutableMapOf<FeatureFlippingEnum, Boolean>()
+        var errorMessage: String? = null
+
         for (feature in featureFlippingList) {
             val enumOfFeature = FeatureFlippingEnum.entries.find { it.value == feature.id }
             if (enumOfFeature == null) {
-                _featuresState.value = FeatureFlippingState.ERROR(
-                    "Error: A feature is not found in the FeatureFlippingEnum."
-                )
-                return
+                errorMessage = "Error: A feature is not found in the FeatureFlippingEnum."
+                break
             }
             featureEnabled[enumOfFeature] =
                 if (BuildConfig.ENVIRONMENT == "prod") feature.prodEnabled else feature.uatEnabled
         }
-        _featuresState.value = FeatureFlippingState.SUCCESS(featureEnabled.toImmutableMap())
+
+        _featuresState.value = if (errorMessage != null) {
+            FeatureFlippingState.ERROR(errorMessage)
+        } else {
+            FeatureFlippingState.SUCCESS(featureEnabled.toImmutableMap())
+        }
     }
 }
 

@@ -38,3 +38,16 @@ func isValidEmail(_ email: String) -> Bool {
     let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
     return emailPred.evaluate(with: email)
 }
+
+// Util function to open a pdf
+func openPdf(url: String, toastManager: ToastManager, openMethod: OpenURLAction) {
+    if let url = URL(string: url), UIApplication.shared.canOpenURL(url) {
+        openMethod(url)
+    } else {
+        toastManager.setParams(
+            message: "Impossible d'ouvrir l'URL",
+            error: true
+        )
+        toastManager.play()
+    }
+}

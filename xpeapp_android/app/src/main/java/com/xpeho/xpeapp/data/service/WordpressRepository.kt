@@ -111,13 +111,18 @@ class WordpressRepository(private val api: WordpressService) {
         )
     }
 
-    suspend fun getAllQvstCampaigns(
+    suspend fun getQvstCampaigns(
         token: WordpressToken,
-        username: String
+        username: String,
+        onlyActive: Boolean = false
     ): List<QvstCampaignEntity>? {
         handleServiceExceptions(
             tryBody = {
-                val campaigns = api.getAllQvstCampaigns()
+                val campaigns = if (onlyActive) {
+                    api.getQvstCampaigns(":active")
+                } else {
+                    api.getQvstCampaigns()
+                }
                 val userId = getUserId(username = username)
                 val progress = userId?.let {
                     api.getQvstProgressByUserId(
@@ -135,37 +140,11 @@ class WordpressRepository(private val api: WordpressService) {
                 }
             },
             catchBody = { e ->
+                if (e is HttpException && e.code() == 403) {
+                    Log.e("WordpressRepository: getAllQvstCampaigns", "HTTP 403 Forbidden: ${e.message}")
+                    return emptyList()
+                }
                 Log.e("WordpressRepository: getAllQvstCampaigns", "Network error: ${e.message}")
-                return null
-            }
-        )
-    }
-
-    suspend fun getActiveQvstCampaigns(
-        token: WordpressToken,
-        username: String
-    ): List<QvstCampaignEntity>? {
-        handleServiceExceptions(
-            tryBody = {
-                val campaigns = api.getActiveQvstCampaigns()
-                val userId = getUserId(username = username)
-                val progress = userId?.let {
-                    api.getQvstProgressByUserId(
-                        token = "Bearer ${token.token}",
-                        userId = userId
-                    )
-                    api.getQvstProgressByUserId(
-                        token = "Bearer ${token.token}",
-                        userId = userId
-                    )
-                }
-
-                return progress?.let {
-                    getCampaignsEntitiesFromModels(campaigns, progress)
-                }
-            },
-            catchBody = { e ->
-                Log.e("WordpressRepository: getActiveQvstCampaigns", "Network error: ${e.message}")
                 return null
             }
         )
@@ -183,6 +162,10 @@ class WordpressRepository(private val api: WordpressService) {
                 )
             },
             catchBody = { e ->
+                if (e is HttpException && e.code() == 403) {
+                    Log.e("WordpressRepository: getQvstQuestionsByCampaignId", "HTTP 403 Forbidden: ${e.message}")
+                    return emptyList()
+                }
                 Log.e("WordpressRepository: getQvstQuestionsByCampaignId", "Network error: ${e.message}")
                 return null
             }

@@ -18,11 +18,10 @@ protocol WordpressAPIProtocol {
     func sendCampaignAnswers(
         campaignId: String,
         userId: String,
-        token: String,
         questions: [QvstQuestionModel],
         answers: [QvstAnswerModel]
     ) async -> Bool?
-    func fetchCampaignsProgress(userId: String, token: String) async -> [QvstProgressModel]?
+    func fetchCampaignsProgress(userId: String) async -> [QvstProgressModel]?
 }
 
 class WordpressAPI: WordpressAPIProtocol {
@@ -38,7 +37,7 @@ class WordpressAPI: WordpressAPIProtocol {
         email: String
     ) async -> String? {
         
-        if let data = await fetchWordpressAPI (
+        if let (data, _) = await fetchWordpressAPI (
             endpoint: "xpeho/v1/user",
             headers: [
                 "email": email
@@ -56,7 +55,7 @@ class WordpressAPI: WordpressAPIProtocol {
         userCandidate: UserCandidateModel
     ) async -> TokenResponseModel? {
         
-        if let data = await fetchWordpressAPI <UserCandidateModel> (
+        if let (data, _) = await fetchWordpressAPI <UserCandidateModel> (
             endpoint: "jwt-auth/v1/token",
             method: .post,
             headers: [:],
@@ -89,15 +88,12 @@ class WordpressAPI: WordpressAPIProtocol {
     }
     
     // Token check
-    func checkTokenValidity(
-        token: String
-    ) async -> TokenValidityModel? {
-        
-        if let data = await fetchWordpressAPI (
+    func checkTokenValidity(token: String) async -> TokenValidityModel? {
+        if let (data, _) = await fetchWordpressAPI (
             endpoint: "jwt-auth/v1/token/validate",
             method: .post,
             headers: [
-                "authorization" : token
+                "authorization": token
             ]
         ){
             do {
@@ -115,12 +111,15 @@ class WordpressAPI: WordpressAPIProtocol {
     }
     
     // Fetch all campaigns
-    func fetchAllCampaigns(
-    ) async -> [QvstCampaignModel]? {
-        
-        if let data = await fetchWordpressAPI (
+    func fetchAllCampaigns() async -> [QvstCampaignModel]? {
+        if let (data, statusCode) = await fetchWordpressAPI (
             endpoint: "xpeho/v1/qvst/campaigns"
         ){
+            if statusCode == 403 {
+                debugPrint("Unauthorized access in fetchAllCampaigns")
+                return []
+            }
+            
             do {
                 return try JSONDecoder().decode([QvstCampaignModel].self, from: data)
             } catch {
@@ -136,12 +135,15 @@ class WordpressAPI: WordpressAPIProtocol {
     }
     
     // Fetch active campaigns
-    func fetchActiveCampaigns(
-    ) async -> [QvstCampaignModel]? {
-        
-        if let data = await fetchWordpressAPI (
+    func fetchActiveCampaigns() async -> [QvstCampaignModel]? {
+        if let (data, statusCode) = await fetchWordpressAPI (
             endpoint: "xpeho/v1/qvst/campaigns:active"
         ){
+            if statusCode == 403 {
+                debugPrint("Unauthorized access in fetchActiveCampaigns")
+                return []
+            }
+            
             do {
                 return try JSONDecoder().decode([QvstCampaignModel].self, from: data)
             } catch {
@@ -160,10 +162,14 @@ class WordpressAPI: WordpressAPIProtocol {
     func fetchCampaignQuestions(
         campaignId: String
     ) async -> [QvstQuestionModel]? {
-        
-        if let data = await fetchWordpressAPI (
+        if let (data, statusCode) = await fetchWordpressAPI (
             endpoint: "xpeho/v1/qvst/campaigns/\(campaignId):questions"
         ){
+            if statusCode == 403 {
+                debugPrint("Unauthorized access in fetchCampaignQuestions")
+                return []
+            }
+            
             do {
                 return try JSONDecoder().decode([QvstQuestionModel].self, from: data)
             } catch {
@@ -182,11 +188,9 @@ class WordpressAPI: WordpressAPIProtocol {
     func sendCampaignAnswers(
         campaignId: String,
         userId: String,
-        token: String,
         questions: [QvstQuestionModel],
         answers: [QvstAnswerModel]
     ) async -> Bool? {
-        
         var formResponses: [QvstFormResponseModel] = []
         for index in questions.indices {
             formResponses.append(
@@ -197,12 +201,11 @@ class WordpressAPI: WordpressAPIProtocol {
             )
         }
         
-        if let data = await fetchWordpressAPI <[QvstFormResponseModel]> (
+        if let (data, _) = await fetchWordpressAPI <[QvstFormResponseModel]> (
             endpoint: "xpeho/v1/qvst/campaigns/\(campaignId)/questions:answer",
             method: .post,
             headers: [
                 "userId": userId,
-                "authorization": token,
             ],
             bodyObject: formResponses
         ){
@@ -220,16 +223,16 @@ class WordpressAPI: WordpressAPIProtocol {
     
     // Fetch progress for each campaign by userId
     func fetchCampaignsProgress(
-        userId: String,
-        token: String
+        userId: String
     ) async -> [QvstProgressModel]? {
-        
-        if let data = await fetchWordpressAPI (
-            endpoint: "xpeho/v1/campaign-progress?userId=\(userId)",
-            headers: [
-                "authorization": token
-            ]
+        if let (data, statusCode) = await fetchWordpressAPI (
+            endpoint: "xpeho/v1/campaign-progress?userId=\(userId)"
         ){
+            if statusCode == 403 {
+                debugPrint("Unauthorized access in fetchCampaignsProgress")
+                return []
+            }
+
             do {
                 return try JSONDecoder().decode([QvstProgressModel].self, from: data)
             } catch {

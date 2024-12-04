@@ -188,7 +188,6 @@ struct CampaignForm: View {
                 guard let areAnswersSent = await WordpressAPI.instance.sendCampaignAnswers(
                     campaignId: campaign.id,
                     userId: user.id,
-                    token: user.token,
                     questions: questions,
                     answers: answers
                 ) else {

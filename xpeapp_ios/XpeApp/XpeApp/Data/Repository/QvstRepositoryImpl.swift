@@ -79,17 +79,16 @@ class QvstRepositoryImpl: QvstRepository {
     
     func getCampaigns() async -> [QvstCampaignEntity]? {
         // Fetch data
-        guard let campaignsModels = await dataSource.fetchAllCampaigns() else {
-            debugPrint("Failed call to fetchAllCampaigns in getCampaigns")
-            return nil
-        }
         guard let user = userRepo.user else {
             debugPrint("No user to use in getCampaigns")
             return nil
         }
+        guard let campaignsModels = await dataSource.fetchAllCampaigns() else {
+            debugPrint("Failed call to fetchAllCampaigns in getCampaigns")
+            return nil
+        }
         guard let campaignsProgressModels = await dataSource.fetchCampaignsProgress(
-            userId: user.id,
-            token: user.token
+            userId: user.id
         ) else {
             debugPrint("Failed call to fetchCampaignsProgress in getCampaigns")
             return nil
@@ -104,18 +103,15 @@ class QvstRepositoryImpl: QvstRepository {
     
     func getActiveCampaigns() async -> [QvstCampaignEntity]? {
         // Fetch data
-        guard let activeCampaignsModels = await dataSource.fetchActiveCampaigns() else {
-            debugPrint("Failed call to fetchActiveCampaigns in getActiveCampaigns")
-            return nil
-        }
         guard let user = userRepo.user else {
             debugPrint("No user to use in getCampaigns")
             return nil
         }
-        guard let campaignsProgressModels = await dataSource.fetchCampaignsProgress(
-            userId: user.id,
-            token: user.token
-        ) else {
+        guard let activeCampaignsModels = await dataSource.fetchActiveCampaigns() else {
+            debugPrint("Failed call to fetchActiveCampaigns in getActiveCampaigns")
+            return nil
+        }
+        guard let campaignsProgressModels = await dataSource.fetchCampaignsProgress(userId: user.id) else {
             debugPrint("Failed call to fetchCampaignsProgress in getCampaigns")
             return nil
         }

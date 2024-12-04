@@ -99,7 +99,7 @@ import FirebaseAuth
         )
                         
         // Check the validity of its token
-        guard let validity = await dataSource.checkTokenValidity(token: userFromCache.token) else {
+        guard let validity = await dataSource.checkTokenValidity(token: token) else {
             debugPrint("Failed call to checkTokenValidity in isTokenInCacheValid")
             completion(.error)
             return

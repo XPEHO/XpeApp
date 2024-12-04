@@ -332,10 +332,10 @@ class WordpressRepositoryTest {
         }
     }
 
-    class GetAllQvstCampaignsTests : BaseTest() {
+    class GetQvstCampaignsTests : BaseTest() {
 
         @Test
-        fun `getAllQvstCampaigns with valid token and username returns campaigns`() = runBlocking {
+        fun `getQvstCampaigns with valid token and username returns campaigns`() = runBlocking {
             val token = WordpressToken("token", "user_email", "user_nicename", "user_display_name")
             val username = "username"
             val campaigns = listOf(
@@ -355,33 +355,30 @@ class WordpressRepositoryTest {
             )
             val progress = listOf<QvstProgress>()
 
-            coEvery { wordpressService.getAllQvstCampaigns() } returns campaigns
+            coEvery { wordpressService.getQvstCampaigns() } returns campaigns
             coEvery { wordpressService.getQvstProgressByUserId(any(), any()) } returns progress
             coEvery { wordpressService.getUserId(username) } returns "userId"
 
-            val result = wordpressRepo.getAllQvstCampaigns(token, username)
+            val result = wordpressRepo.getQvstCampaigns(token, username)
 
             assertEquals(1, result?.size)
             assertEquals("campaignName", result?.get(0)?.name)
         }
 
         @Test
-        fun `getAllQvstCampaigns with network error returns null`() = runBlocking {
+        fun `getQvstCampaigns with network error returns null`() = runBlocking {
             val token = WordpressToken("token", "user_email", "user_nicename", "user_display_name")
             val username = "username"
 
-            coEvery { wordpressService.getAllQvstCampaigns() } throws UnknownHostException()
+            coEvery { wordpressService.getQvstCampaigns() } throws UnknownHostException()
 
-            val result = wordpressRepo.getAllQvstCampaigns(token, username)
+            val result = wordpressRepo.getQvstCampaigns(token, username)
 
             assertEquals(null, result)
         }
-    }
-
-    class GetActiveQvstCampaignsTests : BaseTest() {
 
         @Test
-        fun `getActiveQvstCampaigns with valid token and username returns campaigns`() = runBlocking {
+        fun `getQvstCampaigns with onlyActive with valid token and username returns campaigns`() = runBlocking {
             val token = WordpressToken("token", "user_email", "user_nicename", "user_display_name")
             val username = "username"
             val campaigns = listOf(
@@ -401,24 +398,24 @@ class WordpressRepositoryTest {
             )
             val progress = listOf<QvstProgress>()
 
-            coEvery { wordpressService.getActiveQvstCampaigns() } returns campaigns
+            coEvery { wordpressService.getQvstCampaigns(":active") } returns campaigns
             coEvery { wordpressService.getQvstProgressByUserId(any(), any()) } returns progress
             coEvery { wordpressService.getUserId(username) } returns "userId"
 
-            val result = wordpressRepo.getActiveQvstCampaigns(token, username)
+            val result = wordpressRepo.getQvstCampaigns(token, username, true)
 
             assertEquals(1, result?.size)
             assertEquals("campaignName", result?.get(0)?.name)
         }
 
         @Test
-        fun `getActiveQvstCampaigns with network error returns null`() = runBlocking {
+        fun `getQvstCampaigns with onlyActive with network error returns null`() = runBlocking {
             val token = WordpressToken("token", "user_email", "user_nicename", "user_display_name")
             val username = "username"
 
-            coEvery { wordpressService.getActiveQvstCampaigns() } throws UnknownHostException()
+            coEvery { wordpressService.getQvstCampaigns(":active") } throws UnknownHostException()
 
-            val result = wordpressRepo.getActiveQvstCampaigns(token, username)
+            val result = wordpressRepo.getQvstCampaigns(token, username, true)
 
             assertEquals(null, result)
         }

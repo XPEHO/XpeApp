@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -31,6 +32,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -41,6 +44,7 @@ import com.xpeho.xpeapp.enums.Screens
 import com.xpeho.xpeapp.ui.Measurements
 import com.xpeho.xpeapp.ui.Resources
 import com.xpeho.xpeho_ui_android.ClickyButton
+import com.xpeho.xpeho_ui_android.foundations.Fonts
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -145,6 +149,7 @@ fun Sidebar(
                             .padding(bottom = 10.dp, top = 20.dp)
                     )
                     SidebarInfoSection(context)
+                    SidebarConfidentialityButton(context)
                 }
             }
         }
@@ -199,5 +204,35 @@ fun SidebarInfoSection(
                 }
         )
         Subtitle(label = "v$versionCode")
+    }
+}
+
+@Composable
+fun SidebarConfidentialityButton(
+    context: android.content.Context
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Politiques de confidentialité",
+            fontSize = 14.sp,
+            fontFamily = Fonts.raleway,
+            fontWeight = FontWeight.Bold,
+            textDecoration = TextDecoration.Underline,
+            color = Color.White,
+            modifier = Modifier
+                .clickable {
+                    // Open the confidentiality page
+                    val intent =
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://github.com/XPEHO/XpeApp/blob/main/PRIVACY_POLICY.md")
+                        )
+                    context.startActivity(intent)
+                }
+        )
     }
 }

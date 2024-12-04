@@ -39,5 +39,5 @@ This file contains the configuration of the application. You can change the valu
 
 ### Xpeho UI
 
-This application use the IOS part of the ui library of XPEHO imported from its [own repository](https://github.com/XPEHO/xpeho_ui_android) created in SwiftUI.
+This application use the IOS part of the ui library of XPEHO imported from its [own repository](https://github.com/XPEHO/xpeho_ui_swift) created in SwiftUI.
 

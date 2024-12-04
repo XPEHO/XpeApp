@@ -19,12 +19,17 @@ Dossier contenant l'implémentation Android de l'application. Incluant :
 - Configuration Gradle pour la compilation.
 - Tests unitaires et d'intégration spécifiques à Android.
 
+
+[README](https://github.com/XPEHO/XpeApp/blob/main/xpeapp_android/README.md) de la partie Android  
+
 **XpeApp IOS**
 Dossier contenant l'implémentation iOS de l'application. Incluant :
 
 - Code source (Swift/Objective-C).
 - Configuration Xcode pour la compilation et les tests.
 - Scripts pour la soumission à TestFlight.
+
+[README](https://github.com/XPEHO/XpeApp/blob/main/xpeapp_ios/XpeApp/README.md) de la partie IOS 
 
 
 

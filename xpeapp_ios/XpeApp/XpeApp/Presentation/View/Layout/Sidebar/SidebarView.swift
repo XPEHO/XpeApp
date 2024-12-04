@@ -150,6 +150,7 @@ struct Sidebar: View {
                     Spacer()
                     VersionCode()
                 }
+                Confidentiality()
             }
         }
         
@@ -171,6 +172,18 @@ struct Sidebar: View {
                 Text("v\(version)")
                     .font(.raleway(.bold, size: 20))
                     .foregroundStyle(.white)
+            }
+        }
+        struct Confidentiality: View {
+            var body: some View {
+                Button(action: {
+                    UIApplication.shared.open(URL(string: "https://github.com/XPEHO/XpeApp/blob/main/PRIVACY_POLICY.md")!)
+                }) {
+                    Text("Politiques de confidentialité")
+                        .font(.raleway(.bold, size: 16))
+                        .foregroundStyle(.white)
+                        .underline()
+                }
             }
         }
     }

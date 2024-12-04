@@ -9,6 +9,7 @@ import com.xpeho.xpeapp.data.service.WordpressRepository
 import com.xpeho.xpeapp.data.service.WordpressService
 import com.xpeho.xpeapp.data.service.interceptor.AuthorizationHeaderInterceptor
 import com.xpeho.xpeapp.domain.AuthenticationManager
+import com.xpeho.xpeapp.domain.FeatureFlippingManager
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -16,6 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 interface AppModule {
     val authenticationManager: AuthenticationManager
+    val featureFlippingManager: FeatureFlippingManager
     val wordpressRepository: WordpressRepository
     val datastorePref: DatastorePref
 }
@@ -54,10 +56,20 @@ class MainAppModule(
         retrofit.create(WordpressService::class.java)
     }
 
+    private val firebaseService: FirebaseService by lazy {
+        FirebaseService()
+    }
+
     override val authenticationManager: AuthenticationManager by lazy {
         AuthenticationManager(
             wordpressRepo = wordpressRepository,
             datastorePref = datastorePref,
+            firebaseService = firebaseService
+        )
+    }
+
+    override val featureFlippingManager: FeatureFlippingManager by lazy {
+        FeatureFlippingManager(
             firebaseService = firebaseService
         )
     }
@@ -69,10 +81,6 @@ class MainAppModule(
 
     override val datastorePref: DatastorePref by lazy {
         DatastorePref(appContext)
-    }
-
-    private val firebaseService: FirebaseService by lazy {
-        FirebaseService()
     }
 }
 

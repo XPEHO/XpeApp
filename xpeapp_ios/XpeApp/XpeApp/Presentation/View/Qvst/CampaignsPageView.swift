@@ -9,6 +9,7 @@ import SwiftUI
 import xpeho_ui
 
 struct CampaignsPage: View {
+    private var featureManager = FeatureManager.instance
     @Bindable var campaignsPageViewModel = CampaignsPageViewModel.instance
     @State private var selectedYear = Calendar.current.component(.year, from: Date())
     
@@ -39,7 +40,10 @@ struct CampaignsPage: View {
             }
         }
         .onAppear {campaignsPageViewModel.update()}
-        .refreshable {campaignsPageViewModel.update()}
+        .refreshable {
+            campaignsPageViewModel.update()
+            featureManager.update()
+        }
         .accessibility(identifier: "QvstView")
     }
     

@@ -10,7 +10,8 @@ import CoreData
 import xpeho_ui
 
 struct NewsletterPage: View {
-    var newsletterPageViewModel = NewsletterPageViewModel.instance
+    private var featureManager = FeatureManager.instance
+    private var newsletterPageViewModel = NewsletterPageViewModel.instance
     @State private var selectedYear = Calendar.current.component(.year, from: Date())
     
     var body: some View {
@@ -32,7 +33,10 @@ struct NewsletterPage: View {
             }
         }
         .onAppear {newsletterPageViewModel.update()}
-        .refreshable {newsletterPageViewModel.update()}
+        .refreshable {
+            newsletterPageViewModel.update()
+            featureManager.update()
+        }
         .accessibility(identifier: "NewsletterView")
     }
     

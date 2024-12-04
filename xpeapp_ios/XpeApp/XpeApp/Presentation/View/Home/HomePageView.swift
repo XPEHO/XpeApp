@@ -40,7 +40,10 @@ struct HomePage: View {
             }
         }
         .onAppear {homePageViewModel.update()}
-        .refreshable {homePageViewModel.update()}
+        .refreshable {
+            homePageViewModel.update()
+            featureManager.update()
+        }
         .accessibility(identifier: "HomeView")
     }
 

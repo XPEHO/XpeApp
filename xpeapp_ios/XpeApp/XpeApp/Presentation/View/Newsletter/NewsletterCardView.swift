@@ -30,15 +30,11 @@ struct NewsletterCard: View {
                 horizontalPadding: 50,
                 verticalPadding: 12,
                 onPress: {
-                    if let url = URL(string: newsletter.pdfUrl), UIApplication.shared.canOpenURL(url) {
-                        openURL(url)
-                    } else {
-                        toastManager.setParams(
-                            message: "URL de Newsletter incorrecte",
-                            error: true
-                        )
-                        toastManager.play()
-                    }
+                    openPdf(
+                        url: newsletter.pdfUrl,
+                        toastManager: toastManager,
+                        openMethod: openURL
+                    )
                 }
             ),
             icon: AnyView(

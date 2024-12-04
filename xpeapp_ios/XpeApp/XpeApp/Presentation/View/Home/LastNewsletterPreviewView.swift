@@ -42,15 +42,11 @@ struct LastNewsletterPreview: View {
                 }),
                 height: 200,
                 onPress: {
-                    if let url = URL(string: lastNewsletter.pdfUrl), UIApplication.shared.canOpenURL(url) {
-                        openURL(url)
-                    } else {
-                        toastManager.setParams(
-                            message: "URL de Newsletter incorrecte",
-                            error: true
-                        )
-                        toastManager.play()
-                    }
+                    openPdf(
+                        url: lastNewsletter.pdfUrl,
+                        toastManager: toastManager,
+                        openMethod: openURL
+                    )
                 }
             )
         } else {

@@ -19,7 +19,7 @@ func fetchWordpressAPI <BodyType: Codable> (
     method: HttpMethod = .get,
     headers: [String: String] = [:],
     bodyObject: BodyType
-) async -> Data? {
+) async -> (Data, Int)? {
     
     let endpointUrl = backendUrl + endpoint
     guard let url = URL(string: endpointUrl) else {
@@ -32,13 +32,19 @@ func fetchWordpressAPI <BodyType: Codable> (
     request.httpMethod = method.rawValue
     
     // Set headers if needed
-    for key in headers.keys {
-        request.setValue(headers[key], forHTTPHeaderField: key)
+    for (key, value) in headers {
+        request.setValue(value, forHTTPHeaderField: key)
     }
     
     // Set body if needed
     if !headers.keys.contains("Content-Type") {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    }
+    
+    // Set token auth
+    let userRepo = UserRepositoryImpl.instance
+    if let user = userRepo.user {
+        request.setValue(user.token, forHTTPHeaderField: "authorization")
     }
     
     do {
@@ -47,20 +53,23 @@ func fetchWordpressAPI <BodyType: Codable> (
         request.httpBody = body
         
         // Decode data got
-        let (data, _) = try await URLSession.shared.data(for: request)
-        return data
+        let (data, response) = try await URLSession.shared.data(for: request)
+        if let httpResponse = response as? HTTPURLResponse {
+            return (data, httpResponse.statusCode)
+        } else {
+            return nil
+        }
     } catch {
         debugPrint("Request failed on \(endpointUrl) : \(error)")
         return nil
     }
-    
 }
 
 func fetchWordpressAPI (
     endpoint: String = "",
     method: HttpMethod = .get,
     headers: [String: String] = [:]
-) async -> Data? {
+) async -> (Data, Int)? {
     
     let endpointUrl = backendUrl + endpoint
     guard let url = URL(string: endpointUrl) else {
@@ -73,14 +82,24 @@ func fetchWordpressAPI (
     request.httpMethod = method.rawValue
     
     // Set headers if needed
-    for key in headers.keys {
-        request.setValue(headers[key], forHTTPHeaderField: key)
+    for (key, value) in headers {
+        request.setValue(value, forHTTPHeaderField: key)
+    }
+    
+    // Set token auth
+    let userRepo = UserRepositoryImpl.instance
+    if let user = userRepo.user {
+        request.setValue(user.token, forHTTPHeaderField: "authorization")
     }
     
     do {
         // Decode data got
-        let (data, _) = try await URLSession.shared.data(for: request)
-        return data
+        let (data, response) = try await URLSession.shared.data(for: request)
+        if let httpResponse = response as? HTTPURLResponse {
+            return (data, httpResponse.statusCode)
+        } else {
+            return nil
+        }
     } catch {
         debugPrint("Request failed on \(endpointUrl) : \(error)")
         return nil

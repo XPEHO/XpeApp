@@ -53,14 +53,13 @@ class MockWordpressAPI: WordpressAPIProtocol {
     func sendCampaignAnswers(
         campaignId: String,
         userId: String,
-        token: String,
         questions: [QvstQuestionModel],
         answers: [QvstAnswerModel]
     ) async -> Bool? {
         return sendCampaignAnswersReturnData
     }
     
-    func fetchCampaignsProgress(userId: String, token: String) async -> [QvstProgressModel]? {
+    func fetchCampaignsProgress(userId: String) async -> [QvstProgressModel]? {
         return fetchCampaignsProgressReturnData
     }
 }

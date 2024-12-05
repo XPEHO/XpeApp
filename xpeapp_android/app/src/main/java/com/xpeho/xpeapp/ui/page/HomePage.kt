@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -18,6 +17,7 @@ import androidx.navigation.NavController
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.data.FeatureFlippingEnum
+import com.xpeho.xpeapp.data.entity.QvstCampaignEntity
 import com.xpeho.xpeapp.domain.FeatureFlippingState
 import com.xpeho.xpeapp.ui.components.CustomDialog
 import com.xpeho.xpeapp.ui.components.layout.NoContentPlaceHolder
@@ -111,19 +111,22 @@ fun HomePage(navigationController: NavController) {
                 if (ffViewModel.isFeatureEnabled(FeatureFlippingEnum.QVST)) {
                     // When we have loaded the qvst campaigns
                     when (campaignActiveViewModel.state) {
+
                         // If we successfully loaded the campaigns
                         is QvstActiveUiState.SUCCESS -> {
                             item {
                                 Title(label = "À ne pas manquer !")
-                            }
-                            items((campaignActiveViewModel.state as QvstActiveUiState.SUCCESS).qvst) { campaign ->
+
+                                val campaigns: List<QvstCampaignEntity> =
+                                    (campaignActiveViewModel.state as QvstActiveUiState.SUCCESS).qvst
                                 QvstCardList(
                                     navigationController = navigationController,
-                                    campaigns = listOf(campaign),
+                                    campaigns = campaigns,
                                     collapsable = false
                                 )
                             }
                         }
+
                         // If there was an error loading the campaigns
                         is QvstActiveUiState.ERROR -> {
                             item {

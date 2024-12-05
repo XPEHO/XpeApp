@@ -30,12 +30,10 @@ class QvstActiveCampaignsViewModel(
                 val username = authState.authData.username
                 val token = authState.authData.token
 
-                val result = wordpressRepo.getActiveQvstCampaigns(token, username)
+                val result = wordpressRepo.getQvstCampaigns(token, username, true)
 
                 if (result == null) {
                     state = QvstActiveUiState.ERROR("Oups, il y a eu un problème dans le chargement des campagnes")
-                } else if (result.isEmpty()) {
-                    state = QvstActiveUiState.EMPTY
                 } else {
                     state = QvstActiveUiState.SUCCESS(result)
                 }

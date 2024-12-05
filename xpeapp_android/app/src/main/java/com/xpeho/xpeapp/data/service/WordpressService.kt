@@ -34,12 +34,8 @@ interface WordpressService {
     ): String
 
     @Headers("Content-Type: application/json")
-    @GET("xpeho/v1/qvst/campaigns")
-    suspend fun getAllQvstCampaigns(): List<QvstCampaign>
-
-    @Headers("Content-Type: application/json")
-    @GET("xpeho/v1/qvst/campaigns:active")
-    suspend fun getActiveQvstCampaigns(): List<QvstCampaign>
+    @GET("xpeho/v1/qvst/campaigns{active}")
+    suspend fun getQvstCampaigns(@Path("active") active: String = ""): List<QvstCampaign>
 
     @Headers("Content-Type: application/json")
     @GET("xpeho/v1/qvst/campaigns/{campaignId}/questions")

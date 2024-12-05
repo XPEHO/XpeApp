@@ -125,10 +125,11 @@ private fun getTagsList(campaign: QvstCampaignEntity): @Composable() (() -> Unit
         tagPillDeadline = {
             TagPill(
                 label =
-                if (campaign.remainingDays > 0)
-                    campaign.remainingDays.toString() + " jours restants"
-                else
-                    "Dernier jour",
+                when (campaign.remainingDays) {
+                    0 -> "Dernier jour"
+                    1 -> "${campaign.remainingDays} jour restant"
+                    else -> "${campaign.remainingDays} jours restants"
+                },
                 backgroundColor =
                 if (campaign.completed || (campaign.remainingDays > 3))
                     XpehoColors.GREEN_DARK_COLOR

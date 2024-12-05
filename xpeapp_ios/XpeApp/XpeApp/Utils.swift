@@ -11,7 +11,9 @@ import SwiftUI
 // Util function to count days between two dates
 func countDaysBetween(_ from: Date, and to: Date) -> Int? {
     let calendar = Calendar.current
-    let components = calendar.dateComponents([.day], from: from, to: to)
+    let startOfDayFrom = calendar.startOfDay(for: from)
+    let startOfDayTo = calendar.startOfDay(for: to)
+    let components = calendar.dateComponents([.day], from: startOfDayFrom, to: startOfDayTo)
     return components.day
 }
 

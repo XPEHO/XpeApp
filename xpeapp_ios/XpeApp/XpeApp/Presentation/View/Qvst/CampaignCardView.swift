@@ -84,11 +84,15 @@ struct CampaignCard: View {
         //      If it end in less or equal than 3 days and it hasn't been completed -> the color is red
         // Else we indicate the end date
         if (campaign.status == "OPEN") {
+            let label: String
+            if campaign.remainingDays > 1 {
+                label = String(campaign.remainingDays) + " jours restants"
+            } else {
+                label = campaign.remainingDays == 1 ? "1 jour restant" : "Dernier jour"
+            }
             result.append(
                 TagPill(
-                    label: campaign.remainingDays > 0
-                        ? String(campaign.remainingDays) + " jours restants"
-                        : "Dernier jour",
+                    label: label,
                     backgroundColor: (campaign.completed || (campaign.remainingDays > 3))
                         ? XPEHO_THEME.GREEN_DARK_COLOR
                         : XPEHO_THEME.RED_INFO_COLOR

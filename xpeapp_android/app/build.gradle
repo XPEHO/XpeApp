@@ -192,7 +192,10 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
 
+    //Local data storage
     implementation "androidx.datastore:datastore-preferences:1.1.1"
+    implementation "androidx.security:security-crypto:1.0.0"
+    implementation "androidx.security:security-identity-credential:1.0.0-alpha03"
 
     //Notifications
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")

@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
 import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.data.service.FirebaseService
 import com.xpeho.xpeapp.data.service.WordpressRepository
@@ -36,8 +38,15 @@ class AlarmReceiver : BroadcastReceiver() {
         }
 
         context?.let { ctx ->
-            // Init local storage
-            val sharedPreferences = ctx.getSharedPreferences(SP_NOTIFICATIONS_KEY, Context.MODE_PRIVATE)
+            // Init local storage with encrypted shared preferences
+            val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+            val sharedPreferences = EncryptedSharedPreferences.create(
+                SP_NOTIFICATIONS_KEY,
+                masterKeyAlias,
+                ctx,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
 
             // Get modules for DI
             val appModule = XpeApp.appModule

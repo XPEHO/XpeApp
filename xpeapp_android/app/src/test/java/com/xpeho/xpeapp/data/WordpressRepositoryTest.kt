@@ -356,10 +356,10 @@ class WordpressRepositoryTest {
             val progress = listOf<QvstProgress>()
 
             coEvery { wordpressService.getQvstCampaigns() } returns campaigns
-            coEvery { wordpressService.getQvstProgressByUserId(any(), any()) } returns progress
+            coEvery { wordpressService.getQvstProgressByUserId(any()) } returns progress
             coEvery { wordpressService.getUserId(username) } returns "userId"
 
-            val result = wordpressRepo.getQvstCampaigns(token, username)
+            val result = wordpressRepo.getQvstCampaigns(username)
 
             assertEquals(1, result?.size)
             assertEquals("campaignName", result?.get(0)?.name)
@@ -372,7 +372,7 @@ class WordpressRepositoryTest {
 
             coEvery { wordpressService.getQvstCampaigns() } throws UnknownHostException()
 
-            val result = wordpressRepo.getQvstCampaigns(token, username)
+            val result = wordpressRepo.getQvstCampaigns(username)
 
             assertEquals(null, result)
         }
@@ -399,10 +399,10 @@ class WordpressRepositoryTest {
             val progress = listOf<QvstProgress>()
 
             coEvery { wordpressService.getQvstCampaigns(":active") } returns campaigns
-            coEvery { wordpressService.getQvstProgressByUserId(any(), any()) } returns progress
+            coEvery { wordpressService.getQvstProgressByUserId(any()) } returns progress
             coEvery { wordpressService.getUserId(username) } returns "userId"
 
-            val result = wordpressRepo.getQvstCampaigns(token, username, true)
+            val result = wordpressRepo.getQvstCampaigns(username, true)
 
             assertEquals(1, result?.size)
             assertEquals("campaignName", result?.get(0)?.name)
@@ -415,7 +415,7 @@ class WordpressRepositoryTest {
 
             coEvery { wordpressService.getQvstCampaigns(":active") } throws UnknownHostException()
 
-            val result = wordpressRepo.getQvstCampaigns(token, username, true)
+            val result = wordpressRepo.getQvstCampaigns(username, true)
 
             assertEquals(null, result)
         }

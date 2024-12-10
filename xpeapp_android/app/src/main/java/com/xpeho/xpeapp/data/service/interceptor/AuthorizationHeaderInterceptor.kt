@@ -1,22 +1,23 @@
 package com.xpeho.xpeapp.data.service.interceptor
 
 import android.util.Log
-import com.xpeho.xpeapp.XpeApp
-import com.xpeho.xpeapp.domain.AuthState
+import com.xpeho.xpeapp.di.TokenProvider
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class AuthorizationHeaderInterceptor : Interceptor {
+class AuthorizationHeaderInterceptor(
+    private val tokenProvider: TokenProvider
+) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val authState = XpeApp.appModule.authenticationManager.authState.value
+        val token = tokenProvider.get()
         val hasAuthorizationHeader = chain.request().headers("Authorization").isNotEmpty()
+
         if (hasAuthorizationHeader) {
             return identityResponse(chain)
         }
-        return when (authState) {
-            is AuthState.Unauthenticated -> identityResponse(chain)
-            is AuthState.Authenticated ->
-                authorizedResponse(chain, "Bearer ${authState.authData.token.token}")
+        return when (token) {
+            null -> identityResponse(chain)
+            else -> authorizedResponse(chain, token)
         }
     }
 

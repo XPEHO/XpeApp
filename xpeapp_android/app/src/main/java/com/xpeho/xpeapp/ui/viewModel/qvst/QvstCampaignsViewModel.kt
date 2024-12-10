@@ -33,19 +33,17 @@ class QvstCampaignsViewModel(
         state = QvstUiState.LOADING
         viewModelScope.launch {
             val authState = authManager.authState.value
-            if (authState is AuthState.Authenticated) {
+            state = if (authState is AuthState.Authenticated) {
                 val username = authState.authData.username
-                val token = authState.authData.token
-
-                val campaigns = wordpressRepo.getQvstCampaigns(token, username)
+                val campaigns = wordpressRepo.getQvstCampaigns(username)
                 if (campaigns == null) {
-                    state = QvstUiState.ERROR("Oups, il y a eu un problème dans le chargement des campagnes")
+                    QvstUiState.ERROR("Oups, il y a eu un problème dans le chargement des campagnes")
                 } else {
                     val result = wordpressRepo.classifyCampaigns(campaigns)
-                    state = QvstUiState.SUCCESS(result)
+                    QvstUiState.SUCCESS(result)
                 }
             } else {
-                state = QvstUiState.ERROR("Oups, l'utilisateur n'est pas authentifié")
+                QvstUiState.ERROR("Oups, l'utilisateur n'est pas authentifié")
             }
         }
     }

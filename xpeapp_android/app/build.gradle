@@ -194,6 +194,10 @@ dependencies {
 
     implementation "androidx.datastore:datastore-preferences:1.1.1"
 
+    //Notifications
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+    implementation("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
+
     //XpehoUI
     implementation "com.xpeho.packages:xpeho_ui_android:1.5.0"
 }

@@ -19,7 +19,9 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import javax.net.ssl.SSLHandshakeException
 
-class WordpressRepository(private val api: WordpressService) {
+class WordpressRepository(
+    private val api: WordpressService,
+) {
 
     companion object {
         private const val HTTPFORBIDDEN = 403
@@ -112,7 +114,6 @@ class WordpressRepository(private val api: WordpressService) {
     }
 
     suspend fun getQvstCampaigns(
-        token: WordpressToken,
         username: String,
         onlyActive: Boolean = false
     ): List<QvstCampaignEntity>? {
@@ -123,18 +124,10 @@ class WordpressRepository(private val api: WordpressService) {
                 } else {
                     api.getQvstCampaigns()
                 }
-                val userId = getUserId(username = username)
+                val userId = getUserId(username)
                 val progress = userId?.let {
-                    api.getQvstProgressByUserId(
-                        token = "Bearer ${token.token}",
-                        userId = userId
-                    )
-                    api.getQvstProgressByUserId(
-                        token = "Bearer ${token.token}",
-                        userId = userId
-                    )
+                    api.getQvstProgressByUserId(userId)
                 }
-
                 return progress?.let {
                     getCampaignsEntitiesFromModels(campaigns, progress)
                 }

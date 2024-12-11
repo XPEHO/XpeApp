@@ -1,0 +1,34 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_LEFT_RIGHT()
+
+Person(personAlias, "Collaborateur", "")
+
+Person(admin, "Admin", "")
+
+Container(XpeApp, "XpeApp", "IOS/Android", "Collaborator mobile app")
+Container(XpeAppAdmin, "XpeApp Admin interface", "Flutter", "Admin web app")
+
+Container(firebase, "Firebase", "Serverless", "Google Firebase")
+Container(wordpress, "Worpress API", "Wordpress", "QVST REST API")
+ContainerDb(mysql, "MySQL", "Database", "MySQL")
+
+Rel(admin, XpeAppAdmin, "Use", "")
+
+Rel(XpeAppAdmin, firebase, "Update Newsletters", "")
+Rel(XpeAppAdmin, wordpress, "Update QVST", "")
+
+Rel(personAlias, XpeApp, "Use", "")
+
+Rel(firebase, XpeApp, "Read Newsletters", "")
+
+Rel(wordpress, XpeApp, "Read QVST campains", "")
+Rel(XpeApp, wordpress, "Write QVST answers", "")
+
+Rel(wordpress, mysql, "Read/Write QVST", "")
+
+Rel(wordpress, firebase, "Trigger notifications", "")
+
+Rel(firebase, XpeApp, "Push notifications", "")
+@enduml

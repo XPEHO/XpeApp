@@ -10,7 +10,7 @@ import SwiftData
 import FirebaseCore
 import FirebaseAuth
 import FirebaseFirestore
-import FirebaseMessaging
+import BackgroundTasks
 import xpeho_ui
 
 @main
@@ -36,16 +36,25 @@ struct XpeAppApp: App {
 // Note(Loucas): Firebase method swizzling has been disabled. If it becomes necessary in the future,
 // we can enable it through setting the FirebaseAppDelegateProxyEnabled boolean to 'NO' in Info.plist
 class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
+    let taskId = "xpeapp.notifications_check"
+    
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
         // Initialize Firebase
         FirebaseApp.configure()
-        // Set Firebase Messaging delegate
-        Messaging.messaging().delegate = self
         // Request notification permissions
         registerForPushNotifications(application: application)
+        
+        // Register background task
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: self.taskId, using: nil) { task in
+            guard let task = task as? BGProcessingTask else { return }
+            self.handleBackgroundTask(task: task)
+        }
+        // Submit background task
+        submitBackgroundTask()
+
         return true
     }
 
@@ -61,16 +70,6 @@ class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
 }
 
 extension XpeAppAppDelegate: UNUserNotificationCenterDelegate {
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print(error)
-    }
-    
-    
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        //self.sendDeviceTokenToServer(data: deviceToken)
-        Messaging.messaging().setAPNSToken(deviceToken, type: .unknown)
-    }
-    
     private func registerForPushNotifications(application: UIApplication) {
         UNUserNotificationCenter.current().delegate = self
         
@@ -78,18 +77,61 @@ extension XpeAppAppDelegate: UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions
         ) { (granted, error) in
-            guard granted else {return}
-            DispatchQueue.main.async{
-                application.registerForRemoteNotifications()
+            guard granted else {
+                debugPrint("Permission denied for local notifications")
+                return
+            }
+            debugPrint("Permission granted for local notifications")
+        }
+    }
+    
+    private func submitBackgroundTask() {
+        // check if there is a pending task request or not
+        BGTaskScheduler.shared.getPendingTaskRequests { request in
+            debugPrint("\(request.count) BGTask pending.")
+            guard request.isEmpty else { return }
+            // Create a new background task request
+            let request = BGProcessingTaskRequest(identifier: self.taskId)
+            request.requiresNetworkConnectivity = false
+            request.requiresExternalPower = false
+            request.earliestBeginDate = Date(timeIntervalSinceNow: 120) // Schedule the next task in 2 minutes
+            
+            do {
+                // Schedule the background task
+                try BGTaskScheduler.shared.submit(request)
+            } catch {
+                debugPrint("Unable to schedule background task: \(error.localizedDescription)")
             }
         }
     }
-}
-
-extension XpeAppAppDelegate: MessagingDelegate {
     
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        //print("Firebase registration token: \(String(describing: fcmToken))")
+    func handleBackgroundTask(task: BGProcessingTask) {
+        // Perform background task work here (e.g., trigger local notifications)
+        scheduleNotification()
+
+        // Mark the task as completed
+        task.setTaskCompleted(success: true)
+    }
+    
+    func scheduleNotification() {
+        // Create notification content
+        let content = UNMutableNotificationContent()
+        content.title = "Local Notification"
+        content.body = "This is a local notification example."
+        content.sound = .default
+
+        // Create a trigger for the notification (every 2 minutes)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 120, repeats: true)
+
+        // Create a request with a unique identifier
+        let request = UNNotificationRequest(identifier: "localNotification", content: content, trigger: trigger)
+
+        // Add the request to the notification center
+        UNUserNotificationCenter.current().add(request) { error in
+          if let error = error {
+              debugPrint("Error scheduling notification: \(error.localizedDescription)")
+          }
+        }
     }
 }
 

@@ -50,6 +50,32 @@ class AuthenticationManagerTest {
         }
     }
 
+    class GetAuthData : BaseTest() {
+        @Test
+        fun `getAuthData returns null when no data`() = runBlocking {
+            coEvery { datastorePref.getAuthData() } returns null
+            coEvery { tokenProvider.set(any()) } just runs
+
+            authManager.restoreAuthStateFromStorage()
+            val result = authManager.getAuthData()
+
+            assertTrue(result == null)
+        }
+
+        @Test
+        fun `getAuthData returns data when data exists`() = runBlocking {
+            val authData =
+                AuthData("username", WordpressToken("token", "user_email", "user_nicename", "user_display_name"))
+            coEvery { datastorePref.getAuthData() } returns authData
+            coEvery { tokenProvider.set(any()) } just runs
+
+            authManager.restoreAuthStateFromStorage()
+            val result = authManager.getAuthData()
+
+            assertTrue(result == authData)
+        }
+    }
+
     class IsAuthValid : BaseTest() {
         @Test
         fun `isAuthValid returns false when unauthenticated`() = runBlocking {
@@ -66,9 +92,9 @@ class AuthenticationManagerTest {
             val authData =
                 AuthData("username", WordpressToken("token", "user_email", "user_nicename", "user_display_name"))
             coEvery { datastorePref.getAuthData() } returns authData
+            coEvery { tokenProvider.set(any()) } just runs
             coEvery { firebaseService.isAuthenticated() } returns true
             coEvery { wordpressRepo.validateToken(authData.token) } returns AuthResult.Success(Unit)
-            coEvery { tokenProvider.set(any()) } just runs
 
             authManager.restoreAuthStateFromStorage()
             val result = authManager.isAuthValid()

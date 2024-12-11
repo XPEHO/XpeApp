@@ -118,7 +118,11 @@ task jacocoTestReport(type: JacocoReport) {
             '**/ui/**',
             '**/AppModule.kt',
             '**/MainActivity.kt',
-            '**/XpeApp.kt'
+            '**/XpeApp.kt',
+            '**/DatastorePref.kt',
+            '**/FirebaseService.kt',
+            '**/WordpressService.kt',
+            '**/*Interceptor.kt',
     ]
     def debugTree = fileTree(dir: layout.buildDirectory.dir("tmp/kotlin-classes/debug").get().asFile, excludes: fileFilter)
     def mainSrc = "$projectDir/src/main/java"
@@ -135,7 +139,15 @@ sonar {
     properties {
         property "sonar.projectKey", "xpeapp_android"
         property "sonar.projectName", "xpeapp_android"
-        property "sonar.coverage.exclusions", "**/ui/**, **/AppModule.kt, **/MainActivity.kt, **/XpeApp.kt"
+        property "sonar.coverage.exclusions", 
+            "**/ui/**, \
+            **/AppModule.kt,\
+            **/MainActivity.kt,\
+            **/XpeApp.kt,\
+            **/DatastorePref.kt,\
+            **/FirebaseService.kt,\
+            **/WordpressService.kt,\
+            **/*Interceptor.kt,"
         property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
     }
 }

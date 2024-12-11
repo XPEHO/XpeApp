@@ -35,20 +35,21 @@ interface WordpressService {
 
     @Headers("Content-Type: application/json")
     @GET("xpeho/v1/qvst/campaigns{active}")
-    suspend fun getQvstCampaigns(@Path("active") active: String = ""): List<QvstCampaign>
+    suspend fun getQvstCampaigns(
+        @Path("active") active: String = "",
+    ): List<QvstCampaign>
 
     @Headers("Content-Type: application/json")
     @GET("xpeho/v1/qvst/campaigns/{campaignId}/questions")
     suspend fun getQvstQuestionsByCampaignId(
         @Path("campaignId") campaignId: String,
-        @Header("userId") userId: String
+        @Header("userId") userId: String,
     ): List<QvstQuestion>
 
     @Headers("Content-Type: application/json")
     @GET("xpeho/v1/campaign-progress")
     suspend fun getQvstProgressByUserId(
         @Query("userId") userId: String,
-        @Header("Authorization") token: String
     ): List<QvstProgress>
 
     @Headers("Content-Type: application/json")

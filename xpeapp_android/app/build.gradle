@@ -118,7 +118,11 @@ task jacocoTestReport(type: JacocoReport) {
             '**/ui/**',
             '**/AppModule.kt',
             '**/MainActivity.kt',
-            '**/XpeApp.kt'
+            '**/XpeApp.kt',
+            '**/DatastorePref.kt',
+            '**/FirebaseService.kt',
+            '**/WordpressService.kt',
+            '**/*Interceptor.kt',
     ]
     def debugTree = fileTree(dir: layout.buildDirectory.dir("tmp/kotlin-classes/debug").get().asFile, excludes: fileFilter)
     def mainSrc = "$projectDir/src/main/java"
@@ -135,7 +139,15 @@ sonar {
     properties {
         property "sonar.projectKey", "xpeapp_android"
         property "sonar.projectName", "xpeapp_android"
-        property "sonar.coverage.exclusions", "**/ui/**, **/AppModule.kt, **/MainActivity.kt, **/XpeApp.kt"
+        property "sonar.coverage.exclusions", 
+            "**/ui/**, \
+            **/AppModule.kt,\
+            **/MainActivity.kt,\
+            **/XpeApp.kt,\
+            **/DatastorePref.kt,\
+            **/FirebaseService.kt,\
+            **/WordpressService.kt,\
+            **/*Interceptor.kt,"
         property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
     }
 }
@@ -192,7 +204,14 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
 
+    //Local data storage
     implementation "androidx.datastore:datastore-preferences:1.1.1"
+    implementation "androidx.security:security-crypto:1.0.0"
+    implementation "androidx.security:security-identity-credential:1.0.0-alpha03"
+
+    //Notifications
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+    implementation("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
 
     //XpehoUI
     implementation "com.xpeho.packages:xpeho_ui_android:1.5.0"

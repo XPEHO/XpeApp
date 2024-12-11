@@ -18,8 +18,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 interface AppModule {
     val authenticationManager: AuthenticationManager
     val featureFlippingManager: FeatureFlippingManager
+    val firebaseService: FirebaseService
     val wordpressRepository: WordpressRepository
     val datastorePref: DatastorePref
+    val tokenProvider: TokenProvider
 }
 
 class MainAppModule(
@@ -33,7 +35,9 @@ class MainAppModule(
 
     private val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
     private val authorization by lazy {
-        AuthorizationHeaderInterceptor()
+        AuthorizationHeaderInterceptor(
+            tokenProvider = tokenProvider
+        )
     }
 
     private val okHttpClient by lazy {
@@ -56,12 +60,17 @@ class MainAppModule(
         retrofit.create(WordpressService::class.java)
     }
 
-    private val firebaseService: FirebaseService by lazy {
+    override val firebaseService: FirebaseService by lazy {
         FirebaseService()
+    }
+
+    override val tokenProvider: TokenProvider by lazy {
+        TokenProvider()
     }
 
     override val authenticationManager: AuthenticationManager by lazy {
         AuthenticationManager(
+            tokenProvider = tokenProvider,
             wordpressRepo = wordpressRepository,
             datastorePref = datastorePref,
             firebaseService = firebaseService
@@ -80,7 +89,10 @@ class MainAppModule(
 
 
     override val datastorePref: DatastorePref by lazy {
-        DatastorePref(appContext)
+        DatastorePref(
+            appContext,
+            tokenProvider
+        )
     }
 }
 

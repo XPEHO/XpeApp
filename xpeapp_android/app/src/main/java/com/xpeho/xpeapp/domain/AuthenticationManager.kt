@@ -8,6 +8,7 @@ import com.xpeho.xpeapp.data.model.AuthResult
 import com.xpeho.xpeapp.data.model.WordpressToken
 import com.xpeho.xpeapp.data.service.FirebaseService
 import com.xpeho.xpeapp.data.service.WordpressRepository
+import com.xpeho.xpeapp.di.TokenProvider
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,10 +23,12 @@ import kotlinx.coroutines.runBlocking
  *  for storing the authentication data
  */
 class AuthenticationManager(
+    val tokenProvider: TokenProvider,
     val wordpressRepo: WordpressRepository,
     val datastorePref: DatastorePref,
     val firebaseService: FirebaseService
 ) {
+
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     private val _authState: MutableStateFlow<AuthState> = MutableStateFlow(AuthState.Unauthenticated)
 
@@ -34,6 +37,7 @@ class AuthenticationManager(
     fun restoreAuthStateFromStorage() = runBlocking {
         datastorePref.getAuthData()?.let {
             _authState.value = AuthState.Authenticated(it)
+            tokenProvider.set("Bearer ${it.token.token}")
         }
     }
 
@@ -46,6 +50,13 @@ class AuthenticationManager(
                 firebaseService.isAuthenticated()
                         && wordpressRepo.validateToken(authState.authData.token) is AuthResult.Success
             }
+        }
+    }
+
+    fun getAuthData(): AuthData? {
+        return when (val authState = this.authState.value) {
+            is AuthState.Authenticated -> authState.authData
+            else -> null
         }
     }
 
@@ -78,6 +89,7 @@ class AuthenticationManager(
                         val authData = AuthData(username, (wpRes as AuthResult.Success).data)
                         writeAuthentication(authData)
                         _authState.value = AuthState.Authenticated(authData)
+                        tokenProvider.set("Bearer ${authData.token.token}")
                         wpRes
                     }
                 }
@@ -87,7 +99,8 @@ class AuthenticationManager(
     }
 
     private suspend fun writeAuthentication(authData: AuthData) {
-        val wordpressUid = wordpressRepo.getUserId(authData.username)
+        val username = authData.username
+        val wordpressUid = wordpressRepo.getUserId(username)
         datastorePref.setAuthData(authData)
         datastorePref.setIsConnectedLeastOneTime(true)
         datastorePref.setWasConnectedLastTime(true)

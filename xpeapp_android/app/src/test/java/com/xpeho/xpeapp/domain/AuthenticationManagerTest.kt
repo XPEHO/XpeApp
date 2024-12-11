@@ -7,6 +7,7 @@ import com.xpeho.xpeapp.data.model.AuthResult
 import com.xpeho.xpeapp.data.model.WordpressToken
 import com.xpeho.xpeapp.data.service.FirebaseService
 import com.xpeho.xpeapp.data.service.WordpressRepository
+import com.xpeho.xpeapp.di.TokenProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -26,6 +27,7 @@ import java.net.UnknownHostException
 @RunWith(Enclosed::class)
 class AuthenticationManagerTest {
     abstract class BaseTest {
+        protected lateinit var tokenProvider: TokenProvider
         protected lateinit var wordpressRepo: WordpressRepository
         protected lateinit var datastorePref: DatastorePref
         protected lateinit var authManager: AuthenticationManager
@@ -33,17 +35,44 @@ class AuthenticationManagerTest {
 
         @Before
         fun setUp() {
+            tokenProvider = mockk()
             wordpressRepo = mockk()
             datastorePref = mockk()
             firebaseService = mockk()
             coEvery { firebaseService.authenticate() } just runs
 
             //return@async AuthResult.Success(Unit)
-            authManager = AuthenticationManager(wordpressRepo, datastorePref, firebaseService)
+            authManager = AuthenticationManager(tokenProvider, wordpressRepo, datastorePref, firebaseService)
 
             // Mock android.util.Log methods
             mockkStatic(Log::class)
             every { Log.e(any(), any()) } returns 0
+        }
+    }
+
+    class GetAuthData : BaseTest() {
+        @Test
+        fun `getAuthData returns null when no data`() = runBlocking {
+            coEvery { datastorePref.getAuthData() } returns null
+            coEvery { tokenProvider.set(any()) } just runs
+
+            authManager.restoreAuthStateFromStorage()
+            val result = authManager.getAuthData()
+
+            assertTrue(result == null)
+        }
+
+        @Test
+        fun `getAuthData returns data when data exists`() = runBlocking {
+            val authData =
+                AuthData("username", WordpressToken("token", "user_email", "user_nicename", "user_display_name"))
+            coEvery { datastorePref.getAuthData() } returns authData
+            coEvery { tokenProvider.set(any()) } just runs
+
+            authManager.restoreAuthStateFromStorage()
+            val result = authManager.getAuthData()
+
+            assertTrue(result == authData)
         }
     }
 
@@ -63,6 +92,7 @@ class AuthenticationManagerTest {
             val authData =
                 AuthData("username", WordpressToken("token", "user_email", "user_nicename", "user_display_name"))
             coEvery { datastorePref.getAuthData() } returns authData
+            coEvery { tokenProvider.set(any()) } just runs
             coEvery { firebaseService.isAuthenticated() } returns true
             coEvery { wordpressRepo.validateToken(authData.token) } returns AuthResult.Success(Unit)
 
@@ -115,6 +145,7 @@ class AuthenticationManagerTest {
             coEvery { datastorePref.setIsConnectedLeastOneTime(true) } just runs
             coEvery { datastorePref.setWasConnectedLastTime(true) } just runs
             coEvery { datastorePref.setUserId("userId") } just runs
+            coEvery { tokenProvider.set(any()) } just runs
 
             val result = authManager.login(username, password)
 

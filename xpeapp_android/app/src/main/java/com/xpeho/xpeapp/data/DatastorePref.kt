@@ -7,12 +7,16 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
+import com.xpeho.xpeapp.di.TokenProvider
 import com.xpeho.xpeapp.domain.AuthData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-class DatastorePref(private val context: Context) {
+class DatastorePref(
+    private val context: Context,
+    val tokenProvider: TokenProvider? = null
+) {
 
     companion object {
         private const val PREF_NAME = "XPE_PREF"
@@ -57,7 +61,9 @@ class DatastorePref(private val context: Context) {
         val json = context.dataStore.data.map { preferences ->
             preferences[AUTH_DATA]
         }.first()
-        return json?.let { Gson().fromJson(it, AuthData::class.java) }
+        val result = json?.let { Gson().fromJson(it, AuthData::class.java) }
+        tokenProvider?.set("Bearer ${result?.token?.token}")
+        return result
     }
 
     suspend fun clearAuthData() {

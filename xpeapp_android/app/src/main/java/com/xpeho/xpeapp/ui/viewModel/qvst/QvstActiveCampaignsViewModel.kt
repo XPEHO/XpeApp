@@ -26,19 +26,18 @@ class QvstActiveCampaignsViewModel(
         state = QvstActiveUiState.LOADING
         viewModelScope.launch {
             val authState = authManager.authState.value
-            if (authState is AuthState.Authenticated) {
+            state = if (authState is AuthState.Authenticated) {
                 val username = authState.authData.username
-                val token = authState.authData.token
 
-                val result = wordpressRepo.getQvstCampaigns(token, username, true)
+                val result = wordpressRepo.getQvstCampaigns(username, true)
 
                 if (result == null) {
-                    state = QvstActiveUiState.ERROR("Oups, il y a eu un problème dans le chargement des campagnes")
+                    QvstActiveUiState.ERROR("Oups, il y a eu un problème dans le chargement des campagnes")
                 } else {
-                    state = QvstActiveUiState.SUCCESS(result)
+                    QvstActiveUiState.SUCCESS(result)
                 }
             } else {
-                state = QvstActiveUiState.ERROR("Oups, l'utilisateur n'est pas authentifié")
+                QvstActiveUiState.ERROR("Oups, l'utilisateur n'est pas authentifié")
             }
         }
     }

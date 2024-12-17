@@ -48,8 +48,8 @@ class BackgroundTaskManager {
     }
     
     private func handleBackgroundTask(task: BGProcessingTask) {
-        debugPrint("Background task Received")
-        
+        logToFile("Background task Received")   
+             
         localNotificationsManager.scheduleNotification(
             title: "Test de background task",
             message: "La background task fonctionne !",
@@ -105,6 +105,29 @@ class BackgroundTaskManager {
             debugPrint("Sauvegarde d'une newsletter pour référence !")
             // Étape 4: Nouvelle newsletter détectée -> Mettre à jour le stockage local
             UserDefaults.standard.set(obtainedLastNewsletter?.pdfUrl, forKey: "lastNewsletterPDFURL")
+        }
+    }
+
+    private func logToFile(_ message: String) {
+        let file = "backgroundTaskLog.txt"
+        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let fileURL = dir.appendingPathComponent(file)
+            do {
+                let currentDate = Date()
+                let logMessage = "\(currentDate): \(message)\n"
+                if FileManager.default.fileExists(atPath: fileURL.path) {
+                    let fileHandle = try FileHandle(forWritingTo: fileURL)
+                    fileHandle.seekToEndOfFile()
+                    if let data = logMessage.data(using: .utf8) {
+                        fileHandle.write(data)
+                    }
+                    fileHandle.closeFile()
+                } else {
+                    try logMessage.write(to: fileURL, atomically: true, encoding: .utf8)
+                }
+            } catch {
+                print("Error writing to log file: \(error)")
+            }
         }
     }
 

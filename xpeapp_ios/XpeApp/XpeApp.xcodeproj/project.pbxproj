@@ -54,6 +54,8 @@
 		0E87AC2F2C660DBB0079877D /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E87AC2E2C660DBB0079877D /* HeaderView.swift */; };
 		0E87AC332C660DDF0079877D /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E87AC322C660DDF0079877D /* SidebarView.swift */; };
 		0EB50D232CDB676F004E8C24 /* xpeho_ui in Frameworks */ = {isa = PBXBuildFile; productRef = 0EB50D222CDB676F004E8C24 /* xpeho_ui */; };
+		0ED13AB52D118E4900F9AE3E /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75E0C262D11822D000DC4AA /* LocalNotificationManager.swift */; };
+		0ED13AB62D118E4C00F9AE3E /* BackgroundTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75E0C272D118589000DC4AA /* BackgroundTaskManager.swift */; };
 		0EEE15042C9C56A70066CCB7 /* UserRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEE15032C9C56A70066CCB7 /* UserRepositoryTests.swift */; };
 		0EEE15082C9D56790066CCB7 /* FeatureModelEntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEE15072C9D56790066CCB7 /* FeatureModelEntityTests.swift */; };
 		0EEE150A2C9D58130066CCB7 /* NewsletterModelEntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEE15092C9D58130066CCB7 /* NewsletterModelEntityTests.swift */; };
@@ -648,9 +650,11 @@
 				0EF0F9002C931EE100AF5966 /* HomePageViewModel.swift in Sources */,
 				0E7EBD5E2C6CFF8700C95482 /* CampaignFormView.swift in Sources */,
 				0EFC0FEA2CF9D17800F9480D /* DisabledFeaturePlaceHolderView.swift in Sources */,
+				0ED13AB52D118E4900F9AE3E /* LocalNotificationManager.swift in Sources */,
 				0E260DBD2CD8D79E00F8EF0C /* NoContentPlaceHolderView.swift in Sources */,
 				0E6277AA2C94897100F26E55 /* NewsletterCardView.swift in Sources */,
 				0E6ACF802C8710B100735E1E /* FeatureRepositoryImpl.swift in Sources */,
+				0ED13AB62D118E4C00F9AE3E /* BackgroundTaskManager.swift in Sources */,
 				0E6277A72C9484D900F26E55 /* NewsletterPageViewModel.swift in Sources */,
 				0EF0F9022C931F2D00AF5966 /* LoginManager.swift in Sources */,
 				0EF0F9042C932F1000AF5966 /* NewsletterEntity.swift in Sources */,

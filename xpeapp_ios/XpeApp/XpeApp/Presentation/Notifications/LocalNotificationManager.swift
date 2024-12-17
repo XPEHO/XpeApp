@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import SwiftUI
 
 class LocalNotificationsManager {
     
@@ -14,7 +14,6 @@ class LocalNotificationsManager {
     
     private init(){}
 
-    
     func scheduleNotification(title: String, message: String) {
         // Create notification content
         let content = UNMutableNotificationContent()
@@ -22,14 +21,16 @@ class LocalNotificationsManager {
         content.body = message
         content.sound = .default
 
-        // Create a trigger for the notification (every day at 9 AM)
-        var dateComponents = DateComponents()
-        dateComponents.hour = 9
-        dateComponents.minute = 0
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+         // Create date components for the current date and time
+        let now = Date()
+        let calendar = Calendar.current
+        let dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: now)
+
+        // Trigger the notification immediately
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
 
         // Create a request with a unique identifier
-        let request = UNNotificationRequest(identifier: "newsletterCheckNotification", content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: "checkNotification", content: content, trigger: trigger)
 
         // Add the request to the notification center
         UNUserNotificationCenter.current().add(request) { error in

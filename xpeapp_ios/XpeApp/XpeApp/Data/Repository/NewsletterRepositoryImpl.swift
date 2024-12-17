@@ -24,9 +24,7 @@ class NewsletterRepositoryImpl: NewsletterRepository {
         self.dataSource = dataSource
     }
     
-    func getNewsletters() async -> [NewsletterEntity]? {
-        
-        var background = BackgroundTaskManager.instance
+    func getNewsletters() async -> [NewsletterEntity]? {        
         // Fetch data
         guard let newsletters = await dataSource.fetchAllNewsletters() else {
             debugPrint("Failed call to fetchAllNewsletters in getNewsletters")

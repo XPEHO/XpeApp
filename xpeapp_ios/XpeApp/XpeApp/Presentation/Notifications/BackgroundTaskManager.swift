@@ -48,18 +48,23 @@ class BackgroundTaskManager {
     }
     
     private func handleBackgroundTask(task: BGProcessingTask) {
-        debugPrint("Background Received")
-        // Étape 5: Envoyer une notification
-        localNotificationsManager.scheduleNotification(
-            title: "Nouvelle newsletter !",
-            message: "Restez informé avec notre nouvelle newsletter !"
-        )
+        debugPrint("Background task Received")
         
+        localNotificationsManager.scheduleNotification(
+            title: "Test de background task",
+            message: "La background task fonctionne !",
+            secondsFromNow: 1
+        )
+        // Mark the task as completed
+        task.setTaskCompleted(success: true)
+
+        // Reschedule the task
+        self.submitBackgroundTask()
+        
+        /*
         Task {
-            
-            
-            
-            //await checkNewNewsletter()
+            // Send newsletter notif if needed
+            await checkNewNewsletter()
 
             // Mark the task as completed
             task.setTaskCompleted(success: true)
@@ -67,10 +72,11 @@ class BackgroundTaskManager {
             // Reschedule the task
             self.submitBackgroundTask()
         }
+         */
     }
 
     private func checkNewNewsletter() async {
-        // Étape 1: Récupérer la dernière newsletter depuis l'API
+            // Étape 1: Récupérer la dernière newsletter depuis l'API
         let obtainedLastNewsletter = await NewsletterRepositoryImpl.instance.getLastNewsletter()
         
         // Étape 2: Vérifier si une newsletter est enregistrée localement via le UserDefaults
@@ -88,7 +94,8 @@ class BackgroundTaskManager {
                 // Étape 5: Envoyer une notification
                 localNotificationsManager.scheduleNotification(
                     title: "Nouvelle newsletter !",
-                    message: "Restez informé avec notre nouvelle newsletter !"
+                    message: "Restez informé avec notre nouvelle newsletter !",
+                    secondsFromNow: 1
                 )
                 debugPrint("Nouvelle newsletter détectée et notification envoyée.")
             }

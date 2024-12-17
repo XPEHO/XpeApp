@@ -184,6 +184,8 @@
 		BDACED0A2C10A690007B5262 /* NewsletterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsletterPageView.swift; sourceTree = "<group>"; };
 		BDC8A4242C18765A00D14C35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BDE1B5152C183AE200E8513F /* DebugPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPageView.swift; sourceTree = "<group>"; };
+		D75E0C262D11822D000DC4AA /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
+		D75E0C272D118589000DC4AA /* BackgroundTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -343,6 +345,7 @@
 		0EF0F8E32C91E14900AF5966 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				D75E0C2F2D118C64000DC4AA /* Notifications */,
 				0E6277A52C94813400F26E55 /* Shared */,
 				0EF0F8EA2C91E1C300AF5966 /* ViewModel */,
 				0EF0F8E92C91E1BE00AF5966 /* View */,
@@ -512,6 +515,15 @@
 				0EEE150B2C9D59F70066CCB7 /* UtilsTests.swift */,
 			);
 			path = XpeAppTests;
+			sourceTree = "<group>";
+		};
+		D75E0C2F2D118C64000DC4AA /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				D75E0C272D118589000DC4AA /* BackgroundTaskManager.swift */,
+				D75E0C262D11822D000DC4AA /* LocalNotificationManager.swift */,
+			);
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

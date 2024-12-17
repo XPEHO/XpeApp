@@ -37,6 +37,8 @@ struct XpeAppApp: App {
 // we can enable it through setting the FirebaseAppDelegateProxyEnabled boolean to 'NO' in Info.plist
 class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
     let taskId = "xpeapp.notifications_check"
+    let backgroundTaskManager = BackgroundTaskManager.instance
+    
     
     func application(
         _ application: UIApplication,
@@ -47,12 +49,15 @@ class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
         // Request notification permissions
         registerForPushNotifications(application: application)
         
+        // Submit background task
+        let backgroundTaskManager = BackgroundTaskManager.instance
+        
         // Register background task
         BGTaskScheduler.shared.register(forTaskWithIdentifier: self.taskId, using: nil) { task in
             guard let task = task as? BGProcessingTask else { return }
             self.handleBackgroundTask(task: task)
         }
-        // Submit background task
+        backgroundTaskManager.
         submitBackgroundTask()
 
         return true
@@ -85,53 +90,9 @@ extension XpeAppAppDelegate: UNUserNotificationCenterDelegate {
         }
     }
     
-    private func submitBackgroundTask() {
-        // check if there is a pending task request or not
-        BGTaskScheduler.shared.getPendingTaskRequests { request in
-            debugPrint("\(request.count) BGTask pending.")
-            guard request.isEmpty else { return }
-            // Create a new background task request
-            let request = BGProcessingTaskRequest(identifier: self.taskId)
-            request.requiresNetworkConnectivity = false
-            request.requiresExternalPower = false
-            request.earliestBeginDate = Date(timeIntervalSinceNow: 120) // Schedule the next task in 2 minutes
-            
-            do {
-                // Schedule the background task
-                try BGTaskScheduler.shared.submit(request)
-            } catch {
-                debugPrint("Unable to schedule background task: \(error.localizedDescription)")
-            }
-        }
-    }
     
-    func handleBackgroundTask(task: BGProcessingTask) {
-        // Perform background task work here (e.g., trigger local notifications)
-        scheduleNotification()
 
-        // Mark the task as completed
-        task.setTaskCompleted(success: true)
-    }
-    
-    func scheduleNotification() {
-        // Create notification content
-        let content = UNMutableNotificationContent()
-        content.title = "Local Notification"
-        content.body = "This is a local notification example."
-        content.sound = .default
 
-        // Create a trigger for the notification (every 2 minutes)
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 120, repeats: true)
 
-        // Create a request with a unique identifier
-        let request = UNNotificationRequest(identifier: "localNotification", content: content, trigger: trigger)
-
-        // Add the request to the notification center
-        UNUserNotificationCenter.current().add(request) { error in
-          if let error = error {
-              debugPrint("Error scheduling notification: \(error.localizedDescription)")
-          }
-        }
-    }
 }
 

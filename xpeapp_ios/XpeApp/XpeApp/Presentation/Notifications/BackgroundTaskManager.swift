@@ -14,7 +14,7 @@ class BackgroundTaskManager {
     static let instance = BackgroundTaskManager()
     
     let taskId = "xpeapp.notifications_check" // Define task id
-    private let startDate = Date(timeIntervalSinceNow: 120) // Schedule the next task in 2 minutes
+    private let startDate = Date(timeIntervalSinceNow: 30) // Schedule the next task in 2 minutes
     private let localNotificationsManager = LocalNotificationsManager.instance
     
     private init() {}
@@ -48,38 +48,57 @@ class BackgroundTaskManager {
     }
     
     private func handleBackgroundTask(task: BGProcessingTask) {
-        
-        // let obtainedLastNewsletter = await NewsletterRepositoryImpl.instance.getLastNewsletter()
-        
-        // Send test notification
-        localNotificationsManager.scheduleNotification(
-            title: "title",
-            message: "message de tests"
-        )
-
-        // Mark the task as completed
-        task.setTaskCompleted(success: true)
-
-        // Reschedule the task
-        self.submitBackgroundTask()
-    }
-
-    private checkNewNewsletter() {
-        // TODO: Call to the API to check if there is a new newsletter
-        // let obtainedLastNewsletter = await NewsletterRepositoryImpl.instance.getLastNewsletter()
-        
-        // TODO: Check if there is a newsletter saved in local storage
-        // We only save the last newsletter pdfURL to identify the newsletter
-
-        // TODO: If there is not newsletter in the local storage, save the fetched one
-
-        // TODO: If there is a newsletter in the local storage, compare the last newsletter fetched with the local one
-        // If they are different, save the new one and send a notification
-
-        // Send test notification
+        debugPrint("Background Received")
+        // Étape 5: Envoyer une notification
         localNotificationsManager.scheduleNotification(
             title: "Nouvelle newsletter !",
             message: "Restez informé avec notre nouvelle newsletter !"
         )
+        
+        Task {
+            
+            
+            
+            //await checkNewNewsletter()
+
+            // Mark the task as completed
+            task.setTaskCompleted(success: true)
+
+            // Reschedule the task
+            self.submitBackgroundTask()
+        }
     }
+
+    private func checkNewNewsletter() async {
+        // Étape 1: Récupérer la dernière newsletter depuis l'API
+        let obtainedLastNewsletter = await NewsletterRepositoryImpl.instance.getLastNewsletter()
+        
+        // Étape 2: Vérifier si une newsletter est enregistrée localement via le UserDefaults
+        let lastSavedPDFURL = UserDefaults.standard.string(forKey: "lastNewsletterPDFURL")
+        
+        // Étape 3: Comparer la newsletter locale avec la nouvelle
+        if let lastSavedPDFURL = lastSavedPDFURL {
+            if lastSavedPDFURL == obtainedLastNewsletter?.pdfUrl {
+                debugPrint("Aucune nouvelle newsletter détectée.")
+                
+            } else {
+                // Étape 4: Nouvelle newsletter détectée -> Mettre à jour le stockage local
+                UserDefaults.standard.set(obtainedLastNewsletter?.pdfUrl, forKey: "lastNewsletterPDFURL")
+                
+                // Étape 5: Envoyer une notification
+                localNotificationsManager.scheduleNotification(
+                    title: "Nouvelle newsletter !",
+                    message: "Restez informé avec notre nouvelle newsletter !"
+                )
+                debugPrint("Nouvelle newsletter détectée et notification envoyée.")
+            }
+
+            
+        } else {
+            debugPrint("Sauvegarde d'une newsletter pour référence !")
+            // Étape 4: Nouvelle newsletter détectée -> Mettre à jour le stockage local
+            UserDefaults.standard.set(obtainedLastNewsletter?.pdfUrl, forKey: "lastNewsletterPDFURL")
+        }
+    }
+
 }

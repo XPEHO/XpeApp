@@ -28,6 +28,7 @@ class BackgroundTaskManager {
     }
     
     private func submitBackgroundTask() {
+        // Manual test : e -l objc -- (void)[[BGTaskScheduler sharedScheduler] _simulateLaunchForTaskWithIdentifier:@"xpeapp.notifications_check"]
         // check if there is a pending task request or not
         BGTaskScheduler.shared.getPendingTaskRequests { request in
             guard request.isEmpty else {
@@ -60,9 +61,6 @@ class BackgroundTaskManager {
 
             // Mark the task as completed
             task.setTaskCompleted(success: true)
-
-            // Reschedule the task
-            self.submitBackgroundTask()
         }
     }
 

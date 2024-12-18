@@ -49,6 +49,11 @@ class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
         let backgroundTaskManager = BackgroundTaskManager.instance
         // Register background task
         backgroundTaskManager.registerBackgroundTask()
+        
+        // Monitoring count of BGTask
+        let count = UserDefaults.standard.integer(forKey: "task_run_count")
+        debugPrint("Since last execution of the app, BGTask ran \(count) times")
+        UserDefaults.standard.set(0, forKey: "task_run_count")
 
         return true
     }

@@ -14,7 +14,7 @@ class BackgroundTaskManager {
     static let instance = BackgroundTaskManager()
     
     let taskId = "xpeapp.notifications_check" // Define task id
-    private let startDate = Date(timeIntervalSinceNow: 30) // Schedule the next task in 2 minutes
+    private let startDate = Date().addingTimeInterval(60) // Schedule the next task in 1 minute
     private let localNotificationsManager = LocalNotificationsManager.instance
     
     private init() {}
@@ -30,11 +30,14 @@ class BackgroundTaskManager {
     private func submitBackgroundTask() {
         // check if there is a pending task request or not
         BGTaskScheduler.shared.getPendingTaskRequests { request in
-            debugPrint("\(request.count) BGTask pending.")
-            guard request.isEmpty else { return }
+            guard request.isEmpty else {
+                debugPrint("A BGTask is already scheduled")
+                return
+            }
+            debugPrint("Try scheduling a new BGTask")
             // Create a new background task request
             let request = BGProcessingTaskRequest(identifier: self.taskId)
-            request.requiresNetworkConnectivity = false
+            request.requiresNetworkConnectivity = true
             request.requiresExternalPower = false
             request.earliestBeginDate = self.startDate
             
@@ -48,20 +51,9 @@ class BackgroundTaskManager {
     }
     
     private func handleBackgroundTask(task: BGProcessingTask) {
-        logToFile("Background task Received")   
-             
-        localNotificationsManager.scheduleNotification(
-            title: "Test de background task",
-            message: "La background task fonctionne !",
-            secondsFromNow: 1
-        )
-        // Mark the task as completed
-        task.setTaskCompleted(success: true)
-
-        // Reschedule the task
-        self.submitBackgroundTask()
+        let count = UserDefaults.standard.integer(forKey: "task_run_count")
+        UserDefaults.standard.set(count+1, forKey: "task_run_count")
         
-        /*
         Task {
             // Send newsletter notif if needed
             await checkNewNewsletter()
@@ -72,7 +64,6 @@ class BackgroundTaskManager {
             // Reschedule the task
             self.submitBackgroundTask()
         }
-         */
     }
 
     private func checkNewNewsletter() async {
@@ -86,7 +77,12 @@ class BackgroundTaskManager {
         if let lastSavedPDFURL = lastSavedPDFURL {
             if lastSavedPDFURL == obtainedLastNewsletter?.pdfUrl {
                 debugPrint("Aucune nouvelle newsletter détectée.")
-                
+                // Étape 4: Envoyer une notification
+                localNotificationsManager.scheduleNotification(
+                    title: "Info",
+                    message: "Aucune nouvelle newsletter !",
+                    secondsFromNow: 1
+                )
             } else {
                 // Étape 4: Nouvelle newsletter détectée -> Mettre à jour le stockage local
                 UserDefaults.standard.set(obtainedLastNewsletter?.pdfUrl, forKey: "lastNewsletterPDFURL")
@@ -105,29 +101,12 @@ class BackgroundTaskManager {
             debugPrint("Sauvegarde d'une newsletter pour référence !")
             // Étape 4: Nouvelle newsletter détectée -> Mettre à jour le stockage local
             UserDefaults.standard.set(obtainedLastNewsletter?.pdfUrl, forKey: "lastNewsletterPDFURL")
-        }
-    }
-
-    private func logToFile(_ message: String) {
-        let file = "backgroundTaskLog.txt"
-        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let fileURL = dir.appendingPathComponent(file)
-            do {
-                let currentDate = Date()
-                let logMessage = "\(currentDate): \(message)\n"
-                if FileManager.default.fileExists(atPath: fileURL.path) {
-                    let fileHandle = try FileHandle(forWritingTo: fileURL)
-                    fileHandle.seekToEndOfFile()
-                    if let data = logMessage.data(using: .utf8) {
-                        fileHandle.write(data)
-                    }
-                    fileHandle.closeFile()
-                } else {
-                    try logMessage.write(to: fileURL, atomically: true, encoding: .utf8)
-                }
-            } catch {
-                print("Error writing to log file: \(error)")
-            }
+            // Étape 5: Envoyer une notification
+            localNotificationsManager.scheduleNotification(
+                title: "Info",
+                message: "Sauvegarde d'une newsletter pour référence !",
+                secondsFromNow: 1
+            )
         }
     }
 

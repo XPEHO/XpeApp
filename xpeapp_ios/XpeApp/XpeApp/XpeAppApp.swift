@@ -10,7 +10,6 @@ import SwiftData
 import FirebaseCore
 import FirebaseAuth
 import FirebaseFirestore
-import FirebaseMessaging
 import xpeho_ui
 
 @main
@@ -36,16 +35,26 @@ struct XpeAppApp: App {
 // Note(Loucas): Firebase method swizzling has been disabled. If it becomes necessary in the future,
 // we can enable it through setting the FirebaseAppDelegateProxyEnabled boolean to 'NO' in Info.plist
 class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
+    
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
         // Initialize Firebase
         FirebaseApp.configure()
-        // Set Firebase Messaging delegate
-        Messaging.messaging().delegate = self
         // Request notification permissions
         registerForPushNotifications(application: application)
+        
+        // Init background manager
+        let backgroundTaskManager = BackgroundTaskManager.instance
+        // Register background task
+        backgroundTaskManager.registerBackgroundTask()
+        
+        // Monitoring count of BGTask
+        let count = UserDefaults.standard.integer(forKey: "task_run_count")
+        debugPrint("Since last execution of the app, BGTask ran \(count) times")
+        UserDefaults.standard.set(0, forKey: "task_run_count")
+
         return true
     }
 
@@ -61,16 +70,6 @@ class XpeAppAppDelegate: NSObject, UIApplicationDelegate {
 }
 
 extension XpeAppAppDelegate: UNUserNotificationCenterDelegate {
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print(error)
-    }
-    
-    
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        //self.sendDeviceTokenToServer(data: deviceToken)
-        Messaging.messaging().setAPNSToken(deviceToken, type: .unknown)
-    }
-    
     private func registerForPushNotifications(application: UIApplication) {
         UNUserNotificationCenter.current().delegate = self
         
@@ -78,18 +77,11 @@ extension XpeAppAppDelegate: UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions
         ) { (granted, error) in
-            guard granted else {return}
-            DispatchQueue.main.async{
-                application.registerForRemoteNotifications()
+            guard granted else {
+                debugPrint("Permission denied for local notifications")
+                return
             }
+            debugPrint("Permission granted for local notifications")
         }
     }
 }
-
-extension XpeAppAppDelegate: MessagingDelegate {
-    
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        //print("Firebase registration token: \(String(describing: fcmToken))")
-    }
-}
-

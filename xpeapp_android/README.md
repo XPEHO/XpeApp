@@ -31,7 +31,7 @@ You can learn more about Jetpack Compose on the [Android Developer website](http
 
 ## Configuration
 
-## google-services.json
+### google-services.json
 
 This application works with `Firebase` and require a `google-services.json` file to be placed in the `app` directory.
 
@@ -48,13 +48,13 @@ ENVIRONMENT="uat"
 
 The `BACKEND_URL` is the URL of the backend API and the `ENVIRONMENT` is the environment of the application.
 
-### Xpeho UI
+## Xpeho UI
 
 This application use the android part of the ui library of XPEHO imported from its [own repository](https://github.com/XPEHO/xpeho_ui_android).
 
-#### Import
+### Import
 
-To import the _xpeho_ui_android_ library you need to setup two environment variables :
+To import the _xpeho_ui_android_ library you need to setup two environment variables (as mentioned in the [README of the package](https://github.com/XPEHO/xpeho_ui_android/blob/main/README.md)) :
 
 On a mac/linux you can add them to your `.zshrc`/`.bashrc`
 
@@ -69,6 +69,14 @@ To fill the GITHUB_TOKEN, make sure to generate a PAT (Personal Access Token) on
 You need to allow the following rights :
 ![repos_right](doc/repos_right.png)
 ![packages_right](doc/packages_right.png)
+
+## SonarQube
+
+The XPEHO SonarQube perform analysis each time changes are made to this directory and pushed.
+
+[XPEHO SonarQube](https://sonar.infra.xpeho.com)
+
+The configuration of the sonar analysis for this directory is defined in the [gradle file](./app/build.gradle).
 
 ## Deployment
 

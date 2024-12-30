@@ -37,7 +37,24 @@ This file is required to use Firebase services. Please refer to an administrator
 
 This file contains the configuration of the application. You can change the values of the variables to configure the application.
 
-### Xpeho UI
+## Xpeho UI
 
 This application use the IOS part of the ui library of XPEHO imported from its [own repository](https://github.com/XPEHO/xpeho_ui_swift) created in SwiftUI.
 
+### Import
+
+To import the package refer to the [documentation of the package](https://github.com/XPEHO/xpeho_ui_swift/blob/main/README.md).
+
+## SonarQube
+
+The XPEHO SonarQube perform analysis each time changes are made to this directory and pushed.
+
+[XPEHO SonarQube](https://sonar.infra.xpeho.com)
+
+The configuration of the sonar analysis for this directory is defined in a [dedicated file](./sonar-project.properties).
+
+## Deployment
+
+You need to refer to an administrator to have the right configuration to do this.
+
+Follow the [Apple documentation](https://developer.apple.com/documentation/xcode/distributing-your-app-for-beta-testing-and-releases)

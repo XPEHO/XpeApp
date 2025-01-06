@@ -95,6 +95,7 @@
 		BDACED142C10BB78007B5262 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED132C10BB78007B5262 /* FirebaseFirestore */; };
 		BDACED162C10BB78007B5262 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED152C10BB78007B5262 /* FirebaseMessaging */; };
 		BDE1B5162C183AE200E8513F /* DebugPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE1B5152C183AE200E8513F /* DebugPageView.swift */; };
+		D7C9A5462D2C138000D9E763 /* SidebarItemProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9A5452D2C138000D9E763 /* SidebarItemProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -189,6 +190,7 @@
 		BDACED0A2C10A690007B5262 /* NewsletterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsletterPageView.swift; sourceTree = "<group>"; };
 		BDC8A4242C18765A00D14C35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BDE1B5152C183AE200E8513F /* DebugPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPageView.swift; sourceTree = "<group>"; };
+		D7C9A5452D2C138000D9E763 /* SidebarItemProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItemProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -291,6 +293,7 @@
 			children = (
 				0E87AC322C660DDF0079877D /* SidebarView.swift */,
 				0E7C7CA32C9B084800660E75 /* SidebarItemView.swift */,
+				D7C9A5452D2C138000D9E763 /* SidebarItemProfileView.swift */,
 			);
 			path = Sidebar;
 			sourceTree = "<group>";
@@ -685,6 +688,7 @@
 				0EF0F8D72C8AE69300AF5966 /* UserRepositoryImpl.swift in Sources */,
 				0E7C7CA92C9B20DE00660E75 /* MockFirebaseAPI.swift in Sources */,
 				0EF0F8FE2C9319EC00AF5966 /* WordpressAPIHttpClient.swift in Sources */,
+				D7C9A5462D2C138000D9E763 /* SidebarItemProfileView.swift in Sources */,
 				0E6277BB2C9988AE00F26E55 /* KeychainManager.swift in Sources */,
 				BDACECDF2C109309007B5262 /* XpeAppApp.swift in Sources */,
 				0E6277B52C98829200F26E55 /* UserEntity.swift in Sources */,

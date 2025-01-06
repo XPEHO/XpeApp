@@ -25,7 +25,15 @@ struct Sidebar: View {
                 .frame(height: 80)
                 
                 // Wait for the features to be loaded
-                if (featureManager.features != nil){
+                if (featureManager.isEnabled(item: .profile)){
+                    SidebarItemProfile(isSidebarVisible: $isSidebarVisible,
+                                       navigationItem: .home,
+                                       icon: Image("Profile"),
+                                       lastname: "NOM",
+                                       firstname: "Prenom",
+                                       email: "nom.prenom@example.com")
+                    Spacer().frame(height: 20)
+                }
                     VStack(alignment: .leading, spacing: 20) {
                         SidebarItem(isSidebarVisible: $isSidebarVisible,
                                     navigationItem: .home,
@@ -85,7 +93,6 @@ struct Sidebar: View {
                 
                 Spacer()
             }
-        }
         .opacity(self.isSidebarVisible ? 1 : 0)
         .frame(height: geometry.size.height)
         .frame(width: self.isSidebarVisible ? geometry.size.width * 1 : 0)

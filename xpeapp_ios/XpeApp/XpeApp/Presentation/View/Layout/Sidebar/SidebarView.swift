@@ -75,6 +75,11 @@ struct Sidebar: View {
                                         icon: Assets.loadImage(named: "PlaneDeparture"),
                                         label: featureManager.getName(item: .vacation))
                         }
+                            SidebarItem(isSidebarVisible: $isSidebarVisible,
+                                        navigationItem: .newsletters,
+                                        icon: Image("About"),
+                                        label: "À propos")
+                        
                         if Configuration.env == .local {
                             SidebarItem(isSidebarVisible: $isSidebarVisible,
                                         navigationItem: .debug,

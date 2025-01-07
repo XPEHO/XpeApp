@@ -24,6 +24,8 @@ struct Router: View {
                     CampaignsPage()
                 case .campaignForm where featureManager.isEnabled(item: .campaign):
                     CampaignForm()
+                case .profile where featureManager.isEnabled(item: .profile):
+                    ProfilePage()
                 case .expenseReport where featureManager.isEnabled(item: .expenseReport):
                     Text("Expense Report page placeholder")
                 case .colleagues where featureManager.isEnabled(item: .colleagues):

@@ -89,7 +89,6 @@ struct Sidebar: View {
                                         label: "Debug")
                         }
                         Spacer()
-                        LogoutButtonSection()
                         InfoSection()
                             .padding(.top, 10)
                     }
@@ -105,8 +104,7 @@ struct Sidebar: View {
         .frame(width: self.isSidebarVisible ? geometry.size.width * 1 : 0)
         .background(XPEHO_THEME.XPEHO_COLOR)
         .animation(.easeInOut(duration: 0.2), value: self.isSidebarVisible)
-        .onAppear()
-        {
+                .onAppear {
             Task {
                 if let fetchedUserInfos = await WordpressAPI.instance.fetchUserInfos() {
                     userInfos = fetchedUserInfos
@@ -132,28 +130,6 @@ struct Sidebar: View {
                     .frame(height: 50)
             }
             .accessibility(identifier: "Sidebar_CloseButton")
-        }
-    }
-    
-    struct LogoutButtonSection: View {
-        var loginManager = LoginManager.instance
-        
-        var body: some View {
-            HStack {
-                Spacer()
-                ClickyButton(
-                    label: "Déconnexion",
-                    size: 18,
-                    horizontalPadding: 20,
-                    verticalPadding: 10,
-                    backgroundColor: .white,
-                    labelColor: XPEHO_THEME.CONTENT_COLOR,
-                    onPress: {
-                        loginManager.logout()
-                    }
-                )
-                Spacer()
-            }
         }
     }
     

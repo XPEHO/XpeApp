@@ -98,6 +98,7 @@
 		D72C13342D2D3E0D002F6A14 /* UserInfosModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72C13332D2D3E03002F6A14 /* UserInfosModel.swift */; };
 		D72C13362D2D3F0D002F6A14 /* UserInfosEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72C13352D2D3F07002F6A14 /* UserInfosEntity.swift */; };
 		D72C133C2D2D7ACF002F6A14 /* ProfilePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72C133B2D2D7AC5002F6A14 /* ProfilePageView.swift */; };
+		D72C13442D2EF74F002F6A14 /* UserInfosPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72C13432D2EF748002F6A14 /* UserInfosPageViewModel.swift */; };
 		D7C9A5462D2C138000D9E763 /* SidebarItemProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9A5452D2C138000D9E763 /* SidebarItemProfileView.swift */; };
 /* End PBXBuildFile section */
 
@@ -196,6 +197,7 @@
 		D72C13332D2D3E03002F6A14 /* UserInfosModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfosModel.swift; sourceTree = "<group>"; };
 		D72C13352D2D3F07002F6A14 /* UserInfosEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfosEntity.swift; sourceTree = "<group>"; };
 		D72C133B2D2D7AC5002F6A14 /* ProfilePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePageView.swift; sourceTree = "<group>"; };
+		D72C13432D2EF748002F6A14 /* UserInfosPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfosPageViewModel.swift; sourceTree = "<group>"; };
 		D7C9A5452D2C138000D9E763 /* SidebarItemProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItemProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -445,6 +447,7 @@
 		0EF0F8EA2C91E1C300AF5966 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				D72C13432D2EF748002F6A14 /* UserInfosPageViewModel.swift */,
 				0EF0F8FF2C931EE100AF5966 /* HomePageViewModel.swift */,
 				0E6277A62C9484D900F26E55 /* NewsletterPageViewModel.swift */,
 				0E6277AC2C94907500F26E55 /* CampaignsPageViewModel.swift */,
@@ -727,6 +730,7 @@
 				0E6277B72C98850200F26E55 /* TokenResponseModel.swift in Sources */,
 				0E61D2C22C78A4E300050F7C /* QvstAnswerModel.swift in Sources */,
 				BD83CCBA2C1853ED00152559 /* CampaignsPageView.swift in Sources */,
+				D72C13442D2EF74F002F6A14 /* UserInfosPageViewModel.swift in Sources */,
 				0E61D2C02C78A4DA00050F7C /* QvstQuestionModel.swift in Sources */,
 				0E260DBF2CD90DAA00F8EF0C /* ListFilterView.swift in Sources */,
 				0EF0F8FA2C92CEFA00AF5966 /* UserRepository.swift in Sources */,

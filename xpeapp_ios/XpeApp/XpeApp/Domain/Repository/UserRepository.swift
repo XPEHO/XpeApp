@@ -27,4 +27,7 @@ protocol UserRepository {
     ) async
     
     func logout()
+    
+    
+    func fetchUserInfos() async -> UserInfosEntity?
 }

@@ -19,6 +19,7 @@ class MockWordpressAPI: WordpressAPIProtocol {
     var fetchCampaignQuestionsReturnData: [QvstQuestionModel]?
     var sendCampaignAnswersReturnData: Bool?
     var fetchCampaignsProgressReturnData: [QvstProgressModel]?
+    var fetchUserInfosReturnData: UserInfosModel?
     
     private init() {
         // This initializer is intentionally left empty to make private
@@ -61,5 +62,9 @@ class MockWordpressAPI: WordpressAPIProtocol {
     
     func fetchCampaignsProgress(userId: String) async -> [QvstProgressModel]? {
         return fetchCampaignsProgressReturnData
+    }
+
+    func fetchUserInfos() async -> UserInfosModel? {
+        return fetchUserInfosReturnData
     }
 }

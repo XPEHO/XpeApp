@@ -125,6 +125,14 @@ import FirebaseAuth
         }
     }
     
+    func fetchUserInfos() async -> UserInfosEntity? {
+        if let userInfos = await dataSource.fetchUserInfos() {
+            return userInfos.toEntity()
+        } else {
+            return nil
+        }
+    }
+    
     func logout() {
         self.user = nil
         

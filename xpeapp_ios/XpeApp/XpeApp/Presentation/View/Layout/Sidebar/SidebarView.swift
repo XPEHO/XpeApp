@@ -10,7 +10,9 @@ import xpeho_ui
 
 struct Sidebar: View {
     var featureManager = FeatureManager.instance
+    var wordpressAPI = WordpressAPI.instance
     @Binding var isSidebarVisible: Bool
+    @State private var userInfos: UserInfosModel? = nil
     
     var geometry: GeometryProxy
     
@@ -27,12 +29,12 @@ struct Sidebar: View {
                 // Wait for the features to be loaded
                 if (featureManager.isEnabled(item: .profile)){
                     SidebarItemProfile(isSidebarVisible: $isSidebarVisible,
-                                       navigationItem: .home,
+                                       navigationItem: .profile,
                                        icon: Image("Profile"),
-                                       lastname: "NOM",
-                                       firstname: "Prenom",
-                                       email: "nom.prenom@example.com")
-                    Spacer().frame(height: 20)
+                                       lastname: userInfos?.lastname ?? "",
+                                       firstname: userInfos?.firstname ?? "",
+                                       email: userInfos?.email ?? "")
+                    Spacer().frame(height: 30)
                 }
                     VStack(alignment: .leading, spacing: 20) {
                         SidebarItem(isSidebarVisible: $isSidebarVisible,
@@ -75,10 +77,10 @@ struct Sidebar: View {
                                         icon: Assets.loadImage(named: "PlaneDeparture"),
                                         label: featureManager.getName(item: .vacation))
                         }
-                            SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                        navigationItem: .newsletters,
-                                        icon: Image("About"),
-                                        label: "À propos")
+                            // SidebarItem(isSidebarVisible: $isSidebarVisible,
+                            //             navigationItem: .about,
+                            //             icon: Image("About"),
+                            //             label: "À propos")
                         
                         if Configuration.env == .local {
                             SidebarItem(isSidebarVisible: $isSidebarVisible,
@@ -95,7 +97,7 @@ struct Sidebar: View {
                     .accessibilityElement(children: .contain)
                     .accessibilityIdentifier("Sidebar")
                 }
-                
+
                 Spacer()
             }
         .opacity(self.isSidebarVisible ? 1 : 0)
@@ -103,6 +105,14 @@ struct Sidebar: View {
         .frame(width: self.isSidebarVisible ? geometry.size.width * 1 : 0)
         .background(XPEHO_THEME.XPEHO_COLOR)
         .animation(.easeInOut(duration: 0.2), value: self.isSidebarVisible)
+        .onAppear()
+        {
+            Task {
+                if let fetchedUserInfos = await WordpressAPI.instance.fetchUserInfos() {
+                    userInfos = fetchedUserInfos
+                }
+            }
+        }
     }
     
     struct CloseButton: View {

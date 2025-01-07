@@ -95,6 +95,9 @@
 		BDACED142C10BB78007B5262 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED132C10BB78007B5262 /* FirebaseFirestore */; };
 		BDACED162C10BB78007B5262 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = BDACED152C10BB78007B5262 /* FirebaseMessaging */; };
 		BDE1B5162C183AE200E8513F /* DebugPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE1B5152C183AE200E8513F /* DebugPageView.swift */; };
+		D72C13342D2D3E0D002F6A14 /* UserInfosModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72C13332D2D3E03002F6A14 /* UserInfosModel.swift */; };
+		D72C13362D2D3F0D002F6A14 /* UserInfosEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72C13352D2D3F07002F6A14 /* UserInfosEntity.swift */; };
+		D72C133C2D2D7ACF002F6A14 /* ProfilePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72C133B2D2D7AC5002F6A14 /* ProfilePageView.swift */; };
 		D7C9A5462D2C138000D9E763 /* SidebarItemProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9A5452D2C138000D9E763 /* SidebarItemProfileView.swift */; };
 /* End PBXBuildFile section */
 
@@ -190,6 +193,9 @@
 		BDACED0A2C10A690007B5262 /* NewsletterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsletterPageView.swift; sourceTree = "<group>"; };
 		BDC8A4242C18765A00D14C35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BDE1B5152C183AE200E8513F /* DebugPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPageView.swift; sourceTree = "<group>"; };
+		D72C13332D2D3E03002F6A14 /* UserInfosModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfosModel.swift; sourceTree = "<group>"; };
+		D72C13352D2D3F07002F6A14 /* UserInfosEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfosEntity.swift; sourceTree = "<group>"; };
+		D72C133B2D2D7AC5002F6A14 /* ProfilePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePageView.swift; sourceTree = "<group>"; };
 		D7C9A5452D2C138000D9E763 /* SidebarItemProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItemProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -366,6 +372,7 @@
 		0EF0F8E42C91E15B00AF5966 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D72C13322D2D3DF9002F6A14 /* User-Infos */,
 				0EF0F8EC2C91E31400AF5966 /* Qvst */,
 				0E61D2B82C78A20F00050F7C /* NewsletterModel.swift */,
 				0E6ACF7B2C870FC700735E1E /* FeatureModel.swift */,
@@ -401,6 +408,7 @@
 		0EF0F8E72C91E19700AF5966 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				D72C13352D2D3F07002F6A14 /* UserInfosEntity.swift */,
 				0EF0F9032C932F1000AF5966 /* NewsletterEntity.swift */,
 				0EF0F9052C93324B00AF5966 /* QvstCampaignEntity.swift */,
 				0EF0F9082C9431E100AF5966 /* FeatureEntity.swift */,
@@ -423,6 +431,7 @@
 		0EF0F8E92C91E1BE00AF5966 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D72C133B2D2D7AC5002F6A14 /* ProfilePageView.swift */,
 				0E6277AB2C94900700F26E55 /* Qvst */,
 				0E6277A82C94894900F26E55 /* Newsletter */,
 				0E62779E2C943F9600F26E55 /* Home */,
@@ -525,6 +534,14 @@
 				0EEE150B2C9D59F70066CCB7 /* UtilsTests.swift */,
 			);
 			path = XpeAppTests;
+			sourceTree = "<group>";
+		};
+		D72C13322D2D3DF9002F6A14 /* User-Infos */ = {
+			isa = PBXGroup;
+			children = (
+				D72C13332D2D3E03002F6A14 /* UserInfosModel.swift */,
+			);
+			path = "User-Infos";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -649,6 +666,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E6277A02C943FAF00F26E55 /* LastNewsletterPreviewView.swift in Sources */,
+				D72C13342D2D3E0D002F6A14 /* UserInfosModel.swift in Sources */,
 				0EF0F8DA2C90805800AF5966 /* UserCandidateModel.swift in Sources */,
 				0E61D2B92C78A20F00050F7C /* NewsletterModel.swift in Sources */,
 				0EF0F9002C931EE100AF5966 /* HomePageViewModel.swift in Sources */,
@@ -700,6 +718,8 @@
 				0E6ACF7C2C870FC700735E1E /* FeatureModel.swift in Sources */,
 				BDACED0B2C10A690007B5262 /* NewsletterPageView.swift in Sources */,
 				0E7C7CA42C9B084800660E75 /* SidebarItemView.swift in Sources */,
+				D72C13362D2D3F0D002F6A14 /* UserInfosEntity.swift in Sources */,
+				D72C133C2D2D7ACF002F6A14 /* ProfilePageView.swift in Sources */,
 				0E61D2BE2C78A47300050F7C /* Utils.swift in Sources */,
 				0EF0F90D2C9435CE00AF5966 /* RouterView.swift in Sources */,
 				0E87AC332C660DDF0079877D /* SidebarView.swift in Sources */,

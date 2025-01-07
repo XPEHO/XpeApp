@@ -37,10 +37,10 @@ struct SidebarItemProfile: View {
                         .foregroundColor(.white)
                     VStack(alignment: .leading, spacing: 1) {
                         HStack {
-                            Text(lastname)
+                            Text(lastname.uppercased())
                                 .font(.raleway(.bold, size: 20))
                                 .foregroundColor(.white)
-                            Text(firstname)
+                            Text(firstname.capitalizingFirstLetter())
                                 .font(.raleway(.bold, size: 20))
                                 .foregroundColor(.white)
                         }
@@ -48,6 +48,7 @@ struct SidebarItemProfile: View {
                             .font(.raleway(.medium, size: 16))
                             .foregroundColor(.white)
                     }
+                    .padding(.leading, 10)
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 23)
@@ -57,5 +58,11 @@ struct SidebarItemProfile: View {
         .frame(maxHeight: 73)
         .accessibility(identifier: "Sidebar_Profile")
         }
+    }
+}
+
+extension String {
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).uppercased() + dropFirst()
     }
 }

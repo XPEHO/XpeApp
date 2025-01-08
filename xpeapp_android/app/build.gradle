@@ -30,8 +30,8 @@ android {
         applicationId "com.xpeho.xpeapp"
         minSdk 26
         targetSdk 34
-        versionCode 8
-        versionName "1.5.0"
+        versionCode 9
+        versionName "1.5.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -139,15 +139,15 @@ sonar {
     properties {
         property "sonar.projectKey", "xpeapp_android"
         property "sonar.projectName", "xpeapp_android"
-        property "sonar.coverage.exclusions", 
-            "**/ui/**, \
-            **/AppModule.kt,\
-            **/MainActivity.kt,\
-            **/XpeApp.kt,\
-            **/DatastorePref.kt,\
-            **/FirebaseService.kt,\
-            **/WordpressService.kt,\
-            **/*Interceptor.kt,"
+        property "sonar.coverage.exclusions",
+                "**/ui/**, \
+                **/AppModule.kt,\
+                **/MainActivity.kt,\
+                **/XpeApp.kt,\
+                **/DatastorePref.kt,\
+                **/FirebaseService.kt,\
+                **/WordpressService.kt,\
+                **/*Interceptor.kt,"
         property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
     }
 }

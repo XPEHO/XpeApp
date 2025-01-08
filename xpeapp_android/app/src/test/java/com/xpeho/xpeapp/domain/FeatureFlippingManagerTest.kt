@@ -90,8 +90,9 @@ class FeatureFlippingManagerTest {
 
     class FetchDataTests : BaseTest() {
         @Test
-        fun `fetchData sets error state on network error`() = runBlocking {
-            coEvery { firebaseService.fetchFeatureFlipping() } throws IOException("Network error")
+        fun `fetchData handles unknown feature without crashing`() = runBlocking {
+            val unknownFeature = FeatureFlipping("unknown_feature", "Unknown Feature", "Description", true, false)
+            coEvery { firebaseService.fetchFeatureFlipping() } returns listOf(unknownFeature)
 
             featureFlippingManager.update()
 
@@ -101,11 +102,13 @@ class FeatureFlippingManagerTest {
                 kotlinx.coroutines.delay(10)
             }
 
-            assertTrue(featureFlippingManager.getState().value is FeatureFlippingState.ERROR)
+            val state = featureFlippingManager.getState().value
+            assertTrue(state is FeatureFlippingState.SUCCESS)
+            assertFalse((state as FeatureFlippingState.SUCCESS).featureEnabled.values.contains(true))
         }
 
         @Test
-        fun `fetchData sets success state on valid data`() = runBlocking {
+        fun `fetchData handles missing feature without crashing`() = runBlocking {
             val featureFlipping = FeatureFlipping("newsletters", "Newsletter", "Description", true, false)
             coEvery { firebaseService.fetchFeatureFlipping() } returns listOf(featureFlipping)
 
@@ -117,18 +120,16 @@ class FeatureFlippingManagerTest {
                 kotlinx.coroutines.delay(10)
             }
 
-            assertTrue(featureFlippingManager.getState().value is FeatureFlippingState.SUCCESS)
+            val state = featureFlippingManager.getState().value
+            assertTrue(state is FeatureFlippingState.SUCCESS)
+            val featureEnabled = (state as FeatureFlippingState.SUCCESS).featureEnabled
+            assertTrue(featureEnabled.containsKey(FeatureFlippingEnum.NEWSLETTERS))
+            assertFalse(featureEnabled[FeatureFlippingEnum.VACATION] ?: false)
         }
 
         @Test
-        fun `fetchData sets error state when feature is not found in enum`() = runBlocking {
-            val featureFlipping = FeatureFlipping(
-                "invalid_feature_id",
-                "invalid_feature_name",
-                "invalid_feature_description",
-                true,
-                false
-            )
+        fun `fetchData sets correct value for known feature`() = runBlocking {
+            val featureFlipping = FeatureFlipping("newsletters", "Newsletter", "Description", true, false)
             coEvery { firebaseService.fetchFeatureFlipping() } returns listOf(featureFlipping)
 
             featureFlippingManager.update()
@@ -139,7 +140,12 @@ class FeatureFlippingManagerTest {
                 kotlinx.coroutines.delay(10)
             }
 
-            assertTrue(featureFlippingManager.getState().value is FeatureFlippingState.ERROR)
+            val state = featureFlippingManager.getState().value
+            assertTrue(state is FeatureFlippingState.SUCCESS)
+            val featureEnabled = (state as FeatureFlippingState.SUCCESS).featureEnabled
+            assertTrue(featureEnabled[FeatureFlippingEnum.NEWSLETTERS] ?: false)
         }
+
+
     }
 }

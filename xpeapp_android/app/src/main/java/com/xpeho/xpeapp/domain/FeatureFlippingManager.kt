@@ -53,23 +53,16 @@ class FeatureFlippingManager(
         }
 
         val featureEnabled = mutableMapOf<FeatureFlippingEnum, Boolean>()
-        var errorMessage: String? = null
 
         for (feature in featureFlippingList) {
             val enumOfFeature = FeatureFlippingEnum.entries.find { it.value == feature.id }
-            if (enumOfFeature == null) {
-                errorMessage = "Error: A feature is not found in the FeatureFlippingEnum."
-                break
+            if (enumOfFeature != null) {
+                featureEnabled[enumOfFeature] =
+                    if (BuildConfig.ENVIRONMENT == "prod") feature.prodEnabled else feature.uatEnabled
             }
-            featureEnabled[enumOfFeature] =
-                if (BuildConfig.ENVIRONMENT == "prod") feature.prodEnabled else feature.uatEnabled
         }
 
-        _featuresState.value = if (errorMessage != null) {
-            FeatureFlippingState.ERROR(errorMessage)
-        } else {
-            FeatureFlippingState.SUCCESS(featureEnabled.toImmutableMap())
-        }
+        _featuresState.value = FeatureFlippingState.SUCCESS(featureEnabled.toImmutableMap())
     }
 }
 

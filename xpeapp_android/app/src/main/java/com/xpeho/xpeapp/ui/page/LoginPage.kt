@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.ui.components.CustomDialog
@@ -167,6 +168,10 @@ private fun LoginPageButton(
         enabled = !(wordpressViewModel.wordpressState is WordpressUiState.LOADING ||
                 wordpressViewModel.wordpressState is WordpressUiState.SUCCESS)
     ) {
+        XpeApp.appModule.firebaseAnalytics.logEvent(
+            FirebaseAnalytics.Event.LOGIN,
+            null,
+        )
         wordpressViewModel.onLogin()
     }
 }

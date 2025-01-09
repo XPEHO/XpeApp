@@ -24,6 +24,7 @@ import com.xpeho.xpeapp.ui.components.layout.NoContentPlaceHolder
 import com.xpeho.xpeapp.ui.components.layout.Title
 import com.xpeho.xpeapp.ui.components.newsletter.NewsletterPreview
 import com.xpeho.xpeapp.ui.components.qvst.QvstCardList
+import com.xpeho.xpeapp.ui.sendAnalyticsEvent
 import com.xpeho.xpeapp.ui.uiState.QvstActiveUiState
 import com.xpeho.xpeapp.ui.viewModel.FeatureFlippingViewModel
 import com.xpeho.xpeapp.ui.viewModel.newsletter.NewsletterViewModel
@@ -57,6 +58,8 @@ fun HomePage(navigationController: NavController) {
             NewsletterViewModel()
         }
     )
+
+    sendAnalyticsEvent("home_page")
 
     LaunchedEffect(Unit) {
         campaignActiveViewModel.updateState()

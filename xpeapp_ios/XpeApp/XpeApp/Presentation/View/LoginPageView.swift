@@ -69,11 +69,13 @@ struct LoginPage: View {
                 verticalPadding: 18,
                 enabled: true,//!isTryingToLogin,
                 onPress: {
-                    Analytics.logEvent(AnalyticsEventLogin, parameters: <#T##[String : Any]?#>)
                     onLoginPress()
                 }
             )
             .padding(.top, 32)
+        }
+        .onAppear{
+            sendAnalyticsEvent(page: "login_page")
         }
         .padding(.horizontal, 16)
         .preferredColorScheme(.dark)

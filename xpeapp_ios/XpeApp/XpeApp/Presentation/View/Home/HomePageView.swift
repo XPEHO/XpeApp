@@ -39,7 +39,10 @@ struct HomePage: View {
                 }
             }
         }
-        .onAppear {homePageViewModel.update()}
+        .onAppear {
+            homePageViewModel.update();
+            sendAnalyticsEvent(page: "home_page")
+        }
         .refreshable {
             homePageViewModel.update()
             featureManager.update()

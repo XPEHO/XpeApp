@@ -39,7 +39,10 @@ struct CampaignsPage: View {
                     .padding()
             }
         }
-        .onAppear {campaignsPageViewModel.update()}
+        .onAppear {
+            campaignsPageViewModel.update();
+            sendAnalyticsEvent(page: "qvst_campaign_detail_page")
+        }
         .refreshable {
             campaignsPageViewModel.update()
             featureManager.update()

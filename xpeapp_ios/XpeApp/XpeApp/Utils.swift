@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import FirebaseAnalytics
 
 // Util function to count days between two dates
 func countDaysBetween(_ from: Date, and to: Date) -> Int? {
@@ -39,4 +40,13 @@ func isValidEmail(_ email: String) -> Bool {
 
     let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
     return emailPred.evaluate(with: email)
+}
+
+func sendAnalyticsEvent(page: String) {
+    Analytics.logEvent(
+        AnalyticsEventViewItem,
+        parameters: [
+            AnalyticsParameterItemID: page,
+        ]
+    )
 }

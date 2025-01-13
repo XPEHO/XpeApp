@@ -30,4 +30,10 @@ protocol UserRepository {
     
     
     func fetchUserInfos() async -> UserInfosEntity?
+    
+    func updatePassword(
+    initialPassword: String,
+    newPassword: String,
+    passwordRepeat: String
+    ) async -> Bool?
 }

@@ -26,6 +26,7 @@ import Foundation
         Task {
             if let obtainedUserInfos = await UserRepositoryImpl.instance.fetchUserInfos() {
                 DispatchQueue.main.async {
+                    debugPrint(obtainedUserInfos)
                     self.userInfos = obtainedUserInfos
                 }
             }

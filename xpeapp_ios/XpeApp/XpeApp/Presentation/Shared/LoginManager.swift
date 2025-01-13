@@ -98,4 +98,16 @@ import Foundation
     func logout() {
         UserRepositoryImpl.instance.logout()
     }
+    
+    func updatePassword(
+        initialPassword: String,
+        newPassword: String,
+        passwordRepeat: String
+    ) async -> Bool? {
+        return await UserRepositoryImpl.instance.updatePassword(
+            initialPassword: initialPassword,
+            newPassword: newPassword,
+            passwordRepeat: passwordRepeat
+        )
+    }
 }

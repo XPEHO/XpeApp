@@ -19,16 +19,18 @@ struct SidebarItemProfile: View {
     var email: String
     
     var body: some View {
-        Button(action: {
-            routerManager.goTo(item: navigationItem)
-            withAnimation {
-                self.isSidebarVisible = false
-            }
-        }) {
+        Button(action: handleButtonAction) {
             ProfileContentView(icon: icon, lastname: lastname, firstname: firstname, email: email)
         }
         .frame(maxHeight: 73)
         .accessibility(identifier: "Sidebar_Profile")
+    }
+    
+    private func handleButtonAction() {
+        routerManager.goTo(item: navigationItem)
+        withAnimation {
+            self.isSidebarVisible = false
+        }
     }
 }
 
@@ -67,19 +69,28 @@ struct ProfileHeaderView: View {
                 .frame(height: 24)
                 .foregroundColor(.white)
             VStack(alignment: .leading, spacing: 1) {
-                HStack {
-                    Text(lastname.uppercased())
-                        .font(.raleway(.bold, size: 20))
-                        .foregroundColor(.white)
-                    Text(firstname.capitalizingFirstLetter())
-                        .font(.raleway(.bold, size: 20))
-                        .foregroundColor(.white)
-                }
+                NameView(lastname: lastname, firstname: firstname)
                 Text(email)
                     .font(.raleway(.medium, size: 16))
                     .foregroundColor(.white)
             }
             .padding(.leading, 10)
+        }
+    }
+}
+
+struct NameView: View {
+    var lastname: String
+    var firstname: String
+    
+    var body: some View {
+        HStack {
+            Text(lastname.uppercased())
+                .font(.raleway(.bold, size: 20))
+                .foregroundColor(.white)
+            Text(firstname.capitalizingFirstLetter())
+                .font(.raleway(.bold, size: 20))
+                .foregroundColor(.white)
         }
     }
 }

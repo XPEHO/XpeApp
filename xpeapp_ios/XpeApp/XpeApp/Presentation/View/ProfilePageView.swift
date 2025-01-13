@@ -3,7 +3,7 @@ import xpeho_ui
 
 struct ProfilePage: View {
     var loginManager = LoginManager.instance
-
+    
     @Bindable var userInfosViewModel = UserInfosPageViewModel.instance
     @State private var isChangingPassword = false
     
@@ -11,7 +11,7 @@ struct ProfilePage: View {
     @State private var password: String = ""
     @State private var newPassword: String = ""
     @State private var confirmPassword: String = ""
-
+    
     @FocusState private var focusedField: Field?
     enum Field {
         case password
@@ -19,7 +19,6 @@ struct ProfilePage: View {
         case confirmPassword
     }
     
-
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             if isChangingPassword {
@@ -30,30 +29,22 @@ struct ProfilePage: View {
                         Spacer()
                     }
                     .padding(.bottom, 20)
-
+                    
                     
                     InputText(
                         label: "Mot de passe",
                         password: true,
                         submitLabel: .done,
-                        onSubmit: {
-                            focusedField = nil
-                           // onLoginPress()
-                        },
                         onInput: { input in
                             self.password = input
                         }
                     )
                     .focused($focusedField, equals: .password)
-
+                    
                     InputText(
                         label: "Nouveau mot de passe",
                         password: true,
                         submitLabel: .done,
-                        onSubmit: {
-                            focusedField = nil
-                           // onLoginPress()
-                        },
                         onInput: { input in
                             self.newPassword = input
                         }
@@ -64,35 +55,31 @@ struct ProfilePage: View {
                         label: "Nouveau mot de passe",
                         password: true,
                         submitLabel: .done,
-                        onSubmit: {
-                            focusedField = nil
-                           // onLoginPress()
-                        },
                         onInput: { input in
                             self.confirmPassword = input
                         }
                     )
                     .focused($focusedField, equals: .confirmPassword)
-
+                    
                     HStack {
                         Spacer()
                         ClickyButton(
                             label: "VALIDER",
-                            horizontalPadding: 90,
+                            size: 18,
+                            horizontalPadding: 125,
                             verticalPadding: 12,
                             onPress: {
-                                // Ajouter la logique de modification du mot de passe ici
+                                onModifyPasswordPress()
                             }
                         )
                         Spacer()
                     }
-
+                    
                     HStack {
                         Spacer()
                         ClickyButton(
                             label: "ANNULER",
-                            size: 18,
-                            horizontalPadding: 90,
+                            horizontalPadding: 125,
                             verticalPadding: 10,
                             backgroundColor: .white,
                             labelColor: XPEHO_THEME.CONTENT_COLOR,
@@ -102,7 +89,7 @@ struct ProfilePage: View {
                         )
                         Spacer()
                     }
-
+                    
                     Spacer()
                 }
             } else {
@@ -113,25 +100,26 @@ struct ProfilePage: View {
                         Spacer()
                     }
                     .padding(.bottom, 20)
-
-                    InputText(
-                        label: "Email",
-                        defaultInput: userInfosViewModel.userInfos?.email ?? "",
-                        isReadOnly: true
-                    )
-
-                    InputText(
-                        label: "Nom",
-                        defaultInput: userInfosViewModel.userInfos?.lastname.capitalizingFirstLetter() ?? "",
-                        isReadOnly: true
-                    )
-
-                    InputText(
-                        label: "Prénom",
-                        defaultInput: userInfosViewModel.userInfos?.firstname.capitalizingFirstLetter() ?? "",
-                        isReadOnly: true
-                    )
-
+                    
+                    if let userInfos = userInfosViewModel.userInfos {
+                        InputText(
+                            label: "Email",
+                            defaultInput: userInfos.email,
+                            isReadOnly: true
+                        )
+                        InputText(
+                            label: "Nom",
+                            defaultInput: userInfos.lastname.capitalizingFirstLetter(),
+                            isReadOnly: true
+                        )
+                        
+                        InputText(
+                            label: "Prénom",
+                            defaultInput: userInfos.firstname.capitalizingFirstLetter(),
+                            isReadOnly: true
+                        )
+                    }
+                    
                     HStack {
                         Spacer()
                         ClickyButton(
@@ -145,7 +133,7 @@ struct ProfilePage: View {
                         Spacer()
                     }
                     Spacer()
-
+                    
                     HStack {
                         Spacer()
                         ClickyButton(
@@ -168,6 +156,22 @@ struct ProfilePage: View {
             }
         }
         .accessibility(identifier: isChangingPassword ? "ChangePasswordView" : "ProfileView")
+    }
+    
+    func onModifyPasswordPress() {
+        Task {
+            let success = await loginManager.updatePassword(
+                initialPassword: password,
+                newPassword: newPassword,
+                passwordRepeat: confirmPassword
+            )
+            isChangingPassword = false
+            if success == true {
+                debugPrint("Password modified")
+            } else {
+                debugPrint("Failed to modify password")
+            }
+        }
     }
 }
 

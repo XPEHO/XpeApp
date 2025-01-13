@@ -23,10 +23,12 @@ protocol WordpressAPIProtocol {
     ) async -> Bool?
     func fetchCampaignsProgress(userId: String) async -> [QvstProgressModel]?
     func fetchUserInfos() async -> UserInfosModel?
+    func updatePassword(userPasswordCandidate: UserPasswordCandidateModel) async -> Bool?
 }
 
 class WordpressAPI: WordpressAPIProtocol {
     static let instance = WordpressAPI()
+    let toastManager = ToastManager.instance
     
     private init() {
         // This initializer is intentionally left empty to make private
@@ -257,7 +259,7 @@ class WordpressAPI: WordpressAPIProtocol {
                 debugPrint("Unauthorized access in fetchCampaignsProgress")
                 return []
             }
-
+            
             do {
                 return try JSONDecoder().decode([QvstProgressModel].self, from: data)
             } catch {
@@ -269,6 +271,53 @@ class WordpressAPI: WordpressAPIProtocol {
         } else {
             return nil
         }
+    }
+    
+    // Update password for users with token
+    func updatePassword(
+        userPasswordCandidate: UserPasswordCandidateModel
+    ) async -> Bool? {
         
+        if let (data, statusCode) = await fetchWordpressAPI <UserPasswordCandidateModel> (
+            endpoint: "xpeho/v1/update-password",
+            method: .post,
+            headers: [:],
+            bodyObject: userPasswordCandidate
+        ){
+            if statusCode == 204 {
+                toastManager.setParams(
+                    message: "Mot de passe modifié avec succès",
+                    error: false
+                )
+                toastManager.play()
+                return true
+            }
+            
+            do {
+                let updatePasswordResponse = try JSONDecoder().decode(UserUpdatePasswordModel.self, from: data)
+                if updatePasswordResponse.code == "incorrect_password" {
+                    toastManager.setParams(
+                        message: "Mot de passe initial incorrect",
+                        error: true
+                    )
+                    toastManager.play()
+                    return false
+                } else if updatePasswordResponse.code == "password_mismatch"{
+                    toastManager.setParams(
+                        message: "Les mots de passe ne correspondent pas",
+                        error: true
+                    )
+                    toastManager.play()
+                    return false
+                }
+            } catch {
+                debugPrint("Échec du décodage des données: \(error.localizedDescription)")
+                return nil
+            }
+        } else {
+            debugPrint("Erreur de connexion au serveur")
+            return nil
+        }
+        return nil
     }
 }

@@ -5,8 +5,8 @@
 //  Created by Ryan Debouvries on 06/09/2024.
 //
 
-import Foundation
 import FirebaseAuth
+import Foundation
 
 @Observable class UserRepositoryImpl: UserRepository {
     // An instance for app and a mock for tests
@@ -20,7 +20,7 @@ import FirebaseAuth
     
     // Watched user
     var user: UserEntity? = nil
-
+    
     // Make private constructor to prevent use without shared instances
     private init(
         dataSource: WordpressAPIProtocol = WordpressAPI.instance
@@ -28,26 +28,31 @@ import FirebaseAuth
         self.dataSource = dataSource
     }
     
-    func login (
+    func login(
         username: String,
         password: String,
         completion: @escaping (LoginResult) -> Void
     ) async {
         // Generate token
-        guard let tokenResponse = await dataSource.generateToken(
-            userCandidate: UserCandidateModel(
-                username: username,
-                password: password
+        guard
+            let tokenResponse = await dataSource.generateToken(
+                userCandidate: UserCandidateModel(
+                    username: username,
+                    password: password
+                )
             )
-        ) else {
+        else {
             debugPrint("Failed call to generateToken in login")
             completion(.error)
             return
         }
-
+        
         // Check that we succeed to generate the token
         if let successTokenResponse = tokenResponse.success {
-            guard let userId = await dataSource.fetchUserId(email: successTokenResponse.userEmail) else {
+            guard
+                let userId = await dataSource.fetchUserId(
+                    email: successTokenResponse.userEmail)
+            else {
                 debugPrint("Failed call to fetchUserId in login")
                 completion(.error)
                 return
@@ -56,21 +61,26 @@ import FirebaseAuth
             do {
                 let authResult = try await Auth.auth().signInAnonymously()
                 // Handle successful sign-in if needed
-                debugPrint("Successfully signed in anonymously: \(authResult.user.uid)")
+                debugPrint(
+                    "Successfully signed in anonymously: \(authResult.user.uid)"
+                )
                 
                 // Register the user
                 self.user = UserEntity(
-                    token: "Bearer "+successTokenResponse.token,
+                    token: "Bearer " + successTokenResponse.token,
                     id: userId
                 )
                 
                 // Save it in cache
                 KeychainManager.instance.saveValue(user!.id, forKey: "user_id")
-                KeychainManager.instance.saveValue(user!.token, forKey: "user_token")
+                KeychainManager.instance.saveValue(
+                    user!.token, forKey: "user_token")
                 
                 completion(.success)
             } catch {
-                debugPrint("Error connecting to Firebase anonymously to Firebase: \(error.localizedDescription)")
+                debugPrint(
+                    "Error connecting to Firebase anonymously to Firebase: \(error.localizedDescription)"
+                )
                 completion(.error)
             }
         } else if tokenResponse.error != nil {
@@ -85,11 +95,14 @@ import FirebaseAuth
         completion: @escaping (LoginResult) -> Void
     ) async {
         // Get the user from cache
-        guard let id = KeychainManager.instance.getValue(forKey: "user_id") else {
+        guard let id = KeychainManager.instance.getValue(forKey: "user_id")
+        else {
             completion(.failure)
             return
         }
-        guard let token = KeychainManager.instance.getValue(forKey: "user_token") else {
+        guard
+            let token = KeychainManager.instance.getValue(forKey: "user_token")
+        else {
             completion(.failure)
             return
         }
@@ -97,10 +110,12 @@ import FirebaseAuth
             token: token,
             id: id
         )
-                        
+        
         // Check the validity of its token
-        guard let validity = await dataSource.checkTokenValidity(token: token) else {
-            debugPrint("Failed call to checkTokenValidity in isTokenInCacheValid")
+        guard let validity = await dataSource.checkTokenValidity(token: token)
+        else {
+            debugPrint(
+                "Failed call to checkTokenValidity in isTokenInCacheValid")
             completion(.error)
             return
         }
@@ -110,14 +125,18 @@ import FirebaseAuth
             do {
                 let authResult = try await Auth.auth().signInAnonymously()
                 // Handle successful sign-in if needed
-                debugPrint("Successfully signed in anonymously to Firebase: \(authResult.user.uid)")
+                debugPrint(
+                    "Successfully signed in anonymously to Firebase: \(authResult.user.uid)"
+                )
                 
                 // Register the user
                 self.user = userFromCache
                 
                 completion(.success)
             } catch {
-                debugPrint("Error connecting to Firebase anonymously: \(error.localizedDescription)")
+                debugPrint(
+                    "Error connecting to Firebase anonymously: \(error.localizedDescription)"
+                )
                 completion(.error)
             }
         } else {
@@ -133,6 +152,18 @@ import FirebaseAuth
         }
     }
     
+    func updatePassword(
+        initialPassword: String,
+        newPassword: String,
+        passwordRepeat: String
+    ) async -> Bool? {
+        return await dataSource.updatePassword(
+            userPasswordCandidate: UserPasswordCandidateModel(
+                initialPassword: initialPassword, password: newPassword,
+                passwordRepeat: passwordRepeat)
+        )
+    }
+    
     func logout() {
         self.user = nil
         
@@ -145,7 +176,9 @@ import FirebaseAuth
             try Auth.auth().signOut()
             debugPrint("Successfully signed out from Firebase")
         } catch {
-            debugPrint("Error disconnecting from Firebase: \(error.localizedDescription)")
+            debugPrint(
+                "Error disconnecting from Firebase: \(error.localizedDescription)"
+            )
         }
     }
 }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import xpeho_ui
+import FirebaseAnalytics
 
 struct NewsletterCard: View {
     var toastManager = ToastManager.instance
@@ -15,7 +16,7 @@ struct NewsletterCard: View {
     @Environment(\.openURL) var openURL
     
     var open: Bool = false
-    
+        
     var body: some View {
         CollapsableCard(
             label: dateMonthFormatter.string(from: newsletter.date).capitalized,
@@ -30,6 +31,13 @@ struct NewsletterCard: View {
                 horizontalPadding: 50,
                 verticalPadding: 12,
                 onPress: {
+                    Analytics.logEvent(
+                        "open_newsletter",
+                        parameters: [
+                            AnalyticsParameterItemID: newsletter.id ?? "",
+                            AnalyticsParameterItemName: dateMonthFormatter.string(from: newsletter.date).capitalized,
+                        ]
+                    );
                     openPdf(
                         url: newsletter.pdfUrl,
                         toastManager: toastManager,

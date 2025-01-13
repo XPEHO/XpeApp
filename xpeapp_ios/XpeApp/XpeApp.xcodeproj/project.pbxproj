@@ -79,6 +79,11 @@
 		0EF1CA482CFF68A700AF0848 /* UtilsUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF1CA472CFF68A700AF0848 /* UtilsUI.swift */; };
 		0EFC0FEA2CF9D17800F9480D /* DisabledFeaturePlaceHolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFC0FE92CF9D17800F9480D /* DisabledFeaturePlaceHolderView.swift */; };
 		108150F32CBD167400D57952 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 108150F22CBD167400D57952 /* GoogleService-Info.plist */; };
+		778946922D301C480041D247 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 778946912D301C480041D247 /* FirebaseAnalytics */; };
+		778946942D301C480041D247 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 778946932D301C480041D247 /* FirebaseAnalyticsOnDeviceConversion */; };
+		778946962D301C480041D247 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 778946952D301C480041D247 /* FirebaseAnalyticsSwift */; };
+		778946982D301C480041D247 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 778946972D301C480041D247 /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		7789469A2D301C480041D247 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 778946992D301C480041D247 /* FirebaseAppCheck */; };
 		BD83CCBA2C1853ED00152559 /* CampaignsPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83CCB92C1853ED00152559 /* CampaignsPageView.swift */; };
 		BDACECDF2C109309007B5262 /* XpeAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECDE2C109309007B5262 /* XpeAppApp.swift */; };
 		BDACECE12C109309007B5262 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDACECE02C109309007B5262 /* ContentView.swift */; };
@@ -193,7 +198,12 @@
 			files = (
 				BDACED162C10BB78007B5262 /* FirebaseMessaging in Frameworks */,
 				0EB50D232CDB676F004E8C24 /* xpeho_ui in Frameworks */,
+				778946922D301C480041D247 /* FirebaseAnalytics in Frameworks */,
 				BDACED122C10BB78007B5262 /* FirebaseAuth in Frameworks */,
+				7789469A2D301C480041D247 /* FirebaseAppCheck in Frameworks */,
+				778946982D301C480041D247 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				778946962D301C480041D247 /* FirebaseAnalyticsSwift in Frameworks */,
+				778946942D301C480041D247 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				BDACED142C10BB78007B5262 /* FirebaseFirestore in Frameworks */,
 				0E7E8C042CF490CE00D348EC /* FirebaseStorage in Frameworks */,
 				0E7E8C0A2CF5E0C300D348EC /* xpeho_ui in Frameworks */,
@@ -538,6 +548,11 @@
 				0E7E8C032CF490CE00D348EC /* FirebaseStorage */,
 				0E7E8C062CF5D4AF00D348EC /* xpeho_ui */,
 				0E7E8C092CF5E0C300D348EC /* xpeho_ui */,
+				778946912D301C480041D247 /* FirebaseAnalytics */,
+				778946932D301C480041D247 /* FirebaseAnalyticsOnDeviceConversion */,
+				778946952D301C480041D247 /* FirebaseAnalyticsSwift */,
+				778946972D301C480041D247 /* FirebaseAnalyticsWithoutAdIdSupport */,
+				778946992D301C480041D247 /* FirebaseAppCheck */,
 			);
 			productName = XpeApp;
 			productReference = BDACECDB2C109309007B5262 /* XpeApp.app */;
@@ -1016,6 +1031,26 @@
 		0EB50D222CDB676F004E8C24 /* xpeho_ui */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = xpeho_ui;
+		};
+		778946912D301C480041D247 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseAnalytics;
+		};
+		778946932D301C480041D247 /* FirebaseAnalyticsOnDeviceConversion */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseAnalyticsOnDeviceConversion;
+		};
+		778946952D301C480041D247 /* FirebaseAnalyticsSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseAnalyticsSwift;
+		};
+		778946972D301C480041D247 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		778946992D301C480041D247 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseAppCheck;
 		};
 		BDACED112C10BB78007B5262 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

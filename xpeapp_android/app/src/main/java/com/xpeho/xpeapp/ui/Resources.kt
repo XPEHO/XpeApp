@@ -4,10 +4,13 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.result.ActivityResult
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.data.FeatureFlippingEnum
 import com.xpeho.xpeapp.data.model.RequestLeave
 import com.xpeho.xpeapp.data.model.RequestLeaveDetail
@@ -126,4 +129,13 @@ fun openPdfFile(
         Log.e("openPdfFile", "No application can handle this request", e)
         Toast.makeText(context, "Impossible d'ouvrir l'URL", Toast.LENGTH_SHORT).show()
     }
+}
+
+fun sendAnalyticsEvent(page: String) {
+    XpeApp.appModule.firebaseAnalytics.logEvent(
+        FirebaseAnalytics.Event.VIEW_ITEM,
+        Bundle().apply {
+            putString(FirebaseAnalytics.Param.ITEM_ID, page)
+        }
+    )
 }

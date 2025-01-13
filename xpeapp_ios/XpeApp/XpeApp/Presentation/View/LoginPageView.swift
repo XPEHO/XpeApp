@@ -7,6 +7,7 @@
 
 import SwiftUI
 import xpeho_ui
+import FirebaseAnalytics
 
 
 struct LoginPage: View {
@@ -68,10 +69,13 @@ struct LoginPage: View {
                 verticalPadding: 18,
                 enabled: true,//!isTryingToLogin,
                 onPress: {
-                    onLoginPress() 
+                    onLoginPress()
                 }
             )
             .padding(.top, 32)
+        }
+        .onAppear{
+            sendAnalyticsEvent(page: "login_page")
         }
         .padding(.horizontal, 16)
         .preferredColorScheme(.dark)

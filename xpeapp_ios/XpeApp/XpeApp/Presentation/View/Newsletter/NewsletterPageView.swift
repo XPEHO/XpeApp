@@ -32,7 +32,10 @@ struct NewsletterPage: View {
                     .padding()
             }
         }
-        .onAppear {newsletterPageViewModel.update()}
+        .onAppear {
+            newsletterPageViewModel.update();
+            sendAnalyticsEvent(page: "newsletter_page")
+        }
         .refreshable {
             newsletterPageViewModel.update()
             featureManager.update()

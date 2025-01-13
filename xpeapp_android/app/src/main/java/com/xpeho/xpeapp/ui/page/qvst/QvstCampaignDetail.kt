@@ -35,6 +35,7 @@ import com.xpeho.xpeapp.data.entity.QvstCampaignEntity
 import com.xpeho.xpeapp.enums.Screens
 import com.xpeho.xpeapp.ui.components.CustomDialog
 import com.xpeho.xpeapp.ui.components.layout.Title
+import com.xpeho.xpeapp.ui.sendAnalyticsEvent
 import com.xpeho.xpeapp.ui.uiState.QvstUiState
 import com.xpeho.xpeapp.ui.viewModel.qvst.QvstAnswersState
 import com.xpeho.xpeapp.ui.viewModel.qvst.QvstAnswersViewModel
@@ -69,6 +70,9 @@ fun QvstCampaignDetailPage(
         }
     )
     var campaign: QvstCampaignEntity?
+
+    sendAnalyticsEvent("qvst_campaign_detail_page")
+
     LaunchedEffect(Unit) {
         MainScope().launch {
             userId.value = datastorePref.userId.first()

@@ -29,6 +29,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.ui.components.CustomDialog
+import com.xpeho.xpeapp.ui.sendAnalyticsEvent
 import com.xpeho.xpeapp.ui.uiState.WordpressUiState
 import com.xpeho.xpeapp.ui.viewModel.WordpressViewModel
 import com.xpeho.xpeapp.ui.viewModel.viewModelFactory
@@ -47,6 +48,8 @@ fun LoginPage(onLoginSuccess: () -> Unit) {
             WordpressViewModel(XpeApp.appModule.authenticationManager)
         }
     )
+
+    sendAnalyticsEvent("login_page")
 
     // If login is successful, notify of login success
     LaunchedEffect(wordpressViewModel.wordpressState) {

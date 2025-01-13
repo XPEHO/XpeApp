@@ -1,6 +1,7 @@
 package com.xpeho.xpeapp.di
 
 import android.content.Context
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.GsonBuilder
 import com.xpeho.xpeapp.BuildConfig
 import com.xpeho.xpeapp.data.DatastorePref
@@ -22,6 +23,7 @@ interface AppModule {
     val wordpressRepository: WordpressRepository
     val datastorePref: DatastorePref
     val tokenProvider: TokenProvider
+    val firebaseAnalytics: FirebaseAnalytics
 }
 
 class MainAppModule(
@@ -66,6 +68,11 @@ class MainAppModule(
 
     override val tokenProvider: TokenProvider by lazy {
         TokenProvider()
+    }
+    override val firebaseAnalytics: FirebaseAnalytics by lazy {
+        FirebaseAnalytics.getInstance(appContext).apply {
+            setAnalyticsCollectionEnabled(true)
+        }
     }
 
     override val authenticationManager: AuthenticationManager by lazy {

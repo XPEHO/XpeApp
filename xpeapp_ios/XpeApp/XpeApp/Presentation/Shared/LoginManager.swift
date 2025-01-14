@@ -103,7 +103,7 @@ import Foundation
         initialPassword: String,
         newPassword: String,
         passwordRepeat: String
-    ) async -> Bool? {
+    ) async -> UserPasswordEditReturnEnum? {
         return await UserRepositoryImpl.instance.updatePassword(
             initialPassword: initialPassword,
             newPassword: newPassword,

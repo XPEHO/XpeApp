@@ -23,7 +23,7 @@ protocol WordpressAPIProtocol {
     ) async -> Bool?
     func fetchCampaignsProgress(userId: String) async -> [QvstProgressModel]?
     func fetchUserInfos() async -> UserInfosModel?
-    func updatePassword(userPasswordCandidate: UserPasswordCandidateModel) async -> Bool?
+    func updatePassword(userPasswordCandidate: UserPasswordEditModel) async -> UserPasswordEditReturnEnum?
 }
 
 class WordpressAPI: WordpressAPIProtocol {
@@ -275,8 +275,8 @@ class WordpressAPI: WordpressAPIProtocol {
     
     // Update password for users with token
     func updatePassword(
-        userPasswordCandidate: UserPasswordCandidateModel
-    ) async -> Bool? {
+        userPasswordCandidate: UserPasswordEditModel
+    ) async -> UserPasswordEditReturnEnum? {
         
         if let (data, statusCode) = await fetchWordpressAPI <UserPasswordCandidateModel> (
             endpoint: "xpeho/v1/update-password",
@@ -285,30 +285,18 @@ class WordpressAPI: WordpressAPIProtocol {
             bodyObject: userPasswordCandidate
         ){
             if statusCode == 204 {
-                toastManager.setParams(
-                    message: "Mot de passe modifié avec succès",
-                    error: false
-                )
-                toastManager.play()
-                return true
+                debugPrint("Mot de passe modifié avec succès")
+                return .success
             }
             
             do {
-                let updatePasswordResponse = try JSONDecoder().decode(UserUpdatePasswordModel.self, from: data)
+                let updatePasswordResponse = try JSONDecoder().decode(UserPasswordEditResponseModel.self, from: data)
                 if updatePasswordResponse.code == "incorrect_password" {
-                    toastManager.setParams(
-                        message: "Mot de passe initial incorrect",
-                        error: true
-                    )
-                    toastManager.play()
-                    return false
+                    debugPrint("Mot de passe initial incorrect")
+                    return .invalidInitialPassword
                 } else if updatePasswordResponse.code == "password_mismatch"{
-                    toastManager.setParams(
-                        message: "Les mots de passe ne correspondent pas",
-                        error: true
-                    )
-                    toastManager.play()
-                    return false
+                    debugPrint("Les mots de passe ne correspondent pas")
+                    return .newPasswordsNotMatch
                 }
             } catch {
                 debugPrint("Échec du décodage des données: \(error.localizedDescription)")

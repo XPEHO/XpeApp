@@ -11,6 +11,7 @@ import xpeho_ui
 struct HomePage: View {
     @Bindable private var homePageViewModel = HomePageViewModel.instance
     private var featureManager = FeatureManager.instance
+    private var userInfosViewModel = UserInfosPageViewModel.instance
     
     var body: some View {
         ScrollView {
@@ -46,6 +47,7 @@ struct HomePage: View {
         .refreshable {
             homePageViewModel.update()
             featureManager.update()
+            userInfosViewModel.update()
         }
         .accessibility(identifier: "HomeView")
     }

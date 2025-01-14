@@ -156,9 +156,9 @@ import Foundation
         initialPassword: String,
         newPassword: String,
         passwordRepeat: String
-    ) async -> Bool? {
+    ) async -> UserPasswordEditReturnEnum? {
         return await dataSource.updatePassword(
-            userPasswordCandidate: UserPasswordCandidateModel(
+            userPasswordCandidate: UserPasswordEditModel(
                 initialPassword: initialPassword, password: newPassword,
                 passwordRepeat: passwordRepeat)
         )

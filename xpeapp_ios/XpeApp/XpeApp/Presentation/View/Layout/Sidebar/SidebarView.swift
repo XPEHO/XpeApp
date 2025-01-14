@@ -10,9 +10,8 @@ import xpeho_ui
 
 struct Sidebar: View {
     var featureManager = FeatureManager.instance
-    var wordpressAPI = WordpressAPI.instance
+    
     @Binding var isSidebarVisible: Bool
-    @State private var userInfos: UserInfosModel? = nil
     
     var geometry: GeometryProxy
     
@@ -28,13 +27,8 @@ struct Sidebar: View {
                 
                 // Wait for the features to be loaded
                 if (featureManager.isEnabled(item: .profile)){
-                    SidebarItemProfile(isSidebarVisible: $isSidebarVisible,
-                                       navigationItem: .profile,
-                                       icon: Image("Profile"),
-                                       lastname: userInfos?.lastname ?? "",
-                                       firstname: userInfos?.firstname ?? "",
-                                       email: userInfos?.email ?? "")
-                    Spacer().frame(height: 30)
+                    SidebarItemProfile(isSidebarVisible: $isSidebarVisible)
+                    Spacer().frame(height: 25)
                 }
                     VStack(alignment: .leading, spacing: 20) {
                         SidebarItem(isSidebarVisible: $isSidebarVisible,
@@ -104,13 +98,6 @@ struct Sidebar: View {
         .frame(width: self.isSidebarVisible ? geometry.size.width * 1 : 0)
         .background(XPEHO_THEME.XPEHO_COLOR)
         .animation(.easeInOut(duration: 0.2), value: self.isSidebarVisible)
-                .onAppear {
-            Task {
-                if let fetchedUserInfos = await WordpressAPI.instance.fetchUserInfos() {
-                    userInfos = fetchedUserInfos
-                }
-            }
-        }
     }
     
     struct CloseButton: View {

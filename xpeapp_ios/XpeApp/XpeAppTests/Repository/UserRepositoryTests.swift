@@ -13,19 +13,19 @@ final class UserRepositoryTests: XCTestCase {
     // We take the mocked repositories and sources
     let userRepo = UserRepositoryImpl.mock
     let userSource = MockWordpressAPI.instance
-
+    
     override func setUp() {
         super.setUp()
         userRepo.user = nil
     }
-
+    
     override func tearDownWithError() throws {
         super.tearDown()
         userRepo.user = nil
     }
     
     // ------------------- login TESTS -------------------
-
+    
     func test_login_generateTokenError() throws {
         Task {
             // GIVEN
@@ -159,9 +159,9 @@ final class UserRepositoryTests: XCTestCase {
         }
     }
     
-
+    
     // ------------------- logout TESTS -------------------
-
+    
     func test_logout_clearsUser() throws {
         // GIVEN
         userRepo.user = UserEntity(token: "Bearer token", id: "user_id")
@@ -204,4 +204,52 @@ final class UserRepositoryTests: XCTestCase {
             XCTAssertNil(auth.currentUser)
         }
     }
+    
+//    
+//    
+//    func test_updatePassword_success() async throws {
+//        // GIVEN
+//        userRepo.updatePasswordReturnData = .success
+//        
+//        // WHEN
+//        let result = await userRepo.updatePassword(
+//            initialPassword: "oldPassword",
+//            newPassword: "newPassword",
+//            passwordRepeat: "newPassword"
+//        )
+//        
+//        // THEN
+//        XCTAssertEqual(result, .success)
+//    }
+//    
+//    func test_updatePassword_invalidInitialPassword() async throws {
+//        // GIVEN
+//        mockDataSource.updatePasswordReturnData = .invalidInitialPassword
+//        
+//        // WHEN
+//        let result = await userRepo.updatePassword(
+//            initialPassword: "wrongPassword",
+//            newPassword: "newPassword",
+//            passwordRepeat: "newPassword"
+//        )
+//        
+//        // THEN
+//        XCTAssertEqual(result, .invalidInitialPassword)
+//    }
+//    
+//    func test_updatePassword_newPasswordsNotMatch() async throws {
+//        // GIVEN
+//        mockDataSource.updatePasswordReturnData = .newPasswordsNotMatch
+//        
+//        // WHEN
+//        let result = await userRepo.updatePassword(
+//            initialPassword: "oldPassword",
+//            newPassword: "newPassword",
+//            passwordRepeat: "differentNewPassword"
+//        )
+//        
+//        // THEN
+//        XCTAssertEqual(result, .newPasswordsNotMatch)
+//    }
 }
+//

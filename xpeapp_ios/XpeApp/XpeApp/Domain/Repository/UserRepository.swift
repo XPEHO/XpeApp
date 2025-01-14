@@ -35,5 +35,5 @@ protocol UserRepository {
     initialPassword: String,
     newPassword: String,
     passwordRepeat: String
-    ) async -> Bool?
+    ) async -> UserPasswordEditReturnEnum?
 }

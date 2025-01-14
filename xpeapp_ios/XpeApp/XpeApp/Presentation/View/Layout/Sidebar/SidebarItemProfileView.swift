@@ -6,70 +6,66 @@
 //
 
 import SwiftUI
+import xpeho_ui
 
 struct SidebarItemProfile: View {
     var routerManager = RouterManager.instance
     
+    
+    @Bindable var userInfosViewModel = UserInfosPageViewModel.instance
+    
     @Binding var isSidebarVisible: Bool
     
-    var navigationItem: RouterItem
-    var icon: Image
-    var lastname: String
-    var firstname: String
-    var email: String
-    
     var body: some View {
-        Button(action: handleButtonAction) {
-            ProfileContentView(icon: icon, lastname: lastname, firstname: firstname, email: email)
+        if let userInfos = userInfosViewModel.userInfos {
+         Button(action: handleButtonAction) {
+            ZStack(alignment: .topLeading) {
+                Color.black.opacity(0.1)
+                    .edgesIgnoringSafeArea(.top)
+                VStack(alignment: .leading, spacing: 4) {
+                    ProfileHeaderView(lastname: userInfos.lastname, firstname: userInfos.firstname, email: userInfos.email)
+                }
+                .padding(.horizontal, 20)
+                .padding(.vertical,15)
+            }
         }
         .frame(maxHeight: 73)
         .accessibility(identifier: "Sidebar_Profile")
+        }
     }
     
     private func handleButtonAction() {
-        routerManager.goTo(item: navigationItem)
+        routerManager.goTo(item: .profile)
         withAnimation {
             self.isSidebarVisible = false
         }
     }
 }
 
-struct ProfileContentView: View {
-    var icon: Image
-    var lastname: String
-    var firstname: String
-    var email: String
-    
-    var body: some View {
-        ZStack(alignment: .topLeading) {
-            Color.black.opacity(0.1)
-                .edgesIgnoringSafeArea(.top)
-            VStack(alignment: .leading, spacing: 4) {
-                ProfileHeaderView(icon: icon, lastname: lastname, firstname: firstname, email: email)
-            }
-            .padding(.horizontal, 20)
-            .padding(.top, 23)
-            .padding(.bottom, 23)
-        }
-    }
-}
 
 struct ProfileHeaderView: View {
-    var icon: Image
     var lastname: String
     var firstname: String
     var email: String
+
     
     var body: some View {
         HStack(spacing: 10) {
-            icon
+            Assets.loadImage(named: "ContactFill")
                 .renderingMode(.template)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: 24)
                 .foregroundColor(.white)
             VStack(alignment: .leading, spacing: 1) {
-                NameView(lastname: lastname, firstname: firstname)
+                HStack {
+                    Text(lastname.uppercased())
+                        .font(.raleway(.bold, size: 20))
+                        .foregroundColor(.white)
+                    Text(firstname.capitalizingFirstLetter())
+                        .font(.raleway(.bold, size: 20))
+                        .foregroundColor(.white)
+                }
                 Text(email)
                     .font(.raleway(.medium, size: 16))
                     .foregroundColor(.white)
@@ -79,21 +75,6 @@ struct ProfileHeaderView: View {
     }
 }
 
-struct NameView: View {
-    var lastname: String
-    var firstname: String
-    
-    var body: some View {
-        HStack {
-            Text(lastname.uppercased())
-                .font(.raleway(.bold, size: 20))
-                .foregroundColor(.white)
-            Text(firstname.capitalizingFirstLetter())
-                .font(.raleway(.bold, size: 20))
-                .foregroundColor(.white)
-        }
-    }
-}
 
 extension String {
     func capitalizingFirstLetter() -> String {

@@ -20,7 +20,7 @@ class MockWordpressAPI: WordpressAPIProtocol {
     var sendCampaignAnswersReturnData: Bool?
     var fetchCampaignsProgressReturnData: [QvstProgressModel]?
     var fetchUserInfosReturnData: UserInfosModel?
-    var updatePasswordData: Bool?
+    var updatePasswordData: UserPasswordEditReturnEnum?
     
     private init() {
         // This initializer is intentionally left empty to make private
@@ -69,7 +69,7 @@ class MockWordpressAPI: WordpressAPIProtocol {
         return fetchUserInfosReturnData
     }
 
-    func updatePassword(userPasswordCandidate: UserPasswordCandidateModel) async -> Bool? {
+    func updatePassword(userPasswordCandidate: UserPasswordEditModel) async -> UserPasswordEditReturnEnum? {
         return updatePasswordData
     }
 }

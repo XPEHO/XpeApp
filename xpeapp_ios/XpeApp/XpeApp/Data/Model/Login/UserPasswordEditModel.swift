@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct UserPasswordCandidateModel: Codable {
+public struct UserPasswordEditModel: Codable {
     let initialPassword: String
     let password: String
     let passwordRepeat: String

@@ -9,7 +9,7 @@
 import Foundation
 
 
-public struct UserUpdatePasswordModel: Codable {
+public struct UserPasswordEditResponseModel: Codable {
     let code: String
     let message: String?
     let data: [String:Int]?

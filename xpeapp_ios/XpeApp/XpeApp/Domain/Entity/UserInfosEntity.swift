@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct UserInfosEntity: Codable {
+struct UserInfosEntity: Codable, Equatable {
     let id: String
     let email: String
     let firstname: String

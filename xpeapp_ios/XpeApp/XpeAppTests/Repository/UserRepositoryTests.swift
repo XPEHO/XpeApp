@@ -204,52 +204,82 @@ final class UserRepositoryTests: XCTestCase {
             XCTAssertNil(auth.currentUser)
         }
     }
+        // ------------------- fetchUserInfos TESTS -------------------
     
-//    
-//    
-//    func test_updatePassword_success() async throws {
-//        // GIVEN
-//        userRepo.updatePasswordReturnData = .success
-//        
-//        // WHEN
-//        let result = await userRepo.updatePassword(
-//            initialPassword: "oldPassword",
-//            newPassword: "newPassword",
-//            passwordRepeat: "newPassword"
-//        )
-//        
-//        // THEN
-//        XCTAssertEqual(result, .success)
-//    }
-//    
-//    func test_updatePassword_invalidInitialPassword() async throws {
-//        // GIVEN
-//        mockDataSource.updatePasswordReturnData = .invalidInitialPassword
-//        
-//        // WHEN
-//        let result = await userRepo.updatePassword(
-//            initialPassword: "wrongPassword",
-//            newPassword: "newPassword",
-//            passwordRepeat: "newPassword"
-//        )
-//        
-//        // THEN
-//        XCTAssertEqual(result, .invalidInitialPassword)
-//    }
-//    
-//    func test_updatePassword_newPasswordsNotMatch() async throws {
-//        // GIVEN
-//        mockDataSource.updatePasswordReturnData = .newPasswordsNotMatch
-//        
-//        // WHEN
-//        let result = await userRepo.updatePassword(
-//            initialPassword: "oldPassword",
-//            newPassword: "newPassword",
-//            passwordRepeat: "differentNewPassword"
-//        )
-//        
-//        // THEN
-//        XCTAssertEqual(result, .newPasswordsNotMatch)
-//    }
+    func test_fetchUserInfos_success() async throws {
+        // GIVEN
+        let expectedUserInfos = UserInfosModel(
+            id: 1, email: "toto@example.com", firstname: "toto", lastname: "totolastname"
+        )
+        userSource.fetchUserInfosReturnData = expectedUserInfos
+        
+        // WHEN
+        let result = await userRepo.fetchUserInfos()
+        
+        // THEN
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result, expectedUserInfos.toEntity())
+    }
+    
+    func test_fetchUserInfos_failure() async throws {
+        // GIVEN
+        userSource.fetchUserInfosReturnData = nil
+        
+        // WHEN
+        let result = await userRepo.fetchUserInfos()
+        
+        // THEN
+        XCTAssertNil(result)
+    }
+
+
+    
+    // ------------------- updatePassword TESTS -------------------
+
+   
+    func test_updatePassword_success() async throws {
+        // GIVEN
+        userSource.updatePasswordData = UserPasswordEditReturnEnum.success
+       
+        // WHEN
+        let result = await userRepo.updatePassword(
+            initialPassword: "oldPassword",
+            newPassword: "newPassword",
+            passwordRepeat: "newPassword"
+        )
+       
+        // THEN
+        XCTAssertEqual(result, .success)
+    }
+    
+    func test_updatePassword_invalidInitialPassword() async throws {
+        // GIVEN
+        userSource.updatePasswordData = UserPasswordEditReturnEnum.invalidInitialPassword
+
+        // WHEN
+        let result = await userRepo.updatePassword(
+            initialPassword: "wrongPassword",
+            newPassword: "newPassword",
+            passwordRepeat: "newPassword"
+        )
+        
+        // THEN
+        XCTAssertEqual(result, .invalidInitialPassword)
+    }
+    
+    func test_updatePassword_newPasswordsNotMatch() async throws {
+        // GIVEN
+        userSource.updatePasswordData = UserPasswordEditReturnEnum.newPasswordsNotMatch
+
+        // WHEN
+        let result = await userRepo.updatePassword(
+            initialPassword: "oldPassword",
+            newPassword: "newPassword",
+            passwordRepeat: "differentNewPassword"
+        )
+        
+        // THEN
+        XCTAssertEqual(result, .newPasswordsNotMatch)
+    }
 }
-//
+

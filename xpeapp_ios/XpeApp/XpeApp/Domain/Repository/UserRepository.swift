@@ -27,4 +27,13 @@ protocol UserRepository {
     ) async
     
     func logout()
+    
+    
+    func fetchUserInfos() async -> UserInfosEntity?
+    
+    func updatePassword(
+    initialPassword: String,
+    newPassword: String,
+    passwordRepeat: String
+    ) async -> UserPasswordEditReturnEnum?
 }

@@ -10,6 +10,7 @@ import xpeho_ui
 
 struct Sidebar: View {
     var featureManager = FeatureManager.instance
+    
     @Binding var isSidebarVisible: Bool
     
     var geometry: GeometryProxy
@@ -25,7 +26,10 @@ struct Sidebar: View {
                 .frame(height: 80)
                 
                 // Wait for the features to be loaded
-                if (featureManager.features != nil){
+                if (featureManager.isEnabled(item: .profile)){
+                    SidebarItemProfile(isSidebarVisible: $isSidebarVisible)
+                    Spacer().frame(height: 25)
+                }
                     VStack(alignment: .leading, spacing: 20) {
                         SidebarItem(isSidebarVisible: $isSidebarVisible,
                                     navigationItem: .home,
@@ -67,6 +71,11 @@ struct Sidebar: View {
                                         icon: Assets.loadImage(named: "PlaneDeparture"),
                                         label: featureManager.getName(item: .vacation))
                         }
+                            // SidebarItem(isSidebarVisible: $isSidebarVisible,
+                            //             navigationItem: .about,
+                            //             icon: Image("About"),
+                            //             label: "À propos")
+                        
                         if Configuration.env == .local {
                             SidebarItem(isSidebarVisible: $isSidebarVisible,
                                         navigationItem: .debug,
@@ -74,7 +83,6 @@ struct Sidebar: View {
                                         label: "Debug")
                         }
                         Spacer()
-                        LogoutButtonSection()
                         InfoSection()
                             .padding(.top, 10)
                     }
@@ -82,10 +90,9 @@ struct Sidebar: View {
                     .accessibilityElement(children: .contain)
                     .accessibilityIdentifier("Sidebar")
                 }
-                
+
                 Spacer()
             }
-        }
         .opacity(self.isSidebarVisible ? 1 : 0)
         .frame(height: geometry.size.height)
         .frame(width: self.isSidebarVisible ? geometry.size.width * 1 : 0)
@@ -110,28 +117,6 @@ struct Sidebar: View {
                     .frame(height: 50)
             }
             .accessibility(identifier: "Sidebar_CloseButton")
-        }
-    }
-    
-    struct LogoutButtonSection: View {
-        var loginManager = LoginManager.instance
-        
-        var body: some View {
-            HStack {
-                Spacer()
-                ClickyButton(
-                    label: "Déconnexion",
-                    size: 18,
-                    horizontalPadding: 20,
-                    verticalPadding: 10,
-                    backgroundColor: .white,
-                    labelColor: XPEHO_THEME.CONTENT_COLOR,
-                    onPress: {
-                        loginManager.logout()
-                    }
-                )
-                Spacer()
-            }
         }
     }
     

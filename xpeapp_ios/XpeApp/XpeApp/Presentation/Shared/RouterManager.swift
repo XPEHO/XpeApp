@@ -17,6 +17,7 @@ enum RouterItem: String {
     case colleagues = "colleagues"
     case cra = "cra"
     case vacation = "vacation"
+    case profile = "profile"
     case debug = "debug"
 }
 

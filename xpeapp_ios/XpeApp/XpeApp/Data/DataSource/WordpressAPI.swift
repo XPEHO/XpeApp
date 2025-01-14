@@ -22,10 +22,13 @@ protocol WordpressAPIProtocol {
         answers: [QvstAnswerModel]
     ) async -> Bool?
     func fetchCampaignsProgress(userId: String) async -> [QvstProgressModel]?
+    func fetchUserInfos() async -> UserInfosModel?
+    func updatePassword(userPasswordCandidate: UserPasswordEditModel) async -> UserPasswordEditReturnEnum?
 }
 
 class WordpressAPI: WordpressAPIProtocol {
     static let instance = WordpressAPI()
+    let toastManager = ToastManager.instance
     
     private init() {
         // This initializer is intentionally left empty to make private
@@ -44,6 +47,30 @@ class WordpressAPI: WordpressAPIProtocol {
             ]
         ){
             return String(data: data, encoding: .utf8)
+        } else {
+            return nil
+        }
+        
+    }
+    
+    // Fetch user Infos by the token
+    func fetchUserInfos() async -> UserInfosModel? {
+        if let (data, statusCode) = await fetchWordpressAPI (
+            endpoint: "xpeho/v1/user-infos"
+        ){
+            if statusCode == 403 {
+                debugPrint("Unauthorized access in fetchUserInfos")
+                return nil
+            }
+            
+            do {
+                return try JSONDecoder().decode(UserInfosModel.self, from: data)
+            } catch {
+                debugPrint("Failed to decode data in fetchUserInfos : \(error)")
+                let dataString = String(data: data, encoding: .utf8) ?? ""
+                debugPrint("Data got : \(dataString)")
+                return nil
+            }
         } else {
             return nil
         }
@@ -232,7 +259,7 @@ class WordpressAPI: WordpressAPIProtocol {
                 debugPrint("Unauthorized access in fetchCampaignsProgress")
                 return []
             }
-
+            
             do {
                 return try JSONDecoder().decode([QvstProgressModel].self, from: data)
             } catch {
@@ -244,6 +271,41 @@ class WordpressAPI: WordpressAPIProtocol {
         } else {
             return nil
         }
+    }
+    
+    // Update password for users with token
+    func updatePassword(
+        userPasswordCandidate: UserPasswordEditModel
+    ) async -> UserPasswordEditReturnEnum? {
         
+        if let (data, statusCode) = await fetchWordpressAPI <UserPasswordCandidateModel> (
+            endpoint: "xpeho/v1/update-password",
+            method: .post,
+            headers: [:],
+            bodyObject: userPasswordCandidate
+        ){
+            if statusCode == 204 {
+                debugPrint("Mot de passe modifié avec succès")
+                return .success
+            }
+            
+            do {
+                let updatePasswordResponse = try JSONDecoder().decode(UserPasswordEditResponseModel.self, from: data)
+                if updatePasswordResponse.code == "incorrect_password" {
+                    debugPrint("Mot de passe initial incorrect")
+                    return .invalidInitialPassword
+                } else if updatePasswordResponse.code == "password_mismatch"{
+                    debugPrint("Les mots de passe ne correspondent pas")
+                    return .newPasswordsNotMatch
+                }
+            } catch {
+                debugPrint("Échec du décodage des données: \(error.localizedDescription)")
+                return nil
+            }
+        } else {
+            debugPrint("Erreur de connexion au serveur")
+            return nil
+        }
+        return nil
     }
 }

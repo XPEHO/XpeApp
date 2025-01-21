@@ -1,5 +1,6 @@
 package com.xpeho.xpeapp.ui.components.layout
 
+import SidebarItemProfile
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
@@ -11,6 +12,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -90,15 +92,17 @@ fun Sidebar(
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(top = 18.dp, bottom = 20.dp, start = 18.dp, end = 18.dp),
+                    .fillMaxHeight(),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
+
                 Column {
                     IconButton(
                         onClick = {
                             sidebarVisible.value = !sidebarVisible.value
-                        }
+                        },
+                        modifier = Modifier
+                            .padding(top = 18.dp, start = 18.dp)
                     ) {
                         Icon(
                             painter = painterResource(id = XpehoRes.crossclose),
@@ -108,37 +112,61 @@ fun Sidebar(
                                 .size(60.dp)
                         )
                     }
+
                     Spacer(
                         modifier = Modifier
-                            .height(20.dp)
+                            .height(15.dp)
                     )
-                    SidebarItem(
-                        navigationController = navigationController,
-                        icon = painterResource(id = R.drawable.home),
-                        label = "Accueil",
-                        route = Screens.Home.name
-                    )
-                    Spacer(
+
+                    Box(
                         modifier = Modifier
-                            .height(20.dp)
-                    )
-                    for (menuItem in Resources().listOfMenu) {
-                        if (ffManager.isFeatureEnabled(menuItem.featureFlippingId)) {
-                            SidebarItem(
-                                navigationController = navigationController,
-                                icon = painterResource(id = menuItem.idImage),
-                                label = menuItem.title,
-                                route = menuItem.redirection
-                            )
-                            Spacer(
-                                modifier = Modifier
-                                    .height(20.dp)
-                            )
-                        }
+                            .fillMaxWidth()
+                            .background(Color.Black.copy(alpha = 0.1f)) // Arrière-plan noir avec 10% d'opacité
+                    ) {
+                        SidebarItemProfile(
+                            navigationController = navigationController,
+                        )
                     }
+
+                    Spacer(
+                        modifier = Modifier
+                            .height(20.dp)
+                    )
+
+                    Column (
+                        modifier = Modifier
+                            .padding(horizontal = 18.dp),
+                    ) {
+                        SidebarItem(
+                            navigationController = navigationController,
+                            icon = painterResource(id = R.drawable.home),
+                            label = "Accueil",
+                            route = Screens.Home.name
+                        )
+                        Spacer(
+                            modifier = Modifier
+                                .height(20.dp)
+                        )
+                        for (menuItem in Resources().listOfMenu) {
+                            if (ffManager.isFeatureEnabled(menuItem.featureFlippingId)) {
+                                SidebarItem(
+                                    navigationController = navigationController,
+                                    icon = painterResource(id = menuItem.idImage),
+                                    label = menuItem.title,
+                                    route = menuItem.redirection
+                                )
+                                Spacer(
+                                    modifier = Modifier
+                                        .height(20.dp)
+                                )
+                            }
+                        } }
+
                 }
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .padding(bottom = 20.dp, start = 18.dp, end = 18.dp),
                 ) {
                     SidebarLogoutButtonSection(navigationController)
                     HorizontalDivider(
@@ -151,6 +179,8 @@ fun Sidebar(
                     SidebarInfoSection(context)
                     SidebarConfidentialityButton(context)
                 }
+
+
             }
         }
     }

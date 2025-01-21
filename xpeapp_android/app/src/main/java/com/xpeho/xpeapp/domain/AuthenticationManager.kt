@@ -107,6 +107,11 @@ class AuthenticationManager(
         wordpressUid?.let { datastorePref.setUserId(it) }
     }
 
+     suspend fun fetchUserInfos() {
+         val userInfos = wordpressRepo.fetchUserInfos()
+         Log.d("AuthenticationManager: fetchUserInfos", userInfos.toString())
+     }
+
     suspend fun logout() {
         firebaseService.signOut()
         datastorePref.clearAuthData()

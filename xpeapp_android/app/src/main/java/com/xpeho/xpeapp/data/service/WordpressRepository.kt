@@ -6,6 +6,7 @@ import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.data.entity.QvstAnswerBody
 import com.xpeho.xpeapp.data.entity.QvstCampaignEntity
 import com.xpeho.xpeapp.data.model.AuthResult
+import com.xpeho.xpeapp.data.model.UserInfos
 import com.xpeho.xpeapp.data.model.WordpressToken
 import com.xpeho.xpeapp.data.model.qvst.QvstCampaign
 import com.xpeho.xpeapp.data.model.qvst.QvstProgress
@@ -182,6 +183,18 @@ class WordpressRepository(
             catchBody = { e ->
                 Log.e("WordpressRepository: submitAnswers", "Network error: ${e.message}")
                 return false
+            }
+        )
+    }
+
+    suspend fun fetchUserInfos(): UserInfos? {
+        handleServiceExceptions(
+            tryBody = {
+                return api.fetchUserInfos()
+            },
+            catchBody = { e ->
+                Log.e("WordpressRepository: fetchUserInfos", "Network error: ${e.message}")
+                return null
             }
         )
     }

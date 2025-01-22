@@ -41,7 +41,7 @@ fun ProfileUserInfosView(
             )
         }
     ),
-    onChangePassword: () -> Unit,
+    onClickToAccessPasswordEdition: () -> Unit,
     navigationController: NavController
 ) {
     val userInfosState = userInfosViewModel.state
@@ -104,7 +104,10 @@ fun ProfileUserInfosView(
         ) {
             ClickyButton(
                 label = stringResource(id = R.string.profil_page_modify_password),
-                onPress = onChangePassword,
+                onPress = {
+                    userInfosViewModel.resetPasswordUpdateState()
+                    onClickToAccessPasswordEdition()
+                },
             )
         }
         Spacer(modifier = Modifier.weight(1f))

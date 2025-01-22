@@ -35,7 +35,7 @@ class MainAppModule(
 
     private val gson = GsonBuilder().setLenient().create()
 
-    private val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+    private val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
     private val authorization by lazy {
         AuthorizationHeaderInterceptor(
             tokenProvider = tokenProvider

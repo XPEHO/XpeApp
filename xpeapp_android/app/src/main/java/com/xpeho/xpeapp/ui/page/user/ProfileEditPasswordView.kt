@@ -1,5 +1,6 @@
 package com.xpeho.xpeapp.ui.page.user
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -7,13 +8,16 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.data.entity.user.UserEditPassword
+import com.xpeho.xpeapp.ui.components.CustomDialog
 import com.xpeho.xpeapp.ui.components.layout.Title
+import com.xpeho.xpeapp.ui.uiState.PasswordUpdateUiState
 import com.xpeho.xpeapp.ui.viewModel.user.UserInfosViewModel
 import com.xpeho.xpeapp.ui.viewModel.viewModelFactory
 import com.xpeho.xpeho_ui_android.ClickyButton
@@ -30,12 +34,34 @@ fun ProfileEditPasswordView(
             )
         }
     ),
-    onChangePassword: () -> Unit
+    onComplete: () -> Unit
 ) {
     val passwordFocusRequester = remember { FocusRequester() }
     var initialPassword by remember { mutableStateOf("") }
     var newPassword by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+
+    when (userInfosViewModel.passwordUpdateState) {
+        is PasswordUpdateUiState.ERROR -> {
+            CustomDialog(
+                title = stringResource(id = R.string.profil_page_modify_password_error),
+                message = (userInfosViewModel.passwordUpdateState as PasswordUpdateUiState.ERROR).errorMessage,
+                closeDialog = { userInfosViewModel.passwordUpdateState = PasswordUpdateUiState.EMPTY }
+            )
+        }
+        is PasswordUpdateUiState.SUCCESS -> {
+            Toast.makeText(
+                context,
+                stringResource(id = R.string.profil_page_modify_password_success),
+                Toast.LENGTH_SHORT
+            ).show()
+            onComplete()
+        }
+        else -> {}
+    }
+
 
     Column(
         modifier = Modifier
@@ -87,7 +113,7 @@ fun ProfileEditPasswordView(
             ClickyButton(
                 label = stringResource(id = R.string.profil_page_modify_password_cancel),
                 onPress = {
-                    onChangePassword()
+                    onComplete()
                 },
                 backgroundColor = Color.White,
                 labelColor = Colors.CONTENT_COLOR
@@ -97,15 +123,11 @@ fun ProfileEditPasswordView(
             ClickyButton(
                 label = stringResource(id = R.string.profil_page_modify_password_save),
                 onPress = {
-//                    if (newPassword == confirmPassword) {
-//                        userInfosViewModel.updatePassword(UserEditPassword(
-//                            initialPassword, newPassword, confirmPassword))
-//                        onChangePassword()
-//                    } else {
-//                        // Handle password mismatch error
-//                    }
+                    userInfosViewModel.updatePassword(UserEditPassword(initialPassword, newPassword, confirmPassword))
                 }
             )
         }
+
+
     }
 }

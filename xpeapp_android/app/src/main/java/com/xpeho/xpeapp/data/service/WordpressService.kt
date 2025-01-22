@@ -8,11 +8,13 @@ import com.xpeho.xpeapp.data.model.WordpressToken
 import com.xpeho.xpeapp.data.model.qvst.QvstCampaign
 import com.xpeho.xpeapp.data.model.qvst.QvstProgress
 import com.xpeho.xpeapp.data.model.qvst.QvstQuestion
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -67,11 +69,11 @@ interface WordpressService {
     @GET("xpeho/v1/user-infos")
     suspend fun fetchUserInfos(): UserInfos
 
-    /*// Update the user infos
+    // Update the user infos
     @Headers("Content-Type: application/json")
-    @POST("xpeho/v1/update-password")
+    @PUT("xpeho/v1/update-password")
     suspend fun updatePassword(
-        @Body editPassword: UserEditPassword,
-    ): Boolean*/
+        @Body editPassword: UserEditPassword
+    ): Response<String>
 }
 

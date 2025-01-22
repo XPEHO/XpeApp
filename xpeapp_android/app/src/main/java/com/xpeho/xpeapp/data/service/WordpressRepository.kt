@@ -12,6 +12,7 @@ import com.xpeho.xpeapp.data.model.WordpressToken
 import com.xpeho.xpeapp.data.model.qvst.QvstCampaign
 import com.xpeho.xpeapp.data.model.qvst.QvstProgress
 import com.xpeho.xpeapp.data.model.qvst.QvstQuestion
+import com.xpeho.xpeapp.data.model.user.UpdatePasswordResult
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -27,6 +28,8 @@ class WordpressRepository(
 
     companion object {
         private const val HTTPFORBIDDEN = 403
+        private const val INTERNAL_SERVER_ERROR = 500
+        private const val NO_CONTENT = 204
 
         private const val DATETIME_FORMATTER_PATTERN = "yyyy-MM-dd"
     }
@@ -200,19 +203,34 @@ class WordpressRepository(
         )
     }
 
-    /*suspend fun updatePassword(
+    suspend fun updatePassword(
         editPassword: UserEditPassword
-    ): Boolean {
+    ): UpdatePasswordResult {
         handleServiceExceptions(
             tryBody = {
-                return api.updatePassword(editPassword)
+                val result = api.updatePassword(editPassword)
+                when (result.code()) {
+                    NO_CONTENT -> return UpdatePasswordResult.Success
+                    INTERNAL_SERVER_ERROR -> result.errorBody()?.string()?.let {
+                        if (it.contains("incorrect_password")) {
+                            Log.d("WordpressRepository: updatePassword", "Incorrect initial password")
+                            return UpdatePasswordResult.IncorrectInitialPassword
+                        }
+                        if (it.contains("password_mismatch")) {
+                            Log.d("WordpressRepository: updatePassword", "Password mismatch")
+                            return UpdatePasswordResult.PasswordMismatch
+                        }
+                    }
+                }
+                Log.e("WordpressRepository: updatePassword", "Unknown error: ${result.code()}")
+                return UpdatePasswordResult.NetworkError
             },
-            catchBody = { e ->
-                Log.e("WordpressRepository: updatePassword", "Network error: ${e.message}")
-                return false
+            catchBody = {
+                Log.e("WordpressRepository: fetchUserInfos", "Network error: ${it.message}")
+                return UpdatePasswordResult.NetworkError
             }
         )
-    }*/
+    }
 
     // Exceptions handling
 

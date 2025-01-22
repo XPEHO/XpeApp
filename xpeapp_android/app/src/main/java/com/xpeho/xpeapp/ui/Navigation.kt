@@ -13,6 +13,7 @@ import com.xpeho.xpeapp.ui.page.LoginPage
 import com.xpeho.xpeapp.ui.page.NewsletterPage
 import com.xpeho.xpeapp.ui.page.qvst.QvstCampaignDetailPage
 import com.xpeho.xpeapp.ui.page.qvst.QvstPage
+import com.xpeho.xpeapp.ui.page.user.ProfilePage
 
 fun NavGraphBuilder.navigationBuilder(
     navigationController: NavHostController,
@@ -65,6 +66,15 @@ fun NavGraphBuilder.navigationBuilder(
                 QvstCampaignDetailPage(
                     it.arguments?.getString("campaignId") ?: "", navigationController,
                 )
+            } else {
+                DisabledFeaturePlaceHolder()
+            }
+        }
+    }
+    composable(route = Screens.Profile.name) {
+        Layout(navigationController) {
+            if (ffManager.isFeatureEnabled(FeatureFlippingEnum.PROFILE)) {
+                ProfilePage(navigationController = navigationController)
             } else {
                 DisabledFeaturePlaceHolder()
             }

@@ -5,8 +5,9 @@ import androidx.annotation.VisibleForTesting
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.data.entity.QvstAnswerBody
 import com.xpeho.xpeapp.data.entity.QvstCampaignEntity
+import com.xpeho.xpeapp.data.entity.user.UserEditPassword
 import com.xpeho.xpeapp.data.model.AuthResult
-import com.xpeho.xpeapp.data.model.UserInfos
+import com.xpeho.xpeapp.data.model.user.UserInfos
 import com.xpeho.xpeapp.data.model.WordpressToken
 import com.xpeho.xpeapp.data.model.qvst.QvstCampaign
 import com.xpeho.xpeapp.data.model.qvst.QvstProgress
@@ -198,6 +199,20 @@ class WordpressRepository(
             }
         )
     }
+
+    /*suspend fun updatePassword(
+        editPassword: UserEditPassword
+    ): Boolean {
+        handleServiceExceptions(
+            tryBody = {
+                return api.updatePassword(editPassword)
+            },
+            catchBody = { e ->
+                Log.e("WordpressRepository: updatePassword", "Network error: ${e.message}")
+                return false
+            }
+        )
+    }*/
 
     // Exceptions handling
 

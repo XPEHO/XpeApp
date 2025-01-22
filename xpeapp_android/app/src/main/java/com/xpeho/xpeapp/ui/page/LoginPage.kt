@@ -130,11 +130,12 @@ private fun LoginPageInputFields(
         keyboardAction = ImeAction.Next,
         onKeyboardAction = {
             passwordFocusRequester.requestFocus()
+        },
+        onInput = {
+            wordpressViewModel.usernameInput = it
+            wordpressViewModel.usernameInError = false
         }
-    ) {
-        wordpressViewModel.usernameInput = it
-        wordpressViewModel.usernameInError = false
-    }
+    )
     CheckInputField(wordpressViewModel.usernameInError, R.string.login_page_enter_email_warning)
     Spacer(modifier = Modifier.height(10.dp))
     InputText(
@@ -148,11 +149,12 @@ private fun LoginPageInputFields(
         onKeyboardAction = {
             focusManager.clearFocus()
             wordpressViewModel.onLogin()
+        },
+        onInput = {
+            wordpressViewModel.passwordInput = it
+            wordpressViewModel.passwordInError = false
         }
-    ) {
-        wordpressViewModel.passwordInput = it
-        wordpressViewModel.passwordInError = false
-    }
+    )
     CheckInputField(wordpressViewModel.passwordInError, R.string.login_page_enter_password_warning)
 }
 

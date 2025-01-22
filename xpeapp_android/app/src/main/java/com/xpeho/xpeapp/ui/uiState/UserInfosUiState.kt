@@ -1,6 +1,6 @@
 package com.xpeho.xpeapp.ui.uiState
 
-import com.xpeho.xpeapp.data.model.UserInfos
+import com.xpeho.xpeapp.data.model.user.UserInfos
 
 interface UserInfosUiState {
     object EMPTY : UserInfosUiState

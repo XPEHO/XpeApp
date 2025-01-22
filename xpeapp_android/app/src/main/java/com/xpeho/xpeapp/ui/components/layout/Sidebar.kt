@@ -168,7 +168,6 @@ fun Sidebar(
                     modifier = Modifier
                         .padding(bottom = 20.dp, start = 18.dp, end = 18.dp),
                 ) {
-                    SidebarLogoutButtonSection(navigationController)
                     HorizontalDivider(
                         color = Color.White,
                         thickness = 1.dp,
@@ -186,33 +185,6 @@ fun Sidebar(
     }
 }
 
-@Composable
-fun SidebarLogoutButtonSection(
-    navigationController: NavController
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        ClickyButton(
-            label = "Déconnexion",
-            size = 16.sp,
-            verticalPadding = 5.dp,
-            horizontalPadding = 15.dp,
-            backgroundColor = Color.White,
-            labelColor = XpehoColors.CONTENT_COLOR
-        ) {
-            CoroutineScope(Dispatchers.IO).launch {
-                XpeApp.appModule.authenticationManager.logout()
-            }
-            // Return to login page and clear the backstack
-            navigationController.navigate(route = Screens.Login.name) {
-                popUpTo(Screens.Home.name) { inclusive = true }
-            }
-        }
-    }
-}
 
 @Composable
 fun SidebarInfoSection(

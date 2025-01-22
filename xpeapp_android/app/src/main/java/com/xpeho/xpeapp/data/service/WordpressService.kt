@@ -2,7 +2,8 @@ package com.xpeho.xpeapp.data.service
 
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.data.entity.QvstAnswerBody
-import com.xpeho.xpeapp.data.model.UserInfos
+import com.xpeho.xpeapp.data.entity.user.UserEditPassword
+import com.xpeho.xpeapp.data.model.user.UserInfos
 import com.xpeho.xpeapp.data.model.WordpressToken
 import com.xpeho.xpeapp.data.model.qvst.QvstCampaign
 import com.xpeho.xpeapp.data.model.qvst.QvstProgress
@@ -61,8 +62,16 @@ interface WordpressService {
         @Body answers: List<QvstAnswerBody>,
     ): Boolean
 
+    // Fetch the user infos
     @Headers("Content-Type: application/json")
     @GET("xpeho/v1/user-infos")
     suspend fun fetchUserInfos(): UserInfos
+
+    /*// Update the user infos
+    @Headers("Content-Type: application/json")
+    @POST("xpeho/v1/update-password")
+    suspend fun updatePassword(
+        @Body editPassword: UserEditPassword,
+    ): Boolean*/
 }
 

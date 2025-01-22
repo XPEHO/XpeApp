@@ -215,5 +215,5 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
 
     //XpehoUI
-    implementation "com.xpeho.packages:xpeho_ui_android:1.5.0"
+    implementation "com.xpeho.packages:xpeho_ui_android:1.6.0"
 }

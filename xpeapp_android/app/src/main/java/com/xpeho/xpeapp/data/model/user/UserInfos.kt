@@ -1,4 +1,4 @@
-package com.xpeho.xpeapp.data.model
+package com.xpeho.xpeapp.data.model.user
 
 data class UserInfos(
     val id: String,

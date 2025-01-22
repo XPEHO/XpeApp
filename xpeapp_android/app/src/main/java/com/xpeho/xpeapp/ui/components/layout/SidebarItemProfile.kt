@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -22,6 +21,7 @@ import com.xpeho.xpeapp.ui.viewModel.viewModelFactory
 @Composable
 fun SidebarItemProfile(
     navigationController: NavController,
+
     userInfosViewModel: UserInfosViewModel = viewModel(
         factory = viewModelFactory {
             UserInfosViewModel(
@@ -37,7 +37,7 @@ fun SidebarItemProfile(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                navigationController.navigate(route = Screens.Home.name)
+                navigationController.navigate(route = Screens.Profile.name)
             }
             .padding(vertical = 16.dp, horizontal = 12.dp)
     ) {

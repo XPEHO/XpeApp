@@ -5,11 +5,14 @@ import androidx.annotation.VisibleForTesting
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.data.entity.QvstAnswerBody
 import com.xpeho.xpeapp.data.entity.QvstCampaignEntity
+import com.xpeho.xpeapp.data.entity.user.UserEditPassword
 import com.xpeho.xpeapp.data.model.AuthResult
+import com.xpeho.xpeapp.data.model.user.UserInfos
 import com.xpeho.xpeapp.data.model.WordpressToken
 import com.xpeho.xpeapp.data.model.qvst.QvstCampaign
 import com.xpeho.xpeapp.data.model.qvst.QvstProgress
 import com.xpeho.xpeapp.data.model.qvst.QvstQuestion
+import com.xpeho.xpeapp.data.model.user.UpdatePasswordResult
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -25,6 +28,8 @@ class WordpressRepository(
 
     companion object {
         private const val HTTPFORBIDDEN = 403
+        private const val INTERNAL_SERVER_ERROR = 500
+        private const val NO_CONTENT = 204
 
         private const val DATETIME_FORMATTER_PATTERN = "yyyy-MM-dd"
     }
@@ -184,6 +189,78 @@ class WordpressRepository(
                 return false
             }
         )
+    }
+
+    suspend fun fetchUserInfos(): UserInfos? {
+        handleServiceExceptions(
+            tryBody = {
+                return api.fetchUserInfos()
+            },
+            catchBody = { e ->
+                Log.e("WordpressRepository: fetchUserInfos", "Network error: ${e.message}")
+                return null
+            }
+        )
+    }
+
+    suspend fun updatePassword(
+        editPassword: UserEditPassword
+    ): UpdatePasswordResult {
+        var updatePasswordResult: UpdatePasswordResult = UpdatePasswordResult.NetworkError
+
+        handleServiceExceptions(
+            tryBody = {
+                val result = api.updatePassword(editPassword)
+                updatePasswordResult = when (result.code()) {
+                    NO_CONTENT -> UpdatePasswordResult.Success
+                    INTERNAL_SERVER_ERROR -> {
+                        val errorBody = result.errorBody()?.string()
+                        when {
+                            errorBody?.contains("incorrect_password") == true -> {
+                                Log.d(
+                                    "WordpressRepository: updatePasswordIncorrectInitialPassword",
+                                    "Incorrect initial password"
+                                )
+                                UpdatePasswordResult.IncorrectInitialPassword
+                            }
+
+                            errorBody?.contains("password_mismatch") == true -> {
+                                Log.d(
+                                    "WordpressRepository: updatePasswordPasswordMismatch",
+                                    "Password mismatch"
+                                )
+                                UpdatePasswordResult.PasswordMismatch
+                            }
+
+                            else -> {
+                                Log.e(
+                                    "WordpressRepository: updatePasswordUnknownError",
+                                    "Unknown error: ${result.code()}"
+                                )
+                                UpdatePasswordResult.NetworkError
+                            }
+                        }
+                    }
+
+                    else -> {
+                        Log.e(
+                            "WordpressRepository: updatePasswordUnknownError",
+                            "Unknown error: ${result.code()}"
+                        )
+                        UpdatePasswordResult.NetworkError
+                    }
+                }
+            },
+            catchBody = {
+                Log.e(
+                    "WordpressRepository: updatePasswordNetworkError",
+                    "Network error: ${it.message}"
+                )
+                updatePasswordResult = UpdatePasswordResult.NetworkError
+            }
+        )
+
+        return updatePasswordResult
     }
 
     // Exceptions handling

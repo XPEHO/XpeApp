@@ -46,7 +46,7 @@ class Resources {
                 featureFlippingId = FeatureFlippingEnum.EXPENSE_REPORT,
             ),
             Menu(
-                idImage = XpehoRes.contactfill,
+                idImage = XpehoRes.account,
                 title = "Collègues",
                 redirection = Screens.Colleague.name,
                 featureFlippingId = FeatureFlippingEnum.COLLEAGUES,

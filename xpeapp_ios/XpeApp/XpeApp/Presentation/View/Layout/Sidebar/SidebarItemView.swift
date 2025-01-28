@@ -12,15 +12,19 @@ struct SidebarItem: View {
     
     @Binding var isSidebarVisible: Bool
     
-    var navigationItem: RouterItem
+    var navigationItem: RouterItem?
     var icon: Image
     var label: String
-    
+    var action: (() -> Void)? = nil
+        
     var body: some View {
-        Button(action: {
-            routerManager.goTo(item: navigationItem)
-            withAnimation {
-                self.isSidebarVisible = false
+            Button(action: {
+                action?()
+                if let navigationItem = navigationItem {
+                    routerManager.goTo(item: navigationItem)
+                }
+                withAnimation {
+                    self.isSidebarVisible = false
             }
         }) {
             HStack(spacing: 10) {

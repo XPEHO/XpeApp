@@ -213,20 +213,20 @@ class WordpressRepository(
                     NO_CONTENT -> return UpdatePasswordResult.Success
                     INTERNAL_SERVER_ERROR -> result.errorBody()?.string()?.let {
                         if (it.contains("incorrect_password")) {
-                            Log.d("WordpressRepository: updatePassword", "Incorrect initial password")
+                            Log.d("WordpressRepository: updatePasswordIncorrectInitialPassword", "Incorrect initial password")
                             return UpdatePasswordResult.IncorrectInitialPassword
                         }
                         if (it.contains("password_mismatch")) {
-                            Log.d("WordpressRepository: updatePassword", "Password mismatch")
+                            Log.d("WordpressRepository: updatePasswordPasswordMismatch", "Password mismatch")
                             return UpdatePasswordResult.PasswordMismatch
                         }
                     }
                 }
-                Log.e("WordpressRepository: updatePassword", "Unknown error: ${result.code()}")
+                Log.e("WordpressRepository: updatePasswordUnknownError", "Unknown error: ${result.code()}")
                 return UpdatePasswordResult.NetworkError
             },
             catchBody = {
-                Log.e("WordpressRepository: fetchUserInfos", "Network error: ${it.message}")
+                Log.e("WordpressRepository: updatePasswordNetworkError", "Network error: ${it.message}")
                 return UpdatePasswordResult.NetworkError
             }
         )

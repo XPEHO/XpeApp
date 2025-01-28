@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.annotation.VisibleForTesting
 import com.xpeho.xpeapp.data.DatastorePref
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
-import com.xpeho.xpeapp.data.entity.user.UserEditPassword
 import com.xpeho.xpeapp.data.model.AuthResult
 import com.xpeho.xpeapp.data.model.WordpressToken
 import com.xpeho.xpeapp.data.service.FirebaseService

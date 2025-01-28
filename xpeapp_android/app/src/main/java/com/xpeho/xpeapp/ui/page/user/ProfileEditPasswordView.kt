@@ -59,7 +59,6 @@ fun ProfileEditPasswordView(
             ).show()
             onComplete()
         }
-        else -> {}
     }
 
 

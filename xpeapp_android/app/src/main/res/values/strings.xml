@@ -56,4 +56,7 @@
     <string name="profil_page_modify_password_confirm">Nouveau mot de passe</string>
     <string name="profil_page_modify_password_success">Mot de passe modifié avec succès</string>
     <string name="profil_page_modify_password_error">Erreur de mot de passe</string>
+    <string name="profil_page_modify_password_loading_message">Chargement des données…</string>
+    <string name="profil_page_modify_password_content_description_edit_password">ModificationDuMotDePassePage</string>
+    <string name="profil_page_modify_password_content_description_profile">PageDeProfile</string>
 </resources>

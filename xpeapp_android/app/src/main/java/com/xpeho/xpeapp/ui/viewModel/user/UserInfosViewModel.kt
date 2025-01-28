@@ -15,7 +15,7 @@ import com.xpeho.xpeapp.ui.uiState.PasswordUpdateUiState
 import com.xpeho.xpeapp.ui.uiState.UserInfosUiState
 import kotlinx.coroutines.launch
 
-class UserInfosViewModel (
+class UserInfosViewModel(
     private val wordpressRepo: WordpressRepository,
     private val authManager: AuthenticationManager
 ) : ViewModel() {
@@ -35,7 +35,8 @@ class UserInfosViewModel (
 
                 val result = wordpressRepo.fetchUserInfos()
                 if (result == null) {
-                    UserInfosUiState.ERROR("Oups, il y a eu un problème dans le chargement des informations utilisateur")
+                    UserInfosUiState.ERROR("Oups, il y a eu un problème dans " +
+                            "le chargement des informations utilisateur")
                 } else {
                     UserInfosUiState.SUCCESS(result)
                 }
@@ -46,22 +47,30 @@ class UserInfosViewModel (
     }
 
     fun updatePassword(editPassword: UserEditPassword) {
-    passwordUpdateState = PasswordUpdateUiState.LOADING
-    viewModelScope.launch {
-        try {
-            val result = wordpressRepo.updatePassword(editPassword)
-            passwordUpdateState = when (result) {
-                is UpdatePasswordResult.Success -> PasswordUpdateUiState.SUCCESS
-                is UpdatePasswordResult.IncorrectInitialPassword -> PasswordUpdateUiState.ERROR("Le mot de passe initial est incorrect.")
-                is UpdatePasswordResult.PasswordMismatch -> PasswordUpdateUiState.ERROR("Les mots de passe ne correspondent pas.")
-                else -> PasswordUpdateUiState.ERROR("La mise à jour du mot de passe a échoué.")
-}
-            Log.d("UserInfosVIewmodle", "updatePassword: $passwordUpdateState")
-        } catch (e: Exception) {
-            passwordUpdateState = PasswordUpdateUiState.ERROR("Oups, il y a eu un problème dans la mise à jour du mot de passe")
+        passwordUpdateState = PasswordUpdateUiState.LOADING
+        viewModelScope.launch {
+            try {
+                val result = wordpressRepo.updatePassword(editPassword)
+                passwordUpdateState = when (result) {
+                    is UpdatePasswordResult.Success -> PasswordUpdateUiState.SUCCESS
+                    is UpdatePasswordResult.IncorrectInitialPassword ->
+                        PasswordUpdateUiState.ERROR("Le mot de passe initial est incorrect.")
+
+                    is UpdatePasswordResult.PasswordMismatch ->
+                        PasswordUpdateUiState.ERROR("Les mots de passe ne correspondent pas.")
+
+                    else ->
+                        PasswordUpdateUiState.ERROR("La mise à jour du mot de passe a échoué.")
+                }
+                Log.d("UserInfosViewModel", "updatePassword: $passwordUpdateState")
+            } catch (e: Exception) {
+                Log.e("UserInfosViewModel", "Exception during password update", e)
+                passwordUpdateState = PasswordUpdateUiState.ERROR(
+                    "Oups, il y a eu un problème dans la mise à jour du mot de passe"
+                )
+            }
         }
     }
-}
 
 
     fun resetPasswordUpdateState() {

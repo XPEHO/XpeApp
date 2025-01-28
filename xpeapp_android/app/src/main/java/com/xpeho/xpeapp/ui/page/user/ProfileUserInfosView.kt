@@ -89,7 +89,7 @@ fun ProfileUserInfosView(
             }
             else -> {
                 Text(
-                    text = "Loading...",
+                    text = stringResource(id = R.string.profil_page_modify_password_loading_message),
                     fontSize = 16.sp,
                     fontFamily = Fonts.raleway,
                     color = Color.Gray,

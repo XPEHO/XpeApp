@@ -206,30 +206,61 @@ class WordpressRepository(
     suspend fun updatePassword(
         editPassword: UserEditPassword
     ): UpdatePasswordResult {
+        var updatePasswordResult: UpdatePasswordResult = UpdatePasswordResult.NetworkError
+
         handleServiceExceptions(
             tryBody = {
                 val result = api.updatePassword(editPassword)
-                when (result.code()) {
-                    NO_CONTENT -> return UpdatePasswordResult.Success
-                    INTERNAL_SERVER_ERROR -> result.errorBody()?.string()?.let {
-                        if (it.contains("incorrect_password")) {
-                            Log.d("WordpressRepository: updatePasswordIncorrectInitialPassword", "Incorrect initial password")
-                            return UpdatePasswordResult.IncorrectInitialPassword
-                        }
-                        if (it.contains("password_mismatch")) {
-                            Log.d("WordpressRepository: updatePasswordPasswordMismatch", "Password mismatch")
-                            return UpdatePasswordResult.PasswordMismatch
+                updatePasswordResult = when (result.code()) {
+                    NO_CONTENT -> UpdatePasswordResult.Success
+                    INTERNAL_SERVER_ERROR -> {
+                        val errorBody = result.errorBody()?.string()
+                        when {
+                            errorBody?.contains("incorrect_password") == true -> {
+                                Log.d(
+                                    "WordpressRepository: updatePasswordIncorrectInitialPassword",
+                                    "Incorrect initial password"
+                                )
+                                UpdatePasswordResult.IncorrectInitialPassword
+                            }
+
+                            errorBody?.contains("password_mismatch") == true -> {
+                                Log.d(
+                                    "WordpressRepository: updatePasswordPasswordMismatch",
+                                    "Password mismatch"
+                                )
+                                UpdatePasswordResult.PasswordMismatch
+                            }
+
+                            else -> {
+                                Log.e(
+                                    "WordpressRepository: updatePasswordUnknownError",
+                                    "Unknown error: ${result.code()}"
+                                )
+                                UpdatePasswordResult.NetworkError
+                            }
                         }
                     }
+
+                    else -> {
+                        Log.e(
+                            "WordpressRepository: updatePasswordUnknownError",
+                            "Unknown error: ${result.code()}"
+                        )
+                        UpdatePasswordResult.NetworkError
+                    }
                 }
-                Log.e("WordpressRepository: updatePasswordUnknownError", "Unknown error: ${result.code()}")
-                return UpdatePasswordResult.NetworkError
             },
             catchBody = {
-                Log.e("WordpressRepository: updatePasswordNetworkError", "Network error: ${it.message}")
-                return UpdatePasswordResult.NetworkError
+                Log.e(
+                    "WordpressRepository: updatePasswordNetworkError",
+                    "Network error: ${it.message}"
+                )
+                updatePasswordResult = UpdatePasswordResult.NetworkError
             }
         )
+
+        return updatePasswordResult
     }
 
     // Exceptions handling

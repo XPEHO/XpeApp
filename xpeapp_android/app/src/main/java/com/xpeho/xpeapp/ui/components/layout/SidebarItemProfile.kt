@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -15,6 +16,7 @@ import com.xpeho.xpeapp.ui.uiState.UserInfosUiState
 import com.xpeho.xpeapp.ui.viewModel.user.UserInfosViewModel
 import com.xpeho.xpeho_ui_android.foundations.Fonts
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.xpeho.xpeapp.R
 import com.xpeho.xpeapp.XpeApp
 import com.xpeho.xpeapp.ui.viewModel.viewModelFactory
 
@@ -80,7 +82,7 @@ fun SidebarItemProfile(
                 }
                 else -> {
                     Text(
-                        text = "Loading...",
+                        text = stringResource(id = R.string.profil_page_modify_password_loading_message),
                         fontSize = 16.sp,
                         fontFamily = Fonts.raleway,
                         color = Color.Gray,

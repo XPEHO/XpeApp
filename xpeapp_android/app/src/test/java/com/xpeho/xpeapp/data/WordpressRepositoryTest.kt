@@ -4,6 +4,7 @@ import android.util.Log
 import com.xpeho.xpeapp.data.entity.AuthentificationBody
 import com.xpeho.xpeapp.data.entity.QvstAnswerBody
 import com.xpeho.xpeapp.data.entity.QvstCampaignEntity
+import com.xpeho.xpeapp.data.entity.user.UserEditPassword
 import com.xpeho.xpeapp.data.model.AuthResult
 import com.xpeho.xpeapp.data.model.WordpressToken
 import com.xpeho.xpeapp.data.model.qvst.QvstAnswer
@@ -11,6 +12,8 @@ import com.xpeho.xpeapp.data.model.qvst.QvstCampaign
 import com.xpeho.xpeapp.data.model.qvst.QvstProgress
 import com.xpeho.xpeapp.data.model.qvst.QvstQuestion
 import com.xpeho.xpeapp.data.model.qvst.QvstTheme
+import com.xpeho.xpeapp.data.model.user.UpdatePasswordResult
+import com.xpeho.xpeapp.data.model.user.UserInfos
 import com.xpeho.xpeapp.data.service.WordpressRepository
 import com.xpeho.xpeapp.data.service.WordpressService
 import io.mockk.coEvery
@@ -32,6 +35,7 @@ import org.junit.Test
 import org.junit.experimental.runners.Enclosed
 import org.junit.runner.RunWith
 import retrofit2.HttpException
+import retrofit2.Response
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -52,6 +56,7 @@ class WordpressRepositoryTest {
             wordpressRepo = spyk(WordpressRepository(wordpressService))
             mockkStatic(Log::class)
             every { Log.e(any(), any()) } returns 0
+            every { Log.d(any(), any()) } returns 0
         }
     }
 
@@ -490,6 +495,113 @@ class WordpressRepositoryTest {
             assertFalse(result)
         }
     }
+
+    class FetchUserInfosTests : BaseTest() {
+
+        @Test
+        fun `fetchUserInfos with valid response returns UserInfos`() = runBlocking {
+            val userInfos = UserInfos("1", "toto@example", "toto","tata")
+            coEvery { wordpressService.fetchUserInfos() } returns userInfos
+
+            val result = wordpressRepo.fetchUserInfos()
+
+            assertEquals(userInfos, result)
+        }
+
+        @Test
+        fun `fetchUserInfos with network error returns null`() = runBlocking {
+            coEvery { wordpressService.fetchUserInfos() } throws UnknownHostException()
+
+            val result = wordpressRepo.fetchUserInfos()
+
+            assertEquals(null, result)
+        }
+
+        @Test
+        fun `fetchUserInfos with HttpException returns null`() = runBlocking {
+            coEvery { wordpressService.fetchUserInfos() } throws HttpException(mockk {
+                coEvery { code() } returns 500
+                coEvery { message() } returns "Internal Server Error"
+            })
+
+            val result = wordpressRepo.fetchUserInfos()
+
+            assertEquals(null, result)
+        }
+    }
+
+    class UpdatePasswordTests : BaseTest() {
+        companion object {
+            private const val INTERNAL_SERVER_ERROR = 500
+            private const val NO_CONTENT = 204
+        }
+
+        @Test
+        fun `updatePassword with valid response returns Success`() = runBlocking {
+            val editPassword = UserEditPassword("oldPassword", "newPassword", "newPassword")
+            val response = mockk<Response<String>> {
+                every { code() } returns NO_CONTENT
+            }
+            coEvery { wordpressService.updatePassword(editPassword) } returns response
+
+            val result = wordpressRepo.updatePassword(editPassword)
+
+            assertEquals(UpdatePasswordResult.Success, result)
+        }
+
+        @Test
+        fun `updatePassword with incorrect initial password returns IncorrectInitialPassword`() = runBlocking {
+            val editPassword = UserEditPassword("oldPassword", "newPassword", "newPassword")
+            val response = mockk<Response<String>> {
+                every { code() } returns INTERNAL_SERVER_ERROR
+                every { errorBody()?.string() } returns "incorrect_password"
+            }
+            coEvery { wordpressService.updatePassword(editPassword) } returns response
+
+            val result = wordpressRepo.updatePassword(editPassword)
+
+            assertEquals(UpdatePasswordResult.IncorrectInitialPassword, result)
+        }
+
+        @Test
+        fun `updatePassword with password mismatch returns PasswordMismatch`() = runBlocking {
+            val editPassword = UserEditPassword("oldPassword", "newPassword", "newPassword")
+            val response = mockk<Response<String>> {
+                every { code() } returns INTERNAL_SERVER_ERROR
+                every { errorBody()?.string() } returns "password_mismatch"
+            }
+            coEvery { wordpressService.updatePassword(editPassword) } returns response
+
+            val result = wordpressRepo.updatePassword(editPassword)
+
+            assertEquals(UpdatePasswordResult.PasswordMismatch, result)
+        }
+
+        @Test
+        fun `updatePassword with unknown error returns NetworkError`() = runBlocking {
+            val editPassword = UserEditPassword("oldPassword", "newPassword", "newPassword")
+            val response = mockk<Response<String>> {
+                every { code() } returns INTERNAL_SERVER_ERROR
+                every { errorBody() } returns null
+            }
+            coEvery { wordpressService.updatePassword(editPassword) } returns response
+
+            val result = wordpressRepo.updatePassword(editPassword)
+
+            assertEquals(UpdatePasswordResult.NetworkError, result)
+        }
+
+        @Test
+        fun `updatePassword with network error returns NetworkError`() = runBlocking {
+            val editPassword = UserEditPassword("oldPassword", "newPassword", "newPassword")
+            coEvery { wordpressService.updatePassword(editPassword) } throws UnknownHostException()
+
+            val result = wordpressRepo.updatePassword(editPassword)
+
+            assertEquals(UpdatePasswordResult.NetworkError, result)
+        }
+    }
+
 
     class HandleAuthExceptionsTests : BaseTest() {
 

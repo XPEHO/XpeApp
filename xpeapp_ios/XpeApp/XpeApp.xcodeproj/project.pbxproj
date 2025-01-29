@@ -105,7 +105,6 @@
 		D72C133C2D2D7ACF002F6A14 /* ProfilePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72C133B2D2D7AC5002F6A14 /* ProfilePageView.swift */; };
 		D72C13442D2EF74F002F6A14 /* UserInfosPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72C13432D2EF748002F6A14 /* UserInfosPageViewModel.swift */; };
 		D7504B752D49303C0072E9C3 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7504B742D49303C0072E9C3 /* AboutView.swift */; };
-		D7504B772D4940A10072E9C3 /* AboutViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7504B762D49409D0072E9C3 /* AboutViewModifier.swift */; };
 		D78652562D4A355E0023DFAA /* ConstantsMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78652552D4A35510023DFAA /* ConstantsMenuItem.swift */; };
 		D7C9A5462D2C138000D9E763 /* SidebarItemProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9A5452D2C138000D9E763 /* SidebarItemProfileView.swift */; };
 /* End PBXBuildFile section */
@@ -212,7 +211,6 @@
 		D72C133B2D2D7AC5002F6A14 /* ProfilePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePageView.swift; sourceTree = "<group>"; };
 		D72C13432D2EF748002F6A14 /* UserInfosPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfosPageViewModel.swift; sourceTree = "<group>"; };
 		D7504B742D49303C0072E9C3 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
-		D7504B762D49409D0072E9C3 /* AboutViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModifier.swift; sourceTree = "<group>"; };
 		D78652552D4A35510023DFAA /* ConstantsMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsMenuItem.swift; sourceTree = "<group>"; };
 		D7C9A5452D2C138000D9E763 /* SidebarItemProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItemProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -581,7 +579,6 @@
 		D7504B732D49302C0072E9C3 /* About */ = {
 			isa = PBXGroup;
 			children = (
-				D7504B762D49409D0072E9C3 /* AboutViewModifier.swift */,
 				D7504B742D49303C0072E9C3 /* AboutView.swift */,
 			);
 			path = About;
@@ -717,7 +714,6 @@
 				0EFC0FEA2CF9D17800F9480D /* DisabledFeaturePlaceHolderView.swift in Sources */,
 				0E260DBD2CD8D79E00F8EF0C /* NoContentPlaceHolderView.swift in Sources */,
 				0E6277AA2C94897100F26E55 /* NewsletterCardView.swift in Sources */,
-				D7504B772D4940A10072E9C3 /* AboutViewModifier.swift in Sources */,
 				0E6ACF802C8710B100735E1E /* FeatureRepositoryImpl.swift in Sources */,
 				0E6277A72C9484D900F26E55 /* NewsletterPageViewModel.swift in Sources */,
 				D7056B992D367C9F00D7D8CA /* ProfileUserInfosView.swift in Sources */,

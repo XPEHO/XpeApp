@@ -6,14 +6,12 @@
 //
 
 import Foundation
-
 struct MenuItem {
     let navigationItem: RouterItem?
     let iconName: String
     let label: String
     let featureFlippingId: RouterItem
 }
-
 let menuItems: [MenuItem] = [
     MenuItem(
         navigationItem: .newsletters,

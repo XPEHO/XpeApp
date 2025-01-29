@@ -10,12 +10,12 @@ import xpeho_ui
 
 struct Sidebar: View {
     var featureManager = FeatureManager.instance
-    
+
     @Binding var isSidebarVisible: Bool
-    @State private var showAboutView = false
-    
+    @Binding var showAboutView: Bool 
+
     var geometry: GeometryProxy
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             if self.isSidebarVisible {
@@ -25,7 +25,7 @@ struct Sidebar: View {
                 }
                 .padding(.leading, 14)
                 .frame(height: 80)
-                
+
                 // Wait for the features to be loaded
                 if featureManager.isEnabled(item: .profile) {
                     SidebarItemProfile(isSidebarVisible: $isSidebarVisible)
@@ -45,7 +45,7 @@ struct Sidebar: View {
                                 navigationItem: menuItem.navigationItem,
                                 icon: Assets.loadImage(named: menuItem.iconName),
                                 label: menuItem.label,
-                                action: menuItem.featureFlippingId == .about ? toggleAboutView : nil
+                                action: menuItem.featureFlippingId == .about ? { showAboutView.toggle() } : nil
                             )
                         }
                     }
@@ -53,9 +53,9 @@ struct Sidebar: View {
                         isSidebarVisible: $isSidebarVisible,
                         icon: Image("About"),
                         label: "À propos",
-                        action: toggleAboutView
+                        action: { showAboutView.toggle() }
                     )
-                    
+
                     if Configuration.env == .local {
                         SidebarItem(
                             isSidebarVisible: $isSidebarVisible,
@@ -69,19 +69,18 @@ struct Sidebar: View {
                 .accessibilityElement(children: .contain)
                 .accessibilityIdentifier("Sidebar")
             }
-
             Spacer()
         }
         .opacity(self.isSidebarVisible ? 1 : 0)
         .frame(height: geometry.size.height)
         .frame(width: self.isSidebarVisible ? geometry.size.width * 1 : 0)
         .background(XPEHO_THEME.XPEHO_COLOR)
-        .aboutView(isPresented: $showAboutView)
+        .animation(.easeInOut(duration: 0.2), value: self.isSidebarVisible)
     }
-    
+
     struct CloseButton: View {
         @Binding var isSidebarVisible: Bool
-        
+
         var body: some View {
             Button(action: {
                 withAnimation {
@@ -98,9 +97,4 @@ struct Sidebar: View {
             .accessibility(identifier: "Sidebar_CloseButton")
         }
     }
-
-    func toggleAboutView() {
-        showAboutView.toggle()
-    }
-    
 }

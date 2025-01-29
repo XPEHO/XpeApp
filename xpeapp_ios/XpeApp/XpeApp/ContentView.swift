@@ -14,7 +14,8 @@ struct ContentView: View {
     
     // Layout management
     @State private var isSidebarVisible: Bool = false
-    
+    @State private var showAboutView = false 
+
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
@@ -48,8 +49,22 @@ struct ContentView: View {
                     
                     Sidebar(
                         isSidebarVisible: $isSidebarVisible,
+                        showAboutView: $showAboutView,
                         geometry: geometry
                     )
+                }
+                
+                if showAboutView {
+                    Color.black.opacity(0.3)
+                        .edgesIgnoringSafeArea(.all)
+                    VStack {
+                        Spacer()
+                        AboutView(isPresented: $showAboutView)
+                            .transition(.opacity)
+                            .zIndex(1)
+                        Spacer()
+                    }
+                    .frame(width: geometry.size.width, height: geometry.size.height)
                 }
             }
         }

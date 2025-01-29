@@ -9,9 +9,9 @@ import SwiftUI
 
 struct SidebarItem: View {
     var routerManager = RouterManager.instance
-    
+
     @Binding var isSidebarVisible: Bool
-    
+
     var navigationItem: RouterItem?
     var icon: Image
     var label: String

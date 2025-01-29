@@ -1,3 +1,5 @@
+package com.xpeho.xpeapp.ui.components.layout
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
@@ -11,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.xpeho.xpeapp.enums.Screens
-import com.xpeho.xpeapp.ui.components.layout.Subtitle
 import com.xpeho.xpeapp.ui.uiState.UserInfosUiState
 import com.xpeho.xpeapp.ui.viewModel.user.UserInfosViewModel
 import com.xpeho.xpeho_ui_android.foundations.Fonts

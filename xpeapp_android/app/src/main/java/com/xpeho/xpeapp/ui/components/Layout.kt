@@ -17,11 +17,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.xpeho.xpeapp.ui.Measurements
 import com.xpeho.xpeapp.ui.components.layout.Header
 import com.xpeho.xpeapp.ui.components.layout.Sidebar
+import com.xpeho.xpeapp.ui.page.about.AboutView
 
 @Composable
 fun Layout(
@@ -31,6 +33,8 @@ fun Layout(
     val sidebarVisible = remember {
         mutableStateOf(false)
     }
+    val showDialog = remember { mutableStateOf(false) }
+
 
     Box(
         modifier = Modifier
@@ -63,21 +67,23 @@ fun Layout(
             ) {
                 Sidebar(
                     navigationController = navigationController,
-                    sidebarVisible = sidebarVisible
+                    sidebarVisible = sidebarVisible,
+                    showDialog = showDialog
                 )
             }
         }
 
-        // Content
         Column(
             modifier = Modifier
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Header
             Header(sidebarVisible = sidebarVisible)
             child()
         }
+    }
+    if (showDialog.value) {
+        AboutView(onDismiss = { showDialog.value = false }, context = LocalContext.current)
     }
 }

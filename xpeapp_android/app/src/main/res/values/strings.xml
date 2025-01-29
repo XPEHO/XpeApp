@@ -59,4 +59,10 @@
     <string name="profil_page_modify_password_loading_message">Chargement des données…</string>
     <string name="profil_page_modify_password_content_description_edit_password">ModificationDuMotDePassePage</string>
     <string name="profil_page_modify_password_content_description_profile">PageDeProfile</string>
+    <string name="about_view_about_label">À propos</string>
+    <string name="about_view_ok_label">OK</string>
+    <string name="about_view_version_label">Version: </string>
+    <string name="about_view_confidentiality_label">Politiques de confidentialité</string>
+    <string name="about_view_propriety_label">Propriétaire:</string>
+
 </resources>

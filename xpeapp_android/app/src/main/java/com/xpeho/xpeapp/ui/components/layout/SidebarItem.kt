@@ -11,19 +11,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 
 @Composable
 fun SidebarItem(
-    navigationController: NavController,
     icon: Painter,
     label: String,
-    route: String
+    onClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
             .clickable {
-                navigationController.navigate(route = route)
+                onClick()
             }
     ) {
         Icon(

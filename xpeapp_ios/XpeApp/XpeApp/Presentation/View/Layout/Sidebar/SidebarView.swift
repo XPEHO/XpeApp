@@ -27,15 +27,17 @@ struct Sidebar: View {
                 .frame(height: 80)
                 
                 // Wait for the features to be loaded
-                if (featureManager.isEnabled(item: .profile)){
+                if featureManager.isEnabled(item: .profile) {
                     SidebarItemProfile(isSidebarVisible: $isSidebarVisible)
                     Spacer().frame(height: 25)
                 }
                 VStack(alignment: .leading, spacing: 20) {
-                    SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                navigationItem: .home,
-                                icon: Image("Home"),
-                                label: "Accueil")
+                    SidebarItem(
+                        isSidebarVisible: $isSidebarVisible,
+                        navigationItem: .home,
+                        icon: Image("Home"),
+                        label: "Accueil"
+                    )
                     ForEach(menuItems, id: \.label) { menuItem in
                         if featureManager.isEnabled(item: menuItem.featureFlippingId) {
                             SidebarItem(
@@ -47,18 +49,21 @@ struct Sidebar: View {
                             )
                         }
                     }
-                    SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                icon: Image("About"),
-                                label: "À propos",
-                                action: toggleAboutView)
+                    SidebarItem(
+                        isSidebarVisible: $isSidebarVisible,
+                        icon: Image("About"),
+                        label: "À propos",
+                        action: toggleAboutView
+                    )
                     
                     if Configuration.env == .local {
-                        SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                    navigationItem: .debug,
-                                    icon: Image("Bug"),
-                                    label: "Debug")
+                        SidebarItem(
+                            isSidebarVisible: $isSidebarVisible,
+                            navigationItem: .debug,
+                            icon: Image("Bug"),
+                            label: "Debug"
+                        )
                     }
-                    
                 }
                 .padding(.horizontal, 20)
                 .accessibilityElement(children: .contain)
@@ -95,51 +100,7 @@ struct Sidebar: View {
     }
 
     func toggleAboutView() {
-    showAboutView.toggle()
-}
-    struct MenuItem {
-        let navigationItem: RouterItem?
-        let iconName: String
-        let label: String
-        let featureFlippingId: RouterItem
+        showAboutView.toggle()
     }
     
-    let menuItems: [MenuItem] = [
-        MenuItem(
-            navigationItem: .newsletters,
-            iconName: "Newsletter",
-            label: "Newsletters",
-            featureFlippingId: .newsletters
-        ),
-        MenuItem(
-            navigationItem: .campaign,
-            iconName: "QVST",
-            label: "Campaign",
-            featureFlippingId: .campaign
-        ),
-        MenuItem(
-            navigationItem: .expenseReport,
-            iconName: "Receipt",
-            label: "Expense Report",
-            featureFlippingId: .expenseReport
-        ),
-        MenuItem(
-            navigationItem: .colleagues,
-            iconName: "ContactFill",
-            label: "Colleagues",
-            featureFlippingId: .colleagues
-        ),
-        MenuItem(
-            navigationItem: .cra,
-            iconName: "Briefcase",
-            label: "CRA",
-            featureFlippingId: .cra
-        ),
-        MenuItem(
-            navigationItem: .vacation,
-            iconName: "PlaneDeparture",
-            label: "Vacation",
-            featureFlippingId: .vacation
-        ),
-    ]
 }

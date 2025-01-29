@@ -106,6 +106,7 @@
 		D72C13442D2EF74F002F6A14 /* UserInfosPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72C13432D2EF748002F6A14 /* UserInfosPageViewModel.swift */; };
 		D7504B752D49303C0072E9C3 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7504B742D49303C0072E9C3 /* AboutView.swift */; };
 		D7504B772D4940A10072E9C3 /* AboutViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7504B762D49409D0072E9C3 /* AboutViewModifier.swift */; };
+		D78652562D4A355E0023DFAA /* ConstantsMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78652552D4A35510023DFAA /* ConstantsMenuItem.swift */; };
 		D7C9A5462D2C138000D9E763 /* SidebarItemProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9A5452D2C138000D9E763 /* SidebarItemProfileView.swift */; };
 /* End PBXBuildFile section */
 
@@ -212,6 +213,7 @@
 		D72C13432D2EF748002F6A14 /* UserInfosPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfosPageViewModel.swift; sourceTree = "<group>"; };
 		D7504B742D49303C0072E9C3 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		D7504B762D49409D0072E9C3 /* AboutViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModifier.swift; sourceTree = "<group>"; };
+		D78652552D4A35510023DFAA /* ConstantsMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsMenuItem.swift; sourceTree = "<group>"; };
 		D7C9A5452D2C138000D9E763 /* SidebarItemProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItemProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -314,6 +316,7 @@
 		0E7C7CA22C9B082E00660E75 /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
+				D78652552D4A35510023DFAA /* ConstantsMenuItem.swift */,
 				0E87AC322C660DDF0079877D /* SidebarView.swift */,
 				0E7C7CA32C9B084800660E75 /* SidebarItemView.swift */,
 				D7C9A5452D2C138000D9E763 /* SidebarItemProfileView.swift */,
@@ -756,6 +759,7 @@
 				BDACECDF2C109309007B5262 /* XpeAppApp.swift in Sources */,
 				0E6277B52C98829200F26E55 /* UserEntity.swift in Sources */,
 				0E6277B12C98290C00F26E55 /* CampaignFormViewModel.swift in Sources */,
+				D78652562D4A355E0023DFAA /* ConstantsMenuItem.swift in Sources */,
 				0E6277BD2C9ADB5500F26E55 /* NewslettersListView.swift in Sources */,
 				0E61D2C42C78A4F200050F7C /* QvstProgressModel.swift in Sources */,
 				0EF0F8DE2C90863E00AF5966 /* TokenValidityModel.swift in Sources */,

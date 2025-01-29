@@ -36,41 +36,16 @@ struct Sidebar: View {
                                 navigationItem: .home,
                                 icon: Image("Home"),
                                 label: "Accueil")
-                    if featureManager.isEnabled(item: .newsletters){
-                        SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                    navigationItem: .newsletters,
-                                    icon: Assets.loadImage(named: "Newsletter"),
-                                    label: featureManager.getName(item: .newsletters))
-                    }
-                    if featureManager.isEnabled(item: .campaign){
-                        SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                    navigationItem: .campaign,
-                                    icon: Assets.loadImage(named: "QVST"),
-                                    label: featureManager.getName(item: .campaign))
-                    }
-                    if featureManager.isEnabled(item: .expenseReport){
-                        SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                    navigationItem: .expenseReport,
-                                    icon: Assets.loadImage(named: "Receipt"),
-                                    label: featureManager.getName(item: .expenseReport))
-                    }
-                    if featureManager.isEnabled(item: .colleagues){
-                        SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                    navigationItem: .colleagues,
-                                    icon: Assets.loadImage(named: "ContactFill"),
-                                    label: featureManager.getName(item: .colleagues))
-                    }
-                    if featureManager.isEnabled(item: .cra){
-                        SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                    navigationItem: .cra,
-                                    icon: Assets.loadImage(named: "Briefcase"),
-                                    label: featureManager.getName(item: .cra))
-                    }
-                    if featureManager.isEnabled(item: .vacation){
-                        SidebarItem(isSidebarVisible: $isSidebarVisible,
-                                    navigationItem: .vacation,
-                                    icon: Assets.loadImage(named: "PlaneDeparture"),
-                                    label: featureManager.getName(item: .vacation))
+                    ForEach(menuItems, id: \.label) { menuItem in
+                        if featureManager.isEnabled(item: menuItem.featureFlippingId) {
+                            SidebarItem(
+                                isSidebarVisible: $isSidebarVisible,
+                                navigationItem: menuItem.navigationItem,
+                                icon: Assets.loadImage(named: menuItem.iconName),
+                                label: menuItem.label,
+                                action: menuItem.featureFlippingId == .about ? toggleAboutView : nil
+                            )
+                        }
                     }
                     SidebarItem(isSidebarVisible: $isSidebarVisible,
                                 icon: Image("About"),
@@ -122,5 +97,49 @@ struct Sidebar: View {
     func toggleAboutView() {
     showAboutView.toggle()
 }
-
+    struct MenuItem {
+        let navigationItem: RouterItem?
+        let iconName: String
+        let label: String
+        let featureFlippingId: RouterItem
+    }
+    
+    let menuItems: [MenuItem] = [
+        MenuItem(
+            navigationItem: .newsletters,
+            iconName: "Newsletter",
+            label: "Newsletters",
+            featureFlippingId: .newsletters
+        ),
+        MenuItem(
+            navigationItem: .campaign,
+            iconName: "QVST",
+            label: "Campaign",
+            featureFlippingId: .campaign
+        ),
+        MenuItem(
+            navigationItem: .expenseReport,
+            iconName: "Receipt",
+            label: "Expense Report",
+            featureFlippingId: .expenseReport
+        ),
+        MenuItem(
+            navigationItem: .colleagues,
+            iconName: "ContactFill",
+            label: "Colleagues",
+            featureFlippingId: .colleagues
+        ),
+        MenuItem(
+            navigationItem: .cra,
+            iconName: "Briefcase",
+            label: "CRA",
+            featureFlippingId: .cra
+        ),
+        MenuItem(
+            navigationItem: .vacation,
+            iconName: "PlaneDeparture",
+            label: "Vacation",
+            featureFlippingId: .vacation
+        ),
+    ]
 }

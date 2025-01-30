@@ -44,6 +44,7 @@ jobs:
         run: |
           chmod +x ./gradlew
           ./gradlew bundleRelease
+          ./gradlew assembleRelease
 
       - name: Upload release bundle
         uses: actions/upload-artifact@v4

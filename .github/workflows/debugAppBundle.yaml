@@ -1,9 +1,6 @@
 name: Build debug appbundle
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main

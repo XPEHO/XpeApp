@@ -2,8 +2,8 @@ name: Build release appbundle
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "**"
 
 jobs:
   releaseAppBundle:
@@ -37,14 +37,28 @@ jobs:
         run: |
           echo "${{ secrets.KEYSTORE }}" | base64 -d > app/keystore.jks
 
+      - name: Get the version name
+        id: get_version_name
+        run: echo ::set-output name=VERSION_NAME::$(echo $GITHUB_REF | cut -d / -f 3)
+
+      - name: Get the version code
+        id: get_version_code
+        run: |
+          versionName=${{ steps.get_version_name.outputs.VERSION_NAME }}
+          major=$(echo $versionName | cut -d . -f 1)
+          minor=$(echo $versionName | cut -d . -f 2)
+          patch=$(echo $versionName | cut -d . -f 3)
+          versionCode=$(($major * 10000 + $minor * 100 + $patch))
+          echo ::set-output name=VERSION_CODE::$(echo $versionCode)
+
       - name: Grant execute permission for gradlew and build
         env:
           GITHUB_USER: ${GITHUB_ACTOR}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           chmod +x ./gradlew
-          ./gradlew bundleRelease
-          ./gradlew assembleRelease
+          ./gradlew bundleRelease -PversionCode=${{ steps.get_version_code.outputs.VERSION_CODE }} -PversionName=${{ steps.get_version_name.outputs.VERSION_NAME }}
+          ./gradlew assembleRelease -PversionCode=${{ steps.get_version_code.outputs.VERSION_CODE }} -PversionName=${{ steps.get_version_name.outputs.VERSION_NAME }}
 
       - name: Upload release bundle
         uses: actions/upload-artifact@v4

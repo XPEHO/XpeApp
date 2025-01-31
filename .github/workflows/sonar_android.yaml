@@ -9,6 +9,12 @@ on:
     types: [opened, synchronize, reopened]
     paths:
       - "xpeapp_android/**"
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for running the workflow'
+        required: true
+        default: 'Manually triggered'
 
 name: Sonar Android
 jobs:

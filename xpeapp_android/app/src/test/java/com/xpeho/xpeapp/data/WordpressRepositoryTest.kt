@@ -600,7 +600,53 @@ class WordpressRepositoryTest {
 
             assertEquals(UpdatePasswordResult.NetworkError, result)
         }
+
     }
+
+    class OpenAnswersTests : BaseTest() {
+
+        companion object {
+            private const val INTERNAL_SERVER_ERROR = 500
+        }
+
+        @Test
+        fun `openAnswers with valid token and answer returns true`() = runBlocking {
+            val token = "Bearer tokenoftoto"
+            val answer = "answer of the open questions"
+            coEvery { wordpressService.submitOpenAnswer(token, answer) } returns mockk<Response<Unit>> {
+                every { isSuccessful } returns true
+            }
+            val result = wordpressRepo.openAnswers(token, answer)
+
+            assertTrue(result)
+        }
+
+        @Test
+        fun `openAnswers with network error returns false`() = runBlocking {
+            val token = "Bearer tokenoftoto"
+            val answer = "answer of the open questions"
+            coEvery { wordpressService.submitOpenAnswer(token, answer) } throws UnknownHostException()
+
+            val result = wordpressRepo.openAnswers(token, answer)
+
+            assertFalse(result)
+        }
+
+        @Test
+        fun `openAnswers with HttpException returns false`() = runBlocking {
+            val token = "Bearer tokenoftoto"
+            val answer = "answer of the open questions"
+            coEvery { wordpressService.submitOpenAnswer(token, answer) } throws HttpException(mockk {
+                coEvery { code() } returns INTERNAL_SERVER_ERROR
+                coEvery { message() } returns "Internal Server Error"
+            })
+
+            val result = wordpressRepo.openAnswers(token, answer)
+
+            assertFalse(result)
+        }
+    }
+
 
 
     class HandleAuthExceptionsTests : BaseTest() {

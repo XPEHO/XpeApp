@@ -43,6 +43,7 @@ import com.xpeho.xpeapp.ui.viewModel.qvst.QvstCampaignQuestionsState
 import com.xpeho.xpeapp.ui.viewModel.qvst.QvstCampaignQuestionsViewModel
 import com.xpeho.xpeapp.ui.viewModel.qvst.QvstCampaignsViewModel
 import com.xpeho.xpeapp.ui.viewModel.viewModelFactory
+import com.xpeho.xpeho_ui_android.InputText
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -59,6 +60,8 @@ fun QvstCampaignDetailPage(
 ) {
     val userId: MutableState<String> = remember { mutableStateOf("") }
     val datastorePref = DatastorePref(LocalContext.current)
+    val additionalRemark = remember { mutableStateOf("") }
+    val tokenProvider = XpeApp.appModule.tokenProvider
 
     // Load data
     val campaignViewModel = viewModel<QvstCampaignsViewModel>(
@@ -84,7 +87,6 @@ fun QvstCampaignDetailPage(
     }
 
     when (campaignViewModel.state) {
-        // Loading
         is QvstUiState.LOADING -> {
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -95,7 +97,6 @@ fun QvstCampaignDetailPage(
             }
         }
 
-        // Success
         is QvstUiState.SUCCESS -> {
             campaign = campaignViewModel.getCampaignById(campaignId = qvstCampaignId)
             if (campaign == null) {
@@ -132,8 +133,8 @@ fun QvstCampaignDetailPage(
                             .qvstQuestions
                         val answers = qvstAnswersViewModel.answers.value
                         val currentQuestionIndex = remember { mutableStateOf(0) }
-                        val currentQuestion = questions[currentQuestionIndex.value]
-                        val currentAnswer = answers[currentQuestion.questionId]
+                        val currentQuestion = questions.getOrNull(currentQuestionIndex.value)
+                        val currentAnswer = currentQuestion?.let { answers[it.questionId] }
 
                         Column {
                             campaign?.let {
@@ -142,10 +143,21 @@ fun QvstCampaignDetailPage(
                                 )
                             }
                             Spacer(modifier = Modifier.height(40.dp))
-                            QvstCampaignQuestionView(
-                                question = questions[currentQuestionIndex.value],
-                                qvstAnswersViewModel = qvstAnswersViewModel,
-                            )
+                            if (currentQuestion != null) {
+                                QvstCampaignQuestionView(
+                                    question = currentQuestion,
+                                    qvstAnswersViewModel = qvstAnswersViewModel,
+                                )
+                            } else {
+                                Text(text = "Des remarques ?")
+                                Spacer(modifier = Modifier.height(10.dp))
+                                InputText(
+                                    label = "Remarques ?",
+                                    labelSize = 16.sp,
+                                    inputSize = 16.sp,
+                                    onInput = {additionalRemark.value = it},
+                                )
+                            }
                         }
 
                         // Show the pagination
@@ -172,8 +184,9 @@ fun QvstCampaignDetailPage(
                                         }
                                     })
                             )
+                            // Adding +1 because the last question is an open question (additionalRemark)
                             Text(
-                                text = "Question ${currentQuestionIndex.value + 1}/${questions.size}",
+                                text = "Question ${currentQuestionIndex.value + 1}/${questions.size + 1}",
                                 color = XpehoColors.XPEHO_COLOR,
                                 fontSize = 20.sp,
                                 fontFamily = XpehoFonts.raleway,
@@ -182,42 +195,41 @@ fun QvstCampaignDetailPage(
                             // Next button
                             Icon(
                                 painter = painterResource(
-                                    id = if (currentQuestionIndex.value < questions.size - 1) {
+                                    id = if (currentQuestionIndex.value < questions.size) {
                                         XpehoRes.arrow_right
                                     } else {
                                         XpehoRes.validated
                                     }
                                 ),
                                 contentDescription = "Next Button",
-                                tint = if (currentAnswer == null) {
-                                    XpehoColors.DISABLED_COLOR
-                                } else {
+                                tint = if (currentQuestion == null || currentAnswer != null) {
                                     XpehoColors.CONTENT_COLOR
+                                } else {
+                                    XpehoColors.DISABLED_COLOR
                                 },
                                 modifier = Modifier
                                     .size(
-                                        if (currentQuestionIndex.value < questions.size - 1) {
+                                        if (currentQuestionIndex.value < questions.size) {
                                             24.dp
                                         } else {
                                             40.dp
                                         }
                                     )
                                     .clickable(onClick = {
-                                        // If the current question has an answer
-                                        currentQuestion.userAnswer?.let {
-                                            // If there are more questions, go to the next one
-                                            if (currentQuestionIndex.value < questions.size - 1) {
+                                        if (currentQuestion != null && currentAnswer != null) {
+                                            if (currentQuestionIndex.value < questions.size) {
                                                 currentQuestionIndex.value += 1
                                             }
-                                            // If all questions are answered, submit answers
-                                            else if (answers.size == questions.size) {
-                                                qvstAnswersViewModel.submitAnswers(
-                                                    campaignId = qvstCampaignId,
-                                                    userId = userId.value,
-                                                )
-                                            }
+                                        } else if (currentQuestion == null ) {
+                                            qvstAnswersViewModel.submitAnswersAndOpenQuestionAnswer(
+                                                campaignId = qvstCampaignId,
+                                                userId = userId.value,
+                                                token = tokenProvider.get() ?: "",
+                                                answer = additionalRemark.value,
+                                            )
                                         }
-                                    })
+                                    }
+                                    )
                             )
                         }
                     }
@@ -240,7 +252,6 @@ fun QvstCampaignDetailPage(
             )
         }
 
-        // Error
         else -> {
             CustomDialog(
                 title = stringResource(id = R.string.home_page_error),

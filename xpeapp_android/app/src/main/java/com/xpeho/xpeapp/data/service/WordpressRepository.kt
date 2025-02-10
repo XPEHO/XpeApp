@@ -263,6 +263,21 @@ class WordpressRepository(
         return updatePasswordResult
     }
 
+    suspend fun submitOpenAnswers(
+        text: String
+    ): Boolean {
+        handleServiceExceptions(
+            tryBody = {
+                api.submitOpenAnswer(text)
+                return true
+            },
+            catchBody = { e ->
+                Log.e("WordpressRepository: openAnswers", "Network error: ${e.message}")
+                return false
+            }
+        )
+    }
+
     // Exceptions handling
 
     @Suppress("ReturnCount")

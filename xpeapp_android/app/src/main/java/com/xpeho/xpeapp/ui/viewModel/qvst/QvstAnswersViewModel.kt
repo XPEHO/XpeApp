@@ -20,30 +20,41 @@ class QvstAnswersViewModel : ViewModel() {
         _answers.value += mapOf(questionId to answerId)
     }
 
-    fun submitAnswers(campaignId: String, userId: String) {
+    fun submitAnswersAndOpenQuestionAnswer(
+        campaignId: String, userId: String, openAnswer: String
+    ) {
         state = QvstAnswersState.LOADING
         viewModelScope.launch {
-            // Convert map to list of QvstAnswer
-            val answers = _answers.value.map { (questionId, answer) ->
-                QvstAnswerBody(
-                    questionId = questionId,
-                    answerId = answer,
-                )
-            }
+            // Submit open answers
+            val openAnswersResult = XpeApp.appModule.wordpressRepository
+                .submitOpenAnswers(openAnswer)
 
-            // Submit answers
-            val result = XpeApp.appModule.wordpressRepository
-                .submitAnswers(
-                    campaignId = campaignId,
-                    userId = userId,
-                    answers = answers,
-                )
+            if (openAnswersResult) {
+                // Convert map to list of QvstAnswer
+                val answers = _answers.value.map { (questionId, answer) ->
+                    QvstAnswerBody(
+                        questionId = questionId,
+                        answerId = answer,
+                    )
+                }
 
-            // Update state
-            if (result) {
-                state = QvstAnswersState.SAVED
+                // Submit answers
+                val answersResult = XpeApp.appModule.wordpressRepository
+                    .submitAnswers(
+                        campaignId = campaignId,
+                        userId = userId,
+                        answers = answers,
+                    )
+
+                // Update state
+                state = if (answersResult) {
+                    QvstAnswersState.SAVED
+                } else {
+                    QvstAnswersState.ERROR("Oups, il y a eu un problème dans l'enregistrement des réponses")
+                }
             } else {
-                state = QvstAnswersState.ERROR("Oups, il y a eu un problème dans l'enregistrement des réponses")
+                state =
+                    QvstAnswersState.ERROR("Oups, il y a eu un problème dans l'enregistrement de la réponse ouverte")
             }
         }
     }

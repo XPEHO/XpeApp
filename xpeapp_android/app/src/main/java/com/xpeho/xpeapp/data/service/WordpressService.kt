@@ -75,5 +75,12 @@ interface WordpressService {
     suspend fun updatePassword(
         @Body editPassword: UserEditPassword
     ): Response<String>
+
+    // Submit an open answer
+    @Headers("Content-Type: application/json")
+    @POST("xpeho/v1/qvst/open-answers/")
+    suspend fun submitOpenAnswer(
+        @Query("text") text: String,
+    ): Response<Unit>
 }
 

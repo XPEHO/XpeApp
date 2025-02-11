@@ -308,4 +308,21 @@ class WordpressAPI: WordpressAPIProtocol {
         }
         return nil
     }
+    
+    
+    // send the open answer of a campaign QVST
+    func submitOpenAnswers(
+        text: String
+    ) async -> Bool? {
+        if let (_,statusCode) = await fetchWordpressAPI (
+            endpoint: "xpeho/v1/qvst/open-answers?text=\(text)",
+            method: .post,
+            headers: [:]
+        )   {
+            return statusCode == 201
+        }   else {
+            return nil
+            }
+    }
+
 }

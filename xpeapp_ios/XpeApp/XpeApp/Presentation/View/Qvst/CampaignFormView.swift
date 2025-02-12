@@ -18,13 +18,14 @@ struct CampaignForm: View {
     @State var questions: [QvstQuestionModel] = []
     @State var answersSelected: [QvstAnswerModel?] = []
     @State var questionsOffset: Int = 0
+    @State var openAnswer: String = ""
     
     // Prevent multiple click on send button of the form
     @State private var isSending: Bool = false
     
     var body: some View {
         VStack {
-            if let campaign = routerManager.parameters["campaign"] as! QvstCampaignEntity? {
+            if let campaign = routerManager.parameters["campaign"] as? QvstCampaignEntity {
                 HStack {
                     Title(text: campaign.themeName)
                     Spacer()
@@ -42,6 +43,8 @@ struct CampaignForm: View {
                                 answersSelected: $answersSelected,
                                 questionsOffset: $questionsOffset
                             )
+                        } else if isLastOffset() {
+                            OpenAnswerView(openAnswer: $openAnswer)
                         }
                     }
                 }
@@ -51,11 +54,11 @@ struct CampaignForm: View {
                         .renderingMode(.template)
                         .foregroundStyle(isFirstOffset() ? XPEHO_THEME.DISABLED_COLOR : XPEHO_THEME.CONTENT_COLOR)
                         .onTapGesture {
-                            questionsOffset-=1
+                            questionsOffset -= 1
                         }
                         .disabled(isFirstOffset())
                     Spacer()
-                    Text("Question \(questionsOffset+1)/\(questions.count)")
+                    Text("Question \(questionsOffset + 1)/\(questions.count + 1)")
                         .font(.raleway(.semiBold, size: 20))
                         .foregroundStyle(XPEHO_THEME.XPEHO_COLOR)
                     Spacer()
@@ -67,7 +70,7 @@ struct CampaignForm: View {
                             if isLastOffset() {
                                 sendAnswers()
                             } else if isAnsweredOffset() {
-                                questionsOffset+=1
+                                questionsOffset += 1
                             }
                         }
                         .disabled(!isAnsweredOffset())
@@ -90,7 +93,7 @@ struct CampaignForm: View {
         @Binding var questionsOffset: Int
         
         var body: some View {
-            VStack (spacing: 20) {
+            VStack(spacing: 20) {
                 if !question.answers.isEmpty {
                     Text(question.question)
                         .font(.raleway(.semiBold, size: 16))
@@ -99,7 +102,7 @@ struct CampaignForm: View {
                     
                     ChoiceSelector(
                         choicesAvailable: question.answers.map { $0.answer },
-                        defaultSelectedChoice: answersSelected[questionsOffset]?.answer,
+                        defaultSelectedChoice: answersSelected.indices.contains(questionsOffset) ? answersSelected[questionsOffset]?.answer : nil,
                         onPress: { choice in
                             for answerAvailable in question.answers {
                                 if answerAvailable.answer == choice {
@@ -116,13 +119,34 @@ struct CampaignForm: View {
         }
     }
     
+    struct OpenAnswerView: View {
+        @Binding var openAnswer: String
+        
+        var body: some View {
+            VStack(spacing: 20) {
+                Text("Des remarques ?")
+                    .font(.raleway(.semiBold, size: 16))
+                    .foregroundStyle(XPEHO_THEME.CONTENT_COLOR)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                InputText(
+                    label: "Remarques",
+                    onInput: { input in
+                        self.openAnswer = input
+                    }
+                )
+            }
+            .padding(.vertical, 12)
+        }
+    }
+    
     // Methods to make clear the conditions of appearance
     private func isValidOffset() -> Bool {
         return (questionsOffset >= 0) && (questionsOffset < questions.count)
     }
     
     private func isLastOffset() -> Bool {
-        return (questionsOffset+1 == questions.count)
+        return (questionsOffset == questions.count)
     }
     
     private func isFirstOffset() -> Bool {
@@ -130,7 +154,10 @@ struct CampaignForm: View {
     }
     
     private func isAnsweredOffset() -> Bool {
-        return (!answersSelected.isEmpty) && (answersSelected[questionsOffset] != nil)
+        if isLastOffset() {
+            return !openAnswer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
+        return answersSelected.indices.contains(questionsOffset) && answersSelected[questionsOffset] != nil
     }
     
     // Init questions of the campaign
@@ -141,7 +168,7 @@ struct CampaignForm: View {
             return
         }
         // Prevent access when campaign is already completed
-        if (campaign.completed){
+        if (campaign.completed) {
             debugPrint("Campaign is already completed")
             routerManager.goBack()
             return
@@ -152,18 +179,17 @@ struct CampaignForm: View {
                 routerManager.goBack()
                 return
             }
-            
             self.questions = questions
             self.answersSelected = Array(repeating: nil, count: self.questions.count)
         }
     }
     
-    // Send answers of the campaign
     private func sendAnswers() {
         guard let campaign = routerManager.parameters["campaign"] as! QvstCampaignEntity? else {
             debugPrint("No campaign selected")
             return
         }
+        
         Task {
             // Get user id for the request
             guard let user = LoginManager.instance.getUser() else {
@@ -173,16 +199,16 @@ struct CampaignForm: View {
 
             // Check that all questions has been answered
             var answers: [QvstAnswerModel] = []
-            for index in answersSelected.indices {
+            for index in 0..<questions.count {
                 guard let answer = answersSelected[index] else {
                     debugPrint("Not all questions have been answered")
                     return
                 }
                 answers.append(answer)
             }
-            
+
             if !isSending {
-                // Lock to prevent multi sending by spaming button
+                // Lock to prevent multi sending by spamming button
                 isSending = true
                 // Send answers
                 guard let areAnswersSent = await WordpressAPI.instance.sendCampaignAnswers(
@@ -192,11 +218,18 @@ struct CampaignForm: View {
                     answers: answers
                 ) else {
                     debugPrint("Failed to send campaign answers")
+                    isSending = false
                     return
                 }
-                
+
+                guard let isOpenAnswerSent = await WordpressAPI.instance.submitOpenAnswers(text: openAnswer)
+                else {
+                    debugPrint("Failed to send open answer")
+                    isSending = false
+                    return
+                }
                 // Check the return to inform user
-                if (!areAnswersSent) {
+                if (!areAnswersSent || !isOpenAnswerSent) {
                     // Inform user
                     toastManager.setParams(
                         message: "Impossible d'envoyer vos réponses",
@@ -220,4 +253,3 @@ struct CampaignForm: View {
         }
     }
 }
-

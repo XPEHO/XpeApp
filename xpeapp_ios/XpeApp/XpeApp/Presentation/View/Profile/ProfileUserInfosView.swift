@@ -28,18 +28,18 @@ struct ProfileUserInfosView: View {
                 InputText(
                     label: "Email",
                     defaultInput: userInfos.email,
-                    isReadOnly: true
+                    readOnly: true
                 )
                 InputText(
                     label: "Nom",
                     defaultInput: userInfos.lastname.capitalizingFirstLetter(),
-                    isReadOnly: true
+                    readOnly: true
                 )
                 
                 InputText(
                     label: "Prénom",
                     defaultInput: userInfos.firstname.capitalizingFirstLetter(),
-                    isReadOnly: true
+                    readOnly: true
                 )
             }
             

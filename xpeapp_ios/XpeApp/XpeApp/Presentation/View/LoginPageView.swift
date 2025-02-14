@@ -39,7 +39,6 @@ struct LoginPage: View {
                 }
             InputText(
                 label: "Email",
-                password: false,
                 submitLabel: .next,
                 onSubmit: {
                     focusedField = .password

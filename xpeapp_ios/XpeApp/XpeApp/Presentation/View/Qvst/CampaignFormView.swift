@@ -131,6 +131,7 @@ struct CampaignForm: View {
                 
                 InputText(
                     label: "Remarques",
+                    multiline: true,
                     onInput: { input in
                         self.openAnswer = input
                     }

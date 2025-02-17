@@ -21,7 +21,7 @@ The XPEHO mobile application.
 
 ### XpeApp Android
 
-Folder containing the implementation of the android application.
+Repository containing the implementation of the android application.
 
 Including:
 
@@ -29,11 +29,11 @@ Including:
 - Gradle configuration for compilation;
 - Unit and integration tests specific to Android.
 
-[README](./xpeapp_android/README.md) of the android application.
+[README](https://github.com/XPEHO/xpeapp_android/blob/main/README.md) of the android application.
 
 ### XpeApp IOS
 
-Folder containing the implementation of the ios application.
+Repository containing the implementation of the ios application.
 
 Including:
 
@@ -41,7 +41,7 @@ Including:
 - Xcode configuration for compilation;
 - Unit and integration tests specific to iOS.
 
-[README](./xpeapp_ios/XpeApp/README.md) of the ios application.
+[README](https://github.com/XPEHO/xpeapp_ios/blob/main/README.md) of the ios application.
 
 ### XpeApp Admin
 
@@ -68,7 +68,7 @@ Including:
 
 ## CI/CD
 
-This repository contain a lot of [workflows](./.github/workflows/) :
+This repositories contain a lot of workflows :
 
 - android : Perform continuous integration for an Android project;
 - codeql : Perform CodeQL analysis on the source code to identify vulnerabilities and errors;

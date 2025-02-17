@@ -1,8 +1,0 @@
-# EditorConfig is awesome: https://editorconfig.org
-
-# Complete properties list: https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Properties
-
-root = true
-
-[*.kt]
-max_line_length=120
